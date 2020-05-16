@@ -20,7 +20,7 @@ public class SettingsCommand extends CommandManager {
     }
 
     @Override
-    public String[] aliases() {
+    public String[] aliases(ServerEntity entity) {
         return new String[]{
                 "conf", "config", "setting", "settings"
         };

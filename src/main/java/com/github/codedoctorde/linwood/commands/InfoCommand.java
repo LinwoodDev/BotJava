@@ -35,7 +35,7 @@ public class InfoCommand implements Command {
     }
 
     @Override
-    public String[] aliases() {
+    public String[] aliases(ServerEntity entity) {
         return new String[]{
                 "", "info", "i", "information"
         };

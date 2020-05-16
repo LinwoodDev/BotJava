@@ -19,7 +19,7 @@ public class FunCommand extends CommandManager {
     }
 
     @Override
-    public String[] aliases() {
+    public String[] aliases(ServerEntity entity) {
         return new String[]{
                 "fun", "f", "funny"
         };

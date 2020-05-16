@@ -55,7 +55,7 @@ public class WindowsCommand implements Command {
     }
 
     @Override
-    public String[] aliases() {
+    public String[] aliases(ServerEntity entity) {
         return new String[]{
                 "windows",
                 "win",

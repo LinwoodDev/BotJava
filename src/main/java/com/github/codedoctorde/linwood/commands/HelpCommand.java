@@ -20,7 +20,7 @@ public class HelpCommand implements Command {
 
     @Override
     public boolean onCommand(Session session, Message message, ServerEntity entity, String label, String[] args) {
-        Command command = Main.getInstance().getBaseCommand().getCommand(args);
+        Command command = Main.getInstance().getBaseCommand().getCommand(entity, args);
         if(command == null)
             return false;
         var description = command.description(entity);
@@ -30,7 +30,7 @@ public class HelpCommand implements Command {
     }
 
     @Override
-    public String[] aliases() {
+    public String[] aliases(ServerEntity entity) {
         return new String[]{
           "help",
           "h"

@@ -6,7 +6,7 @@ import org.hibernate.Session;
 
 public interface Command {
     boolean onCommand(final Session session, final Message message, final ServerEntity entity, final String label, final String[] args);
-    String[] aliases();
+    String[] aliases(final ServerEntity entity);
     String description(final ServerEntity entity);
     String syntax(final ServerEntity entity);
 }

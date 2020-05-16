@@ -18,7 +18,7 @@ public abstract class CommandManager implements Command {
     @Override
     public boolean onCommand(Session session, Message message, ServerEntity entity, String label, String[] args) {
         for (Command command : commands())
-            if (Arrays.asList(command.aliases()).contains(
+            if (Arrays.asList(command.aliases(entity)).contains(
                     (args.length > 0) ? args[0].toLowerCase() : "")) {
                 if(!command.onCommand(session, message, entity,
                         (args.length > 0) ? args[0] : "",
@@ -29,15 +29,15 @@ public abstract class CommandManager implements Command {
         return false;
     }
 
-    public Command getCommand(String... args){
+    public Command getCommand(ServerEntity entity, String... args){
         Command command = this;
         for (String arg:
              args) {
             for (Command current:
                  commands())
-                if (Arrays.asList(current.aliases()).contains(arg)) {
+                if (Arrays.asList(current.aliases(entity)).contains(arg)) {
                     if (current instanceof CommandManager)
-                        command = ((CommandManager) current).getCommand(Arrays.copyOfRange(args, 1, args.length));
+                        command = ((CommandManager) current).getCommand(entity, Arrays.copyOfRange(args, 1, args.length));
                     else command = current;
                     break;
                 }else
