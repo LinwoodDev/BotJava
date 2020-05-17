@@ -1,6 +1,7 @@
 package com.github.codedoctorde.linwood.listener;
 
 import com.github.codedoctorde.linwood.Main;
+import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.SubscribeEvent;
 
@@ -14,6 +15,8 @@ public class CommandListener {
     @SubscribeEvent
     public void onCommand(@Nonnull MessageReceivedEvent event) {
         var session = Main.getInstance().getDatabase().getSessionFactory().openSession();
+        if(event.getChannelType() != ChannelType.TEXT)
+            return;
         var entity = Main.getInstance().getDatabase().getServerById(session, event.getGuild().getIdLong());
         if(event.getMessage().isMentioned(event.getJDA().getSelfUser())) {
             Main.getInstance().getBaseCommand().runInfo(session, entity, event.getMessage());

@@ -3,7 +3,10 @@ package com.github.codedoctorde.linwood.entity;
 import com.ibm.icu.impl.LocaleUtility;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 /**
  * @author CodeDoctorDE
@@ -18,6 +21,9 @@ public class ServerEntity {
     private Long serverId;
     private String prefix = "+lw";
     private String locale = Locale.ENGLISH.getLanguage();
+    @OneToMany(mappedBy="server")
+    private Set<TemplateEntity> templates;
+    private int gameCategoryId;
 
     public ServerEntity(){
 
@@ -47,5 +53,13 @@ public class ServerEntity {
 
     public void setLocale(String locale) {
         this.locale = locale;
+    }
+
+    public int getGameCategoryId() {
+        return gameCategoryId;
+    }
+
+    public void setGameCategoryId(int gameCategoryId) {
+        this.gameCategoryId = gameCategoryId;
     }
 }

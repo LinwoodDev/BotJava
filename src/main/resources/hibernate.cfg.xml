@@ -5,8 +5,11 @@
 
 <hibernate-configuration>
     <session-factory>
+        <property name="hibernate.current_session_context_class">thread</property>
+        <property name="hibernate.show_sql">true</property>
         <property name="hibernate.hbm2ddl.auto">update</property>
         <!-- Entity mapping -->
         <mapping class="com.github.codedoctorde.linwood.entity.ServerEntity"/>
+        <mapping class="com.github.codedoctorde.linwood.entity.TemplateEntity"/>
     </session-factory>
 </hibernate-configuration>
