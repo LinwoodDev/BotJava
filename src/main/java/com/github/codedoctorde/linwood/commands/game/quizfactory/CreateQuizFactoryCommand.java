@@ -1,5 +1,6 @@
 package com.github.codedoctorde.linwood.commands.game.quizfactory;
 
+import com.github.codedoctorde.linwood.Main;
 import com.github.codedoctorde.linwood.commands.Command;
 import com.github.codedoctorde.linwood.entity.ServerEntity;
 import net.dv8tion.jda.api.entities.Message;
@@ -11,7 +12,9 @@ import org.hibernate.Session;
 public class CreateQuizFactoryCommand implements Command {
     @Override
     public boolean onCommand(Session session, Message message, ServerEntity entity, String label, String[] args) {
-        return false;
+        if(args.length <= 0)
+            return false;
+        return true;
     }
 
     @Override
