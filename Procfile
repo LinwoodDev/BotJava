@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -cp target/classes:target/dependency/* com.github.codedoctorde.linwood.Main
+web: java -jar target/linwood-1.0-SNAPSHOT.jar $TOKEN
