@@ -1,1 +1,1 @@
-web: java -cp target/classes/:target/lib/* com.github.codedoctorde.linwood.Main $TOKEN
+web: java -jar target/linwood-1.0-SNAPSHOT.jar $TOKEN
