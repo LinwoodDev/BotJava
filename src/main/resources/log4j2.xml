@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration xmlns="http://logging.apache.org/log4j/2.0/config">
     <Properties>
-        <Property name="basePath">../Log4j2Example/logs</Property>
+        <Property name="basePath">./logs</Property>
     </Properties>
     <Appenders>
         <!-- File Appender -->
