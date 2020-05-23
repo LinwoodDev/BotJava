@@ -110,6 +110,10 @@ public class Main {
         return config;
     }
 
+    public GameManager getGameManager() {
+        return gameManager;
+    }
+
     public void saveConfig(){
         try {
             var writer = new FileWriter(configFile);

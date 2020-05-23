@@ -16,13 +16,13 @@ import java.util.ResourceBundle;
  * @author CodeDoctorDE
  */
 public class QuizFactory implements GameMode {
-    private final int ownerId;
+    private final long ownerId;
     private Game game;
     private long voiceChannelId;
     private long textChannelId;
     private List<String> questions = new ArrayList<>();
 
-    public QuizFactory(int ownerId){
+    public QuizFactory(long ownerId){
         this.ownerId = ownerId;
     }
 
@@ -47,7 +47,7 @@ public class QuizFactory implements GameMode {
 
     }
 
-    public int getOwnerId() {
+    public long getOwnerId() {
         return ownerId;
     }
 
