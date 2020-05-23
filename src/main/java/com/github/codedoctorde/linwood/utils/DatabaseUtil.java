@@ -92,9 +92,15 @@ public class DatabaseUtil {
     }
 
     public ServerEntity getServerById(Session session, long serverId){
-        if(session.contains(new ServerEntity(serverId)))
-            return session.load(ServerEntity.class, serverId);
-        else return createServer(session, serverId);
+        ServerEntity entity = session.find(ServerEntity.class, serverId);
+        if ( entity != null ) return entity;
+        else try {
+            entity = createServer(session, serverId);
+            /* use more reflection to set the pk (probably need a base entity) */
+            return entity;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     public ServerEntity createServer(Session session, long serverId){
         var server = new ServerEntity(serverId);
