@@ -13,13 +13,13 @@ public class GameManager {
     public GameManager(){
     }
 
-    public Game startGame(int serverId, GameMode gameMode){
+    public Game startGame(long serverId, GameMode gameMode){
         stopGame(serverId);
         var game = new Game(games.size(), serverId, gameMode);
         games.add(game);
         return game;
     }
-    public void stopGame(int serverId){
+    public void stopGame(long serverId){
         games.stream().filter(game -> game.getServerId() == serverId).forEach(this::stopGame);
     }
     public void stopGame(Game game){

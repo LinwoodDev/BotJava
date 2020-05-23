@@ -9,11 +9,11 @@ import org.hibernate.Session;
  * @author CodeDoctorDE
  */
 public class Game {
-    private final int serverId;
+    private final long serverId;
     private GameMode mode;
     private final int id;
 
-    public Game(int id, int serverId, GameMode mode){
+    public Game(int id, long serverId, GameMode mode){
         this.id = id;
         this.serverId = serverId;
         this.mode = mode;
@@ -27,7 +27,7 @@ public class Game {
         this.mode = mode;
     }
 
-    public int getServerId() {
+    public long getServerId() {
         return serverId;
     }
 
