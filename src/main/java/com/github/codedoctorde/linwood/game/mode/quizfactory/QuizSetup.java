@@ -22,14 +22,10 @@ public class QuizSetup {
     }
 
     public void sendMessage(PrivateChannel channel, String content){
-        channel.sendMessage(factory.getBundle(getServerEntity()).getString(content)).queue(message ->
-                message.addReaction("white_check_mark").queue(aVoid -> message.addReaction("x").queue()));
-    }
-    public ServerEntity getServerEntity(){
         var session = Main.getInstance().getDatabase().getSessionFactory().openSession();
-        var entity = factory.getGame().getServerEntity(session);
+        channel.sendMessage(factory.getBundle(session).getString(content)).queue(message ->
+                message.addReaction("white_check_mark").queue(aVoid -> message.addReaction("x").queue()));
         session.close();
-        return entity;
     }
 
     public QuizFactory getFactory() {

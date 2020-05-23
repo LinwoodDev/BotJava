@@ -4,12 +4,12 @@ import com.github.codedoctorde.linwood.Main;
 import com.github.codedoctorde.linwood.entity.ServerEntity;
 import com.github.codedoctorde.linwood.game.Game;
 import com.github.codedoctorde.linwood.game.GameMode;
-import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.hooks.SubscribeEvent;
+import org.hibernate.Session;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 /**
@@ -37,9 +37,14 @@ public class QuizFactory implements GameMode {
             game.stop();
             return;
         }
-        var bundle = getBundle(server);
+        var bundle = getBundle(session);
         category.createVoiceChannel(MessageFormat.format(bundle.getString("VoiceChannel"), game.getId())).queue((voiceChannel -> this.voiceChannelId = voiceChannel.getIdLong()));
         category.createTextChannel(MessageFormat.format(bundle.getString("TextChannel"), game.getId())).queue((textChannel -> this.textChannelId = textChannel.getIdLong()));
+    }
+
+    public void startIngame(Session session){
+        Objects.requireNonNull(Main.getInstance().getJda().getTextChannelById(textChannelId)).
+                sendMessage(getBundle(session).getString("Ingame")).queue();
     }
 
     @Override
@@ -55,8 +60,8 @@ public class QuizFactory implements GameMode {
         return game;
     }
 
-    public ResourceBundle getBundle(ServerEntity entity){
-        return ResourceBundle.getBundle("locale.game.QuizFactory", entity.getLocalization());
+    public ResourceBundle getBundle(Session session){
+        return ResourceBundle.getBundle("locale.game.QuizFactory", Main.getInstance().getDatabase().getServerById(session, game.getServerId()).getLocalization());
     }
 
     public List<String> getQuestions() {
