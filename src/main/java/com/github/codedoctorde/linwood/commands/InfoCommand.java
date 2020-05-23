@@ -30,10 +30,6 @@ public class InfoCommand implements Command {
         return MessageFormat.format(text, Main.getInstance().getVersion(), message.getAuthor().getAsMention(), server.getPrefix());
     }
 
-    public ResourceBundle getBundle(ServerEntity entity){
-        return ResourceBundle.getBundle("locale.commands.Info", entity.getLocalization());
-    }
-
     @Override
     public String[] aliases(ServerEntity entity) {
         return new String[]{
@@ -42,14 +38,7 @@ public class InfoCommand implements Command {
     }
 
     @Override
-    public String description(ServerEntity entity) {
-        var bundle = getBundle(entity);
-        return bundle.getString("Description");
-    }
-
-    @Override
-    public String syntax(ServerEntity entity) {
-        var bundle = getBundle(entity);
-        return bundle.getString("Syntax");
+    public ResourceBundle getBundle(ServerEntity entity) {
+        return ResourceBundle.getBundle("locale.commands.Info", entity.getLocalization());
     }
 }

@@ -1,20 +1,19 @@
-package com.github.codedoctorde.linwood.commands.game.quizfactory;
+package com.github.codedoctorde.linwood.commands.game;
 
-import com.github.codedoctorde.linwood.Main;
 import com.github.codedoctorde.linwood.commands.Command;
 import com.github.codedoctorde.linwood.entity.ServerEntity;
 import net.dv8tion.jda.api.entities.Message;
 import org.hibernate.Session;
 
+import java.util.ResourceBundle;
+
 /**
  * @author CodeDoctorDE
  */
-public class CreateQuizFactoryCommand implements Command {
+public class StopGameCommand implements Command {
     @Override
     public boolean onCommand(Session session, Message message, ServerEntity entity, String label, String[] args) {
-        if(args.length <= 0)
-            return false;
-        return true;
+        return false;
     }
 
     @Override
@@ -23,12 +22,7 @@ public class CreateQuizFactoryCommand implements Command {
     }
 
     @Override
-    public String description(ServerEntity entity) {
-        return null;
-    }
-
-    @Override
-    public String syntax(ServerEntity entity) {
+    public ResourceBundle getBundle(ServerEntity entity) {
         return null;
     }
 }

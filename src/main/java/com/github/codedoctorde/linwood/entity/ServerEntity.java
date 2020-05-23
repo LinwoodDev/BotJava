@@ -22,12 +22,16 @@ public class ServerEntity {
     private String locale = Locale.ENGLISH.getLanguage();
     @OneToMany()
     private Set<TemplateEntity> templates;
-    private int gameCategoryId;
+    @Column(nullable = true)
+    private long gameMasterRole;
+    @Column(nullable = true)
+    private Integer gameCategoryId;
 
     public ServerEntity(){
 
     }
-    public ServerEntity(long id) {
+    public ServerEntity(String prefix, long id) {
+        this.prefix = prefix;
         this.serverId = id;
     }
 

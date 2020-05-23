@@ -1,5 +1,6 @@
 package com.github.codedoctorde.linwood.utils;
 
+import com.github.codedoctorde.linwood.Main;
 import com.github.codedoctorde.linwood.entity.ServerEntity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -103,7 +104,7 @@ public class DatabaseUtil {
         }
     }
     public ServerEntity createServer(Session session, long serverId){
-        var server = new ServerEntity(serverId);
+        var server = new ServerEntity(Main.getInstance().getConfig().getPrefix(),serverId);
         session.beginTransaction();
         session.save(server);
         session.getTransaction().commit();

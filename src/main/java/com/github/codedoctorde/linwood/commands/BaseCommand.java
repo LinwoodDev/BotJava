@@ -12,7 +12,6 @@ import java.util.ResourceBundle;
  */
 public class BaseCommand extends CommandManager {
     private final InfoCommand infoCommand = new InfoCommand();
-    private static final ResourceBundle bundle = ResourceBundle.getBundle("locale.commands.Base");
     @Override
     public Command[] commands() {
         return new Command[]{
@@ -28,16 +27,11 @@ public class BaseCommand extends CommandManager {
     }
 
     @Override
-    public String description(ServerEntity entity) {
-        return bundle.getString("Description");
+    public ResourceBundle getBundle(ServerEntity entity) {
+        return ResourceBundle.getBundle("locale.commands.Base", entity.getLocalization());
     }
 
     public void runInfo(Session session, ServerEntity entity, Message message) {
         infoCommand.onCommand(session, message, entity, "", new String[0]);
-    }
-
-    @Override
-    public String syntax(ServerEntity entity) {
-        return bundle.getString("Syntax");
     }
 }

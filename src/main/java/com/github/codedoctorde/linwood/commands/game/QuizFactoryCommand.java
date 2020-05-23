@@ -1,21 +1,20 @@
 package com.github.codedoctorde.linwood.commands.game;
 
 import com.github.codedoctorde.linwood.commands.Command;
-import com.github.codedoctorde.linwood.commands.CommandManager;
-import com.github.codedoctorde.linwood.commands.game.quizfactory.CreateQuizFactoryCommand;
 import com.github.codedoctorde.linwood.entity.ServerEntity;
+import net.dv8tion.jda.api.entities.Message;
+import org.hibernate.Session;
 
 import java.util.ResourceBundle;
 
 /**
  * @author CodeDoctorDE
  */
-public class QuizFactoryCommand extends CommandManager {
+public class QuizFactoryCommand implements Command {
+
     @Override
-    public Command[] commands() {
-        return new Command[]{
-                new CreateQuizFactoryCommand()
-        };
+    public boolean onCommand(Session session, Message message, ServerEntity entity, String label, String[] args) {
+        return false;
     }
 
     @Override
@@ -31,15 +30,6 @@ public class QuizFactoryCommand extends CommandManager {
         };
     }
 
-    @Override
-    public String description(ServerEntity entity) {
-        return getBundle(entity).getString("Description");
-    }
-
-    @Override
-    public String syntax(ServerEntity entity) {
-        return getBundle(entity).getString("Syntax");
-    }
 
     public ResourceBundle getBundle(ServerEntity entity){
         return ResourceBundle.getBundle("locale.commands.game.QuizFactory", entity.getLocalization());

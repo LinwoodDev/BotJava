@@ -14,18 +14,14 @@ import java.util.ResourceBundle;
  */
 public class HelpCommand implements Command {
 
-    public ResourceBundle getBundle(ServerEntity entity){
-        return ResourceBundle.getBundle("locale.commands.Info", entity.getLocalization());
-    }
-
     @Override
     public boolean onCommand(Session session, Message message, ServerEntity entity, String label, String[] args) {
         Command command = Main.getInstance().getBaseCommand().getCommand(entity, args);
         if(command == null)
             return false;
-        var description = command.description(entity);
-        if(description != null)
-        message.getChannel().sendMessage(description).queue();
+        var bundle = command.getBundle(entity);
+        if(bundle.containsKey("Description"))
+            message.getChannel().sendMessage(bundle.getString("Description")).queue();
         return true;
     }
 
@@ -38,12 +34,7 @@ public class HelpCommand implements Command {
     }
 
     @Override
-    public String description(ServerEntity entity) {
-        return getBundle(entity).getString("Description");
-    }
-
-    @Override
-    public String syntax(ServerEntity entity) {
-        return getBundle(entity).getString("Syntax");
+    public ResourceBundle getBundle(ServerEntity entity) {
+        return ResourceBundle.getBundle("locale.commands.Info", entity.getLocalization());
     }
 }

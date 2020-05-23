@@ -14,7 +14,7 @@ import java.util.ResourceBundle;
 public class PrefixCommand implements Command {
     @Override
     public boolean onCommand(Session session, Message message, ServerEntity entity, String label, String[] args) {
-        ResourceBundle bundle = ResourceBundle.getBundle("locale.commands.settings.Prefix", entity.getLocalization());
+        ResourceBundle bundle = getBundle(entity);
         if(args.length == 0)
             message.getChannel().sendMessage(MessageFormat.format(bundle.getString("get"),entity.getPrefix())).queue();
         else if(args.length == 1) {
@@ -30,12 +30,7 @@ public class PrefixCommand implements Command {
     }
 
     @Override
-    public String description(ServerEntity entity) {
-        return null;
-    }
-
-    @Override
-    public String syntax(ServerEntity entity) {
-        return null;
+    public ResourceBundle getBundle(ServerEntity entity) {
+        return ResourceBundle.getBundle("locale.commands.settings.Prefix", entity.getLocalization());
     }
 }

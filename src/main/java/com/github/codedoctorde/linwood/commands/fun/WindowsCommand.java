@@ -15,15 +15,15 @@ import java.util.ResourceBundle;
  * @author CodeDoctorDE
  */
 public class WindowsCommand implements Command {
-    private static final ResourceBundle bundle = ResourceBundle.getBundle("locale.commands.fun.Windows");
 
     @Override
     public boolean onCommand(Session session, Message message, ServerEntity entity, String label, String[] args) {
-        if(args.length <= 0)
+        if(args.length > 0)
             return false;
         Random random = new Random();
         String response;
         File file = null;
+        var bundle = getBundle(entity);
         switch (random.nextInt(3)){
             case 0:
                 response = bundle.getString("Crash");
@@ -64,12 +64,7 @@ public class WindowsCommand implements Command {
     }
 
     @Override
-    public String description(ServerEntity entity) {
-        return bundle.getString("Description");
-    }
-
-    @Override
-    public String syntax(ServerEntity entity) {
-        return bundle.getString("Syntax");
+    public ResourceBundle getBundle(ServerEntity entity) {
+        return ResourceBundle.getBundle("locale.commands.fun.Windows", entity.getLocalization());
     }
 }

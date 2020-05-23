@@ -23,7 +23,7 @@ public abstract class CommandManager implements Command {
                 if(!command.onCommand(session, message, entity,
                         (args.length > 0) ? args[0] : "",
                         (args.length > 0) ? Arrays.copyOfRange(args, 1, args.length) : new String[0]))
-                    message.getChannel().sendMessage(command.syntax(entity)).queue();
+                    message.getChannel().sendMessage(command.getBundle(entity).getString("Syntax")).queue();
                 return true;
             }
         return false;

@@ -27,7 +27,7 @@ public class CommandListener {
             if (content.startsWith(prefix)) {
                 var command = content.substring(prefix.length()).trim().split(" ");
                 if(!Main.getInstance().getBaseCommand().onCommand(session, event.getMessage(), entity, server.getPrefix(), command))
-                    event.getChannel().sendMessage(Main.getInstance().getBaseCommand().syntax(entity)).queue();
+                    event.getChannel().sendMessage(Main.getInstance().getBaseCommand().getBundle(entity).getString("Syntax")).queue();
             }
         }
         session.close();

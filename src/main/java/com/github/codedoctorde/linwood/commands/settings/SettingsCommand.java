@@ -11,7 +11,6 @@ import java.util.ResourceBundle;
  * @author CodeDoctorDE
  */
 public class SettingsCommand extends CommandManager {
-    private static final ResourceBundle bundle = ResourceBundle.getBundle("locale.commands.settings.Base");
     @Override
     public Command[] commands() {
         return new Command[]{
@@ -27,12 +26,7 @@ public class SettingsCommand extends CommandManager {
     }
 
     @Override
-    public String description(ServerEntity entity) {
-        return bundle.getString("Description");
-    }
-
-    @Override
-    public String syntax(ServerEntity entity) {
-        return bundle.getString("Syntax");
+    public ResourceBundle getBundle(ServerEntity entity) {
+        return ResourceBundle.getBundle("locale.commands.settings.Base", entity.getLocalization());
     }
 }

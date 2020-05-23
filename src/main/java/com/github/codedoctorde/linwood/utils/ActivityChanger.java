@@ -11,7 +11,7 @@ import java.util.*;
 public class ActivityChanger {
     private Timer timer;
     private int index;
-    private List<Activity> activities = new ArrayList<>();
+    private final List<Activity> activities;
     public ActivityChanger(Activity... activities){
         this.activities = Arrays.asList(activities);
     }
