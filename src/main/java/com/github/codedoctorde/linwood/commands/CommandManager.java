@@ -32,17 +32,11 @@ public abstract class CommandManager implements Command {
     public Command getCommand(ServerEntity entity, String... args){
         Command command = this;
         for (String arg:
-             args) {
-            for (Command current:
-                 commands())
-                if (Arrays.asList(current.aliases(entity)).contains(arg)) {
-                    command = current;
-                    if (command instanceof CommandManager)
-                        command = ((CommandManager) command).getCommand(entity, Arrays.copyOfRange(args, 1, args.length));
-                    break;
-                }else
-                    return null;
-        }
+             args)
+            if (command instanceof CommandManager)
+                for (Command current :
+                        ((CommandManager) command).commands())
+                    if (Arrays.asList(current.aliases(entity)).contains(arg)) command = current;
         return command;
     }
 }
