@@ -7,6 +7,7 @@ import org.hibernate.Session;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 /**
@@ -19,9 +20,9 @@ public class HelpCommand implements Command {
         Command command = Main.getInstance().getBaseCommand().getCommand(entity, args);
         if(command == null)
             return false;
+        System.out.println("test");
         var bundle = command.getBundle(entity);
-        if(bundle.containsKey("Description"))
-            message.getChannel().sendMessage(bundle.getString("Description")).queue();
+        message.getChannel().sendMessage(bundle == null || bundle.containsKey("Description")?bundle.getString("Description"): Objects.requireNonNull(getBundle(entity)).getString("Syntax")).queue();
         return true;
     }
 
@@ -35,6 +36,6 @@ public class HelpCommand implements Command {
 
     @Override
     public ResourceBundle getBundle(ServerEntity entity) {
-        return ResourceBundle.getBundle("locale.commands.Info", entity.getLocalization());
+        return ResourceBundle.getBundle("locale.commands.Help", entity.getLocalization());
     }
 }
