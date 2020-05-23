@@ -20,7 +20,7 @@ public class ServerEntity {
     private Long serverId;
     private String prefix = "+lw";
     private String locale = Locale.ENGLISH.getLanguage();
-    @OneToMany(mappedBy="template")
+    @OneToMany()
     private Set<TemplateEntity> templates;
     private int gameCategoryId;
 
