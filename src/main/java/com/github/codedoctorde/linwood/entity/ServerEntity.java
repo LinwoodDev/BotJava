@@ -1,6 +1,7 @@
 package com.github.codedoctorde.linwood.entity;
 
 import com.ibm.icu.impl.LocaleUtility;
+import org.hibernate.annotations.Immutable;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -12,9 +13,7 @@ import java.util.Set;
  * @author CodeDoctorDE
  */
 @Entity
-@Table(name = "\"servers\"", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "ID")
-})
+@Immutable
 public class ServerEntity {
     @Id
     @Column(name="ID", unique = true, nullable = false)
