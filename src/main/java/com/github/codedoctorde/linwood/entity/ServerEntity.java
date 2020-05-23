@@ -17,6 +17,8 @@ import java.util.Set;
 public class ServerEntity {
     @Id
     @Column(name="ID", unique = true, nullable = false)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "server_generator")
+    @SequenceGenerator(name="server_generator", sequenceName = "server_seq", allocationSize=50)
     private Long serverId;
     private String prefix = "+lw";
     private String locale = Locale.ENGLISH.getLanguage();
