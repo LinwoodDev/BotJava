@@ -12,7 +12,7 @@ import java.util.Set;
  * @author CodeDoctorDE
  */
 @Entity
-@Table(name = "servers", uniqueConstraints = {
+@Table(name = "\"servers\"", uniqueConstraints = {
         @UniqueConstraint(columnNames = "ID")
 })
 public class ServerEntity {
