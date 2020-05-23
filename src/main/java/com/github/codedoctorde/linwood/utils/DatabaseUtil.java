@@ -7,9 +7,16 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+import javax.swing.*;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
@@ -21,7 +28,7 @@ public class DatabaseUtil {
     private static final Logger logger = LogManager.getLogger(DatabaseUtil.class);
     private final SessionFactory sessionFactory;
 
-    public DatabaseUtil(){
+    public DatabaseUtil() {
         try {
             createFile();
         } catch (IOException e) {
@@ -30,7 +37,14 @@ public class DatabaseUtil {
         var configuration = new Configuration();
         configuration.configure();
 
-        var prop = (PropertyResourceBundle) ResourceBundle.getBundle("db");
+        ResourceBundle prop;
+        try (FileInputStream fis = new FileInputStream("db.properties")) {
+            prop =  new PropertyResourceBundle(fis);
+        } catch (IOException e) {
+            e.printStackTrace();
+            prop = ResourceBundle.getBundle("db");
+        }
+        System.out.println(prop.getString("db.url"));
 
 // Basic connection information
         configuration.setProperty("hibernate.connection.username", prop.getString("db.username"));

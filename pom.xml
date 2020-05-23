@@ -50,6 +50,13 @@
         </plugin>
     </plugins>
     </build>
+    <repositories>
+        <repository>
+            <id>jcenter</id>
+            <name>jcenter-bintray</name>
+            <url>https://jcenter.bintray.com</url>
+        </repository>
+    </repositories>
 
     <dependencies>
 
@@ -111,12 +118,10 @@
             <version>2.13.2</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>com.ibm.icu</groupId>
+            <artifactId>icu4j</artifactId>
+            <version>61.1</version>
+        </dependency>
     </dependencies>
-    <repositories>
-        <repository>
-            <id>jcenter</id>
-            <name>jcenter-bintray</name>
-            <url>https://jcenter.bintray.com</url>
-        </repository>
-    </repositories>
 </project>
