@@ -14,7 +14,7 @@ public class ConnectionListener {
     @SubscribeEvent
     public void onGuildJoin(GuildJoinEvent event){
         var session = Main.getInstance().getDatabase().getSessionFactory().openSession();
-        Main.getInstance().getDatabase().createServer(session, event.getGuild().getIdLong());
+        var server = Main.getInstance().getDatabase().getServerById(session, event.getGuild().getIdLong());
         session.close();
     }
 }

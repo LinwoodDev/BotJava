@@ -92,7 +92,9 @@ public class DatabaseUtil {
     }
 
     public ServerEntity getServerById(Session session, long serverId){
-        return session.load(ServerEntity.class, serverId);
+        if(session.contains(new ServerEntity(serverId)))
+            return session.load(ServerEntity.class, serverId);
+        else return createServer(session, serverId);
     }
     public ServerEntity createServer(Session session, long serverId){
         var server = new ServerEntity(serverId);
