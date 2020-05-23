@@ -49,7 +49,11 @@ public class DatabaseUtil {
 // Basic connection information
         configuration.setProperty("hibernate.connection.username", prop.getString("db.username"));
         configuration.setProperty("hibernate.connection.password", prop.getString("db.password"));
-        configuration.setProperty("hibernate.connection.url", prop.getString("db.url"));
+        var url = prop.getString("db.url");
+        if(url.isBlank())
+            configuration.setProperty("hibernate.connection.url", System.getenv("JDBC_DATABASE_URL"));
+        else
+            configuration.setProperty("hibernate.connection.url", url);
         configuration.setProperty("hibernate.connection.driver_class", prop.getString("db.driver"));
         configuration.setProperty("hibernate.dialect", prop.getString("db.dialect"));
         configuration.setProperty("hibernate.default_schema", prop.getString("db.default_schema"));
