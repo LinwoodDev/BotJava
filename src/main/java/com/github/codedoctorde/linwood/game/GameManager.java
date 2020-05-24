@@ -27,7 +27,7 @@ public class GameManager {
         games.remove(game);
     }
     @Nullable
-    public Game getGame(int serverId){
+    public Game getGame(long serverId){
         Game current = null;
         for (Game game:
              games)

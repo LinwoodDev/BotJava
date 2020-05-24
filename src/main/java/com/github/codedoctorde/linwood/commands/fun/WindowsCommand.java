@@ -16,7 +16,7 @@ import java.util.ResourceBundle;
  * @author CodeDoctorDE
  */
 public class WindowsCommand implements Command {
-    private Random random = new Random();
+    private final Random random = new Random();
 
     @Override
     public boolean onCommand(Session session, Message message, ServerEntity entity, String label, String[] args) {
