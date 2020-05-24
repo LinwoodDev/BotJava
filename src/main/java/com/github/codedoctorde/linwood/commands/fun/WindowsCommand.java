@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.entities.Message;
 import org.hibernate.Session;
 
 import java.io.File;
+import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.util.Objects;
 import java.util.Random;
@@ -22,26 +23,18 @@ public class WindowsCommand implements Command {
         if(args.length > 0)
             return false;
         String response;
-        File file = null;
+        InputStream file = null;
         var bundle = getBundle(entity);
         switch (random.nextInt(3)){
             case 0:
                 response = bundle.getString("Crash");
 
-                try {
-                    file = new File(Objects.requireNonNull(getClass().getClassLoader().getResource("assets/crash.png")).toURI());
-                } catch (URISyntaxException e) {
-                    e.printStackTrace();
-                }
+                file = getClass().getClassLoader().getResourceAsStream("assets/crash.png");
                 break;
             case 1:
                 response = bundle.getString("Update");
 
-                try {
-                    file = new File(Objects.requireNonNull(getClass().getClassLoader().getResource("assets/update.png")).toURI());
-                } catch (URISyntaxException e) {
-                    e.printStackTrace();
-                }
+                file = getClass().getClassLoader().getResourceAsStream(("assets/update.png"));
                 break;
             default:
                 response = bundle.getString("Loading");
@@ -49,7 +42,7 @@ public class WindowsCommand implements Command {
         }
         var action = message.getChannel().sendMessage(response);
         if(file != null)
-            action = action.addFile(file);
+            action = action.addFile(file, response);
         action.queue();
         return true;
     }
