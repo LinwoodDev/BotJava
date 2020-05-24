@@ -9,10 +9,16 @@ import java.util.List;
  * @author CodeDoctorDE
  */
 public class WhatIsItRound {
-    private long writerId;
-    private String word;
-    private WhatIsIt whatIsIt;
+    private final long writerId;
+    private final String word;
+    private final WhatIsIt whatIsIt;
     private List<Long> guesser;
+
+    public WhatIsItRound(long writerId, WhatIsIt whatIsIt, String word){
+        this.writerId = writerId;
+        this.whatIsIt = whatIsIt;
+        this.word = word;
+    }
 
     public long getWriterId() {
         return writerId;

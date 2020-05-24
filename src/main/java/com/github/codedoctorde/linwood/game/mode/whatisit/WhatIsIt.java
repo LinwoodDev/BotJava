@@ -43,8 +43,8 @@ public class WhatIsIt implements GameMode {
     public void chooseNextPlayer(){
 
     }
-    public void nextRound(){
-
+    public void nextRound(int writerId, String word){
+        round = new WhatIsItRound(writerId, this, word);
     }
 
     public ResourceBundle getBundle(Session session){
@@ -68,5 +68,9 @@ public class WhatIsIt implements GameMode {
 
     public Game getGame() {
         return game;
+    }
+
+    public WhatIsItRound getRound() {
+        return round;
     }
 }

@@ -23,9 +23,9 @@ public class ServerEntity {
     @OneToMany()
     private Set<TemplateEntity> templates;
     @Column(nullable = true)
-    private long gameMasterRole;
+    private Long gameMasterRole;
     @Column(nullable = true)
-    private long gameCategoryId;
+    private Long gameCategoryId;
 
     public ServerEntity(){
 
@@ -50,6 +50,7 @@ public class ServerEntity {
     public String getLocale() {
         return locale;
     }
+
     public Locale getLocalization(){
         return LocaleUtility.getLocaleFromName(locale);
     }
@@ -58,7 +59,7 @@ public class ServerEntity {
         this.locale = locale;
     }
 
-    public long getGameCategoryId() {
+    public Long getGameCategoryId() {
         return gameCategoryId;
     }
 
