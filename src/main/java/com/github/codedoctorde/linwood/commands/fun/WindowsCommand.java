@@ -25,6 +25,8 @@ public class WindowsCommand implements Command {
         String response;
         InputStream file = null;
         var bundle = getBundle(entity);
+        if(bundle == null)
+            return false;
         switch (random.nextInt(3)){
             case 0:
                 response = bundle.getString("Crash");
