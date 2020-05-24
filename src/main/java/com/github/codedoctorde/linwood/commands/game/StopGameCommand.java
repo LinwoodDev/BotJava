@@ -31,7 +31,10 @@ public class StopGameCommand implements Command {
     public String[] aliases(ServerEntity entity) {
         return new String[]{
                 "stop",
-                "cancel"
+                "cancel",
+                "stop-game",
+                "s",
+                "c"
         };
     }
 

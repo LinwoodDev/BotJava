@@ -44,7 +44,7 @@ public class WindowsCommand implements Command {
         }
         var action = message.getChannel().sendMessage(response);
         if(file != null)
-            action = action.addFile(file, response);
+            action = action.addFile(file, "windows.png");
         action.queue();
         return true;
     }

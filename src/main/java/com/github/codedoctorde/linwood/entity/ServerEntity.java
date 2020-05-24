@@ -1,11 +1,11 @@
 package com.github.codedoctorde.linwood.entity;
 
+import com.github.codedoctorde.linwood.Main;
 import com.ibm.icu.impl.LocaleUtility;
+import net.dv8tion.jda.api.entities.Category;
 import org.hibernate.annotations.Immutable;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
@@ -17,7 +17,7 @@ import java.util.Set;
 public class ServerEntity {
     @Id
     @Column(name="ID", unique = true, nullable = false)
-    private Long serverId;
+    private long serverId;
     private String prefix = "+lw";
     private String locale = Locale.ENGLISH.getLanguage();
     @OneToMany()
@@ -25,7 +25,7 @@ public class ServerEntity {
     @Column(nullable = true)
     private long gameMasterRole;
     @Column(nullable = true)
-    private Integer gameCategoryId;
+    private long gameCategoryId;
 
     public ServerEntity(){
 
@@ -58,11 +58,18 @@ public class ServerEntity {
         this.locale = locale;
     }
 
-    public int getGameCategoryId() {
+    public long getGameCategoryId() {
         return gameCategoryId;
     }
 
-    public void setGameCategoryId(int gameCategoryId) {
+    public Category getGameCategory(){
+        return Main.getInstance().getJda().getCategoryById(gameCategoryId);
+    }
+
+    public void setGameCategoryId(long gameCategoryId) {
         this.gameCategoryId = gameCategoryId;
+    }
+    public void setGameCategory(Category category){
+        gameCategoryId = category.getIdLong();
     }
 }
