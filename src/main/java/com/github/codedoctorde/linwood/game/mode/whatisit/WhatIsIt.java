@@ -82,4 +82,7 @@ public class WhatIsIt implements GameMode {
     public void addPoint(Member member, int number){
         points.put(member.getIdLong(), points.getOrDefault(member.getIdLong(), 0) + number);
     }
+    public int getPoints(Member member){
+        return points.getOrDefault(member.getIdLong(), 0);
+    }
 }

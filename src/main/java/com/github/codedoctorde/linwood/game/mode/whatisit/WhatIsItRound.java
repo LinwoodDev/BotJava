@@ -29,4 +29,23 @@ public class WhatIsItRound {
     public Member getWriter(){
         return whatIsIt.getGame().getGuild().getMemberById(writerId);
     }
+
+    /**
+     * Points:
+     * 1st: 5 points
+     * 2nd: 4 points
+     * 3rd: 3 points
+     * 4th: 2 points
+     * 5th and under: 1 point
+     * @param member Current guesser
+     */
+    public int guessCorrectly(Member member){
+        guesser.add(member.getIdLong());
+        int points = (guesser.size() < 5) ? 5 - guesser.size(): 1;
+        whatIsIt.addPoint(member, points);
+        return points;
+    }
+    public boolean isGuesser(Member member){
+        return guesser.stream().mapToLong(memberId -> memberId).anyMatch(memberId -> memberId == member.getIdLong());
+    }
 }

@@ -35,7 +35,8 @@ public class InfoCommand implements Command {
         long second = (uptime / 1000) % 60;
         long minute = (uptime / (1000 * 60)) % 60;
         long hour = (uptime / (1000 * 60 * 60)) % 24;
-        return MessageFormat.format(text, Main.getInstance().getVersion(), message.getAuthor().getAsMention(), server.getPrefix(), hour, minute, second, millis);
+        long days = (uptime / (1000 * 60 * 24));
+        return MessageFormat.format(text, Main.getInstance().getVersion(), message.getAuthor().getAsMention(), server.getPrefix(), days, hour, minute, second, millis);
     }
 
     @Override

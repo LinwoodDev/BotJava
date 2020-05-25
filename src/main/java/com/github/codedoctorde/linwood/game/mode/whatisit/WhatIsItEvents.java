@@ -18,20 +18,22 @@ public class WhatIsItEvents {
     }
     @SubscribeEvent
     public void onGuess(MessageReceivedEvent event){
-        if(event.getChannel().getIdLong() != whatIsIt.getTextChannelId())
+        if(event.getChannel().getIdLong() != whatIsIt.getTextChannelId() || event.getMember() == null)
             return;
         var session = Main.getInstance().getDatabase().getSessionFactory().openSession();
         var message = event.getMessage();
         if(whatIsIt.getTextChannelId() != message.getTextChannel().getIdLong()) return;
         var round = whatIsIt.getRound();
-        if(round == null)
-            return;
-        if(message.getContentStripped().contains(round.getWord())) {
-            message.delete().queue();
-            if (message.getAuthor().getIdLong() != round.getWriterId()) {
-                event.getChannel().sendMessage(MessageFormat.format(whatIsIt.getBundle(session).getString("Guess"), event.getAuthor().getName())).queue();
+        if(round != null)
+            if(round.isGuesser(event.getMember()))
+                message.delete().queue();
+            else if(message.getContentStripped().contains(round.getWord())) {
+                message.delete().queue();
+                if (message.getAuthor().getIdLong() != round.getWriterId()) {
+                    var points = round.guessCorrectly(event.getMember());
+                    event.getChannel().sendMessage(MessageFormat.format(whatIsIt.getBundle(session).getString("Guess"), event.getAuthor().getName(), points)).queue();
+                }
             }
-        }
         session.close();
     }
 
