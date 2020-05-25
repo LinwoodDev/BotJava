@@ -3,12 +3,14 @@ package com.github.codedoctorde.linwood.game.mode.whatisit;
 import com.github.codedoctorde.linwood.Main;
 import com.github.codedoctorde.linwood.game.Game;
 import com.github.codedoctorde.linwood.game.GameMode;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import org.hibernate.Session;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -18,8 +20,8 @@ import java.util.ResourceBundle;
 public class WhatIsIt implements GameMode {
     private Game game;
     private WhatIsItRound round;
-    private long voiceChannelId;
     private long textChannelId;
+    private HashMap<Long, Integer> points = new HashMap<>();
 
     @Override
     public void start(Game game) {
@@ -33,7 +35,6 @@ public class WhatIsIt implements GameMode {
             return;
         }
         var bundle = getBundle(session);
-        category.createVoiceChannel(MessageFormat.format(bundle.getString("VoiceChannel"), game.getId())).queue((voiceChannel -> this.voiceChannelId = voiceChannel.getIdLong()));
         category.createTextChannel(MessageFormat.format(bundle.getString("TextChannel"), game.getId())).queue((textChannel -> this.textChannelId = textChannel.getIdLong()));
     }
 
@@ -59,13 +60,6 @@ public class WhatIsIt implements GameMode {
         return ResourceBundle.getBundle("locale.game.WhatIsIt", Main.getInstance().getDatabase().getServerById(session, game.getServerId()).getLocalization());
     }
 
-    public long getVoiceChannelId() {
-        return voiceChannelId;
-    }
-    public VoiceChannel getVoiceChannel(){
-        return Main.getInstance().getJda().getVoiceChannelById(voiceChannelId);
-    }
-
     public long getTextChannelId() {
         return textChannelId;
     }
@@ -80,5 +74,12 @@ public class WhatIsIt implements GameMode {
 
     public WhatIsItRound getRound() {
         return round;
+    }
+
+    public HashMap<Long, Integer> getPoints() {
+        return points;
+    }
+    public void addPoint(Member member, int number){
+        points.put(member.getIdLong(), points.getOrDefault(member.getIdLong(), 0) + number);
     }
 }
