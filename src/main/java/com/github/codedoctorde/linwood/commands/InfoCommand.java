@@ -22,6 +22,7 @@ public class InfoCommand implements Command {
         var bundle = getBundle(entity);
         if(args.length > 0)
             return false;
+        assert bundle != null;
         message.getChannel().sendMessage(" ").embed(new EmbedBuilder().setTitle(infoFormat(session, message, bundle.getString("title")))
                 .setDescription(infoFormat(session, message, bundle.getString("body.regexp"))).build()).queue();
         return true;
