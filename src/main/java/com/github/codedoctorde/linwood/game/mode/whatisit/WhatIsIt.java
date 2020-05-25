@@ -8,6 +8,8 @@ import net.dv8tion.jda.api.entities.VoiceChannel;
 import org.hibernate.Session;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -15,9 +17,9 @@ import java.util.ResourceBundle;
  */
 public class WhatIsIt implements GameMode {
     private Game game;
+    private WhatIsItRound round;
     private long voiceChannelId;
     private long textChannelId;
-    private WhatIsItRound round;
 
     @Override
     public void start(Game game) {
@@ -43,8 +45,14 @@ public class WhatIsIt implements GameMode {
     public void chooseNextPlayer(){
 
     }
-    public void nextRound(int writerId, String word){
-        round = new WhatIsItRound(writerId, this, word);
+    public void nextRound(Session session, int writerId, String word){
+        round = new WhatIsItRound(writerId, word, this);
+        var bundle = getBundle(session);
+
+        getTextChannel().sendMessage(bundle.getString("NextRound")).queue();
+    }
+    public void finishRound(){
+
     }
 
     public ResourceBundle getBundle(Session session){
