@@ -18,6 +18,8 @@ public class CommandListener {
         if(event.getChannelType() != ChannelType.TEXT)
             return;
         var entity = Main.getInstance().getDatabase().getServerById(session, event.getGuild().getIdLong());
+        if(event.getAuthor().isBot())
+            return;
         if(event.getMessage().isMentioned(event.getJDA().getSelfUser())) {
             Main.getInstance().getBaseCommand().runInfo(session, entity, event.getMessage());
         }else {
