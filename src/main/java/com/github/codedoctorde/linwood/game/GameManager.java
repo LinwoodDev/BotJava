@@ -23,6 +23,8 @@ public class GameManager {
         games.stream().filter(game -> game.getServerId() == serverId).forEach(this::stopGame);
     }
     public void stopGame(Game game){
+        if(!games.contains(game))
+            return;
         game.stop();
         games.remove(game);
     }

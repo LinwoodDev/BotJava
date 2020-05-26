@@ -2,6 +2,8 @@ package com.github.codedoctorde.linwood.game.mode.whatisit;
 
 import com.github.codedoctorde.linwood.Main;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
+import net.dv8tion.jda.api.events.message.react.MessageReactionRemoveEvent;
 import net.dv8tion.jda.api.hooks.SubscribeEvent;
 import net.dv8tion.jda.internal.entities.ReceivedMessage;
 
@@ -35,6 +37,19 @@ public class WhatIsItEvents {
                 }
             }
         session.close();
+    }
+    @SubscribeEvent
+    public void onJoin(MessageReactionAddEvent event){
+        if(event.getChannel().getIdLong() != whatIsIt.getTextChannelId() || event.getMember() == null)
+            return;
+        if(event.getMessageIdLong() != whatIsIt.getWantWriterMessageId())
+            return;
+        if(event.getReactionEmote().getName())
+    }
+    @SubscribeEvent
+    public void onLeave(MessageReactionRemoveEvent event){
+        if(event.getChannel().getIdLong() != whatIsIt.getTextChannelId() || event.getMember() == null)
+            return;
     }
 
     public WhatIsIt getWhatIsIt() {
