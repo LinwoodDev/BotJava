@@ -46,6 +46,8 @@ public class WhatIsItEvents {
         if(event.getChannel().getIdLong() != whatIsIt.getTextChannelId() || event.getMember() == null ||
                 event.getMessageIdLong() != whatIsIt.getWantWriterMessageId())
             return;
+        if(event.getMember().getUser().isBot())
+            return;
         switch (event.getReactionEmote().getEmote().getName()){
             case "\uD83D\uDD90️":
                 whatIsIt.wantWriter(event.getMember());
