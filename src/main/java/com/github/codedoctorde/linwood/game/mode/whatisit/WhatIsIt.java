@@ -143,4 +143,8 @@ public class WhatIsIt implements GameMode {
 
     public void wantWriter(Member member) {
     }
+
+    public void removeWriter(Member member) {
+
+    }
 }

@@ -66,6 +66,14 @@ public class WhatIsItEvents {
     public void onLeave(MessageReactionRemoveEvent event){
         if(event.getChannel().getIdLong() != whatIsIt.getTextChannelId() || event.getMember() == null)
             return;
+        if(event.getChannel().getIdLong() != whatIsIt.getTextChannelId() || event.getMember() == null ||
+                event.getMessageIdLong() != whatIsIt.getWantWriterMessageId())
+            return;
+        if(event.getMember().getUser().isBot())
+            return;
+        if(event.getReactionEmote().getEmote().getName().equals("\uD83D\uDD90")){
+            whatIsIt.removeWriter(event.getMember());
+        }
     }
 
     public WhatIsIt getWhatIsIt() {
