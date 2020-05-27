@@ -86,13 +86,8 @@ public class ServerEntity {
         return isGameMaster(member, Main.getInstance().getJda().getGuildChannelById(channelId));
     }
     public boolean isGameMaster(Member member, @Nullable GuildChannel channel){
-        for (var role:
-                member.getRoles())
-            if (role.getIdLong() == gameMasterRoleId)
-                return true;
-        if(channel != null)
-            return member.hasPermission(channel, Permission.MANAGE_CHANNEL);
-        return member.hasPermission(Permission.MANAGE_CHANNEL);
+        return member.getRoles().stream().map(Role::getIdLong).anyMatch(id -> id.equals(gameMasterRoleId)) ||
+                channel == null ? member.hasPermission(Permission.MANAGE_CHANNEL) : member.hasPermission(channel, Permission.MANAGE_CHANNEL);
     }
     public Role getGameMasterRole(){
         return Main.getInstance().getJda().getRoleById(gameMasterRoleId);
