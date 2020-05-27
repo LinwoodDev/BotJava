@@ -51,7 +51,8 @@ public class WhatIsIt implements GameMode {
         round = new WhatIsItRound(writerId, word, this);
         var bundle = getBundle(session);
 
-        getTextChannel().sendMessage(bundle.getString("Next")).queue(message -> message.addReaction(":hand_splayed:").queue());
+        getTextChannel().sendMessage(bundle.getString("Next")).queue(message -> message.addReaction("\uD83D\uDD90️").queue(aVoid ->
+                message.addReaction("⛔").queue()));
     }
     public void finishRound(){
 

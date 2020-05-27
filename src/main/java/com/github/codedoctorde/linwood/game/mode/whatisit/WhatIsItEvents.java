@@ -44,7 +44,11 @@ public class WhatIsItEvents {
             return;
         if(event.getMessageIdLong() != whatIsIt.getWantWriterMessageId())
             return;
-        if(event.getReactionEmote().getName())
+        if(!event.getReactionEmote().isEmote())
+            return;
+        if(event.getReactionEmote().getEmote().getName().equals("\uD83D\uDD90️")){
+
+        }
     }
     @SubscribeEvent
     public void onLeave(MessageReactionRemoveEvent event){

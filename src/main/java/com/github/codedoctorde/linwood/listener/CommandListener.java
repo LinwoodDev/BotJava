@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.hooks.SubscribeEvent;
 
 import javax.annotation.Nonnull;
 import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * @author CodeDoctorDE
@@ -20,17 +21,23 @@ public class CommandListener {
         var entity = Main.getInstance().getDatabase().getServerById(session, event.getGuild().getIdLong());
         if(event.getAuthor().isBot())
             return;
-        if(event.getMessage().isMentioned(event.getJDA().getSelfUser())) {
-            Main.getInstance().getBaseCommand().runInfo(session, entity, event.getMessage());
-        }else {
-            var server = Main.getInstance().getDatabase().getServerById(session, event.getGuild().getIdLong());
-            var content = event.getMessage().getContentRaw();
-            var prefix = server.getPrefix();
-            if (content.startsWith(prefix)) {
-                var command = content.substring(prefix.length()).trim().split(" ");
-                if(!Main.getInstance().getBaseCommand().onCommand(session, event.getMessage(), entity, server.getPrefix(), command))
-                    event.getChannel().sendMessage(Main.getInstance().getBaseCommand().getBundle(entity).getString("Syntax")).queue();
-            }
+        var server = Main.getInstance().getDatabase().getServerById(session, event.getGuild().getIdLong());
+        var content = event.getMessage().getContentRaw();
+        var prefix = server.getPrefix();
+        var id = event.getJDA().getSelfUser().getId();
+        var nicknameMention = "<@!" + id + ">";
+        var normalMention = "<@" + id + ">";
+        if (content.startsWith(prefix) || content.startsWith(nicknameMention) || content.startsWith(normalMention)) {
+            String split;
+            if(content.startsWith(prefix))
+                split = prefix;
+            else if(content.startsWith(nicknameMention))
+                split = nicknameMention;
+            else
+                split = normalMention;
+            var command = content.substring(split.length()).trim().split(" ");
+            if(!Main.getInstance().getBaseCommand().onCommand(session, event.getMessage(), entity, server.getPrefix(), command))
+                event.getChannel().sendMessage(Objects.requireNonNull(Main.getInstance().getBaseCommand().getBundle(entity)).getString("Syntax")).queue();
         }
         session.close();
     }
