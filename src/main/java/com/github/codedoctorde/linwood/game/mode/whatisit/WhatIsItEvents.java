@@ -42,21 +42,21 @@ public class WhatIsItEvents {
     public void onJoin(MessageReactionAddEvent event){
         var session = Main.getInstance().getDatabase().getSessionFactory().openSession();
         var entity = Main.getInstance().getDatabase().getServerById(session, event.getGuild().getIdLong());
-        if(event.getChannel().getIdLong() != whatIsIt.getTextChannelId() || event.getMember() == null)
-            return;
-        if(event.getMessageIdLong() != whatIsIt.getWantWriterMessageId())
-            return;
-        if(!event.getReactionEmote().isEmote())
+        var bundle = whatIsIt.getBundle(session);
+        if(event.getChannel().getIdLong() != whatIsIt.getTextChannelId() || event.getMember() == null ||
+                event.getMessageIdLong() != whatIsIt.getWantWriterMessageId())
             return;
         switch (event.getReactionEmote().getEmote().getName()){
             case "\uD83D\uDD90️":
                 whatIsIt.wantWriter(event.getMember());
                 break;
             case "\uD83D\uDEAB":
-                entity.isGameMaster(event.getMember(), event.getTextChannel());
-                break;
-        }
-        if(event.getReactionEmote().getEmote().getName().equals("\uD83D\uDD90️")){
+                if(entity.isGameMaster(event.getMember(), event.getTextChannel()))
+                    whatIsIt.finishGame();
+                else
+                    event.getMember().getUser().openPrivateChannel().queue(privateChannel -> privateChannel.sendMessage(bundle.getString("NoPermission")).queue());
+            default:
+                event.getReaction().removeReaction().queue();
         }
         session.close();
     }

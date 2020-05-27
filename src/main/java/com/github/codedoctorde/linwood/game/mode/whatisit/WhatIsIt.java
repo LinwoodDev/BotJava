@@ -68,24 +68,26 @@ public class WhatIsIt implements GameMode {
                     int time = 30;
                     @Override
                     public void run() {
-                        switch (time){
-                            case 30:
-                            case 20:
-                            case 15:
-                            case 10:
-                            case 5:
-                            case 4:
-                            case 3:
-                            case 2:
-                                getTextChannel().sendMessage(MessageFormat.format(bundle.getString("DeleteMultiple"), time)).queue();
-                                break;
-                            case 1:
-                                getTextChannel().sendMessage(bundle.getString("DeleteSingle")).queue();
-                                break;
-                            case 0:
-                                Main.getInstance().getGameManager().stopGame(game);
-                                timer.cancel();
+                        if(getTextChannel() == null || time <= 0) {
+                            timer.cancel();
+                            Main.getInstance().getGameManager().stopGame(game);
                         }
+                        else
+                            switch (time){
+                                case 30:
+                                case 20:
+                                case 15:
+                                case 10:
+                                case 5:
+                                case 4:
+                                case 3:
+                                case 2:
+                                    getTextChannel().sendMessage(MessageFormat.format(bundle.getString("DeleteMultiple"), time)).queue();
+                                    break;
+                                case 1:
+                                    getTextChannel().sendMessage(bundle.getString("DeleteSingle")).queue();
+                                    break;
+                            }
                         time--;
                     }
                 },
