@@ -16,7 +16,6 @@ import java.util.ResourceBundle;
  * @author CodeDoctorDE
  */
 public class InfoCommand implements Command {
-
     @Override
     public boolean onCommand(Session session, Message message, ServerEntity entity, String label, String[] args) {
         var bundle = getBundle(entity);

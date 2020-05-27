@@ -138,4 +138,7 @@ public class WhatIsIt implements GameMode {
     public long getWantWriterMessageId() {
         return wantWriterMessageId;
     }
+
+    public void wantWriter(Member member) {
+    }
 }

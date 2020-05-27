@@ -2,9 +2,14 @@ package com.github.codedoctorde.linwood.entity;
 
 import com.github.codedoctorde.linwood.Main;
 import com.ibm.icu.impl.LocaleUtility;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Category;
+import net.dv8tion.jda.api.entities.GuildChannel;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Role;
 import org.hibernate.annotations.Immutable;
 
+import javax.annotation.Nullable;
 import javax.persistence.*;
 import java.util.Locale;
 import java.util.Set;
@@ -23,7 +28,7 @@ public class ServerEntity {
     @OneToMany()
     private Set<TemplateEntity> templates;
     @Column(nullable = true)
-    private Long gameMasterRole;
+    private Long gameMasterRoleId;
     @Column(nullable = true)
     private Long gameCategoryId;
 
@@ -72,5 +77,27 @@ public class ServerEntity {
     }
     public void setGameCategory(Category category){
         gameCategoryId = category.getIdLong();
+    }
+
+    public boolean isGameMaster(Member member){
+        return isGameMaster(member, null);
+    }
+    public boolean isGameMaster(Member member, long channelId){
+        return isGameMaster(member, Main.getInstance().getJda().getGuildChannelById(channelId));
+    }
+    public boolean isGameMaster(Member member, @Nullable GuildChannel channel){
+        for (var role:
+                member.getRoles())
+            if (role.getIdLong() == gameMasterRoleId)
+                return true;
+        if(channel != null)
+            return member.hasPermission(channel, Permission.MANAGE_CHANNEL);
+        return member.hasPermission(Permission.MANAGE_CHANNEL);
+    }
+    public Role getGameMasterRole(){
+        return Main.getInstance().getJda().getRoleById(gameMasterRoleId);
+    }
+    public void setGameMasterRole(Role role){
+        gameCategoryId = role.getIdLong();
     }
 }
