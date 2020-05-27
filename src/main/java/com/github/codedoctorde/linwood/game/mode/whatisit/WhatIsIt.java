@@ -5,7 +5,6 @@ import com.github.codedoctorde.linwood.game.Game;
 import com.github.codedoctorde.linwood.game.GameMode;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.entities.VoiceChannel;
 import org.hibernate.Session;
 
 import java.text.MessageFormat;
@@ -118,7 +117,7 @@ public class WhatIsIt implements GameMode {
     public HashMap<Long, Integer> getPoints() {
         return points;
     }
-    public void addPoint(Member member, int number){
+    public void givePoints(Member member, int number){
         points.put(member.getIdLong(), points.getOrDefault(member.getIdLong(), 0) + number);
     }
     public int getPoints(Member member){
@@ -141,10 +140,18 @@ public class WhatIsIt implements GameMode {
         return wantWriterMessageId;
     }
 
-    public void wantWriter(Member member) {
+    public void wantWriter(Session session, Member member) {
+        if(!wantWriter.contains(member.getIdLong())) wantWriter.add(member.getIdLong());
+        getTextChannel().sendMessage(MessageFormat.format(getBundle(session).getString("Join"), member.getUser().getName())).queue();
     }
 
-    public void removeWriter(Member member) {
-
+    public void removeWriter(Session session, Member member) {
+        wantWriter.remove(member.getIdLong());
+        getTextChannel().sendMessage(MessageFormat.format(getBundle(session).getString("Leave"), member.getUser().getName())).queue();
+    }
+    public void giveWriterPoints(Session session){
+        if(round == null)
+            return;
+        givePoints(round.getWriter(), round.getGuesser().size() * 2);
     }
 }

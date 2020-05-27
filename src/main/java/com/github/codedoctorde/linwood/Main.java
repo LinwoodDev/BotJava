@@ -35,8 +35,8 @@ public class Main {
     private final DatabaseUtil database;
     private final GameManager gameManager;
     private MainConfig config;
-    private File configFile = new File("./config.json");
-    private static Gson gson = new Gson();
+    private final File configFile = new File("./config.json");
+    private static final Gson gson = new Gson();
     private static final Logger logger = LogManager.getLogger(Main.class);
 
 

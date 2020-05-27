@@ -20,7 +20,7 @@ public class QuizFactory implements GameMode {
     private Game game;
     private long voiceChannelId;
     private long textChannelId;
-    private List<String> questions = new ArrayList<>();
+    private final List<String> questions = new ArrayList<>();
 
     public QuizFactory(long ownerId){
         this.ownerId = ownerId;

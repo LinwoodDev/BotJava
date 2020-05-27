@@ -50,7 +50,7 @@ public class WhatIsItEvents {
             return;
         switch (event.getReactionEmote().getEmote().getName()){
             case "\uD83D\uDD90️":
-                whatIsIt.wantWriter(event.getMember());
+                whatIsIt.wantWriter(session, event.getMember());
                 break;
             case "\uD83D\uDEAB":
                 if(entity.isGameMaster(event.getMember(), event.getTextChannel()))
@@ -64,6 +64,7 @@ public class WhatIsItEvents {
     }
     @SubscribeEvent
     public void onLeave(MessageReactionRemoveEvent event){
+        var session = Main.getInstance().getDatabase().getSessionFactory().openSession();
         if(event.getChannel().getIdLong() != whatIsIt.getTextChannelId() || event.getMember() == null)
             return;
         if(event.getChannel().getIdLong() != whatIsIt.getTextChannelId() || event.getMember() == null ||
@@ -72,8 +73,9 @@ public class WhatIsItEvents {
         if(event.getMember().getUser().isBot())
             return;
         if(event.getReactionEmote().getEmote().getName().equals("\uD83D\uDD90")){
-            whatIsIt.removeWriter(event.getMember());
+            whatIsIt.removeWriter(session, event.getMember());
         }
+        session.close();
     }
 
     public WhatIsIt getWhatIsIt() {
