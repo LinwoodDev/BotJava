@@ -14,7 +14,8 @@ public class SettingsCommand extends CommandManager {
     @Override
     public Command[] commands() {
         return new Command[]{
-            new WindowsCommand()
+                new LanguageCommand(),
+                new PrefixCommand()
         };
     }
 

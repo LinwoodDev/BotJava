@@ -26,16 +26,11 @@ public class WhatIsItEvents {
         var message = event.getMessage();
         if(whatIsIt.getTextChannelId() != message.getTextChannel().getIdLong()) return;
         var round = whatIsIt.getRound();
-        if(round != null)
-            if(round.isGuesser(event.getMember()))
-                message.delete().queue();
-            else if(message.getContentStripped().contains(round.getWord())) {
-                message.delete().queue();
-                if (message.getAuthor().getIdLong() != round.getWriterId()) {
-                    var points = round.guessCorrectly(event.getMember());
-                    event.getChannel().sendMessage(MessageFormat.format(whatIsIt.getBundle(session).getString("Guess"), event.getAuthor().getName(), points)).queue();
-                }
-            }
+        if (round != null && message.getContentStripped().contains(round.getWord())) {
+            message.delete().queue();
+            if (!round.isGuesser(event.getMember()) && message.getAuthor().getIdLong() != round.getWriterId())
+                event.getChannel().sendMessage(MessageFormat.format(whatIsIt.getBundle(session).getString("Guess"), event.getAuthor().getName(), round.guessCorrectly(event.getMember()))).queue();
+        }
         session.close();
     }
     @SubscribeEvent
@@ -72,9 +67,8 @@ public class WhatIsItEvents {
             return;
         if(event.getMember().getUser().isBot())
             return;
-        if(event.getReactionEmote().getEmote().getName().equals("\uD83D\uDD90")){
+        if(event.getReactionEmote().getEmote().getName().equals("\uD83D\uDD90"))
             whatIsIt.removeWriter(session, event.getMember());
-        }
         session.close();
     }
 
