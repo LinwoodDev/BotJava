@@ -57,7 +57,7 @@ public class ServerEntity {
     }
 
     public Locale getLocalization(){
-        return LocaleUtility.getLocaleFromName(locale);
+        return Locale.forLanguageTag(locale);
     }
 
     public void setLocale(String locale) {

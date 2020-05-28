@@ -4,8 +4,7 @@ import com.github.codedoctorde.linwood.Main;
 import com.github.codedoctorde.linwood.entity.ServerEntity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import org.hibernate.*;
 import org.hibernate.cfg.Configuration;
 
 import javax.swing.*;
@@ -109,5 +108,11 @@ public class DatabaseUtil {
         session.save(server);
         session.getTransaction().commit();
         return server;
+    }
+    public void saveEntity(Session session, ServerEntity entity){
+        session.beginTransaction();
+        session.update(entity);
+        session.flush();
+        session.getTransaction().commit();
     }
 }

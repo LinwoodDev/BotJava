@@ -1,5 +1,6 @@
 package com.github.codedoctorde.linwood.commands.settings;
 
+import com.github.codedoctorde.linwood.Main;
 import com.github.codedoctorde.linwood.commands.Command;
 import com.github.codedoctorde.linwood.entity.ServerEntity;
 import net.dv8tion.jda.api.Permission;
@@ -19,10 +20,11 @@ public class PrefixCommand implements Command {
         ResourceBundle bundle = getBundle(entity);
         assert bundle != null;
         if(args.length == 0)
-            message.getChannel().sendMessage(MessageFormat.format(bundle.getString("get"), entity.getPrefix())).queue();
+            message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Get"), entity.getPrefix())).queue();
         else {
             entity.setPrefix(String.join(" ", Arrays.asList(args)));
-            message.getChannel().sendMessage(MessageFormat.format(bundle.getString("set"), entity.getPrefix())).queue();
+            Main.getInstance().getDatabase().saveEntity(session, entity);
+            message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Set"), entity.getPrefix())).queue();
         }
         return true;
     }
@@ -36,7 +38,10 @@ public class PrefixCommand implements Command {
 
     @Override
     public String[] aliases(ServerEntity entity) {
-        return new String[0];
+        return new String[]{
+                "prefix",
+                "pre-fix"
+        };
     }
 
     @Override

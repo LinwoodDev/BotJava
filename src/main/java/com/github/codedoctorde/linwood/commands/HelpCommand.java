@@ -20,7 +20,6 @@ public class HelpCommand implements Command {
         Command command = Main.getInstance().getBaseCommand().getCommand(entity, args);
         if(command == null)
             return false;
-        System.out.println("test");
         var bundle = command.getBundle(entity);
         message.getChannel().sendMessage(bundle == null || bundle.containsKey("Description")?bundle.getString("Description"): Objects.requireNonNull(getBundle(entity)).getString("Syntax")).queue();
         return true;

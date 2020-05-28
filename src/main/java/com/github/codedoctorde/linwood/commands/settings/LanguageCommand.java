@@ -1,5 +1,6 @@
 package com.github.codedoctorde.linwood.commands.settings;
 
+import com.github.codedoctorde.linwood.Main;
 import com.github.codedoctorde.linwood.commands.Command;
 import com.github.codedoctorde.linwood.entity.ServerEntity;
 import net.dv8tion.jda.api.Permission;
@@ -19,10 +20,15 @@ public class LanguageCommand implements Command {
         ResourceBundle bundle = getBundle(entity);
         assert bundle != null;
         if(args.length != 1)
-            message.getChannel().sendMessage(MessageFormat.format(bundle.getString("get"), entity.getLocalization().toLanguageTag())).queue();
+            message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Get"), entity.getLocalization().toLanguageTag())).queue();
         else {
-            entity.setLocale(args[0]);
-            message.getChannel().sendMessage(MessageFormat.format(bundle.getString("set"), entity.getLocalization().toLanguageTag())).queue();
+            try {
+                entity.setLocale(args[0]);
+                Main.getInstance().getDatabase().saveEntity(session, entity);
+                message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Set"), args[0])).queue();
+            }catch(NullPointerException e){
+                message.getChannel().sendMessage(bundle.getString("NotValid")).queue();
+            }
         }
         return true;
     }

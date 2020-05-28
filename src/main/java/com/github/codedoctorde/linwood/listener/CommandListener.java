@@ -29,15 +29,22 @@ public class CommandListener {
         var normalMention = "<@" + id + ">";
         if (content.startsWith(prefix) || content.startsWith(nicknameMention) || content.startsWith(normalMention)) {
             String split;
-            if(content.startsWith(prefix))
+            if (content.startsWith(prefix))
                 split = prefix;
-            else if(content.startsWith(nicknameMention))
+            else if (content.startsWith(nicknameMention))
                 split = nicknameMention;
             else
                 split = normalMention;
             var command = content.substring(split.length()).trim().split(" ");
-            if(!Main.getInstance().getBaseCommand().onCommand(session, event.getMessage(), entity, server.getPrefix(), command))
-                event.getChannel().sendMessage(Objects.requireNonNull(Main.getInstance().getBaseCommand().getBundle(entity)).getString("Syntax")).queue();
+            var bundle = Main.getInstance().getBaseCommand().getBundle(entity);
+            assert bundle != null;
+            try {
+                if (!Main.getInstance().getBaseCommand().onCommand(session, event.getMessage(), entity, server.getPrefix(), command))
+                    event.getChannel().sendMessage(bundle.getString("Syntax")).queue();
+            }catch(Exception e){
+                event.getChannel().sendMessage(bundle.getString("Error")).queue();
+                e.printStackTrace();
+            }
         }
         session.close();
     }
