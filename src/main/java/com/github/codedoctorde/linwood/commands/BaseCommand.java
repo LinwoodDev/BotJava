@@ -1,6 +1,7 @@
 package com.github.codedoctorde.linwood.commands;
 
 import com.github.codedoctorde.linwood.commands.fun.FunCommand;
+import com.github.codedoctorde.linwood.commands.game.GameCommand;
 import com.github.codedoctorde.linwood.entity.ServerEntity;
 import net.dv8tion.jda.api.entities.Message;
 import org.hibernate.Session;
@@ -17,7 +18,8 @@ public class BaseCommand extends CommandManager {
         return new Command[]{
                 infoCommand,
                 new HelpCommand(),
-                new FunCommand()
+                new FunCommand(),
+                new GameCommand()
         };
     }
 
