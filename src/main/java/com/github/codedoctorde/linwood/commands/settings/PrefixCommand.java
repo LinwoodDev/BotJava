@@ -23,7 +23,7 @@ public class PrefixCommand implements Command {
             message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Get"), entity.getPrefix())).queue();
         else {
             entity.setPrefix(String.join(" ", Arrays.asList(args)));
-            Main.getInstance().getDatabase().saveEntity(session, entity);
+            Main.getInstance().getDatabase().updateEntity(session, entity);
             message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Set"), entity.getPrefix())).queue();
         }
         return true;

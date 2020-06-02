@@ -8,7 +8,6 @@ import net.dv8tion.jda.api.entities.Message;
 import org.hibernate.Session;
 
 import java.text.MessageFormat;
-import java.util.Arrays;
 import java.util.ResourceBundle;
 
 /**
@@ -19,13 +18,18 @@ public class LanguageCommand implements Command {
     public boolean onCommand(Session session, Message message, ServerEntity entity, String label, String[] args) {
         ResourceBundle bundle = getBundle(entity);
         assert bundle != null;
-        if(args.length != 1)
-            message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Get"), entity.getLocalization().toLanguageTag())).queue();
+        if(args.length > 1)
+            return false;
+        if(args.length == 0)
+            message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Get"), entity.getLocalization().getDisplayName(entity.getLocalization()))).queue();
         else {
             try {
+                var t = session.beginTransaction();
                 entity.setLocale(args[0]);
-                Main.getInstance().getDatabase().saveEntity(session, entity);
-                message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Set"), args[0])).queue();
+                session.merge(entity);
+                session.flush();
+                t.commit();
+                message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Set"), entity.getLocalization().getDisplayName(entity.getLocalization()))).queue();
             }catch(NullPointerException e){
                 message.getChannel().sendMessage(bundle.getString("NotValid")).queue();
             }

@@ -92,12 +92,10 @@ public class DatabaseUtil {
     }
 
     public ServerEntity getServerById(Session session, long serverId){
-        ServerEntity entity = session.find(ServerEntity.class, serverId);
+        ServerEntity entity = session.get(ServerEntity.class, serverId);
         if ( entity != null ) return entity;
         else try {
-            entity = createServer(session, serverId);
-            /* use more reflection to set the pk (probably need a base entity) */
-            return entity;
+            return entity = createServer(session, serverId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -109,10 +107,7 @@ public class DatabaseUtil {
         session.getTransaction().commit();
         return server;
     }
-    public void saveEntity(Session session, ServerEntity entity){
-        session.beginTransaction();
+    public void updateEntity(Session session, ServerEntity entity){
         session.update(entity);
-        session.flush();
-        session.getTransaction().commit();
     }
 }

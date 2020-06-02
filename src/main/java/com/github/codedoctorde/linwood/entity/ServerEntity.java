@@ -24,7 +24,7 @@ public class ServerEntity {
     @Column(name="ID", unique = true, nullable = false)
     private long serverId;
     private String prefix = "+lw";
-    private String locale = Locale.ENGLISH.getLanguage();
+    private String locale = Locale.ENGLISH.toLanguageTag();
     @OneToMany()
     private Set<TemplateEntity> templates;
     @Column(nullable = true)
