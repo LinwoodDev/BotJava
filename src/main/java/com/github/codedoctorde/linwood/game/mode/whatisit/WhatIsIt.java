@@ -99,7 +99,7 @@ public class WhatIsIt implements GameMode {
         currentRound++;
         round = new WhatIsItRound(writerId, this);
         var bundle = getBundle(session);
-        getTextChannel().sendMessage(MessageFormat.format(bundle.getString("Round"), round.getWriter().getAsMention())).embed(getTopListEmbed(session)).queue();
+        game.getGuild().retrieveMemberById(writerId).queue(member -> getTextChannel().sendMessage(MessageFormat.format(bundle.getString("Round"), member.getAsMention())).embed(getTopListEmbed(session)).queue());
         round.inputWriter();
     }
     public void cancelRound(Session session){

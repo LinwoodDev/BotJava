@@ -46,7 +46,7 @@ public class WhatIsItRound {
     public String getWord() {
         return word;
     }
-
+g
     public long getWriterId() {
         return writerId;
     }
