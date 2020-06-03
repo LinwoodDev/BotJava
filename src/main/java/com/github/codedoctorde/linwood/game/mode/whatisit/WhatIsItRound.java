@@ -27,11 +27,13 @@ public class WhatIsItRound {
     }
 
     public void inputWriter(){
-        getWriter().getUser().openPrivateChannel().queue(privateChannel -> {
-            var session = Main.getInstance().getDatabase().getSessionFactory().openSession();
-            privateChannel.sendMessage(whatIsIt.getBundle(session).getString("Input")).queue();
-            session.close();
-        });
+        whatIsIt.getGame().getGuild().retrieveMemberById(writerId).queue(member ->
+                member.getUser().openPrivateChannel().queue(privateChannel -> {
+                    var session = Main.getInstance().getDatabase().getSessionFactory().openSession();
+                    privateChannel.sendMessage(whatIsIt.getBundle(session).getString("Input")).queue();
+                    session.close();
+                })
+                );
         stopTimer();
         timer.schedule(new TimerTask() {
             @Override
