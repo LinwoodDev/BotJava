@@ -110,18 +110,16 @@ public class WhatIsIt implements GameMode {
         session.close();
         var textChannel = getTextChannel();
         textChannel.sendMessage(bundle.getString("Finish")).embed(new EmbedBuilder().setTitle(bundle.getString("LeaderboardHeader")).setDescription(topListString(session)).setFooter(bundle.getString("LeaderboardFooter")).build()).queue();
-        timer.schedule(
-                new TimerTask() {
-                    @Override
-                    public void run() {
-                        var textChannel = getTextChannel();
-                        if(textChannel != null )
-                            textChannel.delete().queue();
-                        stopTimer();
-                        Main.getInstance().getGameManager().stopGame(game);
-                    }
-                },
-                10000);
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                var textChannel = getTextChannel();
+                if(textChannel != null )
+                    textChannel.delete().queue();
+                stopTimer();
+                Main.getInstance().getGameManager().stopGame(game);
+            }
+        }, 10000);
     }
 
     private ArrayList<Map.Entry<Long, Integer>> topList() {
