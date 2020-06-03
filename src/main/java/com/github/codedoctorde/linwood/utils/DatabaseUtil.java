@@ -95,7 +95,7 @@ public class DatabaseUtil {
         GuildEntity entity = session.get(GuildEntity.class, guildId);
         if ( entity != null ) return entity;
         else try {
-            return entity = createGuild(session, guildId);
+            return createGuild(session, guildId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

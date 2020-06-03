@@ -1,8 +1,11 @@
 package com.github.codedoctorde.linwood.game.mode.whatisit;
 
+import com.github.codedoctorde.linwood.Main;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.MessageEmbed;
 import org.hibernate.Session;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -15,7 +18,7 @@ public class WhatIsItRound {
     private final long writerId;
     private String word;
     private final WhatIsIt whatIsIt;
-    private final Timer timer = new Timer();
+    private Timer timer = new Timer();
     private final List<Long> guesser = new ArrayList<>();
 
     public WhatIsItRound(long writerId, WhatIsIt whatIsIt) {
@@ -24,7 +27,20 @@ public class WhatIsItRound {
     }
 
     public void inputWriter(){
-
+        getWriter().getUser().openPrivateChannel().queue(privateChannel -> {
+            var session = Main.getInstance().getDatabase().getSessionFactory().openSession();
+            privateChannel.sendMessage(whatIsIt.getBundle(session).getString("Input")).queue();
+            session.close();
+        });
+        stopTimer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                var session = Main.getInstance().getDatabase().getSessionFactory().openSession();
+                whatIsIt.cancelRound(session);
+                session.close();
+            }
+        }, 10000);
     }
 
     public String getWord() {
@@ -39,19 +55,28 @@ public class WhatIsItRound {
         return whatIsIt.getGame().getGuild().getMemberById(writerId);
     }
 
-    public void startRound(Session session) {
+    public void startRound(String word) {
+        this.word = word;
+        stopTimer();
         timer.schedule(new TimerTask() {
             int time = 180;
 
             @Override
             public void run() {
+                var session = Main.getInstance().getDatabase().getSessionFactory().openSession();
+                var bundle = whatIsIt.getBundle(session);
                 if (time <= 0 || whatIsIt.getTextChannel() == null) {
                     timer.cancel();
-                    whatIsIt.finishRound();
-                } else
+                    whatIsIt.finishRound(session);
+                } else {
+                    String message = null;
                     switch (time) {
+                        case 180:
                         case 120:
+                            message = MessageFormat.format(bundle.getString("CountdownMinutes"), time / 60);
+                            break;
                         case 60:
+                            message = bundle.getString("CountdownMinute");
                             break;
                         case 30:
                         case 20:
@@ -60,11 +85,20 @@ public class WhatIsItRound {
                         case 4:
                         case 3:
                         case 2:
+                            message = MessageFormat.format(bundle.getString("CountdownSeconds"), time);
+                            break;
                         case 1:
+                            message = bundle.getString("CountdownSecond");
                     }
-                time--;
+                    if(message != null)
+                        whatIsIt.getTextChannel().sendMessage(message).queue();
+                    time--;
+                }
             }
         }, 1000, 1000);
+    }
+    public void stopRound(){
+        stopTimer();
     }
 
     /**
@@ -93,6 +127,11 @@ public class WhatIsItRound {
     }
 
     public void stopTimer() {
-        timer.cancel();
+        try{
+            timer.cancel();
+            timer = new Timer();
+        }catch(Exception ignored){
+
+        }
     }
 }

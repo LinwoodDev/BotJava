@@ -1,6 +1,7 @@
 package com.github.codedoctorde.linwood.game.mode.whatisit;
 
 import com.github.codedoctorde.linwood.Main;
+import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.api.events.message.react.MessageReactionRemoveEvent;
@@ -26,12 +27,20 @@ public class WhatIsItEvents {
         var message = event.getMessage();
         if(whatIsIt.getTextChannelId() != message.getTextChannel().getIdLong()) return;
         var round = whatIsIt.getRound();
-        if (round != null && message.getContentStripped().contains(round.getWord())) {
+        if (round != null && round.getWord() != null && message.getContentStripped().toLowerCase().contains(round.getWord().toLowerCase())) {
             message.delete().queue();
             if (!round.isGuesser(event.getMember()) && message.getAuthor().getIdLong() != round.getWriterId())
                 event.getChannel().sendMessage(MessageFormat.format(whatIsIt.getBundle(session).getString("Guess"), event.getAuthor().getName(), round.guessCorrectly(event.getMember()))).queue();
         }
         session.close();
+    }
+    @SubscribeEvent
+    public void onWord(MessageReceivedEvent event){
+        if(event.getChannelType() != ChannelType.PRIVATE || whatIsIt.getRound() == null)
+            return;
+        if(whatIsIt.getRound().getWriterId() != event.getAuthor().getIdLong())
+            return;
+        whatIsIt.getRound().startRound(event.getMessage().getContentStripped());
     }
     @SubscribeEvent
     public void onJoin(MessageReactionAddEvent event){
@@ -60,13 +69,19 @@ public class WhatIsItEvents {
     @SubscribeEvent
     public void onLeave(MessageReactionRemoveEvent event){
         var session = Main.getInstance().getDatabase().getSessionFactory().openSession();
-        if(event.getChannel().getIdLong() != whatIsIt.getTextChannelId() || event.getMember() == null)
+        System.out.println("5f");
+        if(event.getChannel().getIdLong() != whatIsIt.getTextChannelId() || event.getMember() == null ||
+                event.getMessageIdLong() != whatIsIt.getWantWriterMessageId())
             return;
-        if (event.getChannel().getIdLong() != whatIsIt.getTextChannelId() || event.getMember() == null ||
-                event.getMessageIdLong() != whatIsIt.getWantWriterMessageId() || event.getMember().getUser().isBot() || !event.getReactionEmote().isEmoji())
+        System.out.println("0");
+        if(event.getMember().getUser().isBot() || !event.getReactionEmote().isEmoji())
             return;
-        if(event.getReactionEmote().getEmoji().equals("\uD83D\uDD90"))
+        System.out.println("1");
+        System.out.println(event.getReactionEmote().getAsCodepoints());
+        if(event.getReactionEmote().getAsCodepoints().equalsIgnoreCase("U+1f590U+fe0f"))
             whatIsIt.removeWriter(session, event.getMember());
+        else
+            System.out.println("2");
         session.close();
     }
 
