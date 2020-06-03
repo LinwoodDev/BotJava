@@ -31,6 +31,10 @@ public class WhatIsIt implements GameMode {
     private WhatIsItEvents events;
     private final HashMap<Long, Integer> points = new HashMap<>();
 
+    public WhatIsIt(int maxRounds){
+        this.maxRounds = maxRounds;
+    }
+
     @Override
     public void start(Game game) {
         this.game = game;
@@ -65,21 +69,21 @@ public class WhatIsIt implements GameMode {
 
     public void chooseNextPlayer(Session session){
         var bundle = getBundle(session);
-        stopTimer();
-        getTextChannel().sendMessage(MessageFormat.format(bundle.getString("Next"), currentRound + 1)).queue(message -> {
+        getTextChannel().sendMessage(MessageFormat.format(bundle.getString("Next"), currentRound + 1)).embed(getTopListEmbed(session)).queue(message -> {
             wantWriterMessageId = message.getIdLong();
             message.addReaction("\uD83D\uDD90️").queue(aVoid ->
                 message.addReaction("⛔").queue());
+            stopTimer();
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    var session = Main.getInstance().getDatabase().getSessionFactory().openSession();
                     stopTimer();
+                    var session = Main.getInstance().getDatabase().getSessionFactory().openSession();;
                     if (wantWriter.size() < 1) finishGame();
                     else nextRound(session, wantWriter.get(random.nextInt(wantWriter.size())));
                     session.close();
                 }
-            }, 30 * 1000);
+            }, 15 * 1000);
         });
     }
 
@@ -92,6 +96,7 @@ public class WhatIsIt implements GameMode {
         }
     }
     public void nextRound(Session session, long writerId){
+        currentRound++;
         round = new WhatIsItRound(writerId, this);
         var bundle = getBundle(session);
         getTextChannel().sendMessage(MessageFormat.format(bundle.getString("Round"), round.getWriter().getAsMention())).embed(getTopListEmbed(session)).queue();
@@ -123,6 +128,10 @@ public class WhatIsIt implements GameMode {
         round.stopRound();
         round = null;
         wantWriterMessageId = null;
+        if(currentRound > maxRounds) {
+            finishGame();
+            return;
+        }
 
         chooseNextPlayer(session);
     }
@@ -140,14 +149,14 @@ public class WhatIsIt implements GameMode {
     }
     private String topListString(Session session){
         var topList = topList();
-        var builder = new StringBuilder();
+        var string = new StringBuilder();
         var bundle = getBundle(session);
         for (int i = 0; i < topList.size(); i++) {
             var entry = topList.get(i);
-            builder.append(MessageFormat.format(bundle.getString("Leaderboard"), i + 1,
+            string.append(MessageFormat.format(bundle.getString("Leaderboard"), i + 1,
                     Objects.requireNonNull(Main.getInstance().getJda().getUserById(entry.getKey())).getAsMention(), entry.getValue()));
         }
-        return builder.toString();
+        return string.toString();
     }
 
     public ResourceBundle getBundle(Session session){
