@@ -4,9 +4,9 @@ import com.github.codedoctorde.linwood.Main;
 import com.github.codedoctorde.linwood.entity.GuildEntity;
 import com.github.codedoctorde.linwood.game.Game;
 import com.github.codedoctorde.linwood.game.GameMode;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Category;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.MessageReaction;
 import net.dv8tion.jda.api.entities.TextChannel;
 import org.hibernate.Session;
 
@@ -24,15 +24,18 @@ public class WhatIsIt implements GameMode {
     private final List<Long> wantWriter = new ArrayList<>();
     private long wantWriterMessageId;
     private int maxRounds;
-    private int currentRounds;
+    private int currentRound;
     private Random random = new Random();
     private Timer timer = new Timer();
+    private WhatIsItEvents events;
     private final HashMap<Long, Integer> points = new HashMap<>();
 
     @Override
     public void start(Game game) {
         this.game = game;
 
+        events = new WhatIsItEvents(this);
+        Main.getInstance().getJda().getEventManager().register(events);
         var session = Main.getInstance().getDatabase().getSessionFactory().openSession();
         var guild = GuildEntity.get(session, game.getGuildId());
         Category category = null;
@@ -44,12 +47,14 @@ public class WhatIsIt implements GameMode {
             this.textChannelId = textChannel.getIdLong();
             if(finalCategory != null)
                 textChannel.getManager().setParent(finalCategory).queue();
+            chooseNextPlayer(session);
         }));
     }
 
     @Override
     public void stop() {
         stopTimer();
+        Main.getInstance().getJda().getEventManager().unregister(events);
         if(round != null)
             round.stopTimer();
         getTextChannel().delete().queue();
@@ -58,7 +63,8 @@ public class WhatIsIt implements GameMode {
     public void chooseNextPlayer(Session session){
         var bundle = getBundle(session);
         stopTimer();
-        getTextChannel().sendMessage(bundle.getString("Next")).queue(message -> {
+        getTextChannel().sendMessage(MessageFormat.format(bundle.getString("Next"), currentRound)).queue(message -> {
+            wantWriterMessageId = message.getIdLong();
             message.addReaction("\uD83D\uDD90️").queue(aVoid ->
                 message.addReaction("⛔").queue());
             timer.schedule(new TimerTask() {
@@ -66,20 +72,32 @@ public class WhatIsIt implements GameMode {
                 public void run() {
                     stopTimer();
                     List<Member> wantWriter = message.retrieveReactionUsers("\uD83D\uDD90️").getCached().stream().map(user -> game.getGuild().getMember(user)).collect(Collectors.toList());
-                    nextRound(session, wantWriter.get(random.nextInt(wantWriter.size())).getIdLong());
+                    if (wantWriter.size() < 1) cancelRound(session);
+                    else nextRound(session, wantWriter.get(random.nextInt(wantWriter.size())).getIdLong());
+                    session.close();
                 }
-            }, 10000);
+            }, 30 * 1000);
         });
     }
 
     public void stopTimer(){
-        timer.cancel();
+        try{
+            timer.cancel();
+            timer = new Timer();
+        }catch(Exception ignored){
+
+        }
     }
     public void nextRound(Session session, long writerId){
         round = new WhatIsItRound(writerId, this);
         var bundle = getBundle(session);
         getTextChannel().sendMessage(MessageFormat.format(bundle.getString("Round"), round.getWriter().getAsMention())).queue();
         round.inputWriter();
+    }
+    public void cancelRound(Session session){
+        var bundle = getBundle(session);
+        getTextChannel().sendMessage(bundle.getString("Cancel")).queue();
+        chooseNextPlayer(session);
     }
     public void finishRound(){
 
@@ -90,36 +108,38 @@ public class WhatIsIt implements GameMode {
         var session = Main.getInstance().getDatabase().getSessionFactory().openSession();
         var bundle = getBundle(session);
         session.close();
+        var textChannel = getTextChannel();
+        textChannel.sendMessage(bundle.getString("Finish")).embed(new EmbedBuilder().setTitle(bundle.getString("LeaderboardHeader")).setDescription(topListString(session)).setFooter(bundle.getString("LeaderboardFooter")).build()).queue();
         timer.schedule(
                 new TimerTask() {
-                    int time = 30;
                     @Override
                     public void run() {
-                        if(getTextChannel() == null || time <= 0) {
-                            stopTimer();
-                            Main.getInstance().getGameManager().stopGame(game);
-                        }
-                        else
-                            switch (time){
-                                case 30:
-                                case 20:
-                                case 15:
-                                case 10:
-                                case 5:
-                                case 4:
-                                case 3:
-                                case 2:
-                                    getTextChannel().sendMessage(MessageFormat.format(bundle.getString("DeleteMultiple"), time)).queue();
-                                    break;
-                                case 1:
-                                    getTextChannel().sendMessage(bundle.getString("DeleteSingle")).queue();
-                                    break;
-                            }
-                        time--;
+                        var textChannel = getTextChannel();
+                        if(textChannel != null )
+                            textChannel.delete().queue();
+                        stopTimer();
+                        Main.getInstance().getGameManager().stopGame(game);
                     }
                 },
-                1000, 1000
-        );
+                10000);
+    }
+
+    private ArrayList<Map.Entry<Long, Integer>> topList() {
+        var set = points.entrySet();
+        var list = new ArrayList<>(set);
+        list.sort((o1, o2) -> o2.getValue().compareTo(o1.getValue()));
+        return list;
+    }
+    private String topListString(Session session){
+        var topList = topList();
+        var builder = new StringBuilder();
+        var bundle = getBundle(session);
+        for (int i = 0; i < topList.size(); i++) {
+            var entry = topList.get(i);
+            builder.append(MessageFormat.format(bundle.getString("Leaderboard"), i + 1,
+                    Objects.requireNonNull(Main.getInstance().getJda().getUserById(entry.getKey())).getAsMention(), entry.getValue()));
+        }
+        return builder.toString();
     }
 
     public ResourceBundle getBundle(Session session){
@@ -152,8 +172,8 @@ public class WhatIsIt implements GameMode {
         return points.getOrDefault(member.getIdLong(), 0);
     }
 
-    public int getCurrentRounds() {
-        return currentRounds;
+    public int getCurrentRound() {
+        return currentRound;
     }
 
     public int getMaxRounds() {

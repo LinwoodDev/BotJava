@@ -41,9 +41,9 @@ public class WhatIsItEvents {
         if(event.getChannel().getIdLong() != whatIsIt.getTextChannelId() || event.getMember() == null ||
                 event.getMessageIdLong() != whatIsIt.getWantWriterMessageId())
             return;
-        if(event.getMember().getUser().isBot())
+        if(event.getMember().getUser().isBot() || !event.getReactionEmote().isEmoji())
             return;
-        switch (event.getReactionEmote().getEmote().getName()){
+        switch (event.getReactionEmote().getEmoji()){
             case "\uD83D\uDD90️":
                 whatIsIt.wantWriter(session, event.getMember());
                 break;
@@ -65,9 +65,9 @@ public class WhatIsItEvents {
         if(event.getChannel().getIdLong() != whatIsIt.getTextChannelId() || event.getMember() == null ||
                 event.getMessageIdLong() != whatIsIt.getWantWriterMessageId())
             return;
-        if(event.getMember().getUser().isBot())
+        if(event.getMember().getUser().isBot() || !event.getReactionEmote().isEmoji())
             return;
-        if(event.getReactionEmote().getEmote().getName().equals("\uD83D\uDD90"))
+        if(event.getReactionEmote().getEmoji().equals("\uD83D\uDD90"))
             whatIsIt.removeWriter(session, event.getMember());
         session.close();
     }
