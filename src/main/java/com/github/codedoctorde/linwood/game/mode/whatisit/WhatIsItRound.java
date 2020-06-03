@@ -61,7 +61,7 @@ public class WhatIsItRound {
         this.word = word;
         stopTimer();
         timer.schedule(new TimerTask() {
-            int time = 180;
+            int time = 120;
 
             @Override
             public void run() {
@@ -73,7 +73,6 @@ public class WhatIsItRound {
                 } else {
                     String message = null;
                     switch (time) {
-                        case 180:
                         case 120:
                             message = MessageFormat.format(bundle.getString("CountdownMinutes"), time / 60);
                             break;
