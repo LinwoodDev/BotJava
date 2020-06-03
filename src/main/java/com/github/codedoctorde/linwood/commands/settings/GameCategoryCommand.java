@@ -28,7 +28,12 @@ public class GameCategoryCommand implements Command {
                 message.getChannel().sendMessage(bundle.getString("GetNull")).queue();
         else {
             try {
-                Category category = message.getGuild().getCategoryById(args[0]);
+                Category category = null;
+                try{
+                    category = message.getGuild().getCategoryById(args[0]);
+                }catch(Exception ignored){
+
+                }
                 if(category == null){
                     var categories = message.getGuild().getCategoriesByName(args[0], true);
                     if(categories.size() < 1)
@@ -37,9 +42,9 @@ public class GameCategoryCommand implements Command {
                         message.getChannel().sendMessage(bundle.getString("SetMultiple")).queue();
                     else
                         category = categories.get(0);
+                    if(category == null)
+                        return true;
                 }
-                if(category == null)
-                    return true;
                 entity.setGameCategory(category);
                 entity.save(session);
                 message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Set"), entity.getGameCategory().getName(), entity.getGameCategoryId())).queue();

@@ -13,15 +13,18 @@ import java.util.TimerTask;
  */
 public class WhatIsItRound {
     private final long writerId;
-    private final String word;
+    private String word;
     private final WhatIsIt whatIsIt;
     private final Timer timer = new Timer();
     private final List<Long> guesser = new ArrayList<>();
 
-    public WhatIsItRound(long writerId, String word, WhatIsIt whatIsIt) {
+    public WhatIsItRound(long writerId, WhatIsIt whatIsIt) {
         this.writerId = writerId;
-        this.word = word;
         this.whatIsIt = whatIsIt;
+    }
+
+    public void inputWriter(){
+
     }
 
     public String getWord() {
@@ -87,5 +90,9 @@ public class WhatIsItRound {
 
     public List<Long> getGuesser() {
         return guesser;
+    }
+
+    public void stopTimer() {
+        timer.cancel();
     }
 }

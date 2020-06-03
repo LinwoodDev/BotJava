@@ -21,13 +21,18 @@ public class GameManager {
         return game;
     }
     public void stopGame(long guildId){
-        games.stream().filter(game -> game.getGuildId() == guildId).forEach(this::stopGame);
+        games.stream().filter(game -> game.getGuildId() == guildId).forEach(game -> stopGame(game, false));
+        games.clear();
     }
     public void stopGame(Game game){
+        stopGame(game, true);
+    }
+    private void stopGame(Game game, boolean remove){
         if(!games.contains(game))
             return;
         game.stop();
-        games.remove(game);
+        if(remove)
+            games.remove(game);
     }
     @Nullable
     public Game getGame(long guildId){
@@ -39,7 +44,8 @@ public class GameManager {
         return current;
     }
     public void clearGames(){
-        games.forEach(this::stopGame);
+        games.forEach(game -> stopGame(game, false));
+        games.clear();
     }
 
     public Game[] getGames() {

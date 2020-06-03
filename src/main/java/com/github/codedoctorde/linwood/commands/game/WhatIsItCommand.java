@@ -10,6 +10,7 @@ import net.dv8tion.jda.api.entities.Message;
 import org.hibernate.Session;
 import org.jetbrains.annotations.Nullable;
 
+import javax.swing.*;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -19,22 +20,29 @@ import java.util.ResourceBundle;
 public class WhatIsItCommand implements Command {
     @Override
     public boolean onCommand(Session session, Message message, GuildEntity entity, String label, String[] args) {
-        if(args.length < 2)
+        if(args.length > 2)
             return false;
         int rounds;
         var bundle = getBundle(entity);
         assert bundle != null;
-        try {
-            rounds = Integer.parseInt(args[0]);
-        }catch(Exception e){
-            message.getTextChannel().sendMessage(bundle.getString("NoNumber")).queue();
+        if(!entity.isGameMaster(message.getMember())){
+            message.getChannel().sendMessage(bundle.getString("NoPermission")).queue();
             return true;
         }
+        if(args.length != 0)
+            try {
+                rounds = Integer.parseInt(args[0]);
+            }catch(Exception e){
+                message.getTextChannel().sendMessage(bundle.getString("NoNumber")).queue();
+                return true;
+            }
+        else
+            rounds = 5;
         if(rounds > 50 || rounds < 1){
             message.getTextChannel().sendMessage(bundle.getString("Invalid")).queue();
             return true;
         }
-        Main.getInstance().getGameManager().startGame(entity.getGuildId(), new QuizFactory(message.getAuthor().getIdLong()));
+        Main.getInstance().getGameManager().startGame(entity.getGuildId(), new WhatIsIt());
         message.getTextChannel().sendMessage(bundle.getString("Success")).queue();
         return true;
     }

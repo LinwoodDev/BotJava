@@ -2,6 +2,7 @@ package com.github.codedoctorde.linwood.listener;
 
 import com.github.codedoctorde.linwood.Main;
 import com.github.codedoctorde.linwood.entity.GuildEntity;
+import net.dv8tion.jda.api.events.ShutdownEvent;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.hooks.SubscribeEvent;
 
@@ -18,5 +19,9 @@ public class ConnectionListener {
         var guild = GuildEntity.get(session, event.getGuild().getIdLong());
         guild.save(session);
         session.close();
+    }
+    @SubscribeEvent
+    public void onBotShutdown(ShutdownEvent event){
+        Main.getInstance().getGameManager().clearGames();
     }
 }

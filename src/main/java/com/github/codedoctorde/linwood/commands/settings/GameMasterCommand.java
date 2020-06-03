@@ -28,7 +28,12 @@ public class GameMasterCommand implements Command {
                 message.getChannel().sendMessage(bundle.getString("GetNull")).queue();
         else {
             try {
-                Role role = message.getGuild().getRoleById(args[0]);
+                Role role = null;
+                try{
+                    role = message.getGuild().getRoleById(args[0]);
+                }catch(Exception ignored){
+
+                }
                 if(role == null){
                     var roles = message.getGuild().getRolesByName(args[0], true);
                     if(roles.size() < 1)

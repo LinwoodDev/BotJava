@@ -35,6 +35,7 @@ public class StopGameCommand implements Command {
     public String[] aliases(GuildEntity entity) {
         return new String[]{
                 "stop",
+                "stopgame",
                 "cancel",
                 "stop-game",
                 "s",
@@ -44,6 +45,6 @@ public class StopGameCommand implements Command {
 
     @Override
     public ResourceBundle getBundle(GuildEntity entity) {
-        return null;
+        return ResourceBundle.getBundle("locale.commands.game.Stop");
     }
 }

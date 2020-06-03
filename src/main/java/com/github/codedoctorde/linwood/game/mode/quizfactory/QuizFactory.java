@@ -32,7 +32,7 @@ public class QuizFactory implements GameMode {
 
         var session = Main.getInstance().getDatabase().getSessionFactory().openSession();
         var guild = GuildEntity.get(session, game.getGuildId());
-        var category = Main.getInstance().getJda().getCategoryById(guild.getGameCategoryId());
+        var category = guild.getGameCategory();
         if(category == null) {
             game.stop();
             return;

@@ -6,11 +6,13 @@ import com.github.codedoctorde.linwood.game.Game;
 import com.github.codedoctorde.linwood.game.GameMode;
 import net.dv8tion.jda.api.entities.Category;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.MessageReaction;
 import net.dv8tion.jda.api.entities.TextChannel;
 import org.hibernate.Session;
 
 import java.text.MessageFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author CodeDoctorDE
@@ -23,6 +25,8 @@ public class WhatIsIt implements GameMode {
     private long wantWriterMessageId;
     private int maxRounds;
     private int currentRounds;
+    private Random random = new Random();
+    private Timer timer = new Timer();
     private final HashMap<Long, Integer> points = new HashMap<>();
 
     @Override
@@ -45,25 +49,44 @@ public class WhatIsIt implements GameMode {
 
     @Override
     public void stop() {
+        stopTimer();
+        if(round != null)
+            round.stopTimer();
         getTextChannel().delete().queue();
     }
 
-    public void chooseNextPlayer(){
-
-    }
-    public void nextRound(Session session, int writerId, String word){
-        round = new WhatIsItRound(writerId, word, this);
+    public void chooseNextPlayer(Session session){
         var bundle = getBundle(session);
+        stopTimer();
+        getTextChannel().sendMessage(bundle.getString("Next")).queue(message -> {
+            message.addReaction("\uD83D\uDD90️").queue(aVoid ->
+                message.addReaction("⛔").queue());
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    stopTimer();
+                    List<Member> wantWriter = message.retrieveReactionUsers("\uD83D\uDD90️").getCached().stream().map(user -> game.getGuild().getMember(user)).collect(Collectors.toList());
+                    nextRound(session, wantWriter.get(random.nextInt(wantWriter.size())).getIdLong());
+                }
+            }, 10000);
+        });
+    }
 
-        getTextChannel().sendMessage(bundle.getString("Next")).queue(message -> message.addReaction("\uD83D\uDD90️").queue(aVoid ->
-                message.addReaction("⛔").queue()));
+    public void stopTimer(){
+        timer.cancel();
+    }
+    public void nextRound(Session session, long writerId){
+        round = new WhatIsItRound(writerId, this);
+        var bundle = getBundle(session);
+        getTextChannel().sendMessage(MessageFormat.format(bundle.getString("Round"), round.getWriter().getAsMention())).queue();
+        round.inputWriter();
     }
     public void finishRound(){
 
     }
 
     public void finishGame(){
-        var timer = new Timer();
+        stopTimer();
         var session = Main.getInstance().getDatabase().getSessionFactory().openSession();
         var bundle = getBundle(session);
         session.close();
@@ -73,7 +96,7 @@ public class WhatIsIt implements GameMode {
                     @Override
                     public void run() {
                         if(getTextChannel() == null || time <= 0) {
-                            timer.cancel();
+                            stopTimer();
                             Main.getInstance().getGameManager().stopGame(game);
                         }
                         else
