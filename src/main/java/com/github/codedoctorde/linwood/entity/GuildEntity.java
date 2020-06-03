@@ -72,8 +72,12 @@ public class GuildEntity {
     public void setGameCategoryId(long gameCategoryId) {
         this.gameCategoryId = gameCategoryId;
     }
-    public void setGameCategory(Category category){
-        gameCategoryId = category.getIdLong();
+
+    public void setGameCategory(@Nullable Category category){
+        if(category == null)
+            gameCategoryId = null;
+        else
+            gameCategoryId = category.getIdLong();
     }
 
     public boolean isGameMaster(Member member){
@@ -86,8 +90,20 @@ public class GuildEntity {
         return member.getRoles().stream().map(Role::getIdLong).anyMatch(id -> id.equals(gameMasterRoleId)) ||
                 channel == null ? member.hasPermission(Permission.MANAGE_CHANNEL) : member.hasPermission(channel, Permission.MANAGE_CHANNEL);
     }
-    public void setGameMasterRole(Role role){
-        gameCategoryId = role.getIdLong();
+    public void setGameMasterRole(@Nullable Role role){
+        if(role == null)
+            gameMasterRoleId = null;
+        else
+            gameMasterRoleId = role.getIdLong();
+    }
+
+    public Long getGameMasterRoleId() {
+        return gameMasterRoleId;
+    }
+    public Role getGameMasterRole(){
+        if(gameMasterRoleId == null)
+            return null;
+        return Main.getInstance().getJda().getRoleById(gameMasterRoleId);
     }
 
     public void save(Session session){

@@ -17,6 +17,7 @@ public class GameManager {
         stopGame(guildId);
         var game = new Game(games.size(), guildId, gameMode);
         games.add(game);
+        game.start();
         return game;
     }
     public void stopGame(long guildId){

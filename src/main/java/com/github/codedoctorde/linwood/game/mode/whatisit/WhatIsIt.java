@@ -4,6 +4,7 @@ import com.github.codedoctorde.linwood.Main;
 import com.github.codedoctorde.linwood.entity.GuildEntity;
 import com.github.codedoctorde.linwood.game.Game;
 import com.github.codedoctorde.linwood.game.GameMode;
+import net.dv8tion.jda.api.entities.Category;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 import org.hibernate.Session;
@@ -30,13 +31,16 @@ public class WhatIsIt implements GameMode {
 
         var session = Main.getInstance().getDatabase().getSessionFactory().openSession();
         var guild = GuildEntity.get(session, game.getGuildId());
-        var category = Main.getInstance().getJda().getCategoryById(guild.getGameCategoryId());
-        if(category == null) {
-            game.stop();
-            return;
-        }
+        Category category = null;
+        if(guild.getGameCategoryId() != null)
+        category = guild.getGameCategory();
         var bundle = getBundle(session);
-        category.createTextChannel(MessageFormat.format(bundle.getString("TextChannel"), game.getId())).queue((textChannel -> this.textChannelId = textChannel.getIdLong()));
+        Category finalCategory = category;
+        game.getGuild().createTextChannel(MessageFormat.format(bundle.getString("TextChannel"), game.getId())).queue((textChannel -> {
+            this.textChannelId = textChannel.getIdLong();
+            if(finalCategory != null)
+                textChannel.getManager().setParent(finalCategory).queue();
+        }));
     }
 
     @Override
