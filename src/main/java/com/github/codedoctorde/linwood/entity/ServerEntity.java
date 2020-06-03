@@ -18,7 +18,6 @@ import java.util.Set;
  * @author CodeDoctorDE
  */
 @Entity
-@Immutable
 public class ServerEntity {
     @Id
     @Column(name="ID", unique = true, nullable = false)

@@ -26,8 +26,7 @@ public class LanguageCommand implements Command {
             try {
                 var t = session.beginTransaction();
                 entity.setLocale(args[0]);
-                session.update(entity);
-                session.flush();
+                session.saveOrUpdate(entity);
                 t.commit();
                 message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Set"), entity.getLocalization().getDisplayName(entity.getLocalization()))).queue();
             }catch(NullPointerException e){
