@@ -69,19 +69,14 @@ public class WhatIsItEvents {
     @SubscribeEvent
     public void onLeave(MessageReactionRemoveEvent event){
         var session = Main.getInstance().getDatabase().getSessionFactory().openSession();
-        System.out.println("5f");
         if(event.getChannel().getIdLong() != whatIsIt.getTextChannelId() || event.getMember() == null ||
                 event.getMessageIdLong() != whatIsIt.getWantWriterMessageId())
             return;
-        System.out.println("0");
         if(event.getMember().getUser().isBot() || !event.getReactionEmote().isEmoji())
             return;
-        System.out.println("1");
         System.out.println(event.getReactionEmote().getAsCodepoints());
         if(event.getReactionEmote().getAsCodepoints().equalsIgnoreCase("U+1f590U+fe0f"))
             whatIsIt.removeWriter(session, event.getMember());
-        else
-            System.out.println("2");
         session.close();
     }
 

@@ -83,7 +83,7 @@ public class WhatIsIt implements GameMode {
                     else nextRound(session, wantWriter.get(random.nextInt(wantWriter.size())));
                     session.close();
                 }
-            }, 15 * 1000);
+            }, 30 * 1000);
         });
     }
 
