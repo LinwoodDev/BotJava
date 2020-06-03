@@ -62,10 +62,8 @@ public class WhatIsItEvents {
         var session = Main.getInstance().getDatabase().getSessionFactory().openSession();
         if(event.getChannel().getIdLong() != whatIsIt.getTextChannelId() || event.getMember() == null)
             return;
-        if(event.getChannel().getIdLong() != whatIsIt.getTextChannelId() || event.getMember() == null ||
-                event.getMessageIdLong() != whatIsIt.getWantWriterMessageId())
-            return;
-        if(event.getMember().getUser().isBot() || !event.getReactionEmote().isEmoji())
+        if (event.getChannel().getIdLong() != whatIsIt.getTextChannelId() || event.getMember() == null ||
+                event.getMessageIdLong() != whatIsIt.getWantWriterMessageId() || event.getMember().getUser().isBot() || !event.getReactionEmote().isEmoji())
             return;
         if(event.getReactionEmote().getEmoji().equals("\uD83D\uDD90"))
             whatIsIt.removeWriter(session, event.getMember());
