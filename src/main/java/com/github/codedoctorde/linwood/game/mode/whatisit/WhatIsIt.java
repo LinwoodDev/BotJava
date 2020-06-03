@@ -153,8 +153,10 @@ public class WhatIsIt implements GameMode {
         var bundle = getBundle(session);
         for (int i = 0; i < topList.size(); i++) {
             var entry = topList.get(i);
+            var user = Main.getInstance().getJda().getUserById(entry.getKey());
+            if(user != null)
             string.append(MessageFormat.format(bundle.getString("Leaderboard"), i + 1,
-                    Objects.requireNonNull(Main.getInstance().getJda().getUserById(entry.getKey())).getAsMention(), entry.getValue()));
+                    user.getAsMention(), entry.getValue()));
         }
         return string.toString();
     }
