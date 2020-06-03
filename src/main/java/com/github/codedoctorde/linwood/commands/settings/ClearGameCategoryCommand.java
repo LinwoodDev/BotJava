@@ -35,8 +35,8 @@ public class ClearGameCategoryCommand implements Command {
     @Override
     public String[] aliases(GuildEntity entity) {
         return new String[]{
-                "prefix",
-                "pre-fix"
+                "cleargamecategory",
+                "clear-game-category"
         };
     }
 

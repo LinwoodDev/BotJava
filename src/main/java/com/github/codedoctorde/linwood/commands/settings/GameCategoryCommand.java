@@ -60,8 +60,8 @@ public class GameCategoryCommand implements Command {
     @Override
     public String[] aliases(GuildEntity entity) {
         return new String[]{
-                "prefix",
-                "pre-fix"
+                "gamecategory",
+                "game-category"
         };
     }
 

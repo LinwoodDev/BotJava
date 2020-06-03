@@ -15,7 +15,11 @@ public class SettingsCommand extends CommandManager {
     public Command[] commands() {
         return new Command[]{
                 new LanguageCommand(),
-                new PrefixCommand()
+                new PrefixCommand(),
+                new GameCategoryCommand(),
+                new ClearGameCategoryCommand(),
+                new GameMasterCommand(),
+                new ClearGameMasterCommand()
         };
     }
 
