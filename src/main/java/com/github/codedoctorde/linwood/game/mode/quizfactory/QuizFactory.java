@@ -1,7 +1,7 @@
 package com.github.codedoctorde.linwood.game.mode.quizfactory;
 
 import com.github.codedoctorde.linwood.Main;
-import com.github.codedoctorde.linwood.entity.ServerEntity;
+import com.github.codedoctorde.linwood.entity.GuildEntity;
 import com.github.codedoctorde.linwood.game.Game;
 import com.github.codedoctorde.linwood.game.GameMode;
 import org.hibernate.Session;
@@ -31,8 +31,8 @@ public class QuizFactory implements GameMode {
         this.game = game;
 
         var session = Main.getInstance().getDatabase().getSessionFactory().openSession();
-        var server = Main.getInstance().getDatabase().getServerById(session, game.getServerId());
-        var category = Main.getInstance().getJda().getCategoryById(server.getGameCategoryId());
+        var guild = GuildEntity.get(session, game.getGuildId());
+        var category = Main.getInstance().getJda().getCategoryById(guild.getGameCategoryId());
         if(category == null) {
             game.stop();
             return;
@@ -61,7 +61,7 @@ public class QuizFactory implements GameMode {
     }
 
     public ResourceBundle getBundle(Session session){
-        return ResourceBundle.getBundle("locale.game.QuizFactory", Main.getInstance().getDatabase().getServerById(session, game.getServerId()).getLocalization());
+        return ResourceBundle.getBundle("locale.game.QuizFactory", Main.getInstance().getDatabase().getGuildById(session, game.getGuildId()).getLocalization());
     }
 
     public List<String> getQuestions() {

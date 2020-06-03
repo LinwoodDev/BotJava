@@ -1,6 +1,6 @@
 package com.github.codedoctorde.linwood.commands;
 
-import com.github.codedoctorde.linwood.entity.ServerEntity;
+import com.github.codedoctorde.linwood.entity.GuildEntity;
 import net.dv8tion.jda.api.entities.Message;
 import org.hibernate.Session;
 
@@ -16,7 +16,7 @@ public abstract class CommandManager implements Command {
     public abstract Command[] commands();
 
     @Override
-    public boolean onCommand(Session session, Message message, ServerEntity entity, String label, String[] args) {
+    public boolean onCommand(Session session, Message message, GuildEntity entity, String label, String[] args) {
         for (Command command : commands())
             if (Arrays.asList(command.aliases(entity)).contains(
                     (args.length > 0) ? args[0].toLowerCase() : "")) {
@@ -29,7 +29,7 @@ public abstract class CommandManager implements Command {
         return false;
     }
 
-    public Command getCommand(ServerEntity entity, String... args){
+    public Command getCommand(GuildEntity entity, String... args){
         Command command = this;
         for (String arg:
              args)

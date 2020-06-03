@@ -2,7 +2,7 @@ package com.github.codedoctorde.linwood.commands.settings;
 
 import com.github.codedoctorde.linwood.Main;
 import com.github.codedoctorde.linwood.commands.Command;
-import com.github.codedoctorde.linwood.entity.ServerEntity;
+import com.github.codedoctorde.linwood.entity.GuildEntity;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Message;
 import org.hibernate.Session;
@@ -16,7 +16,7 @@ import java.util.ResourceBundle;
  */
 public class PrefixCommand implements Command {
     @Override
-    public boolean onCommand(Session session, Message message, ServerEntity entity, String label, String[] args) {
+    public boolean onCommand(Session session, Message message, GuildEntity entity, String label, String[] args) {
         ResourceBundle bundle = getBundle(entity);
         assert bundle != null;
         if(args.length == 0)
@@ -37,7 +37,7 @@ public class PrefixCommand implements Command {
     }
 
     @Override
-    public String[] aliases(ServerEntity entity) {
+    public String[] aliases(GuildEntity entity) {
         return new String[]{
                 "prefix",
                 "pre-fix"
@@ -45,7 +45,7 @@ public class PrefixCommand implements Command {
     }
 
     @Override
-    public ResourceBundle getBundle(ServerEntity entity) {
+    public ResourceBundle getBundle(GuildEntity entity) {
         return ResourceBundle.getBundle("locale.commands.settings.Prefix", entity.getLocalization());
     }
 }

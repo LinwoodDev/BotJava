@@ -1,6 +1,7 @@
 package com.github.codedoctorde.linwood.game.mode.whatisit;
 
 import com.github.codedoctorde.linwood.Main;
+import com.github.codedoctorde.linwood.entity.GuildEntity;
 import com.github.codedoctorde.linwood.game.Game;
 import com.github.codedoctorde.linwood.game.GameMode;
 import net.dv8tion.jda.api.entities.Member;
@@ -28,8 +29,8 @@ public class WhatIsIt implements GameMode {
         this.game = game;
 
         var session = Main.getInstance().getDatabase().getSessionFactory().openSession();
-        var server = Main.getInstance().getDatabase().getServerById(session, game.getServerId());
-        var category = Main.getInstance().getJda().getCategoryById(server.getGameCategoryId());
+        var guild = GuildEntity.get(session, game.getGuildId());
+        var category = Main.getInstance().getJda().getCategoryById(guild.getGameCategoryId());
         if(category == null) {
             game.stop();
             return;
@@ -95,7 +96,7 @@ public class WhatIsIt implements GameMode {
     }
 
     public ResourceBundle getBundle(Session session){
-        return ResourceBundle.getBundle("locale.game.WhatIsIt", Main.getInstance().getDatabase().getServerById(session, game.getServerId()).getLocalization());
+        return ResourceBundle.getBundle("locale.game.WhatIsIt", Main.getInstance().getDatabase().getGuildById(session, game.getGuildId()).getLocalization());
     }
 
     public long getTextChannelId() {

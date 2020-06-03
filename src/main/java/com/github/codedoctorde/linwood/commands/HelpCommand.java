@@ -1,7 +1,7 @@
 package com.github.codedoctorde.linwood.commands;
 
 import com.github.codedoctorde.linwood.Main;
-import com.github.codedoctorde.linwood.entity.ServerEntity;
+import com.github.codedoctorde.linwood.entity.GuildEntity;
 import net.dv8tion.jda.api.entities.Message;
 import org.hibernate.Session;
 
@@ -16,7 +16,7 @@ import java.util.ResourceBundle;
 public class HelpCommand implements Command {
 
     @Override
-    public boolean onCommand(Session session, Message message, ServerEntity entity, String label, String[] args) {
+    public boolean onCommand(Session session, Message message, GuildEntity entity, String label, String[] args) {
         Command command = Main.getInstance().getBaseCommand().getCommand(entity, args);
         if(command == null)
             return false;
@@ -26,7 +26,7 @@ public class HelpCommand implements Command {
     }
 
     @Override
-    public String[] aliases(ServerEntity entity) {
+    public String[] aliases(GuildEntity entity) {
         return new String[]{
           "help",
           "h"
@@ -34,7 +34,7 @@ public class HelpCommand implements Command {
     }
 
     @Override
-    public ResourceBundle getBundle(ServerEntity entity) {
+    public ResourceBundle getBundle(GuildEntity entity) {
         return ResourceBundle.getBundle("locale.commands.Help", entity.getLocalization());
     }
 }

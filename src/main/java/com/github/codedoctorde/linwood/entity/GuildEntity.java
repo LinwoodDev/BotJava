@@ -1,13 +1,12 @@
 package com.github.codedoctorde.linwood.entity;
 
 import com.github.codedoctorde.linwood.Main;
-import com.ibm.icu.impl.LocaleUtility;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Category;
 import net.dv8tion.jda.api.entities.GuildChannel;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
-import org.hibernate.annotations.Immutable;
+import org.hibernate.Session;
 
 import javax.annotation.Nullable;
 import javax.persistence.*;
@@ -18,10 +17,10 @@ import java.util.Set;
  * @author CodeDoctorDE
  */
 @Entity
-public class ServerEntity {
+public class GuildEntity {
     @Id
     @Column(name="ID", unique = true, nullable = false)
-    private long serverId;
+    private long guildId;
     private String prefix = "+lw";
     private String locale = Locale.ENGLISH.toLanguageTag();
     @OneToMany()
@@ -31,12 +30,11 @@ public class ServerEntity {
     @Column(nullable = true)
     private Long gameCategoryId;
 
-    public ServerEntity(){
-
+    public GuildEntity(){
     }
-    public ServerEntity(String prefix, long id) {
+    public GuildEntity(String prefix, long id) {
         this.prefix = prefix;
-        this.serverId = id;
+        this.guildId = id;
     }
 
     public String getPrefix() {
@@ -47,8 +45,8 @@ public class ServerEntity {
         this.prefix = prefix;
     }
 
-    public Long getServerId() {
-        return serverId;
+    public Long getGuildId() {
+        return guildId;
     }
 
     public String getLocale() {
@@ -88,10 +86,17 @@ public class ServerEntity {
         return member.getRoles().stream().map(Role::getIdLong).anyMatch(id -> id.equals(gameMasterRoleId)) ||
                 channel == null ? member.hasPermission(Permission.MANAGE_CHANNEL) : member.hasPermission(channel, Permission.MANAGE_CHANNEL);
     }
-    public Role getGameMasterRole(){
-        return Main.getInstance().getJda().getRoleById(gameMasterRoleId);
-    }
     public void setGameMasterRole(Role role){
         gameCategoryId = role.getIdLong();
+    }
+
+    public void save(Session session){
+        var t = session.beginTransaction();
+        session.saveOrUpdate(this);
+        t.commit();
+    }
+
+    public static GuildEntity get(Session session, long guildId){
+        return Main.getInstance().getDatabase().getGuildById(session, guildId);
     }
 }

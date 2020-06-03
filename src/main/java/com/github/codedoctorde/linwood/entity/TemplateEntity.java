@@ -16,7 +16,7 @@ public class TemplateEntity {
     private int id;
     @ManyToOne
     @JoinColumn(name="server_id", nullable=false)
-    private ServerEntity server;
+    private GuildEntity server;
     @Column(name="templateName", nullable = false)
     String name;
     @Column(name="content", nullable = false, columnDefinition = "TEXT")

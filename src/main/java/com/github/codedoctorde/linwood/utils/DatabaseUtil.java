@@ -1,7 +1,7 @@
 package com.github.codedoctorde.linwood.utils;
 
 import com.github.codedoctorde.linwood.Main;
-import com.github.codedoctorde.linwood.entity.ServerEntity;
+import com.github.codedoctorde.linwood.entity.GuildEntity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.*;
@@ -91,23 +91,21 @@ public class DatabaseUtil {
         getSessionFactory().close();
     }
 
-    public ServerEntity getServerById(Session session, long serverId){
-        ServerEntity entity = session.get(ServerEntity.class, serverId);
+    public GuildEntity getGuildById(Session session, long guildId){
+        GuildEntity entity = session.get(GuildEntity.class, guildId);
         if ( entity != null ) return entity;
         else try {
-            return entity = createServer(session, serverId);
+            return entity = createGuild(session, guildId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
-    public ServerEntity createServer(Session session, long serverId){
-        var server = new ServerEntity(Main.getInstance().getConfig().getPrefix(),serverId);
-        session.beginTransaction();
-        session.save(server);
-        session.getTransaction().commit();
-        return server;
+    public GuildEntity createGuild(Session session, long guildId){
+        var guild = new GuildEntity(Main.getInstance().getConfig().getPrefix(),guildId);
+        guild.save(session);
+        return guild;
     }
-    public void updateEntity(Session session, ServerEntity entity){
+    public void updateEntity(Session session, GuildEntity entity){
         session.update(entity);
     }
 }

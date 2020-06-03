@@ -13,14 +13,14 @@ public class GameManager {
     public GameManager(){
     }
 
-    public Game startGame(long serverId, GameMode gameMode){
-        stopGame(serverId);
-        var game = new Game(games.size(), serverId, gameMode);
+    public Game startGame(long guildId, GameMode gameMode){
+        stopGame(guildId);
+        var game = new Game(games.size(), guildId, gameMode);
         games.add(game);
         return game;
     }
-    public void stopGame(long serverId){
-        games.stream().filter(game -> game.getServerId() == serverId).forEach(this::stopGame);
+    public void stopGame(long guildId){
+        games.stream().filter(game -> game.getGuildId() == guildId).forEach(this::stopGame);
     }
     public void stopGame(Game game){
         if(!games.contains(game))
@@ -29,11 +29,11 @@ public class GameManager {
         games.remove(game);
     }
     @Nullable
-    public Game getGame(long serverId){
+    public Game getGame(long guildId){
         Game current = null;
         for (Game game:
              games)
-            if (game.getServerId() == serverId)
+            if (game.getGuildId() == guildId)
                 current = game;
         return current;
     }

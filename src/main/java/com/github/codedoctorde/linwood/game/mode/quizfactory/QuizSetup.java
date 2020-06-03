@@ -1,7 +1,7 @@
 package com.github.codedoctorde.linwood.game.mode.quizfactory;
 
 import com.github.codedoctorde.linwood.Main;
-import com.github.codedoctorde.linwood.entity.ServerEntity;
+import com.github.codedoctorde.linwood.entity.GuildEntity;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.PrivateChannel;

@@ -2,7 +2,7 @@ package com.github.codedoctorde.linwood.commands.fun;
 
 import com.github.codedoctorde.linwood.commands.Command;
 import com.github.codedoctorde.linwood.commands.CommandManager;
-import com.github.codedoctorde.linwood.entity.ServerEntity;
+import com.github.codedoctorde.linwood.entity.GuildEntity;
 
 import java.util.ResourceBundle;
 
@@ -18,14 +18,14 @@ public class FunCommand extends CommandManager {
     }
 
     @Override
-    public String[] aliases(ServerEntity entity) {
+    public String[] aliases(GuildEntity entity) {
         return new String[]{
                 "fun", "f", "funny"
         };
     }
 
     @Override
-    public ResourceBundle getBundle(ServerEntity entity) {
+    public ResourceBundle getBundle(GuildEntity entity) {
         return ResourceBundle.getBundle("locale.commands.fun.Base", entity.getLocalization());
     }
 }

@@ -3,7 +3,7 @@ package com.github.codedoctorde.linwood.commands;
 import com.github.codedoctorde.linwood.commands.fun.FunCommand;
 import com.github.codedoctorde.linwood.commands.game.GameCommand;
 import com.github.codedoctorde.linwood.commands.settings.SettingsCommand;
-import com.github.codedoctorde.linwood.entity.ServerEntity;
+import com.github.codedoctorde.linwood.entity.GuildEntity;
 import net.dv8tion.jda.api.entities.Message;
 import org.hibernate.Session;
 
@@ -26,16 +26,16 @@ public class BaseCommand extends CommandManager {
     }
 
     @Override
-    public String[] aliases(ServerEntity entity) {
+    public String[] aliases(GuildEntity entity) {
         return new String[0];
     }
 
     @Override
-    public ResourceBundle getBundle(ServerEntity entity) {
+    public ResourceBundle getBundle(GuildEntity entity) {
         return ResourceBundle.getBundle("locale.commands.Base", entity.getLocalization());
     }
 
-    public void runInfo(Session session, ServerEntity entity, Message message) {
+    public void runInfo(Session session, GuildEntity entity, Message message) {
         infoCommand.onCommand(session, message, entity, "", new String[0]);
     }
 }

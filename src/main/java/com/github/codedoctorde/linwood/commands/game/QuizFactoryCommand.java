@@ -2,7 +2,7 @@ package com.github.codedoctorde.linwood.commands.game;
 
 import com.github.codedoctorde.linwood.Main;
 import com.github.codedoctorde.linwood.commands.Command;
-import com.github.codedoctorde.linwood.entity.ServerEntity;
+import com.github.codedoctorde.linwood.entity.GuildEntity;
 import com.github.codedoctorde.linwood.game.mode.quizfactory.QuizFactory;
 import net.dv8tion.jda.api.entities.Message;
 import org.hibernate.Session;
@@ -16,16 +16,16 @@ import java.util.ResourceBundle;
 public class QuizFactoryCommand implements Command {
 
     @Override
-    public boolean onCommand(Session session, Message message, ServerEntity entity, String label, String[] args) {
+    public boolean onCommand(Session session, Message message, GuildEntity entity, String label, String[] args) {
         if(args.length > 0)
         return false;
-        Main.getInstance().getGameManager().startGame(entity.getServerId(), new QuizFactory(message.getAuthor().getIdLong()));
+        Main.getInstance().getGameManager().startGame(entity.getGuildId(), new QuizFactory(message.getAuthor().getIdLong()));
         message.getTextChannel().sendMessage(Objects.requireNonNull(getBundle(entity)).getString("Success")).queue();
         return true;
     }
 
     @Override
-    public String[] aliases(ServerEntity entity) {
+    public String[] aliases(GuildEntity entity) {
         return new String[]{
                 "quiz",
                 "quizfactory",
@@ -38,7 +38,7 @@ public class QuizFactoryCommand implements Command {
     }
 
 
-    public ResourceBundle getBundle(ServerEntity entity){
+    public ResourceBundle getBundle(GuildEntity entity){
         return ResourceBundle.getBundle("locale.commands.game.QuizFactory", entity.getLocalization());
     }
 }

@@ -36,7 +36,7 @@ public class WhatIsItEvents {
     @SubscribeEvent
     public void onJoin(MessageReactionAddEvent event){
         var session = Main.getInstance().getDatabase().getSessionFactory().openSession();
-        var entity = Main.getInstance().getDatabase().getServerById(session, event.getGuild().getIdLong());
+        var entity = Main.getInstance().getDatabase().getGuildById(session, event.getGuild().getIdLong());
         var bundle = whatIsIt.getBundle(session);
         if(event.getChannel().getIdLong() != whatIsIt.getTextChannelId() || event.getMember() == null ||
                 event.getMessageIdLong() != whatIsIt.getWantWriterMessageId())

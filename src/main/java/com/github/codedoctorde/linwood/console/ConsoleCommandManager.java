@@ -2,7 +2,7 @@ package com.github.codedoctorde.linwood.console;
 
 import com.github.codedoctorde.linwood.Main;
 import com.github.codedoctorde.linwood.commands.Command;
-import com.github.codedoctorde.linwood.entity.ServerEntity;
+import com.github.codedoctorde.linwood.entity.GuildEntity;
 import net.dv8tion.jda.api.entities.Message;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

@@ -1,7 +1,7 @@
 package com.github.codedoctorde.linwood.game;
 
 import com.github.codedoctorde.linwood.Main;
-import com.github.codedoctorde.linwood.entity.ServerEntity;
+import com.github.codedoctorde.linwood.entity.GuildEntity;
 import net.dv8tion.jda.api.entities.Guild;
 import org.hibernate.Session;
 
@@ -9,13 +9,13 @@ import org.hibernate.Session;
  * @author CodeDoctorDE
  */
 public class Game {
-    private final long serverId;
+    private final long guildId;
     private GameMode mode;
     private final int id;
 
-    public Game(int id, long serverId, GameMode mode){
+    public Game(int id, long guildId, GameMode mode){
         this.id = id;
-        this.serverId = serverId;
+        this.guildId = guildId;
         this.mode = mode;
     }
 
@@ -27,16 +27,16 @@ public class Game {
         this.mode = mode;
     }
 
-    public long getServerId() {
-        return serverId;
+    public long getGuildId() {
+        return guildId;
     }
 
     public Guild getGuild(){
-        return Main.getInstance().getJda().getGuildById(serverId);
+        return Main.getInstance().getJda().getGuildById(guildId);
     }
 
-    public ServerEntity getServerEntity(Session session){
-        return Main.getInstance().getDatabase().getServerById(session, serverId);
+    public GuildEntity getGuildEntity(Session session){
+        return Main.getInstance().getDatabase().getGuildById(session, guildId);
     }
     public void stop(){
         Main.getInstance().getJda().getEventManager().unregister(this);
