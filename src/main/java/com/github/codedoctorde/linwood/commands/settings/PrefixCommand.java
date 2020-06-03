@@ -22,9 +22,13 @@ public class PrefixCommand implements Command {
         if(args.length == 0)
             message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Get"), entity.getPrefix())).queue();
         else {
-            entity.setPrefix(String.join(" ", Arrays.asList(args)));
-            Main.getInstance().getDatabase().updateEntity(session, entity);
-            message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Set"), entity.getPrefix())).queue();
+            try {
+                entity.setPrefix(String.join(" ", args));
+                entity.save(session);
+                message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Set"), entity.getPrefix())).queue();
+            }catch(NullPointerException e){
+                message.getChannel().sendMessage(bundle.getString("NotValid")).queue();
+            }
         }
         return true;
     }
