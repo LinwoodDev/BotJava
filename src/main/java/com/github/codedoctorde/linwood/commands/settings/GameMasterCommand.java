@@ -37,12 +37,12 @@ public class GameMasterCommand implements Command {
                         message.getChannel().sendMessage(bundle.getString("SetMultiple")).queue();
                     else
                         role = roles.get(0);
-                    if(roles.size() != 1)
-                        return true;
                 }
+                if(role == null)
+                    return true;
                 entity.setGameMasterRole(role);
                 entity.save(session);
-                message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Set"), entity.getPrefix())).queue();
+                message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Set"), entity.getGameMasterRole().getName(), entity.getGameMasterRoleId())).queue();
             }catch(NullPointerException e){
                 message.getChannel().sendMessage(bundle.getString("NotValid")).queue();
             }
@@ -67,6 +67,6 @@ public class GameMasterCommand implements Command {
 
     @Override
     public ResourceBundle getBundle(GuildEntity entity) {
-        return ResourceBundle.getBundle("locale.commands.settings.GameCategory", entity.getLocalization());
+        return ResourceBundle.getBundle("locale.commands.settings.GameMaster", entity.getLocalization());
     }
 }

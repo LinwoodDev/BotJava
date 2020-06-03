@@ -69,10 +69,6 @@ public class GuildEntity {
         return Main.getInstance().getJda().getCategoryById(gameCategoryId);
     }
 
-    public void setGameCategoryId(long gameCategoryId) {
-        this.gameCategoryId = gameCategoryId;
-    }
-
     public void setGameCategory(@Nullable Category category){
         if(category == null)
             gameCategoryId = null;
@@ -104,6 +100,14 @@ public class GuildEntity {
         if(gameMasterRoleId == null)
             return null;
         return Main.getInstance().getJda().getRoleById(gameMasterRoleId);
+    }
+
+    public void setGameCategoryId(Long gameCategoryId) {
+        this.gameCategoryId = gameCategoryId;
+    }
+
+    public void setGameMasterRoleId(Long gameMasterRoleId) {
+        this.gameMasterRoleId = gameMasterRoleId;
     }
 
     public void save(Session session){

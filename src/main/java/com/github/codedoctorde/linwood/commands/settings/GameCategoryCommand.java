@@ -37,12 +37,12 @@ public class GameCategoryCommand implements Command {
                         message.getChannel().sendMessage(bundle.getString("SetMultiple")).queue();
                     else
                         category = categories.get(0);
-                    if(categories.size() != 1)
-                        return true;
                 }
+                if(category == null)
+                    return true;
                 entity.setGameCategory(category);
                 entity.save(session);
-                message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Set"), entity.getPrefix())).queue();
+                message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Set"), entity.getGameCategory().getName(), entity.getGameCategoryId())).queue();
             }catch(NullPointerException e){
                 message.getChannel().sendMessage(bundle.getString("NotValid")).queue();
             }
