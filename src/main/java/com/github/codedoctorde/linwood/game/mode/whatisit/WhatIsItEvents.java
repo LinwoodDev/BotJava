@@ -29,16 +29,21 @@ public class WhatIsItEvents {
         var round = whatIsIt.getRound();
         if (round != null && round.getWord() != null && message.getContentStripped().toLowerCase().contains(round.getWord().toLowerCase())) {
             message.delete().queue();
-            if (!round.isGuesser(event.getMember()) && message.getAuthor().getIdLong() != round.getWriterId())
-                event.getChannel().sendMessage(MessageFormat.format(whatIsIt.getBundle(session).getString("Guess"), event.getAuthor().getName(), round.guessCorrectly(event.getMember()))).queue();
+            if (!round.isGuesser(event.getMember()) && message.getAuthor().getIdLong() != round.getWriterId()) {
+                event.getChannel().sendMessage(MessageFormat.format(whatIsIt.getBundle(session).getString("Guess"), event.getAuthor().getName(), round.guessCorrectly(event.getMember()))).queue(message1 -> {
+                    var session1 = Main.getInstance().getDatabase().getSessionFactory().openSession();
+                    round.checkEverybody(session1);
+                    session.close();
+                });
+            }
         }
         session.close();
     }
     @SubscribeEvent
-    public void onWord(MessageReceivedEvent event){
-        if(event.getChannelType() != ChannelType.PRIVATE || whatIsIt.getRound() == null)
+    public void onWord(MessageReceivedEvent event) {
+        if (event.getChannelType() != ChannelType.PRIVATE || whatIsIt.getRound() == null)
             return;
-        if(whatIsIt.getRound().getWriterId() != event.getAuthor().getIdLong())
+        if (whatIsIt.getRound().getWriterId() != event.getAuthor().getIdLong())
             return;
         whatIsIt.getRound().startRound(event.getMessage().getContentStripped());
     }
@@ -62,7 +67,7 @@ public class WhatIsItEvents {
                 else
                     event.getMember().getUser().openPrivateChannel().queue(privateChannel -> privateChannel.sendMessage(bundle.getString("NoPermission")).queue());
             default:
-                event.getReaction().removeReaction().queue();
+                event.getReaction().removeReaction(event.getMember().getUser()).queue();
         }
         session.close();
     }

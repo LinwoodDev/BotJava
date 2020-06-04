@@ -6,10 +6,7 @@ import net.dv8tion.jda.api.entities.MessageEmbed;
 import org.hibernate.Session;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 /**
  * @author CodeDoctorDE
@@ -19,7 +16,7 @@ public class WhatIsItRound {
     private String word;
     private final WhatIsIt whatIsIt;
     private Timer timer = new Timer();
-    private final List<Long> guesser = new ArrayList<>();
+    private final HashSet<Long> guesser = new HashSet<>();
 
     public WhatIsItRound(long writerId, WhatIsIt whatIsIt) {
         this.writerId = writerId;
@@ -33,7 +30,7 @@ public class WhatIsItRound {
                     privateChannel.sendMessage(whatIsIt.getBundle(session).getString("Input")).queue();
                     session.close();
                 })
-                );
+        );
         stopTimer();
         timer.schedule(new TimerTask() {
             @Override
@@ -42,7 +39,7 @@ public class WhatIsItRound {
                 whatIsIt.cancelRound(session);
                 session.close();
             }
-        }, 10000);
+        }, 30 * 1000);
     }
 
     public String getWord() {
@@ -59,6 +56,7 @@ public class WhatIsItRound {
 
     public void startRound(String word) {
         this.word = word;
+        whatIsIt.clearMWantWriterMessage();
         stopTimer();
         timer.schedule(new TimerTask() {
             int time = 120;
@@ -114,7 +112,7 @@ public class WhatIsItRound {
      */
     public int guessCorrectly(Member member) {
         guesser.add(member.getIdLong());
-        int points = (guesser.size() < 5) ? 5 - guesser.size() : 1;
+        int points = (guesser.size() < 5) ? 6 - guesser.size() : 1;
         whatIsIt.givePoints(member, points);
         return points;
     }
@@ -123,7 +121,7 @@ public class WhatIsItRound {
         return guesser.stream().mapToLong(memberId -> memberId).anyMatch(memberId -> memberId == member.getIdLong());
     }
 
-    public List<Long> getGuesser() {
+    public HashSet<Long> getGuesser() {
         return guesser;
     }
 
@@ -133,6 +131,19 @@ public class WhatIsItRound {
             timer = new Timer();
         }catch(Exception ignored){
 
+        }
+    }
+
+    public void checkEverybody(Session session) {
+        var last = new HashSet<>(guesser){{
+            removeAll(whatIsIt.getWantWriter());
+        }};
+        System.out.println("Want writer: " + whatIsIt.getWantWriter());
+        System.out.println("Guesser: " + guesser);
+        System.out.println("Last: " + last);
+        if(last.size() <= 0){
+            whatIsIt.getTextChannel().sendMessage(whatIsIt.getBundle(session).getString("Everybody")).queue();
+            whatIsIt.finishRound(session);
         }
     }
 }

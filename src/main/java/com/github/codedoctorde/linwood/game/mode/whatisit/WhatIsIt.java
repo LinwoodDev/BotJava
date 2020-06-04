@@ -22,7 +22,7 @@ public class WhatIsIt implements GameMode {
     private Game game;
     private WhatIsItRound round;
     private long textChannelId;
-    private final List<Long> wantWriter = new ArrayList<>();
+    private final HashSet<Long> wantWriter = new HashSet<>();
     private Long wantWriterMessageId;
     private int maxRounds;
     private int currentRound;
@@ -80,7 +80,7 @@ public class WhatIsIt implements GameMode {
                     stopTimer();
                     var session = Main.getInstance().getDatabase().getSessionFactory().openSession();;
                     if (wantWriter.size() < 1) finishGame();
-                    else nextRound(session, wantWriter.get(random.nextInt(wantWriter.size())));
+                    else nextRound(session, wantWriter.stream().findAny().get());
                     session.close();
                 }
             }, 30 * 1000);
@@ -99,8 +99,12 @@ public class WhatIsIt implements GameMode {
         currentRound++;
         round = new WhatIsItRound(writerId, this);
         var bundle = getBundle(session);
-        game.getGuild().retrieveMemberById(writerId).queue(member -> getTextChannel().sendMessage(MessageFormat.format(bundle.getString("Round"), member.getAsMention())).embed(getTopListEmbed(session)).queue());
-        round.inputWriter();
+        game.getGuild().retrieveMemberById(writerId).queue(member -> {
+            var session1 = Main.getInstance().getDatabase().getSessionFactory().openSession();
+            getTextChannel().sendMessage(MessageFormat.format(bundle.getString("Round"), member.getAsMention())).embed(getTopListEmbed(session1)).queue();
+            session1.close();
+            round.inputWriter();
+        });
     }
     public void cancelRound(Session session){
         var bundle = getBundle(session);
@@ -110,6 +114,7 @@ public class WhatIsIt implements GameMode {
 
     public void finishGame(){
         stopTimer();
+        clearMWantWriterMessage();
         var session = Main.getInstance().getDatabase().getSessionFactory().openSession();
         var bundle = getBundle(session);
         var textChannel = getTextChannel();
@@ -124,15 +129,22 @@ public class WhatIsIt implements GameMode {
         }, 10000);
     }
 
+    public void clearMWantWriterMessage(){
+        if(wantWriterMessageId == null)
+            return;
+        getTextChannel().retrieveMessageById(wantWriterMessageId).queue(message -> message.delete().queue() );
+        wantWriterMessageId = null;
+    }
+
     public void finishRound(Session session){
         round.stopRound();
         round = null;
         wantWriterMessageId = null;
+        wantWriter.clear();
         if(currentRound > maxRounds) {
             finishGame();
             return;
         }
-
         chooseNextPlayer(session);
     }
 
@@ -142,6 +154,7 @@ public class WhatIsIt implements GameMode {
     }
 
     private ArrayList<Map.Entry<Long, Integer>> topList() {
+        System.out.println(points);
         var set = points.entrySet();
         var list = new ArrayList<>(set);
         list.sort((o1, o2) -> o2.getValue().compareTo(o1.getValue()));
@@ -199,7 +212,7 @@ public class WhatIsIt implements GameMode {
         return maxRounds;
     }
 
-    public List<Long> getWantWriter() {
+    public HashSet<Long> getWantWriter() {
         return wantWriter;
     }
 
@@ -208,7 +221,7 @@ public class WhatIsIt implements GameMode {
     }
 
     public void wantWriter(Session session, Member member) {
-        if(!wantWriter.contains(member.getIdLong())) wantWriter.add(member.getIdLong());
+        wantWriter.add(member.getIdLong());
         getTextChannel().sendMessage(MessageFormat.format(getBundle(session).getString("Join"), member.getUser().getAsMention())).queue();
     }
 
