@@ -62,7 +62,7 @@ public class WhatIsItEvents {
                 whatIsIt.wantWriter(session, event.getMember());
                 break;
             case "\uD83D\uDEAB":
-                if(entity.isGameMaster(event.getMember(), event.getTextChannel()))
+                if(entity.isGameMaster(event.getMember()))
                     whatIsIt.finishGame();
                 else
                     event.getMember().getUser().openPrivateChannel().queue(privateChannel -> privateChannel.sendMessage(bundle.getString("NoPermission")).queue());
