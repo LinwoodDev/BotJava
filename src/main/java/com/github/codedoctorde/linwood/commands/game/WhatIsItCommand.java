@@ -25,6 +25,7 @@ public class WhatIsItCommand implements Command {
         int rounds;
         var bundle = getBundle(entity);
         assert bundle != null;
+        assert message.getMember() != null;
         if(!entity.isGameMaster(message.getMember())){
             message.getChannel().sendMessage(bundle.getString("NoPermission")).queue();
             return true;
