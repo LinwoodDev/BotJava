@@ -137,6 +137,7 @@ public class WhatIsIt implements GameMode {
     }
 
     public void finishRound(Session session){
+        givePoints(round.getWriter(), round.getGuesser().size());
         round.stopRound();
         round = null;
         wantWriterMessageId = null;

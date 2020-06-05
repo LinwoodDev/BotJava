@@ -17,6 +17,7 @@ public class WhatIsItRound {
     private final WhatIsIt whatIsIt;
     private Timer timer = new Timer();
     private final HashSet<Long> guesser = new HashSet<>();
+    private int time = 120;
 
     public WhatIsItRound(long writerId, WhatIsIt whatIsIt) {
         this.writerId = writerId;
@@ -58,8 +59,8 @@ public class WhatIsItRound {
         this.word = word;
         whatIsIt.clearMWantWriterMessage();
         stopTimer();
+        time = 120;
         timer.schedule(new TimerTask() {
-            int time = 120;
 
             @Override
             public void run() {
@@ -135,15 +136,18 @@ public class WhatIsItRound {
     }
 
     public void checkEverybody(Session session) {
-        var last = new HashSet<>(guesser){{
-            removeAll(whatIsIt.getWantWriter());
-        }};
+        var last = new HashSet<>(guesser);
+        whatIsIt.getWantWriter().forEach(last::remove);
         System.out.println("Want writer: " + whatIsIt.getWantWriter());
         System.out.println("Guesser: " + guesser);
         System.out.println("Last: " + last);
         if(last.size() <= 0){
             whatIsIt.getTextChannel().sendMessage(whatIsIt.getBundle(session).getString("Everybody")).queue();
-            whatIsIt.finishRound(session);
+            earlyStop();
         }
+    }
+
+    private void earlyStop() {
+        time = 15;
     }
 }
