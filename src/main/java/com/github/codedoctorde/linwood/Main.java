@@ -9,6 +9,8 @@ import com.github.codedoctorde.linwood.listener.CommandListener;
 import com.github.codedoctorde.linwood.utils.ActivityChanger;
 import com.github.codedoctorde.linwood.utils.DatabaseUtil;
 import com.google.gson.Gson;
+import io.sentry.Sentry;
+import io.sentry.SentryClientFactory;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
@@ -25,6 +27,7 @@ import java.net.MalformedURLException;
  * @author CodeDoctorDE
  */
 public class Main {
+    private final Object sentry;
     private JDA jda;
     private final ActivityChanger activityChanger;
     private final BaseCommand baseCommand;
@@ -42,6 +45,8 @@ public class Main {
     }
     public Main(String token){
         instance = this;
+        Sentry.init();
+        sentry = SentryClientFactory.sentryClient();
         var builder = JDABuilder.createDefault(token)
                 .setEventManager(new AnnotatedEventManager())
                 .addEventListeners(new CommandListener())

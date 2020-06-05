@@ -2,6 +2,7 @@ package com.github.codedoctorde.linwood.listener;
 
 import com.github.codedoctorde.linwood.Main;
 import com.github.codedoctorde.linwood.entity.GuildEntity;
+import io.sentry.Sentry;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.SubscribeEvent;
@@ -44,6 +45,7 @@ public class CommandListener {
             }catch(Exception e){
                 event.getChannel().sendMessage(bundle.getString("Error")).queue();
                 e.printStackTrace();
+                Sentry.capture(e);
             }
         }
         session.close();
