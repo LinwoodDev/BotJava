@@ -205,7 +205,7 @@ public class WhatIsIt implements GameMode {
     public int getPoints(Member member){
         return points.getOrDefault(member.getIdLong(), 0);
     }
-f
+
     public int getCurrentRound() {
         return currentRound;
     }
