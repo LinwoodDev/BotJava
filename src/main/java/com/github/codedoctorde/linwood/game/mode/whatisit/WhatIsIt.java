@@ -9,6 +9,7 @@ import net.dv8tion.jda.api.entities.Category;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.requests.restaction.ChannelAction;
 import org.hibernate.Session;
 
 import java.text.MessageFormat;
@@ -48,7 +49,12 @@ public class WhatIsIt implements GameMode {
         category = guild.getGameCategory();
         var bundle = getBundle(session);
         Category finalCategory = category;
-        game.getGuild().createTextChannel(MessageFormat.format(bundle.getString("TextChannel"), game.getId())).queue((textChannel -> {
+        ChannelAction<TextChannel> action;
+        if(finalCategory == null)
+            action = game.getGuild().createTextChannel(MessageFormat.format(bundle.getString("TextChannel"),game.getId()));
+        else
+            action = finalCategory.createTextChannel(MessageFormat.format(bundle.getString("TextChannel"),game.getId()));
+        action.queue((textChannel -> {
             this.textChannelId = textChannel.getIdLong();
             if(finalCategory != null)
                 textChannel.getManager().setParent(finalCategory).queue();
