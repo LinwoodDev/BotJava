@@ -79,8 +79,9 @@ public class WhatIsIt implements GameMode {
                 public void run() {
                     stopTimer();
                     var session = Main.getInstance().getDatabase().getSessionFactory().openSession();;
+                    var wantWriterList = new ArrayList<>(wantWriter);
                     if (wantWriter.size() < 1) finishGame();
-                    else nextRound(session, wantWriter.stream().findAny().get());
+                    else nextRound(session, wantWriterList.get(random.nextInt(wantWriterList.size())));
                     session.close();
                 }
             }, 30 * 1000);
@@ -204,7 +205,7 @@ public class WhatIsIt implements GameMode {
     public int getPoints(Member member){
         return points.getOrDefault(member.getIdLong(), 0);
     }
-
+f
     public int getCurrentRound() {
         return currentRound;
     }
