@@ -14,7 +14,6 @@ import org.hibernate.Session;
 
 import java.text.MessageFormat;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * @author CodeDoctorDE
@@ -121,7 +120,7 @@ public class WhatIsIt implements GameMode {
 
     public void finishGame(){
         stopTimer();
-        clearMWantWriterMessage();
+        clearWantWriterMessage();
         var session = Main.getInstance().getDatabase().getSessionFactory().openSession();
         var bundle = getBundle(session);
         var textChannel = getTextChannel();
@@ -136,7 +135,7 @@ public class WhatIsIt implements GameMode {
         }, 10000);
     }
 
-    public void clearMWantWriterMessage(){
+    public void clearWantWriterMessage(){
         if(wantWriterMessageId == null)
             return;
         getTextChannel().retrieveMessageById(wantWriterMessageId).queue(message -> message.delete().queue() );

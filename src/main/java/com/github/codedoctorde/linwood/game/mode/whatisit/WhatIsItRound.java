@@ -2,7 +2,6 @@ package com.github.codedoctorde.linwood.game.mode.whatisit;
 
 import com.github.codedoctorde.linwood.Main;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.MessageEmbed;
 import org.hibernate.Session;
 
 import java.text.MessageFormat;
@@ -57,7 +56,7 @@ public class WhatIsItRound {
 
     public void startRound(String word) {
         this.word = word;
-        whatIsIt.clearMWantWriterMessage();
+        whatIsIt.clearWantWriterMessage();
         stopTimer();
         time = 120;
         timer.schedule(new TimerTask() {
