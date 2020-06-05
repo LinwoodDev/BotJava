@@ -25,8 +25,8 @@ public class WhatIsIt implements GameMode {
     private long textChannelId;
     private final HashSet<Long> wantWriter = new HashSet<>();
     private Long wantWriterMessageId;
-    private int maxRounds;
-    private int currentRound;
+    private final int maxRounds;
+    private int currentRound = 0;
     private Random random = new Random();
     private Timer timer = new Timer();
     private WhatIsItEvents events;
