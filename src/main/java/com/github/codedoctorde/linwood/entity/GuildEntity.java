@@ -78,7 +78,7 @@ public class GuildEntity {
     public boolean isGameMaster(Member member){
         var category = getGameCategory();
         return member.getRoles().stream().map(Role::getIdLong).anyMatch(id -> id.equals(gameMasterRoleId)) ||
-                category == null ? member.hasPermission(Permission.MANAGE_CHANNEL) : member.hasPermission(category, Permission.MANAGE_CHANNEL);
+                (category == null ? member.hasPermission(Permission.MANAGE_CHANNEL) : member.hasPermission(category, Permission.MANAGE_CHANNEL));
     }
     public void setGameMasterRole(@Nullable Role role){
         if(role == null)
