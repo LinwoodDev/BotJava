@@ -143,16 +143,18 @@ public class WhatIsIt implements GameMode {
     }
 
     public void finishRound(Session session){
-        givePoints(round.getWriter(), round.getGuesser().size());
-        round.stopRound();
-        round = null;
-        wantWriterMessageId = null;
-        wantWriter.clear();
-        if(currentRound > maxRounds) {
-            finishGame();
-            return;
-        }
-        chooseNextPlayer(session);
+        game.getGuild().retrieveMemberById(round.getWriterId()).queue(member ->{
+            givePoints(member, round.getGuesser().size());
+            round.stopRound();
+            round = null;
+            wantWriterMessageId = null;
+            wantWriter.clear();
+            if(currentRound > maxRounds) {
+                finishGame();
+                return;
+            }
+            chooseNextPlayer(session);
+        });
     }
 
     public MessageEmbed getTopListEmbed(Session session){

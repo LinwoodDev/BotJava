@@ -6,6 +6,7 @@ import com.github.codedoctorde.linwood.game.Game;
 import com.github.codedoctorde.linwood.game.GameManager;
 import com.github.codedoctorde.linwood.listener.ConnectionListener;
 import com.github.codedoctorde.linwood.listener.CommandListener;
+import com.github.codedoctorde.linwood.server.WebInterface;
 import com.github.codedoctorde.linwood.utils.ActivityChanger;
 import com.github.codedoctorde.linwood.utils.DatabaseUtil;
 import com.google.gson.Gson;
@@ -28,6 +29,7 @@ import java.net.MalformedURLException;
  */
 public class Main {
     private final Object sentry;
+    private final WebInterface webInterface;
     private JDA jda;
     private final ActivityChanger activityChanger;
     private final BaseCommand baseCommand;
@@ -81,6 +83,8 @@ public class Main {
             e.printStackTrace();
         }
         activityChanger.start();
+        webInterface = new WebInterface();
+        new Thread(webInterface::start).start();
         logger.info("Successfully started the bot!");
     }
 
@@ -114,6 +118,10 @@ public class Main {
 
     public GameManager getGameManager() {
         return gameManager;
+    }
+
+    public WebInterface getWebInterface() {
+        return webInterface;
     }
 
     public void saveConfig(){

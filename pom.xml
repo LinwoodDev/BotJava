@@ -65,6 +65,13 @@
     </build>
 
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.eclipse.jetty/jetty-server -->
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-server</artifactId>
+            <version>9.4.29.v20200521</version>
+        </dependency>
+
         <dependency>
             <groupId>io.sentry</groupId>
             <artifactId>sentry</artifactId>
