@@ -5,10 +5,8 @@ import com.github.codedoctorde.linwood.entity.GuildEntity;
 import com.github.codedoctorde.linwood.game.Game;
 import com.github.codedoctorde.linwood.game.GameMode;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.Category;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.requests.RestAction;
 import net.dv8tion.jda.api.requests.restaction.ChannelAction;
 import org.hibernate.Session;
 
@@ -74,7 +72,8 @@ public class WhatIsIt implements GameMode {
 
     public void chooseNextPlayer(Session session){
         var bundle = getBundle(session);
-        getTextChannel().sendMessage(MessageFormat.format(bundle.getString("Next"), currentRound + 1)).embed(getTopListEmbed(session)).queue(message -> {
+        sendLeaderboard();
+        getTextChannel().sendMessage(MessageFormat.format(bundle.getString("Next"), currentRound + 1)).queue(message -> {
             wantWriterMessageId = message.getIdLong();
             message.addReaction("\uD83D\uDD90️").queue(aVoid ->
                 message.addReaction("⛔").queue());
@@ -107,7 +106,8 @@ public class WhatIsIt implements GameMode {
         var bundle = getBundle(session);
         game.getGuild().retrieveMemberById(writerId).queue(member -> {
             var session1 = Main.getInstance().getDatabase().getSessionFactory().openSession();
-            getTextChannel().sendMessage(MessageFormat.format(bundle.getString("Round"), member.getAsMention())).embed(getTopListEmbed(session1)).queue();
+            getTextChannel().sendMessage(MessageFormat.format(bundle.getString("Round"), member.getAsMention())).queue();
+            sendLeaderboard();
             session1.close();
             round.inputWriter();
         });
@@ -124,7 +124,8 @@ public class WhatIsIt implements GameMode {
         var session = Main.getInstance().getDatabase().getSessionFactory().openSession();
         var bundle = getBundle(session);
         var textChannel = getTextChannel();
-        textChannel.sendMessage(bundle.getString("Finish")).embed(getTopListEmbed(session)).queue();
+        textChannel.sendMessage(bundle.getString("Finish")).queue();
+        sendLeaderboard();
         session.close();
         timer.schedule(new TimerTask() {
             @Override
@@ -159,30 +160,34 @@ public class WhatIsIt implements GameMode {
         });
     }
 
-    public MessageEmbed getTopListEmbed(Session session){
+    public void sendLeaderboard(){
+        var session = Main.getInstance().getDatabase().getSessionFactory().openSession();
         var bundle = getBundle(session);
-        return new EmbedBuilder().setTitle(bundle.getString("LeaderboardHeader")).setDescription(topListString(session)).setFooter(bundle.getString("LeaderboardFooter")).build();
+        session.close();
+        sendLeaderboard(0, "", "", bundle);
     }
 
-    private ArrayList<Map.Entry<Long, Integer>> topList() {
+    private void sendLeaderboard(int index, String description, String message, ResourceBundle bundle){
+        var leaderboard = getLeaderboard();
+        if(index >= leaderboard.size())
+            getTextChannel().sendMessage(message).embed(new EmbedBuilder().setTitle(bundle.getString("LeaderboardHeader")).setDescription(description).setFooter(bundle.getString("LeaderboardFooter")).build()).queue();
+        else{
+            Main.getInstance().getJda().retrieveUserById(leaderboard.get(index).getKey()).queue(user -> {
+                var entry = leaderboard.get(index);
+                String newDescription = description;
+                if(user != null) newDescription += (MessageFormat.format(bundle.getString("Leaderboard"), index + 1,
+                        user.getAsMention(), entry.getValue()));
+                sendLeaderboard(index +1, newDescription, message, bundle);
+            });
+        }
+    }
+
+    private ArrayList<Map.Entry<Long, Integer>> getLeaderboard() {
         System.out.println(points);
         var set = points.entrySet();
         var list = new ArrayList<>(set);
         list.sort((o1, o2) -> o2.getValue().compareTo(o1.getValue()));
         return list;
-    }
-    private String topListString(Session session){
-        var topList = topList();
-        var string = new StringBuilder();
-        var bundle = getBundle(session);
-        for (int i = 0; i < topList.size(); i++) {
-            var entry = topList.get(i);
-            var user = Main.getInstance().getJda().getUserById(entry.getKey());
-            if(user != null)
-            string.append(MessageFormat.format(bundle.getString("Leaderboard"), i + 1,
-                    user.getAsMention(), entry.getValue()));
-        }
-        return string.toString();
     }
 
     public ResourceBundle getBundle(Session session){

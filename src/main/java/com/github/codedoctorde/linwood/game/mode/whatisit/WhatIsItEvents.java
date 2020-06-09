@@ -20,6 +20,7 @@ public class WhatIsItEvents {
     public WhatIsItEvents(WhatIsIt whatIsIt){
         this.whatIsIt = whatIsIt;
     }
+    @SubscribeEvent
     public void onGuess(MessageReceivedEvent event){
         try {
             if (event.getChannel().getIdLong() != whatIsIt.getTextChannelId() || event.getMember() == null)
