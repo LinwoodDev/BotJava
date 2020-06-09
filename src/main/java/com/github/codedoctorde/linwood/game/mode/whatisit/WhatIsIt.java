@@ -26,7 +26,7 @@ public class WhatIsIt implements GameMode {
     private Long wantWriterMessageId;
     private final int maxRounds;
     private int currentRound = 0;
-    private Random random = new Random();
+    private final Random random = new Random();
     private Timer timer = new Timer();
     private WhatIsItEvents events;
     private final HashMap<Long, Integer> points = new HashMap<>();
@@ -83,7 +83,7 @@ public class WhatIsIt implements GameMode {
                 @Override
                 public void run() {
                     stopTimer();
-                    var session = Main.getInstance().getDatabase().getSessionFactory().openSession();;
+                    var session = Main.getInstance().getDatabase().getSessionFactory().openSession();
                     var wantWriterList = new ArrayList<>(wantWriter);
                     if (wantWriter.size() < 1) finishGame();
                     else nextRound(session, wantWriterList.get(random.nextInt(wantWriterList.size())));
@@ -115,7 +115,7 @@ public class WhatIsIt implements GameMode {
     public void cancelRound(Session session){
         var bundle = getBundle(session);
         getTextChannel().sendMessage(bundle.getString("Cancel")).queue();
-        finishRound(session);
+        finishRound();
     }
 
     public void finishGame(){
@@ -142,9 +142,10 @@ public class WhatIsIt implements GameMode {
         wantWriterMessageId = null;
     }
 
-    public void finishRound(Session session){
+    public void finishRound(){
         game.getGuild().retrieveMemberById(round.getWriterId()).queue(member ->{
-            givePoints(member, round.getGuesser().size());
+            var session = Main.getInstance().getDatabase().getSessionFactory().openSession();
+            givePoints(member, round.getGuesser().size() * 2);
             round.stopRound();
             round = null;
             wantWriterMessageId = null;
@@ -154,6 +155,7 @@ public class WhatIsIt implements GameMode {
                 return;
             }
             chooseNextPlayer(session);
+            session.close();
         });
     }
 
@@ -237,10 +239,5 @@ public class WhatIsIt implements GameMode {
     public void removeWriter(Session session, Member member) {
         wantWriter.remove(member.getIdLong());
         getTextChannel().sendMessage(MessageFormat.format(getBundle(session).getString("Leave"), member.getUser().getAsMention())).queue();
-    }
-    public void giveWriterPoints(Session session){
-        if(round == null)
-            return;
-        givePoints(round.getWriter(), round.getGuesser().size() * 2);
     }
 }

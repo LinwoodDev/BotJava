@@ -30,13 +30,12 @@ public class WhatIsItEvents {
             var round = whatIsIt.getRound();
             if (round != null && round.getWord() != null && message.getContentStripped().toLowerCase().contains(round.getWord().toLowerCase())) {
                 message.delete().queue();
-                if (!round.isGuesser(event.getMember()) && message.getAuthor().getIdLong() != round.getWriterId()) {
+                if (!round.isGuesser(event.getMember()) && message.getAuthor().getIdLong() != round.getWriterId())
                     event.getChannel().sendMessage(MessageFormat.format(whatIsIt.getBundle(session).getString("Guess"), event.getAuthor().getName(), round.guessCorrectly(event.getMember()))).queue(message1 -> {
                         var session1 = Main.getInstance().getDatabase().getSessionFactory().openSession();
                         round.checkEverybody(session1);
                         session.close();
                     });
-                }
             }
             session.close();
         }

@@ -67,7 +67,7 @@ public class WhatIsItRound {
                 var bundle = whatIsIt.getBundle(session);
                 if (time <= 0 || whatIsIt.getTextChannel() == null) {
                     timer.cancel();
-                    whatIsIt.finishRound(session);
+                    whatIsIt.finishRound();
                 } else {
                     String message = null;
                     switch (time) {
@@ -97,7 +97,12 @@ public class WhatIsItRound {
         }, 1000, 1000);
     }
     public void stopRound(){
+        var session = Main.getInstance().getDatabase().getSessionFactory().openSession();
+        var bundle = whatIsIt.getBundle(session);
+        if(word != null)
+        whatIsIt.getTextChannel().sendMessage(MessageFormat.format(bundle.getString("Word"), word)).queue();
         stopTimer();
+        session.close();
     }
 
     /**
