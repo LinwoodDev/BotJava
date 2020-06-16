@@ -36,7 +36,7 @@ public abstract class CommandManager implements Command {
             if (command instanceof CommandManager)
                 for (Command current :
                         ((CommandManager) command).commands())
-                    if (Arrays.asList(current.aliases(entity)).contains(arg)) command = current;
+                    if (Arrays.asList(current.aliases(entity)).contains(arg.toLowerCase())) command = current;
         return command;
     }
 }
