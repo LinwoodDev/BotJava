@@ -70,13 +70,15 @@ public class WhatIsItEvents {
                 return;
             if (event.getMember().getUser().isBot() || !event.getReactionEmote().isEmoji())
                 return;
-            switch (event.getReactionEmote().getEmoji()) {
-                case "\uD83D\uDD90️":
+            switch (event.getReactionEmote().getAsCodepoints()) {
+                case "U+1f590U+fe0f":
                     whatIsIt.wantWriter(session, event.getMember());
                     break;
-                case "\uD83D\uDEAB":
-                    if (entity.isGameMaster(event.getMember()))
+                case "U+26d4":
+                    if (entity.isGameMaster(event.getMember())) {
                         whatIsIt.finishGame();
+                        break;
+                    }
                     else
                         event.getMember().getUser().openPrivateChannel().queue(privateChannel -> privateChannel.sendMessage(bundle.getString("NoPermission")).queue());
                 default:

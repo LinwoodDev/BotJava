@@ -11,6 +11,7 @@ import net.dv8tion.jda.api.requests.restaction.ChannelAction;
 import org.hibernate.Session;
 
 import java.text.MessageFormat;
+import java.time.Duration;
 import java.util.*;
 
 /**
@@ -72,7 +73,7 @@ public class WhatIsIt implements GameMode {
 
     public void chooseNextPlayer(Session session){
         var bundle = getBundle(session);
-        sendLeaderboard();
+        sendLeaderboard(session);
         getTextChannel().sendMessage(MessageFormat.format(bundle.getString("Next"), currentRound + 1)).queue(message -> {
             wantWriterMessageId = message.getIdLong();
             message.addReaction("\uD83D\uDD90️").queue(aVoid ->
@@ -107,7 +108,7 @@ public class WhatIsIt implements GameMode {
         game.getGuild().retrieveMemberById(writerId).queue(member -> {
             var session1 = Main.getInstance().getDatabase().getSessionFactory().openSession();
             getTextChannel().sendMessage(MessageFormat.format(bundle.getString("Round"), member.getAsMention())).queue();
-            sendLeaderboard();
+            sendLeaderboard(session1);
             session1.close();
             round.inputWriter();
         });
@@ -125,7 +126,7 @@ public class WhatIsIt implements GameMode {
         var bundle = getBundle(session);
         var textChannel = getTextChannel();
         textChannel.sendMessage(bundle.getString("Finish")).queue();
-        sendLeaderboard();
+        sendLeaderboard(session);
         session.close();
         timer.schedule(new TimerTask() {
             @Override
@@ -160,11 +161,9 @@ public class WhatIsIt implements GameMode {
         });
     }
 
-    public void sendLeaderboard(){
-        var session = Main.getInstance().getDatabase().getSessionFactory().openSession();
+    public void sendLeaderboard(Session session){
         var bundle = getBundle(session);
-        session.close();
-        sendLeaderboard(0, "", "", bundle);
+        sendLeaderboard(0, "", " ", bundle);
     }
 
     private void sendLeaderboard(int index, String description, String message, ResourceBundle bundle){
