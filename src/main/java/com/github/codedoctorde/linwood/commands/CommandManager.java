@@ -4,10 +4,7 @@ import com.github.codedoctorde.linwood.entity.GuildEntity;
 import net.dv8tion.jda.api.entities.Message;
 import org.hibernate.Session;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 /**
  * @author CodeDoctorDE
@@ -23,7 +20,7 @@ public abstract class CommandManager implements Command {
                 if(!command.onCommand(session, message, entity,
                         (args.length > 0) ? args[0] : "",
                         (args.length > 0) ? Arrays.copyOfRange(args, 1, args.length) : new String[0]))
-                    message.getChannel().sendMessage(command.getBundle(entity).getString("Syntax")).queue();
+                    message.getChannel().sendMessage(Objects.requireNonNull(command.getBundle(entity)).getString("Syntax")).queue();
                 return true;
             }
         return false;

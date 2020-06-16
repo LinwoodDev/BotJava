@@ -22,7 +22,7 @@ public class WhatIsItCommand implements Command {
     public boolean onCommand(Session session, Message message, GuildEntity entity, String label, String[] args) {
         if(args.length > 2)
             return false;
-        int rounds;
+        int rounds = 5;
         var bundle = getBundle(entity);
         assert bundle != null;
         assert message.getMember() != null;
@@ -37,8 +37,6 @@ public class WhatIsItCommand implements Command {
                 message.getTextChannel().sendMessage(bundle.getString("NoNumber")).queue();
                 return true;
             }
-        else
-            rounds = 5;
         if(rounds > 50 || rounds < 1){
             message.getTextChannel().sendMessage(bundle.getString("Invalid")).queue();
             return true;

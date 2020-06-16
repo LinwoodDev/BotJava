@@ -140,11 +140,13 @@ public class WhatIsItRound {
     }
 
     public void checkEverybody(Session session) {
-        var last = new HashSet<>(guesser);
-        whatIsIt.getWantWriter().forEach(last::remove);
+        var last = new HashSet<>(whatIsIt.getWantWriter());
+        guesser.forEach(last::remove);
         System.out.println("Want writer: " + whatIsIt.getWantWriter());
         System.out.println("Guesser: " + guesser);
         System.out.println("Last: " + last);
+        if(whatIsIt.getWantWriter().size() <= 1)
+            return;
         if(last.size() <= 0){
             whatIsIt.getTextChannel().sendMessage(whatIsIt.getBundle(session).getString("Everybody")).queue();
             earlyStop();

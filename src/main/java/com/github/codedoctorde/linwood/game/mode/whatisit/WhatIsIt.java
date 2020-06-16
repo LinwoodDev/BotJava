@@ -152,7 +152,7 @@ public class WhatIsIt implements GameMode {
             round = null;
             wantWriterMessageId = null;
             wantWriter.clear();
-            if(currentRound > maxRounds) {
+            if(currentRound >= maxRounds) {
                 finishGame();
                 return;
             }
