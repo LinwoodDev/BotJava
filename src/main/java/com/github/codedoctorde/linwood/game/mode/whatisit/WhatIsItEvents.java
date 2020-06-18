@@ -101,10 +101,10 @@ public class WhatIsItEvents {
             if (event.getChannel().getIdLong() != whatIsIt.getTextChannelId() || event.getMember() == null ||
                     event.getMessageIdLong() != whatIsIt.getWantWriterMessageId())
                 return;
-            if (event.getMember().getUser().isBot() || !event.getReactionEmote().isEmoji())
+            if (event.getMember().getUser().isBot())
                 return;
             System.out.println(event.getReactionEmote().getAsCodepoints());
-            if (event.getReactionEmote().getAsCodepoints().equalsIgnoreCase("U+1f590U+fe0f"))
+            if (event.getReactionEmote().getAsCodepoints().equals("U+1f590U+fe0f"))
                 whatIsIt.removeWriter(session, event.getMember());
             session.close();
         }
