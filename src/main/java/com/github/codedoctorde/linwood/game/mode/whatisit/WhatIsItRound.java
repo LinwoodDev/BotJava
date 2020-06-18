@@ -39,7 +39,7 @@ public class WhatIsItRound {
                 whatIsIt.cancelRound(session);
                 session.close();
             }
-        }, 30 * 1000);
+        }, 60 * 1000);
     }
 
     public String getWord() {
@@ -142,6 +142,7 @@ public class WhatIsItRound {
     public void checkEverybody(Session session) {
         var last = new HashSet<>(whatIsIt.getWantWriter());
         guesser.forEach(last::remove);
+        last.remove(writerId);
         System.out.println("Want writer: " + whatIsIt.getWantWriter());
         System.out.println("Guesser: " + guesser);
         System.out.println("Last: " + last);

@@ -28,10 +28,12 @@ public class WhatIsIt implements GameMode {
     private final Random random = new Random();
     private Timer timer = new Timer();
     private WhatIsItEvents events;
+    private final long rootChannel;
     private final HashMap<Long, Integer> points = new HashMap<>();
 
-    public WhatIsIt(int maxRounds){
+    public WhatIsIt(int maxRounds, long rootChannel){
         this.maxRounds = maxRounds;
+        this.rootChannel = rootChannel;
     }
 
     @Override
@@ -63,9 +65,12 @@ public class WhatIsIt implements GameMode {
     @Override
     public void stop() {
         stopTimer();
+        var session = Main.getInstance().getDatabase().getSessionFactory().openSession();
         Main.getInstance().getJda().getEventManager().unregister(events);
         if(round != null)
             round.stopTimer();
+        sendLeaderboard(session, Main.getInstance().getJda().getTextChannelById(rootChannel));
+        session.close();;
         var textChannel = getTextChannel();
         if(textChannel != null)
             textChannel.delete().queue();
@@ -89,7 +94,7 @@ public class WhatIsIt implements GameMode {
                     else nextRound(session, wantWriterList.get(random.nextInt(wantWriterList.size())));
                     session.close();
                 }
-            }, 30 * 1000);
+            }, 45 * 1000);
         });
     }
 
@@ -134,7 +139,7 @@ public class WhatIsIt implements GameMode {
                 stopTimer();
                 Main.getInstance().getGameManager().stopGame(game);
             }
-        }, 10000);
+        }, 30 * 1000);
     }
 
     public void clearWantWriterMessage(){
@@ -162,14 +167,22 @@ public class WhatIsIt implements GameMode {
     }
 
     public void sendLeaderboard(Session session){
+        sendLeaderboard(session, getTextChannel());
+    }
+
+    public void sendLeaderboard(Session session, TextChannel textChannel){
         var bundle = getBundle(session);
-        sendLeaderboard(0, "", " ", bundle);
+        sendLeaderboard(0, "", " ", bundle, textChannel);
     }
 
     private void sendLeaderboard(int index, String description, String message, ResourceBundle bundle){
+        sendLeaderboard(index, description, message, bundle, getTextChannel());
+    }
+
+    private void sendLeaderboard(int index, String description, String message, ResourceBundle bundle, TextChannel textChannel){
         var leaderboard = getLeaderboard();
         if(index >= leaderboard.size())
-            getTextChannel().sendMessage(message).embed(new EmbedBuilder().setTitle(bundle.getString("LeaderboardHeader")).setDescription(description).setFooter(bundle.getString("LeaderboardFooter")).build()).queue();
+            textChannel.sendMessage(message).embed(new EmbedBuilder().setTitle(bundle.getString("LeaderboardHeader")).setDescription(description).setFooter(bundle.getString("LeaderboardFooter")).build()).queue();
         else{
             Main.getInstance().getJda().retrieveUserById(leaderboard.get(index).getKey()).queue(user -> {
                 var entry = leaderboard.get(index);

@@ -52,6 +52,8 @@ public class WhatIsItEvents {
                 return;
             if (whatIsIt.getRound().getWriterId() != event.getAuthor().getIdLong())
                 return;
+            if(whatIsIt.getRound().getWord() != null)
+                return;
             whatIsIt.getRound().startRound(event.getMessage().getContentStripped());
         }
         catch(Exception e){

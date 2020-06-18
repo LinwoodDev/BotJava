@@ -41,7 +41,7 @@ public class WhatIsItCommand implements Command {
             message.getTextChannel().sendMessage(bundle.getString("Invalid")).queue();
             return true;
         }
-        Main.getInstance().getGameManager().startGame(entity.getGuildId(), new WhatIsIt(rounds));
+        Main.getInstance().getGameManager().startGame(entity.getGuildId(), new WhatIsIt(rounds, message.getChannel().getIdLong()));
         message.getTextChannel().sendMessage(bundle.getString("Success")).queue();
         return true;
     }
