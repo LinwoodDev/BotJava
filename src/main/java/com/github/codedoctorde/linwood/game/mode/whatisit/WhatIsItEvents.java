@@ -74,7 +74,8 @@ public class WhatIsItEvents {
                 return;
             switch (event.getReactionEmote().getAsCodepoints()) {
                 case "U+1f590U+fe0f":
-                    whatIsIt.wantWriter(session, event.getMember());
+                    if(!whatIsIt.wantWriter(session, event.getMember()))
+                        event.getReaction().removeReaction(event.getMember().getUser()).queue();
                     break;
                 case "U+26d4":
                     if (entity.isGameMaster(event.getMember())) {

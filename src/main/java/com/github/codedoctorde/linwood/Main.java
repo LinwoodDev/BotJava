@@ -82,6 +82,11 @@ public class Main {
         } catch (LoginException e) {
             e.printStackTrace();
         }
+
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            getGameManager().clearGames();
+            System.out.println("Shutting down...");
+        }));
         activityChanger.start();
         webInterface = new WebInterface();
         new Thread(webInterface::start).start();

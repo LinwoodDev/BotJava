@@ -248,9 +248,12 @@ public class WhatIsIt implements GameMode {
         return wantWriterMessageId;
     }
 
-    public void wantWriter(Session session, Member member) {
+    public boolean wantWriter(Session session, Member member) {
+        if(getRound() != null)
+            return false;
         wantWriter.add(member.getIdLong());
         getTextChannel().sendMessage(MessageFormat.format(getBundle(session).getString("Join"), member.getUser().getAsMention())).queue();
+        return true;
     }
 
     public void removeWriter(Session session, Member member) {
