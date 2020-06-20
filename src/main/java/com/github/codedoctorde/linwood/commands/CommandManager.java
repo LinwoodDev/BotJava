@@ -25,13 +25,15 @@ public abstract class CommandManager implements Command {
             }
         var bundle = getBundle(entity);
         if(args.length <= 0 && bundle != null)message.getChannel().sendMessage(bundle.containsKey("Description")?bundle.getString("Description"): Objects.requireNonNull(getBundle(entity)).getString("Syntax")).queue();
-        return false;
+        else
+            return false;
+        return true;
     }
 
     public Command getCommand(GuildEntity entity, String... args){
         Command command = this;
         for (String arg:
-             args)
+                args)
             if (command instanceof CommandManager)
                 for (Command current :
                         ((CommandManager) command).commands())
