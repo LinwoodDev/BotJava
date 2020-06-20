@@ -23,6 +23,8 @@ public abstract class CommandManager implements Command {
                     message.getChannel().sendMessage(Objects.requireNonNull(command.getBundle(entity)).getString("Syntax")).queue();
                 return true;
             }
+        var bundle = getBundle(entity);
+        if(args.length <= 0 && bundle != null)message.getChannel().sendMessage(bundle.containsKey("Description")?bundle.getString("Description"): Objects.requireNonNull(getBundle(entity)).getString("Syntax")).queue();
         return false;
     }
 
