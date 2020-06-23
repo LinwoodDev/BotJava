@@ -70,7 +70,7 @@ public class WhatIsIt implements GameMode {
         if(round != null)
             round.stopTimer();
         sendLeaderboard(session, Main.getInstance().getJda().getTextChannelById(rootChannel));
-        session.close();;
+        session.close();
         var textChannel = getTextChannel();
         if(textChannel != null)
             textChannel.delete().queue();
@@ -181,6 +181,8 @@ public class WhatIsIt implements GameMode {
 
     private void sendLeaderboard(int index, String description, String message, ResourceBundle bundle, TextChannel textChannel){
         var leaderboard = getLeaderboard();
+        if(textChannel == null)
+            return;
         if(index >= leaderboard.size())
             textChannel.sendMessage(message).embed(new EmbedBuilder().setTitle(bundle.getString("LeaderboardHeader")).setDescription(description).setFooter(bundle.getString("LeaderboardFooter")).build()).queue();
         else{

@@ -66,7 +66,10 @@ public class GuildEntity {
     }
 
     public Category getGameCategory(){
-        return Main.getInstance().getJda().getCategoryById(gameCategoryId);
+        if(gameCategoryId == null)
+            return null;
+        else
+            return Main.getInstance().getJda().getCategoryById(gameCategoryId);
     }
 
     public void setGameCategory(@Nullable Category category){
