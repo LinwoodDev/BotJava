@@ -1,6 +1,8 @@
 # Linwood
 Java bot with many features. Developed by @CodeDoctorDE (Discord: CodeDoctor#8719)
 
+[![Linwood Trailer](https://img.youtube.com/vi/m1mac2d19Fo/0.jpg)](https://www.youtube.com/watch?v=m1mac2d19Fo)
+
 **Table of contents**
 * [Features](#features)
     * [Core](#core)
