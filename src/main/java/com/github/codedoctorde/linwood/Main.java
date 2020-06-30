@@ -1,6 +1,7 @@
 package com.github.codedoctorde.linwood;
 
 import com.github.codedoctorde.linwood.commands.BaseCommand;
+import com.github.codedoctorde.linwood.config.ActivityConfig;
 import com.github.codedoctorde.linwood.config.MainConfig;
 import com.github.codedoctorde.linwood.game.Game;
 import com.github.codedoctorde.linwood.game.GameManager;
@@ -10,6 +11,7 @@ import com.github.codedoctorde.linwood.server.WebInterface;
 import com.github.codedoctorde.linwood.utils.ActivityChanger;
 import com.github.codedoctorde.linwood.utils.DatabaseUtil;
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import io.sentry.Sentry;
 import io.sentry.SentryClientFactory;
 import net.dv8tion.jda.api.JDA;
@@ -54,7 +56,7 @@ public class Main {
                 .addEventListeners(new CommandListener())
                 .addEventListeners(new ConnectionListener());
         database = new DatabaseUtil();
-        activityChanger = new ActivityChanger(Activity.listening("CodeDoctor"), Activity.watching("github/CodeDoctorDE"), Activity.playing(getVersion()), Activity.playing("games with players :D"));
+        activityChanger = new ActivityChanger();
         baseCommand = new BaseCommand();
         gameManager = new GameManager();
 
@@ -88,6 +90,7 @@ public class Main {
             System.out.println("Shutting down...");
         }));
         activityChanger.start();
+        configure();
         webInterface = new WebInterface();
         new Thread(webInterface::start).start();
         logger.info("Successfully started the bot!");
@@ -137,5 +140,11 @@ public class Main {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void configure(){
+        config.getActivities().clear();
+        config.getActivities().forEach(activity -> activityChanger.getActivities().add(activity.build()));
+        config.getActivities().add(new ActivityConfig(ActivityConfig.Type.PLAYING, Main.getInstance().getVersion()));
     }
 }
