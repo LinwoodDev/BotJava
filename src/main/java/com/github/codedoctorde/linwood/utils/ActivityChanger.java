@@ -22,6 +22,7 @@ public class ActivityChanger {
             public void run() {
                 if(Main.getInstance().getJda() != null) {
                     if (index < 0 || index >= activities.size()) index = 0;
+                    if(activities.size() <= 0) return;
                     Main.getInstance().getJda().getPresence().setActivity(activities.get(index));
                     index++;
                 }

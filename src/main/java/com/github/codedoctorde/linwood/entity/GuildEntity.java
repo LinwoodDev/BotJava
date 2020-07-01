@@ -29,6 +29,8 @@ public class GuildEntity {
     private Long gameMasterRoleId;
     @Column(nullable = true)
     private Long gameCategoryId;
+    @Column(nullable = true)
+    private String karmaEmote;
 
     public GuildEntity(){
     }
