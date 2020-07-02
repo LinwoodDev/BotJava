@@ -13,7 +13,7 @@ public class ActivityChanger {
     private int index;
     private final List<Activity> activities;
     public ActivityChanger(Activity... activities){
-        this.activities = Arrays.asList(activities);
+        this.activities =new ArrayList<>(Arrays.asList(activities));
     }
 
     public void start(){
