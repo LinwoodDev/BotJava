@@ -24,5 +24,7 @@ Guess what word the writer has chosen. This is a turn based game. Every player c
 
 # Current servers
 You can visit my bot on this servers:
-* [KniffelGames](https://discord.gg/rAkWsmN)
-* [Program Chest](https://discord.gg/EXH486R)
+* [KniffelGames](https://discord.gg/J7EUgvN)
+* [DerSky](https://discord.gg/5NNyexY)
+* [Vangora](https://discord.gg/F2yuUXR)
+* [Programm Chest](https://discord.gg/7AQyGPq)
