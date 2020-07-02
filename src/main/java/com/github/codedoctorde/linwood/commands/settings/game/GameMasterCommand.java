@@ -1,4 +1,4 @@
-package com.github.codedoctorde.linwood.commands.settings;
+package com.github.codedoctorde.linwood.commands.settings.game;
 
 import com.github.codedoctorde.linwood.commands.Command;
 import com.github.codedoctorde.linwood.entity.GuildEntity;

@@ -2,7 +2,10 @@ package com.github.codedoctorde.linwood.commands.settings;
 
 import com.github.codedoctorde.linwood.commands.Command;
 import com.github.codedoctorde.linwood.commands.CommandManager;
-import com.github.codedoctorde.linwood.commands.fun.WindowsCommand;
+import com.github.codedoctorde.linwood.commands.settings.game.ClearGameCategoryCommand;
+import com.github.codedoctorde.linwood.commands.settings.game.ClearGameMasterCommand;
+import com.github.codedoctorde.linwood.commands.settings.game.GameCategoryCommand;
+import com.github.codedoctorde.linwood.commands.settings.game.GameMasterCommand;
 import com.github.codedoctorde.linwood.entity.GuildEntity;
 
 import java.util.ResourceBundle;

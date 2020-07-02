@@ -11,6 +11,7 @@ import com.github.codedoctorde.linwood.server.WebInterface;
 import com.github.codedoctorde.linwood.utils.ActivityChanger;
 import com.github.codedoctorde.linwood.utils.DatabaseUtil;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import io.sentry.Sentry;
 import io.sentry.SentryClientFactory;
@@ -40,7 +41,7 @@ public class Main {
     private final GameManager gameManager;
     private MainConfig config;
     private final File configFile = new File("./config.json");
-    private static final Gson gson = new Gson();
+    private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private static final Logger logger = LogManager.getLogger(Main.class);
 
 

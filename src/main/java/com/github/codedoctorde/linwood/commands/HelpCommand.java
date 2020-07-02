@@ -2,9 +2,13 @@ package com.github.codedoctorde.linwood.commands;
 
 import com.github.codedoctorde.linwood.Main;
 import com.github.codedoctorde.linwood.entity.GuildEntity;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import org.hibernate.Session;
 
+import java.awt.*;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -20,16 +24,36 @@ public class HelpCommand implements Command {
         Command command = Main.getInstance().getBaseCommand().getCommand(entity, args);
         if(command == null)
             return false;
-        var bundle = command.getBundle(entity);
-        message.getChannel().sendMessage(bundle == null || bundle.containsKey("Description")?bundle.getString("Description"): Objects.requireNonNull(getBundle(entity)).getString("Syntax")).queue();
+
+        var bundle = getBundle(entity);
+        assert bundle != null;
+        var commandBundle = command.getBundle(entity);
+        if(commandBundle == null) {
+            message.getChannel().sendMessage(bundle.getString("NotExist")).queue();
+            return true;
+        }
+        var output = new MessageBuilder()
+                .append(" ")
+                .setEmbed(new EmbedBuilder()
+                        .setTitle("Help")
+                        .setDescription(commandBundle.containsKey("Description")?commandBundle.getString("Description"):"")
+                        .setColor(new Color(0x3B863B))
+                        .setTimestamp(LocalDateTime.now())
+                        .setFooter(null, null)
+                        .addField("Aliases", String.join(", ", command.aliases(entity)), true)
+                        .addField("Permissions", commandBundle.containsKey("Permission")?commandBundle.getString("Permission"):"", true)
+                        .addField("Syntax", commandBundle.containsKey("Syntax")?commandBundle.getString("Syntax"):"", false)
+                        .build())
+                .build();
+        message.getChannel().sendMessage(output).queue();
         return true;
     }
 
     @Override
     public String[] aliases(GuildEntity entity) {
         return new String[]{
-          "help",
-          "h"
+                "help",
+                "h"
         };
     }
 

@@ -8,8 +8,10 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.SubscribeEvent;
 
 import javax.annotation.Nonnull;
+import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.ResourceBundle;
 
 /**
  * @author CodeDoctorDE
@@ -37,11 +39,12 @@ public class CommandListener {
             else
                 split = normalMention;
             var command = content.substring(split.length()).trim().split(" ");
-            var bundle = Main.getInstance().getBaseCommand().getBundle(guild);
-            assert bundle != null;
+            var bundle = getBundle(guild);
+            var commandBundle = Main.getInstance().getBaseCommand().getBundle(guild);
+            assert bundle != null && commandBundle != null;
             try {
                 if (!Main.getInstance().getBaseCommand().onCommand(session, event.getMessage(), guild, guild.getPrefix(), command))
-                    event.getChannel().sendMessage(bundle.getString("Syntax")).queue();
+                    event.getChannel().sendMessage(MessageFormat.format(bundle.getString("Syntax"), commandBundle.getString("Syntax"))).queue();
             }catch(Exception e){
                 event.getChannel().sendMessage(bundle.getString("Error")).queue();
                 e.printStackTrace();
@@ -49,5 +52,9 @@ public class CommandListener {
             }
         }
         session.close();
+    }
+
+    public ResourceBundle getBundle(GuildEntity entity) {
+        return ResourceBundle.getBundle("locale.commands.Base", entity.getLocalization());
     }
 }
