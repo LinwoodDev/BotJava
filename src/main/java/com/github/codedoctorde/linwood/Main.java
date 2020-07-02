@@ -90,8 +90,8 @@ public class Main {
             getGameManager().clearGames();
             System.out.println("Shutting down...");
         }));
-        activityChanger.start();
         configure();
+        activityChanger.start();
         webInterface = new WebInterface();
         new Thread(webInterface::start).start();
         logger.info("Successfully started the bot!");
@@ -144,8 +144,8 @@ public class Main {
     }
 
     public void configure(){
-        config.getActivities().clear();
+        activityChanger.getActivities().clear();
         config.getActivities().forEach(activity -> activityChanger.getActivities().add(activity.build()));
-        config.getActivities().add(new ActivityConfig(ActivityConfig.Type.PLAYING, Main.getInstance().getVersion()));
+        activityChanger.getActivities().add(Activity.playing(Main.getInstance().getVersion()));
     }
 }
