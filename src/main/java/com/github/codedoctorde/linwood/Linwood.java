@@ -86,6 +86,9 @@ public class Linwood {
             System.out.println("Shutting down...");
         }));
         configure();
+        var session = database.getSessionFactory().openSession();
+        database.cleanup(session);
+        session.close();
         activityChanger.start();
         webInterface = new WebInterface();
         new Thread(webInterface::start).start();

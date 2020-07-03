@@ -102,4 +102,28 @@ public class DatabaseUtil {
     public void updateEntity(Session session, GuildEntity entity){
         session.update(entity);
     }
+
+    public void cleanup(Session session){
+        cleanupGuilds(session);
+    }
+
+    private void cleanupGuilds(Session session) {
+        logger.info("Guild clean up...");
+// Create CriteriaBuilder
+        var builder = session.getCriteriaBuilder();
+
+// Create CriteriaQuery
+        var cq = builder.createQuery(GuildEntity.class);
+        var from = cq.from(GuildEntity.class);
+        var all = cq.select(from);
+        var allQuery = session.createQuery(all);
+        int count = 0;
+        for (var entity :
+                allQuery.getResultList())
+            if (Linwood.getInstance().getJda().getGuildById(entity.getGuildId()) == null) {
+                session.delete(entity);
+                count++;
+            }
+        logger.info("Successfully clean up " + count + " guilds!");
+    }
 }
