@@ -42,7 +42,7 @@ public class TicTacToeCommand implements Command {
         // Main.getInstance().getGameManager().startGame(entity.getGuildId(), new WhatIsIt(rounds, message.getChannel().getIdLong()));
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         try {
-            ImageIO.write(new TicTacToeWorld().render(), "jpg", stream);
+            ImageIO.write(new TicTacToeWorld().render(), "png", stream);
         } catch (IOException e) {
             e.printStackTrace();
         }

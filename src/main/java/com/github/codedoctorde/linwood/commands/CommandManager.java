@@ -16,6 +16,7 @@ public abstract class CommandManager implements Command {
     @Override
     public boolean onCommand(Session session, Message message, GuildEntity entity, String label, String[] args) {
         var bundle = getBundle(entity);
+        System.out.println("TEstse");
         for (Command command : commands())
             if (Arrays.asList(command.aliases(entity)).contains(
                     (args.length > 0) ? args[0].toLowerCase() : "")) {

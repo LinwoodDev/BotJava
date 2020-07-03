@@ -121,6 +121,7 @@ public class DatabaseUtil {
         for (var entity :
                 allQuery.getResultList())
             if (Linwood.getInstance().getJda().getGuildById(entity.getGuildId()) == null) {
+                System.out.println(entity.getGuildId());
                 session.delete(entity);
                 count++;
             }
