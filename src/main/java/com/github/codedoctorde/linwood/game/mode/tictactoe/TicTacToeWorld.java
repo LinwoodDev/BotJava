@@ -10,4 +10,9 @@ public class TicTacToeWorld extends World {
     public TicTacToeWorld() {
         super(new Vector2(300, 300), new Vector2(100, 100));
     }
+
+    @Override
+    public void act() {
+
+    }
 }
