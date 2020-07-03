@@ -13,7 +13,8 @@ public class FunCommand extends CommandManager {
     @Override
     public Command[] commands() {
         return new Command[]{
-            new WindowsCommand()
+                new WindowsCommand(),
+                new DiceCommand()
         };
     }
 
