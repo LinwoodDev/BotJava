@@ -49,10 +49,14 @@ public abstract class World {
     }
 
     public BufferedImage render(){
+        act();
+        actors.forEach(Actor::act);
         var renderedImage = ImageUtil.clone(backgroundImage);
         var graphics = backgroundImage.createGraphics();
         actors.forEach(actor -> graphics.drawImage(actor.render(), actor.getTransform().getLocation().getX(), actor.getTransform().getLocation().getY(),
                 actor.getTransform().getScale().getX(), actor.getTransform().getScale().getY(), null));
         return renderedImage;
     }
+
+    public abstract void act();
 }

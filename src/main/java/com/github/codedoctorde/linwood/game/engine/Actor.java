@@ -13,7 +13,7 @@ public abstract class Actor {
     private Transform transform;
     private BufferedImage image;
 
-    abstract void act();
+    protected abstract void act();
 
     public Transform getTransform() {
         return transform;
