@@ -2,6 +2,7 @@ package com.github.codedoctorde.linwood.game.engine;
 
 import com.github.codedoctorde.linwood.game.engine.Transform;
 import com.github.codedoctorde.linwood.game.engine.Vector2;
+import com.github.codedoctorde.linwood.utils.ImageUtil;
 
 import java.awt.image.BufferedImage;
 
@@ -23,6 +24,6 @@ public abstract class Actor {
     }
 
     public BufferedImage render(){
-
+        return ImageUtil.rotateImageByDegrees(image, transform.getRotation());
     }
 }

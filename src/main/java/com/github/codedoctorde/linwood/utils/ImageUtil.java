@@ -32,4 +32,10 @@ public class ImageUtil {
 
         return rotated;
     }
+    public static BufferedImage clone(BufferedImage image){
+        var cm = image.getColorModel();
+        boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
+        var raster = image.copyData(null);
+        return new BufferedImage(cm, raster, isAlphaPremultiplied, null);
+    }
 }

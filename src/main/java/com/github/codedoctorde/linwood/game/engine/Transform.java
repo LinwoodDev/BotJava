@@ -5,14 +5,14 @@ package com.github.codedoctorde.linwood.game.engine;
  */
 public class Transform {
     private Vector2 location;
-    private Vector2 rotation;
+    private double rotation;
     private Vector2 scale;
 
     public Vector2 getLocation() {
         return location;
     }
 
-    public Vector2 getRotation() {
+    public double getRotation() {
         return rotation;
     }
 
@@ -24,7 +24,7 @@ public class Transform {
         this.location = location;
     }
 
-    public void setRotation(Vector2 rotation) {
+    public void setRotation(double rotation) {
         this.rotation = rotation;
     }
 

@@ -49,10 +49,7 @@ public abstract class World {
     }
 
     public BufferedImage render(){
-        var cm = backgroundImage.getColorModel();
-        boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
-        var raster = backgroundImage.copyData(null);
-        var renderedImage = new BufferedImage(cm, raster, isAlphaPremultiplied, null);
+        var renderedImage = ImageUtil.clone(backgroundImage);
         var graphics = backgroundImage.createGraphics();
         actors.forEach(actor -> graphics.drawImage(actor.render(), actor.getTransform().getLocation().getX(), actor.getTransform().getLocation().getY(),
                 actor.getTransform().getScale().getX(), actor.getTransform().getScale().getY(), null));
