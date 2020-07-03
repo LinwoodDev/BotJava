@@ -1,6 +1,5 @@
 package com.github.codedoctorde.linwood.commands.settings;
 
-import com.github.codedoctorde.linwood.Main;
 import com.github.codedoctorde.linwood.commands.Command;
 import com.github.codedoctorde.linwood.entity.GuildEntity;
 import net.dv8tion.jda.api.Permission;
@@ -8,7 +7,6 @@ import net.dv8tion.jda.api.entities.Message;
 import org.hibernate.Session;
 
 import java.text.MessageFormat;
-import java.util.Arrays;
 import java.util.ResourceBundle;
 
 /**

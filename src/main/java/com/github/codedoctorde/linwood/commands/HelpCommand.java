@@ -1,6 +1,6 @@
 package com.github.codedoctorde.linwood.commands;
 
-import com.github.codedoctorde.linwood.Main;
+import com.github.codedoctorde.linwood.Linwood;
 import com.github.codedoctorde.linwood.entity.GuildEntity;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
@@ -9,9 +9,6 @@ import org.hibernate.Session;
 
 import java.awt.*;
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 /**
@@ -21,7 +18,7 @@ public class HelpCommand implements Command {
 
     @Override
     public boolean onCommand(Session session, Message message, GuildEntity entity, String label, String[] args) {
-        Command command = Main.getInstance().getBaseCommand().getCommand(entity, args);
+        Command command = Linwood.getInstance().getBaseCommand().getCommand(entity, args);
         if(command == null)
             return false;
 

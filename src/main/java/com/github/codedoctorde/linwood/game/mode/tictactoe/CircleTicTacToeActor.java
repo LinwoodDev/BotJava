@@ -9,10 +9,10 @@ import java.util.Objects;
 /**
  * @author CodeDoctorDE
  */
-public class SecondTicTacToeActor extends Actor {
-    public SecondTicTacToeActor(){
+public class CircleTicTacToeActor extends Actor {
+    public CircleTicTacToeActor(){
         try {
-            setImage(ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("assets/tictactoe/second.png"))));
+            setImage(ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("assets/tictactoe/circle.png"))));
         } catch (IOException e) {
             e.printStackTrace();
         }

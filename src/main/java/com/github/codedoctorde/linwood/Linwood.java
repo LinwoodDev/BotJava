@@ -1,9 +1,7 @@
 package com.github.codedoctorde.linwood;
 
 import com.github.codedoctorde.linwood.commands.BaseCommand;
-import com.github.codedoctorde.linwood.config.ActivityConfig;
 import com.github.codedoctorde.linwood.config.MainConfig;
-import com.github.codedoctorde.linwood.game.Game;
 import com.github.codedoctorde.linwood.game.GameManager;
 import com.github.codedoctorde.linwood.listener.ConnectionListener;
 import com.github.codedoctorde.linwood.listener.CommandListener;
@@ -12,7 +10,6 @@ import com.github.codedoctorde.linwood.utils.ActivityChanger;
 import com.github.codedoctorde.linwood.utils.DatabaseUtil;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
 import io.sentry.Sentry;
 import io.sentry.SentryClientFactory;
 import net.dv8tion.jda.api.JDA;
@@ -21,34 +18,32 @@ import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.hooks.AnnotatedEventManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.ietf.jgss.GSSContext;
 
 import javax.security.auth.login.LoginException;
 import java.io.*;
-import java.net.MalformedURLException;
 
 /**
  * @author CodeDoctorDE
  */
-public class Main {
+public class Linwood {
     private final Object sentry;
     private final WebInterface webInterface;
     private JDA jda;
     private final ActivityChanger activityChanger;
     private final BaseCommand baseCommand;
-    private static Main instance;
+    private static Linwood instance;
     private final DatabaseUtil database;
     private final GameManager gameManager;
     private MainConfig config;
     private final File configFile = new File("./config.json");
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    private static final Logger logger = LogManager.getLogger(Main.class);
+    private static final Logger logger = LogManager.getLogger(Linwood.class);
 
 
     public static void main(String[] args) {
-        new Main(args[0]);
+        new Linwood(args[0]);
     }
-    public Main(String token){
+    public Linwood(String token){
         instance = this;
         Sentry.init();
         sentry = SentryClientFactory.sentryClient();
@@ -109,7 +104,7 @@ public class Main {
         return baseCommand;
     }
 
-    public static Main getInstance() {
+    public static Linwood getInstance() {
         return instance;
     }
 
@@ -146,6 +141,6 @@ public class Main {
     public void configure(){
         activityChanger.getActivities().clear();
         config.getActivities().forEach(activity -> activityChanger.getActivities().add(activity.build()));
-        activityChanger.getActivities().add(Activity.playing(Main.getInstance().getVersion()));
+        activityChanger.getActivities().add(Activity.playing(Linwood.getInstance().getVersion()));
     }
 }

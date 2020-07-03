@@ -1,6 +1,6 @@
 package com.github.codedoctorde.linwood.commands.game;
 
-import com.github.codedoctorde.linwood.Main;
+import com.github.codedoctorde.linwood.Linwood;
 import com.github.codedoctorde.linwood.commands.Command;
 import com.github.codedoctorde.linwood.entity.GuildEntity;
 import net.dv8tion.jda.api.entities.Message;
@@ -22,10 +22,10 @@ public class StopGameCommand implements Command {
             message.getChannel().sendMessage(bundle.getString("NoPermission")).queue();
             return true;
         }
-        if(Main.getInstance().getGameManager().getGame(entity.getGuildId()) == null)
+        if(Linwood.getInstance().getGameManager().getGame(entity.getGuildId()) == null)
             message.getTextChannel().sendMessage(bundle.getString("NoGameRunning")).queue();
         else {
-            Main.getInstance().getGameManager().stopGame(entity.getGuildId());
+            Linwood.getInstance().getGameManager().stopGame(entity.getGuildId());
             message.getTextChannel().sendMessage(bundle.getString("Success")).queue();
         }
         return true;

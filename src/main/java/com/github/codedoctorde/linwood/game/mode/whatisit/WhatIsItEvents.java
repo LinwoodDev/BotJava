@@ -1,13 +1,12 @@
 package com.github.codedoctorde.linwood.game.mode.whatisit;
 
-import com.github.codedoctorde.linwood.Main;
+import com.github.codedoctorde.linwood.Linwood;
 import io.sentry.Sentry;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.api.events.message.react.MessageReactionRemoveEvent;
 import net.dv8tion.jda.api.hooks.SubscribeEvent;
-import net.dv8tion.jda.internal.entities.ReceivedMessage;
 
 import java.text.MessageFormat;
 
@@ -25,7 +24,7 @@ public class WhatIsItEvents {
         try {
             if (event.getChannel().getIdLong() != whatIsIt.getTextChannelId() || event.getMember() == null)
                 return;
-            var session = Main.getInstance().getDatabase().getSessionFactory().openSession();
+            var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
             var message = event.getMessage();
             if (whatIsIt.getTextChannelId() != message.getTextChannel().getIdLong()) return;
             var round = whatIsIt.getRound();
@@ -33,7 +32,7 @@ public class WhatIsItEvents {
                 message.delete().queue();
                 if (!round.isGuesser(event.getMember()) && message.getAuthor().getIdLong() != round.getWriterId())
                     event.getChannel().sendMessage(MessageFormat.format(whatIsIt.getBundle(session).getString("Guess"), event.getAuthor().getName(), round.guessCorrectly(event.getMember()))).queue(message1 -> {
-                        var session1 = Main.getInstance().getDatabase().getSessionFactory().openSession();
+                        var session1 = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
                         round.checkEverybody(session1);
                         session.close();
                     });
@@ -64,8 +63,8 @@ public class WhatIsItEvents {
     @SubscribeEvent
     public void onJoin(MessageReactionAddEvent event){
         try {
-            var session = Main.getInstance().getDatabase().getSessionFactory().openSession();
-            var entity = Main.getInstance().getDatabase().getGuildById(session, event.getGuild().getIdLong());
+            var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
+            var entity = Linwood.getInstance().getDatabase().getGuildById(session, event.getGuild().getIdLong());
             var bundle = whatIsIt.getBundle(session);
             if (event.getChannel().getIdLong() != whatIsIt.getTextChannelId() || event.getMember() == null ||
                     event.getMessageIdLong() != whatIsIt.getWantWriterMessageId())
@@ -97,7 +96,7 @@ public class WhatIsItEvents {
     @SubscribeEvent
     public void onLeave(MessageReactionRemoveEvent event){
         try {
-            var session = Main.getInstance().getDatabase().getSessionFactory().openSession();
+            var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
             if (event.getChannel().getIdLong() != whatIsIt.getTextChannelId() || event.getMember() == null ||
                     event.getMessageIdLong() != whatIsIt.getWantWriterMessageId())
                 return;

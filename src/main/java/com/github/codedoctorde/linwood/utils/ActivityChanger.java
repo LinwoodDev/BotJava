@@ -1,6 +1,6 @@
 package com.github.codedoctorde.linwood.utils;
 
-import com.github.codedoctorde.linwood.Main;
+import com.github.codedoctorde.linwood.Linwood;
 import net.dv8tion.jda.api.entities.Activity;
 
 import java.util.*;
@@ -20,10 +20,10 @@ public class ActivityChanger {
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
-                if(Main.getInstance().getJda() != null) {
+                if(Linwood.getInstance().getJda() != null) {
                     if (index < 0 || index >= activities.size()) index = 0;
                     if(activities.size() <= 0) return;
-                    Main.getInstance().getJda().getPresence().setActivity(activities.get(index));
+                    Linwood.getInstance().getJda().getPresence().setActivity(activities.get(index));
                     index++;
                 }
             }

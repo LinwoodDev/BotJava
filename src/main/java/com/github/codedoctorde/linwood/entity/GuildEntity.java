@@ -1,9 +1,8 @@
 package com.github.codedoctorde.linwood.entity;
 
-import com.github.codedoctorde.linwood.Main;
+import com.github.codedoctorde.linwood.Linwood;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Category;
-import net.dv8tion.jda.api.entities.GuildChannel;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import org.hibernate.Session;
@@ -71,7 +70,7 @@ public class GuildEntity {
         if(gameCategoryId == null)
             return null;
         else
-            return Main.getInstance().getJda().getCategoryById(gameCategoryId);
+            return Linwood.getInstance().getJda().getCategoryById(gameCategoryId);
     }
 
     public void setGameCategory(@Nullable Category category){
@@ -98,7 +97,7 @@ public class GuildEntity {
     public Role getGameMasterRole(){
         if(gameMasterRoleId == null)
             return null;
-        return Main.getInstance().getJda().getRoleById(gameMasterRoleId);
+        return Linwood.getInstance().getJda().getRoleById(gameMasterRoleId);
     }
 
     public void setGameCategoryId(Long gameCategoryId) {
@@ -116,6 +115,6 @@ public class GuildEntity {
     }
 
     public static GuildEntity get(Session session, long guildId){
-        return Main.getInstance().getDatabase().getGuildById(session, guildId);
+        return Linwood.getInstance().getDatabase().getGuildById(session, guildId);
     }
 }

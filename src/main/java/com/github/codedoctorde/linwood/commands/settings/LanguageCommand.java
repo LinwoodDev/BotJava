@@ -1,6 +1,5 @@
 package com.github.codedoctorde.linwood.commands.settings;
 
-import com.github.codedoctorde.linwood.Main;
 import com.github.codedoctorde.linwood.commands.Command;
 import com.github.codedoctorde.linwood.entity.GuildEntity;
 import net.dv8tion.jda.api.Permission;

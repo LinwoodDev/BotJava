@@ -1,6 +1,6 @@
 package com.github.codedoctorde.linwood.game.mode.quizfactory;
 
-import com.github.codedoctorde.linwood.Main;
+import com.github.codedoctorde.linwood.Linwood;
 import com.github.codedoctorde.linwood.entity.GuildEntity;
 import com.github.codedoctorde.linwood.game.Game;
 import com.github.codedoctorde.linwood.game.GameMode;
@@ -30,7 +30,7 @@ public class QuizFactory implements GameMode {
     public void start(Game game) {
         this.game = game;
 
-        var session = Main.getInstance().getDatabase().getSessionFactory().openSession();
+        var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
         var guild = GuildEntity.get(session, game.getGuildId());
         var category = guild.getGameCategory();
         if(category == null) {
@@ -43,7 +43,7 @@ public class QuizFactory implements GameMode {
     }
 
     public void startIngame(Session session){
-        Objects.requireNonNull(Main.getInstance().getJda().getTextChannelById(textChannelId)).
+        Objects.requireNonNull(Linwood.getInstance().getJda().getTextChannelById(textChannelId)).
                 sendMessage(getBundle(session).getString("Ingame")).queue();
     }
 
@@ -61,7 +61,7 @@ public class QuizFactory implements GameMode {
     }
 
     public ResourceBundle getBundle(Session session){
-        return ResourceBundle.getBundle("locale.game.QuizFactory", Main.getInstance().getDatabase().getGuildById(session, game.getGuildId()).getLocalization());
+        return ResourceBundle.getBundle("locale.game.QuizFactory", Linwood.getInstance().getDatabase().getGuildById(session, game.getGuildId()).getLocalization());
     }
 
     public List<String> getQuestions() {

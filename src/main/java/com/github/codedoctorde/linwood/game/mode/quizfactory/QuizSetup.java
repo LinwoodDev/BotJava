@@ -1,8 +1,6 @@
 package com.github.codedoctorde.linwood.game.mode.quizfactory;
 
-import com.github.codedoctorde.linwood.Main;
-import com.github.codedoctorde.linwood.entity.GuildEntity;
-import net.dv8tion.jda.api.entities.Activity;
+import com.github.codedoctorde.linwood.Linwood;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.PrivateChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -18,11 +16,11 @@ public class QuizSetup {
 
     public QuizSetup(QuizFactory factory){
         this.factory = factory;
-        Objects.requireNonNull(Main.getInstance().getJda().getUserById(factory.getOwnerId())).openPrivateChannel().queue(channel -> sendMessage(channel, "SetupAddMessage"));
+        Objects.requireNonNull(Linwood.getInstance().getJda().getUserById(factory.getOwnerId())).openPrivateChannel().queue(channel -> sendMessage(channel, "SetupAddMessage"));
     }
 
     public void sendMessage(PrivateChannel channel, String content){
-        var session = Main.getInstance().getDatabase().getSessionFactory().openSession();
+        var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
         channel.sendMessage(factory.getBundle(session).getString(content)).queue(message ->
                 message.addReaction("white_check_mark").queue(aVoid -> message.addReaction("x").queue()));
         session.close();

@@ -1,6 +1,6 @@
 package com.github.codedoctorde.linwood.commands.game;
 
-import com.github.codedoctorde.linwood.Main;
+import com.github.codedoctorde.linwood.Linwood;
 import com.github.codedoctorde.linwood.commands.Command;
 import com.github.codedoctorde.linwood.entity.GuildEntity;
 import com.github.codedoctorde.linwood.game.mode.quizfactory.QuizFactory;
@@ -19,7 +19,7 @@ public class QuizFactoryCommand implements Command {
     public boolean onCommand(Session session, Message message, GuildEntity entity, String label, String[] args) {
         if(args.length > 0)
         return false;
-        Main.getInstance().getGameManager().startGame(entity.getGuildId(), new QuizFactory(message.getAuthor().getIdLong()));
+        Linwood.getInstance().getGameManager().startGame(entity.getGuildId(), new QuizFactory(message.getAuthor().getIdLong()));
         message.getTextChannel().sendMessage(Objects.requireNonNull(getBundle(entity)).getString("Success")).queue();
         return true;
     }

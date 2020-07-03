@@ -53,7 +53,7 @@
             <configuration>
                 <archive>
                     <manifest>
-                        <mainClass>com.github.codedoctorde.linwood.Main</mainClass>
+                        <mainClass>com.github.codedoctorde.linwood.Linwood</mainClass>
                     </manifest>
                 </archive>
                 <descriptorRefs>

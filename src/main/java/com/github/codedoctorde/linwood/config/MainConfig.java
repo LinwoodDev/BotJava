@@ -1,8 +1,5 @@
 package com.github.codedoctorde.linwood.config;
 
-import com.github.codedoctorde.linwood.Main;
-import net.dv8tion.jda.api.entities.Activity;
-
 import java.util.ArrayList;
 import java.util.List;
 

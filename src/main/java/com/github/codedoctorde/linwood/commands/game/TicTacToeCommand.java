@@ -1,16 +1,13 @@
 package com.github.codedoctorde.linwood.commands.game;
 
-import com.github.codedoctorde.linwood.Main;
 import com.github.codedoctorde.linwood.commands.Command;
 import com.github.codedoctorde.linwood.entity.GuildEntity;
 import com.github.codedoctorde.linwood.game.mode.tictactoe.TicTacToeWorld;
-import com.github.codedoctorde.linwood.game.mode.whatisit.WhatIsIt;
 import net.dv8tion.jda.api.entities.Message;
 import org.hibernate.Session;
 import org.jetbrains.annotations.Nullable;
 
 import javax.imageio.ImageIO;
-import java.awt.image.DataBufferByte;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ResourceBundle;

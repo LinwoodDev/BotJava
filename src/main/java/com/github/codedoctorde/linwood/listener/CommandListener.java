@@ -1,6 +1,6 @@
 package com.github.codedoctorde.linwood.listener;
 
-import com.github.codedoctorde.linwood.Main;
+import com.github.codedoctorde.linwood.Linwood;
 import com.github.codedoctorde.linwood.entity.GuildEntity;
 import io.sentry.Sentry;
 import net.dv8tion.jda.api.entities.ChannelType;
@@ -9,8 +9,6 @@ import net.dv8tion.jda.api.hooks.SubscribeEvent;
 
 import javax.annotation.Nonnull;
 import java.text.MessageFormat;
-import java.util.Arrays;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 /**
@@ -19,7 +17,7 @@ import java.util.ResourceBundle;
 public class CommandListener {
     @SubscribeEvent
     public void onCommand(@Nonnull MessageReceivedEvent event) {
-        var session = Main.getInstance().getDatabase().getSessionFactory().openSession();
+        var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
         if(event.getChannelType() != ChannelType.TEXT)
             return;
         var guild = GuildEntity.get(session, event.getGuild().getIdLong());
@@ -40,10 +38,10 @@ public class CommandListener {
                 split = normalMention;
             var command = content.substring(split.length()).trim().split(" ");
             var bundle = getBundle(guild);
-            var commandBundle = Main.getInstance().getBaseCommand().getBundle(guild);
+            var commandBundle = Linwood.getInstance().getBaseCommand().getBundle(guild);
             assert bundle != null && commandBundle != null;
             try {
-                if (!Main.getInstance().getBaseCommand().onCommand(session, event.getMessage(), guild, guild.getPrefix(), command))
+                if (!Linwood.getInstance().getBaseCommand().onCommand(session, event.getMessage(), guild, guild.getPrefix(), command))
                     event.getChannel().sendMessage(MessageFormat.format(bundle.getString("Syntax"), commandBundle.getString("Syntax"))).queue();
             }catch(Exception e){
                 event.getChannel().sendMessage(bundle.getString("Error")).queue();

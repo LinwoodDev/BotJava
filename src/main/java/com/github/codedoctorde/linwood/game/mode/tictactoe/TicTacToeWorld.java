@@ -22,14 +22,14 @@ public class TicTacToeWorld extends World {
 
     @Override
     public void act() {
-        getActors().add(new FirstTicTacToeActor(){{getTransform().setLocation(0, 0);}});
-        getActors().add(new FirstTicTacToeActor(){{getTransform().setLocation(2, 0);}});
-        getActors().add(new FirstTicTacToeActor(){{getTransform().setLocation(0, 1);}});
-        getActors().add(new FirstTicTacToeActor(){{getTransform().setLocation(1, 2);}});
-        getActors().add(new FirstTicTacToeActor(){{getTransform().setLocation(2, 2);}});
-        getActors().add(new SecondTicTacToeActor(){{getTransform().setLocation(1, 0);}});
-        getActors().add(new SecondTicTacToeActor(){{getTransform().setLocation(2, 1);}});
-        getActors().add(new SecondTicTacToeActor(){{getTransform().setLocation(0, 2);}});
-        getActors().add(new SecondTicTacToeActor(){{getTransform().setLocation(1, 1);}});
+        getActors().add(new CrossTicTacToeActor(){{getTransform().setLocation(0, 0);}});
+        getActors().add(new CrossTicTacToeActor(){{getTransform().setLocation(2, 0);}});
+        getActors().add(new CrossTicTacToeActor(){{getTransform().setLocation(0, 1);}});
+        getActors().add(new CrossTicTacToeActor(){{getTransform().setLocation(1, 2);}});
+        getActors().add(new CrossTicTacToeActor(){{getTransform().setLocation(2, 2);}});
+        getActors().add(new CircleTicTacToeActor(){{getTransform().setLocation(1, 0);}});
+        getActors().add(new CircleTicTacToeActor(){{getTransform().setLocation(2, 1);}});
+        getActors().add(new CircleTicTacToeActor(){{getTransform().setLocation(0, 2);}});
+        getActors().add(new CircleTicTacToeActor(){{getTransform().setLocation(1, 1);}});
     }
 }

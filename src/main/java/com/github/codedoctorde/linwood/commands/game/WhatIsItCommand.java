@@ -1,17 +1,13 @@
 package com.github.codedoctorde.linwood.commands.game;
 
-import com.github.codedoctorde.linwood.Main;
+import com.github.codedoctorde.linwood.Linwood;
 import com.github.codedoctorde.linwood.commands.Command;
 import com.github.codedoctorde.linwood.entity.GuildEntity;
-import com.github.codedoctorde.linwood.game.GameMode;
-import com.github.codedoctorde.linwood.game.mode.quizfactory.QuizFactory;
 import com.github.codedoctorde.linwood.game.mode.whatisit.WhatIsIt;
 import net.dv8tion.jda.api.entities.Message;
 import org.hibernate.Session;
 import org.jetbrains.annotations.Nullable;
 
-import javax.swing.*;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 /**
@@ -41,7 +37,7 @@ public class WhatIsItCommand implements Command {
             message.getTextChannel().sendMessage(bundle.getString("Invalid")).queue();
             return true;
         }
-        Main.getInstance().getGameManager().startGame(entity.getGuildId(), new WhatIsIt(rounds, message.getChannel().getIdLong()));
+        Linwood.getInstance().getGameManager().startGame(entity.getGuildId(), new WhatIsIt(rounds, message.getChannel().getIdLong()));
         message.getTextChannel().sendMessage(bundle.getString("Success")).queue();
         return true;
     }

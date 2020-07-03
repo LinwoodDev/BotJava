@@ -1,6 +1,6 @@
 package com.github.codedoctorde.linwood.commands;
 
-import com.github.codedoctorde.linwood.Main;
+import com.github.codedoctorde.linwood.Linwood;
 import com.github.codedoctorde.linwood.entity.GuildEntity;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
@@ -8,8 +8,6 @@ import org.hibernate.Session;
 
 import java.lang.management.ManagementFactory;
 import java.text.MessageFormat;
-import java.time.Duration;
-import java.util.Arrays;
 import java.util.ResourceBundle;
 
 /**
@@ -35,7 +33,7 @@ public class InfoCommand implements Command {
         long minute = (uptime / (1000 * 60)) % 60;
         long hour = (uptime / (1000 * 60 * 60)) % 24;
         long days = (uptime / (1000 * 60 * 24));
-        return MessageFormat.format(text, Main.getInstance().getVersion(), message.getAuthor().getAsMention(), guild.getPrefix(), days, hour, minute, second, millis, Main.getInstance().getConfig().getSupportURL());
+        return MessageFormat.format(text, Linwood.getInstance().getVersion(), message.getAuthor().getAsMention(), guild.getPrefix(), days, hour, minute, second, millis, Linwood.getInstance().getConfig().getSupportURL());
     }
 
     @Override

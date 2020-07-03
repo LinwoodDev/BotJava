@@ -1,22 +1,16 @@
 package com.github.codedoctorde.linwood.utils;
 
-import com.github.codedoctorde.linwood.Main;
+import com.github.codedoctorde.linwood.Linwood;
 import com.github.codedoctorde.linwood.entity.GuildEntity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.*;
 import org.hibernate.cfg.Configuration;
 
-import javax.swing.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Locale;
 import java.util.Objects;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
@@ -101,7 +95,7 @@ public class DatabaseUtil {
         }
     }
     public GuildEntity createGuild(Session session, long guildId){
-        var guild = new GuildEntity(Main.getInstance().getConfig().getPrefix(),guildId);
+        var guild = new GuildEntity(Linwood.getInstance().getConfig().getPrefix(),guildId);
         guild.save(session);
         return guild;
     }

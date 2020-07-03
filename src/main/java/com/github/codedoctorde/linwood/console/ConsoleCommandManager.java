@@ -1,12 +1,8 @@
 package com.github.codedoctorde.linwood.console;
 
-import com.github.codedoctorde.linwood.Main;
-import com.github.codedoctorde.linwood.commands.Command;
-import com.github.codedoctorde.linwood.entity.GuildEntity;
-import net.dv8tion.jda.api.entities.Message;
+import com.github.codedoctorde.linwood.Linwood;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.hibernate.Session;
 
 import java.util.Arrays;
 
@@ -15,7 +11,7 @@ import java.util.Arrays;
  */
 public abstract class ConsoleCommandManager implements ConsoleCommand {
     public abstract ConsoleCommand[] commands();
-    private static final Logger logger = LogManager.getLogger(Main.class);
+    private static final Logger logger = LogManager.getLogger(Linwood.class);
 
     @Override
     public boolean onCommand(String label, String[] args) {

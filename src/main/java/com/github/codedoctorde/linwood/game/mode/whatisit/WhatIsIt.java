@@ -1,17 +1,15 @@
 package com.github.codedoctorde.linwood.game.mode.whatisit;
 
-import com.github.codedoctorde.linwood.Main;
+import com.github.codedoctorde.linwood.Linwood;
 import com.github.codedoctorde.linwood.entity.GuildEntity;
 import com.github.codedoctorde.linwood.game.Game;
 import com.github.codedoctorde.linwood.game.GameMode;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.*;
-import net.dv8tion.jda.api.requests.RestAction;
 import net.dv8tion.jda.api.requests.restaction.ChannelAction;
 import org.hibernate.Session;
 
 import java.text.MessageFormat;
-import java.time.Duration;
 import java.util.*;
 
 /**
@@ -41,8 +39,8 @@ public class WhatIsIt implements GameMode {
         this.game = game;
 
         events = new WhatIsItEvents(this);
-        Main.getInstance().getJda().getEventManager().register(events);
-        var session = Main.getInstance().getDatabase().getSessionFactory().openSession();
+        Linwood.getInstance().getJda().getEventManager().register(events);
+        var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
         var guild = GuildEntity.get(session, game.getGuildId());
         Category category = null;
         if(guild.getGameCategoryId() != null)
@@ -65,11 +63,11 @@ public class WhatIsIt implements GameMode {
     @Override
     public void stop() {
         stopTimer();
-        var session = Main.getInstance().getDatabase().getSessionFactory().openSession();
-        Main.getInstance().getJda().getEventManager().unregister(events);
+        var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
+        Linwood.getInstance().getJda().getEventManager().unregister(events);
         if(round != null)
             round.stopTimer();
-        sendLeaderboard(session, Main.getInstance().getJda().getTextChannelById(rootChannel));
+        sendLeaderboard(session, Linwood.getInstance().getJda().getTextChannelById(rootChannel));
         session.close();
         var textChannel = getTextChannel();
         if(textChannel != null)
@@ -88,7 +86,7 @@ public class WhatIsIt implements GameMode {
                 @Override
                 public void run() {
                     stopTimer();
-                    var session = Main.getInstance().getDatabase().getSessionFactory().openSession();
+                    var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
                     var wantWriterList = new ArrayList<>(wantWriter);
                     if (wantWriter.size() < 1) finishGame();
                     else nextRound(session, wantWriterList.get(random.nextInt(wantWriterList.size())));
@@ -111,7 +109,7 @@ public class WhatIsIt implements GameMode {
         round = new WhatIsItRound(writerId, this);
         var bundle = getBundle(session);
         game.getGuild().retrieveMemberById(writerId).queue(member -> {
-            var session1 = Main.getInstance().getDatabase().getSessionFactory().openSession();
+            var session1 = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
             getTextChannel().sendMessage(MessageFormat.format(bundle.getString("Round"), member.getAsMention())).queue();
             sendLeaderboard(session1);
             session1.close();
@@ -127,7 +125,7 @@ public class WhatIsIt implements GameMode {
     public void finishGame(){
         stopTimer();
         clearWantWriterMessage();
-        var session = Main.getInstance().getDatabase().getSessionFactory().openSession();
+        var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
         var bundle = getBundle(session);
         var textChannel = getTextChannel();
         textChannel.sendMessage(bundle.getString("Finish")).queue();
@@ -137,7 +135,7 @@ public class WhatIsIt implements GameMode {
             @Override
             public void run() {
                 stopTimer();
-                Main.getInstance().getGameManager().stopGame(game);
+                Linwood.getInstance().getGameManager().stopGame(game);
             }
         }, 30 * 1000);
     }
@@ -151,7 +149,7 @@ public class WhatIsIt implements GameMode {
 
     public void finishRound(){
         game.getGuild().retrieveMemberById(round.getWriterId()).queue(member ->{
-            var session = Main.getInstance().getDatabase().getSessionFactory().openSession();
+            var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
             givePoints(member, round.getGuesser().size() * 2);
             round.stopRound();
             round = null;
@@ -186,7 +184,7 @@ public class WhatIsIt implements GameMode {
         if(index >= leaderboard.size())
             textChannel.sendMessage(message).embed(new EmbedBuilder().setTitle(bundle.getString("LeaderboardHeader")).setDescription(description).setFooter(bundle.getString("LeaderboardFooter")).build()).queue();
         else{
-            Main.getInstance().getJda().retrieveUserById(leaderboard.get(index).getKey()).queue(user -> {
+            Linwood.getInstance().getJda().retrieveUserById(leaderboard.get(index).getKey()).queue(user -> {
                 var entry = leaderboard.get(index);
                 String newDescription = description;
                 if(user != null) newDescription += (MessageFormat.format(bundle.getString("Leaderboard"), index + 1,
@@ -205,7 +203,7 @@ public class WhatIsIt implements GameMode {
     }
 
     public ResourceBundle getBundle(Session session){
-        return ResourceBundle.getBundle("locale.game.WhatIsIt", Main.getInstance().getDatabase().getGuildById(session, game.getGuildId()).getLocalization());
+        return ResourceBundle.getBundle("locale.game.WhatIsIt", Linwood.getInstance().getDatabase().getGuildById(session, game.getGuildId()).getLocalization());
     }
 
     public long getTextChannelId() {
@@ -213,7 +211,7 @@ public class WhatIsIt implements GameMode {
     }
 
     public TextChannel getTextChannel(){
-        return Main.getInstance().getJda().getTextChannelById(textChannelId);
+        return Linwood.getInstance().getJda().getTextChannelById(textChannelId);
     }
 
     public Game getGame() {

@@ -1,6 +1,6 @@
 package com.github.codedoctorde.linwood.game.mode.whatisit;
 
-import com.github.codedoctorde.linwood.Main;
+import com.github.codedoctorde.linwood.Linwood;
 import net.dv8tion.jda.api.entities.Member;
 import org.hibernate.Session;
 
@@ -26,7 +26,7 @@ public class WhatIsItRound {
     public void inputWriter(){
         whatIsIt.getGame().getGuild().retrieveMemberById(writerId).queue(member ->
                 member.getUser().openPrivateChannel().queue(privateChannel -> {
-                    var session = Main.getInstance().getDatabase().getSessionFactory().openSession();
+                    var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
                     privateChannel.sendMessage(whatIsIt.getBundle(session).getString("Input")).queue();
                     session.close();
                 })
@@ -35,7 +35,7 @@ public class WhatIsItRound {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                var session = Main.getInstance().getDatabase().getSessionFactory().openSession();
+                var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
                 whatIsIt.cancelRound(session);
                 session.close();
             }
@@ -63,7 +63,7 @@ public class WhatIsItRound {
 
             @Override
             public void run() {
-                var session = Main.getInstance().getDatabase().getSessionFactory().openSession();
+                var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
                 var bundle = whatIsIt.getBundle(session);
                 if (time <= 0 || whatIsIt.getTextChannel() == null) {
                     timer.cancel();
@@ -97,7 +97,7 @@ public class WhatIsItRound {
         }, 1000, 1000);
     }
     public void stopRound(){
-        var session = Main.getInstance().getDatabase().getSessionFactory().openSession();
+        var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
         var bundle = whatIsIt.getBundle(session);
         if(word != null)
         whatIsIt.getTextChannel().sendMessage(MessageFormat.format(bundle.getString("Word"), word)).queue();
