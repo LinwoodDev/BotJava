@@ -10,7 +10,7 @@ import java.awt.image.BufferedImage;
  * @author CodeDoctorDE
  */
 public abstract class Actor {
-    private Transform transform;
+    private final Transform transform = new Transform();
     private BufferedImage image;
 
     protected abstract void act();
@@ -23,7 +23,11 @@ public abstract class Actor {
         return image;
     }
 
+    public void setImage(BufferedImage image) {
+        this.image = image;
+    }
+
     public BufferedImage render(){
-        return ImageUtil.rotateImageByDegrees(image, transform.getRotation());
+        return image;
     }
 }

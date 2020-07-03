@@ -55,6 +55,6 @@ public class CommandListener {
     }
 
     public ResourceBundle getBundle(GuildEntity entity) {
-        return ResourceBundle.getBundle("locale.commands.Base", entity.getLocalization());
+        return ResourceBundle.getBundle("locale.Command", entity.getLocalization());
     }
 }

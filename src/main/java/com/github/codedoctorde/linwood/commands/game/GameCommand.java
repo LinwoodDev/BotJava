@@ -15,7 +15,8 @@ public class GameCommand extends CommandManager {
     public Command[] commands() {
         return new Command[]{
                 new StopGameCommand(),
-                new WhatIsItCommand()
+                new WhatIsItCommand(),
+                new TicTacToeCommand()
         };
     }
 
