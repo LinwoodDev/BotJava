@@ -143,9 +143,6 @@ public class WhatIsItRound {
         var last = new HashSet<>(whatIsIt.getWantWriter());
         guesser.forEach(last::remove);
         last.remove(writerId);
-        System.out.println("Want writer: " + whatIsIt.getWantWriter());
-        System.out.println("Guesser: " + guesser);
-        System.out.println("Last: " + last);
         if(whatIsIt.getWantWriter().size() <= 1)
             return;
         if(last.size() <= 0){

@@ -195,7 +195,6 @@ public class WhatIsIt implements GameMode {
     }
 
     private ArrayList<Map.Entry<Long, Integer>> getLeaderboard() {
-        System.out.println(points);
         var set = points.entrySet();
         var list = new ArrayList<>(set);
         list.sort((o1, o2) -> o2.getValue().compareTo(o1.getValue()));

@@ -42,12 +42,33 @@ public abstract class World {
         return actors;
     }
 
+    public void addActor(Actor actor){
+        addActor(actor, 0, 0);
+    }
+    public void addActor(Actor actor, int x, int y){
+        addActor(actor, new Vector2(x, y));
+    }
+    public void addActor(Actor actor, Vector2 location){
+        actor.getTransform().setLocation(location);
+        actors.add(actor);
+    }
+    public void removeActor(){
+
+    }
+
     public BufferedImage getBackgroundImage() {
         return backgroundImage;
     }
 
     public void setBackgroundImage(BufferedImage backgroundImage) {
         this.backgroundImage = backgroundImage;
+    }
+    
+    public Actor[] getActors(int x, int y){
+        return getActors(new Vector2(x, y));
+    }
+    public Actor[] getActors(Vector2 location){
+        return actors.stream().filter(actor -> actor.getTransform().getLocation().getX() == location.getX() && actor.getTransform().getLocation().getY() == location.getY()).toArray(Actor[]::new);
     }
 
     public BufferedImage render(){

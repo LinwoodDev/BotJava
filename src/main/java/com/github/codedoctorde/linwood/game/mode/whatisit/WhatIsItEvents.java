@@ -102,7 +102,6 @@ public class WhatIsItEvents {
                 return;
             if (event.getMember().getUser().isBot())
                 return;
-            System.out.println(event.getReactionEmote().getAsCodepoints());
             if (event.getReactionEmote().getAsCodepoints().equals("U+1f590U+fe0f"))
                 whatIsIt.removeWriter(session, event.getMember());
             session.close();

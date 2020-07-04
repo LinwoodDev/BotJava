@@ -13,13 +13,13 @@ public class ImageUtil {
         double sin = Math.abs(Math.sin(rads)), cos = Math.abs(Math.cos(rads));
         int w = img.getWidth();
         int h = img.getHeight();
-        int newWidth = (int) Math.floor(w * cos + h * sin);
-        int newHeight = (int) Math.floor(h * cos + w * sin);
+        var newWidth = (int) Math.floor(w * cos + h * sin);
+        var newHeight = (int) Math.floor(h * cos + w * sin);
 
         BufferedImage rotated = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = rotated.createGraphics();
         AffineTransform at = new AffineTransform();
-        at.translate((newWidth - w) / 2, (newHeight - h) / 2);
+        at.translate((newWidth - w) / 2f, (newHeight - h) / 2f);
 
         int x = w / 2;
         int y = h / 2;
@@ -35,7 +35,6 @@ public class ImageUtil {
     public static BufferedImage clone(BufferedImage image){
         var model = image.getColorModel();
         var raster = image.copyData(null);
-        BufferedImage clone = new BufferedImage(model, raster, model.isAlphaPremultiplied(), null);
-        return clone;
+        return new BufferedImage(model, raster, model.isAlphaPremultiplied(), null);
     }
 }

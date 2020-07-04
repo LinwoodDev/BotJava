@@ -38,7 +38,6 @@ public class DatabaseUtil {
             e.printStackTrace();
             prop = ResourceBundle.getBundle("db");
         }
-        System.out.println(prop.getString("db.url"));
 
 // Basic connection information
         configuration.setProperty("hibernate.connection.username", prop.getString("db.username"));
@@ -121,7 +120,6 @@ public class DatabaseUtil {
         for (var entity :
                 allQuery.getResultList())
             if (Linwood.getInstance().getJda().getGuildById(entity.getGuildId()) == null) {
-                System.out.println(entity.getGuildId());
                 session.delete(entity);
                 count++;
             }

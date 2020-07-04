@@ -83,7 +83,7 @@ public class Linwood {
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             getGameManager().clearGames();
-            System.out.println("Shutting down...");
+            logger.info("Shutting down...");
         }));
         configure();
         activityChanger.start();

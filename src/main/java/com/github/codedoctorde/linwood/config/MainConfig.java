@@ -11,7 +11,7 @@ public class MainConfig {
     private boolean userStats = false;
 
 
-    private List<ActivityConfig> activities = new ArrayList<>(){{
+    private final List<ActivityConfig> activities = new ArrayList<>(){{
         add(new ActivityConfig(ActivityConfig.Type.LISTENING, "CodeDoctor"));
         add(new ActivityConfig(ActivityConfig.Type.WATCHING, "github/CodeDoctorDE"));
         add(new ActivityConfig(ActivityConfig.Type.PLAYING, "games with players :D"));

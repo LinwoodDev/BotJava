@@ -7,21 +7,27 @@ import java.util.List;
 /**
  * @author CodeDoctorDE
  */
-public class Board {
-    private final BufferedImage backgroundImage;
-    private final Vector2 fieldSize;
-    public final List<Actor> actors = new ArrayList<>();
+public abstract class Board {
+    private World currentWorld = null;
+    public Board(){
 
-    public Board(BufferedImage backgroundImage, Vector2 fieldSize){
-        this.backgroundImage = backgroundImage;
-        this.fieldSize = fieldSize;
     }
 
-    public BufferedImage getBackgroundImage() {
-        return backgroundImage;
+    public World getCurrentWorld() {
+        return currentWorld;
     }
 
-    public Vector2 getFieldSize() {
-        return fieldSize;
+    public void setCurrentWorld(World currentWorld) {
+        this.currentWorld = currentWorld;
+        onChangeWorld();
     }
+    public BufferedImage render(){
+        if(currentWorld != null)
+            return currentWorld.render();
+        return null;
+    }
+    protected void onChangeWorld(){
+
+    }
+    public abstract void act();
 }

@@ -4,23 +4,28 @@ import com.github.codedoctorde.linwood.Linwood;
 import com.github.codedoctorde.linwood.entity.GuildEntity;
 import com.github.codedoctorde.linwood.game.Game;
 import com.github.codedoctorde.linwood.game.GameMode;
+import com.github.codedoctorde.linwood.game.engine.Board;
 import net.dv8tion.jda.api.entities.Category;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.requests.restaction.ChannelAction;
 import org.hibernate.Session;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
  * @author CodeDoctorDE
  */
-public class TicTacToe implements GameMode {
+public class TicTacToe extends Board implements GameMode {
     private final int maxRounds;
     private final long rootChannel;
     private Game game;
     private TicTacToeEvents events;
     private long textChannelId;
+    private long ownerId;
+    private final List<Long> players = new ArrayList<>();
     /*
     0\uFE0F\u20E3
     1\uFE0F\u20E3
@@ -75,6 +80,11 @@ public class TicTacToe implements GameMode {
 
     @Override
     public void stop() {
+
+    }
+
+    @Override
+    public void act() {
 
     }
 }
