@@ -8,6 +8,7 @@ import java.util.List;
  */
 public class MainConfig {
     private String prefix = "+lw";
+    private String secret;
     private boolean userStats = false;
 
 
@@ -48,5 +49,13 @@ public class MainConfig {
 
     public void setUserStats(boolean userStats) {
         this.userStats = userStats;
+    }
+
+    public String getSecret() {
+        return secret;
+    }
+
+    public void setSecret(String secret) {
+        this.secret = secret;
     }
 }
