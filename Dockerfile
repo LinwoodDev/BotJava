@@ -1,4 +1,4 @@
-FROM openjdk:11
+FROM openjdk:11-alpine
 COPY ./target/linwood-1.0-SNAPSHOT-jar-with-dependencies.jar /usr/app/
 WORKDIR /usr/app
 EXPOSE 8080
