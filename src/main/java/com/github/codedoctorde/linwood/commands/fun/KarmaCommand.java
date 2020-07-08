@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import org.jetbrains.annotations.Nullable;
 
 import java.awt.*;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Objects;
 import java.util.ResourceBundle;
@@ -15,13 +16,13 @@ import java.util.ResourceBundle;
 public class KarmaCommand implements Command {
     @Override
     public boolean onCommand(Session session, Message message, GuildEntity entity, String label, String[] args) {
-        if(args.length != 0)
+        if(args.length > 0)
         return false;
         message.getChannel().sendMessage(" ").embed(new EmbedBuilder()
                 .setTitle("Karma")
                 .setDescription("Here you get all information to your karma statistics.")
                 .setColor(new Color(0x3B863B))
-                .setTimestamp(LocalTime.now())
+                .setTimestamp(LocalDateTime.now())
                 .setAuthor(message.getAuthor().getAsTag(), "https://discordapp.com", message.getAuthor().getAvatarUrl())
                 .addField("Current karma points", "100", true)
                 .addField("Current dislikes", "5", true)
