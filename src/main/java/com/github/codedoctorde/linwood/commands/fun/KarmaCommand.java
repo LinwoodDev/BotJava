@@ -26,8 +26,7 @@ public class KarmaCommand implements Command {
                 .setAuthor(message.getAuthor().getAsTag(), "https://discordapp.com", message.getAuthor().getAvatarUrl())
                 .addField("Current karma points", "100", true)
                 .addField("Current dislikes", "5", true)
-                .addBlankField(false)
-                .addField("Current level", "10", true)
+                .addField("Current level", "10", false)
                 .addField("Experience", "10/20", true)
                 .addField("Rank", "#1", true)
                 .build()).queue();
