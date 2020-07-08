@@ -46,6 +46,6 @@ public class KarmaCommand implements Command {
 
     @Override
     public @Nullable ResourceBundle getBundle(GuildEntity entity) {
-        return ResourceBundle.getBundle("locale.commands.fun.Karma");
+        return ResourceBundle.getBundle("locale.commands.fun.Karma", entity.getLocalization());
     }
 }
