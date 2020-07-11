@@ -1,27 +1,37 @@
 package com.github.codedoctorde.linwood.server;
 
 
+import com.github.codedoctorde.linwood.Linwood;
+import io.javalin.Javalin;
 import io.sentry.Sentry;
 import org.eclipse.jetty.server.Server;
+
+import static io.javalin.apibuilder.ApiBuilder.path;
+import static io.javalin.apibuilder.ApiBuilder.post;
 
 /**
  * @author CodeDoctorDE
  */
 public class WebInterface {
-    private final Server server;
+    private final Javalin app;
 
     public WebInterface(){
-        server = new Server();
-        server.setHandler(new WebInterfaceHandler());
+        app = Javalin.create();
+        register();
+        start();
     }
 
-    public Server getServer() {
-        return server;
+    public void register(){
+        app.post("login", AuthController::login);
     }
+
+    public Javalin getApp() {
+        return app;
+    }
+
     public void start(){
         try {
-            server.start();
-            server.join();
+            app.start(Linwood.getInstance().getConfig().getPort());
         }catch(Exception e){
             e.printStackTrace();
             Sentry.capture(e);
@@ -29,7 +39,7 @@ public class WebInterface {
     }
     public void stop() {
         try{
-        server.stop();
+            app.stop();
         }catch(Exception e){
             e.printStackTrace();
             Sentry.capture(e);

@@ -43,8 +43,8 @@ public class WhatIsIt implements GameMode {
         var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
         var guild = GuildEntity.get(session, game.getGuildId());
         Category category = null;
-        if(guild.getGameCategoryId() != null)
-        category = guild.getGameCategory();
+        if(guild.getGameEntity().getGameCategoryId() != null)
+        category = guild.getGameEntity().getGameCategory();
         var bundle = getBundle(session);
         Category finalCategory = category;
         ChannelAction<TextChannel> action;

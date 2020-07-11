@@ -24,7 +24,7 @@ public class TicTacToeCommand implements Command {
         var bundle = getBundle(entity);
         assert bundle != null;
         assert message.getMember() != null;
-        if(!entity.isGameMaster(message.getMember())){
+        if(!entity.getGameEntity().isGameMaster(message.getMember())){
             message.getChannel().sendMessage(bundle.getString("NoPermission")).queue();
             return true;
         }

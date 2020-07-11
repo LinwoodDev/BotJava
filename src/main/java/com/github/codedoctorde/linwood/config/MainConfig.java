@@ -9,6 +9,7 @@ import java.util.List;
 public class MainConfig {
     private String prefix = "+lw";
     private String secret;
+    private int port = 9000;
     private boolean userStats = false;
 
 
@@ -57,5 +58,13 @@ public class MainConfig {
 
     public void setSecret(String secret) {
         this.secret = secret;
+    }
+
+    public int getPort() {
+        return port;
+    }
+
+    public void setPort(int port) {
+        this.port = port;
     }
 }

@@ -19,7 +19,7 @@ public class ClearGameCategoryCommand implements Command {
         assert bundle != null;
         if(args.length != 0)
             return false;
-        entity.setGameCategory(null);
+        entity.getGameEntity().setGameCategory(null);
         entity.save(session);
         message.getChannel().sendMessage(bundle.getString("Clear")).queue();
         return true;

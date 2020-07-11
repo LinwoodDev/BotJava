@@ -32,7 +32,7 @@ public class QuizFactory implements GameMode {
 
         var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
         var guild = GuildEntity.get(session, game.getGuildId());
-        var category = guild.getGameCategory();
+        var category = guild.getGameEntity().getGameCategory();
         if(category == null) {
             game.stop();
             return;

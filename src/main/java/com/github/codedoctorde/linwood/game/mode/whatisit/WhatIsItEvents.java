@@ -77,7 +77,7 @@ public class WhatIsItEvents {
                         event.getReaction().removeReaction(event.getMember().getUser()).queue();
                     break;
                 case "U+26d4":
-                    if (entity.isGameMaster(event.getMember())) {
+                    if (entity.getGameEntity().isGameMaster(event.getMember())) {
                         whatIsIt.finishGame();
                         break;
                     }

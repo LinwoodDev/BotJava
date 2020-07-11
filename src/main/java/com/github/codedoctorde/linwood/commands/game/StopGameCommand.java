@@ -18,7 +18,9 @@ public class StopGameCommand implements Command {
         return false;
         var bundle = getBundle(entity);
         assert bundle != null;
-        if(!entity.isGameMaster(message.getMember())){
+        if(message.getMember() == null)
+            return false;
+        if(!entity.getGameEntity().isGameMaster(message.getMember())){
             message.getChannel().sendMessage(bundle.getString("NoPermission")).queue();
             return true;
         }

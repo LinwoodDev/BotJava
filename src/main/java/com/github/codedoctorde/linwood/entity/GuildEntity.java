@@ -22,12 +22,10 @@ public class GuildEntity {
     private long guildId;
     private String prefix = "+lw";
     private String locale = Locale.ENGLISH.toLanguageTag();
+    @OneToOne
+    private GameEntity gameEntity = new GameEntity();
     @OneToMany()
     private Set<TemplateEntity> templates;
-    @Column(nullable = true)
-    private Long gameMasterRoleId;
-    @Column(nullable = true)
-    private Long gameCategoryId;
     @Column(nullable = true)
     private String karmaEmote;
 
@@ -62,52 +60,6 @@ public class GuildEntity {
         this.locale = locale;
     }
 
-    public Long getGameCategoryId() {
-        return gameCategoryId;
-    }
-
-    public Category getGameCategory(){
-        if(gameCategoryId == null)
-            return null;
-        else
-            return Linwood.getInstance().getJda().getCategoryById(gameCategoryId);
-    }
-
-    public void setGameCategory(@Nullable Category category){
-        if(category == null)
-            gameCategoryId = null;
-        else
-            gameCategoryId = category.getIdLong();
-    }
-    public boolean isGameMaster(Member member){
-        var category = getGameCategory();
-        return member.getRoles().stream().map(Role::getIdLong).anyMatch(id -> id.equals(gameMasterRoleId)) ||
-                (category == null ? member.hasPermission(Permission.MANAGE_CHANNEL) : member.hasPermission(category, Permission.MANAGE_CHANNEL));
-    }
-    public void setGameMasterRole(@Nullable Role role){
-        if(role == null)
-            gameMasterRoleId = null;
-        else
-            gameMasterRoleId = role.getIdLong();
-    }
-
-    public Long getGameMasterRoleId() {
-        return gameMasterRoleId;
-    }
-    public Role getGameMasterRole(){
-        if(gameMasterRoleId == null)
-            return null;
-        return Linwood.getInstance().getJda().getRoleById(gameMasterRoleId);
-    }
-
-    public void setGameCategoryId(Long gameCategoryId) {
-        this.gameCategoryId = gameCategoryId;
-    }
-
-    public void setGameMasterRoleId(Long gameMasterRoleId) {
-        this.gameMasterRoleId = gameMasterRoleId;
-    }
-
     public void save(Session session){
         var t = session.beginTransaction();
         session.saveOrUpdate(this);
@@ -116,5 +68,9 @@ public class GuildEntity {
 
     public static GuildEntity get(Session session, long guildId){
         return Linwood.getInstance().getDatabase().getGuildById(session, guildId);
+    }
+
+    public GameEntity getGameEntity() {
+        return gameEntity;
     }
 }

@@ -18,7 +18,7 @@ public class ClearGameMasterCommand implements Command {
         assert bundle != null;
         if(args.length != 0)
             return false;
-        entity.setGameMasterRole(null);
+        entity.getGameEntity().setGameMasterRole(null);
         entity.save(session);
         message.getChannel().sendMessage(bundle.getString("Clear")).queue();
         return true;
