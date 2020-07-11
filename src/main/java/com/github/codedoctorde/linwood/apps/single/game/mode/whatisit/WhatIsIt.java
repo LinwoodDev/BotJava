@@ -1,9 +1,9 @@
-package com.github.codedoctorde.linwood.game.mode.whatisit;
+package com.github.codedoctorde.linwood.apps.single.game.mode.whatisit;
 
 import com.github.codedoctorde.linwood.Linwood;
+import com.github.codedoctorde.linwood.apps.single.SingleApplication;
 import com.github.codedoctorde.linwood.entity.GuildEntity;
-import com.github.codedoctorde.linwood.game.Game;
-import com.github.codedoctorde.linwood.game.GameMode;
+import com.github.codedoctorde.linwood.apps.single.SingleApplicationMode;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.requests.restaction.ChannelAction;
@@ -15,8 +15,8 @@ import java.util.*;
 /**
  * @author CodeDoctorDE
  */
-public class WhatIsIt implements GameMode {
-    private Game game;
+public class WhatIsIt implements SingleApplicationMode {
+    private SingleApplication game;
     private WhatIsItRound round;
     private long textChannelId;
     private final HashSet<Long> wantWriter = new HashSet<>();
@@ -35,8 +35,8 @@ public class WhatIsIt implements GameMode {
     }
 
     @Override
-    public void start(Game game) {
-        this.game = game;
+    public void start(SingleApplication app) {
+        this.game = app;
 
         events = new WhatIsItEvents(this);
         Linwood.getInstance().getJda().getEventManager().register(events);
@@ -135,7 +135,7 @@ public class WhatIsIt implements GameMode {
             @Override
             public void run() {
                 stopTimer();
-                Linwood.getInstance().getGameManager().stopGame(game);
+                Linwood.getInstance().getSingleApplicationManager().stopGame(game);
             }
         }, 30 * 1000);
     }
@@ -213,7 +213,7 @@ public class WhatIsIt implements GameMode {
         return Linwood.getInstance().getJda().getTextChannelById(textChannelId);
     }
 
-    public Game getGame() {
+    public SingleApplication getGame() {
         return game;
     }
 

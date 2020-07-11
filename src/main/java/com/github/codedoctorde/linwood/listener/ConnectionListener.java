@@ -29,6 +29,6 @@ public class ConnectionListener {
     }
     @SubscribeEvent
     public void onBotShutdown(ShutdownEvent event){
-        Linwood.getInstance().getGameManager().clearGames();
+        Linwood.getInstance().getSingleApplicationManager().clearGames();
     }
 }

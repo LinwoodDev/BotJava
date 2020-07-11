@@ -1,18 +1,22 @@
-package com.github.codedoctorde.linwood.game.engine;
+package com.github.codedoctorde.linwood.apps.single.game.engine;
 
 /**
  * @author CodeDoctorDE
  */
-public class Vector2 {
+public class Vector3 {
     private final int x;
     private final int y;
-    public Vector2(int x, int y){
+    private final int z;
+
+    public Vector3(int x, int y, int z){
         this.x = x;
         this.y = y;
+        this.z = z;
     }
-    public Vector2(){
+    public Vector3(){
         x = 0;
         y = 0;
+        z = 0;
     }
 
     public int getX() {
@@ -21,5 +25,9 @@ public class Vector2 {
 
     public int getY() {
         return y;
+    }
+
+    public int getZ() {
+        return z;
     }
 }

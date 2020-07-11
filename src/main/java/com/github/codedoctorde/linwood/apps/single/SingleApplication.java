@@ -1,29 +1,26 @@
-package com.github.codedoctorde.linwood.game;
+package com.github.codedoctorde.linwood.apps.single;
 
 import com.github.codedoctorde.linwood.Linwood;
 import com.github.codedoctorde.linwood.entity.GuildEntity;
 import net.dv8tion.jda.api.entities.Guild;
 import org.hibernate.Session;
 
-/**
- * @author CodeDoctorDE
- */
-public class Game {
+public class SingleApplication {
     private final long guildId;
-    private GameMode mode;
+    private SingleApplicationMode mode;
     private final int id;
 
-    public Game(int id, long guildId, GameMode mode){
+    public SingleApplication(int id, long guildId, SingleApplicationMode mode){
         this.id = id;
         this.guildId = guildId;
         this.mode = mode;
     }
 
-    public GameMode getMode() {
+    public SingleApplicationMode getMode() {
         return mode;
     }
 
-    public void setMode(GameMode mode) {
+    public void setMode(SingleApplicationMode mode) {
         this.mode = mode;
     }
 

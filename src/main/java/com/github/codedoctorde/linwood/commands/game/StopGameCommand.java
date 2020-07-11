@@ -24,10 +24,10 @@ public class StopGameCommand implements Command {
             message.getChannel().sendMessage(bundle.getString("NoPermission")).queue();
             return true;
         }
-        if(Linwood.getInstance().getGameManager().getGame(entity.getGuildId()) == null)
+        if(Linwood.getInstance().getSingleApplicationManager().getGame(entity.getGuildId()) == null)
             message.getTextChannel().sendMessage(bundle.getString("NoGameRunning")).queue();
         else {
-            Linwood.getInstance().getGameManager().stopGame(entity.getGuildId());
+            Linwood.getInstance().getSingleApplicationManager().stopGame(entity.getGuildId());
             message.getTextChannel().sendMessage(bundle.getString("Success")).queue();
         }
         return true;

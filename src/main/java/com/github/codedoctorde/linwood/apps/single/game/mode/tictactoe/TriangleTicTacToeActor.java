@@ -1,6 +1,6 @@
-package com.github.codedoctorde.linwood.game.mode.tictactoe;
+package com.github.codedoctorde.linwood.apps.single.game.mode.tictactoe;
 
-import com.github.codedoctorde.linwood.game.engine.Actor;
+import com.github.codedoctorde.linwood.apps.single.game.engine.Actor;
 
 import javax.imageio.ImageIO;
 import java.io.IOException;

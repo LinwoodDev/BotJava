@@ -1,4 +1,4 @@
-package com.github.codedoctorde.linwood.game.engine;
+package com.github.codedoctorde.linwood.apps.single.game.engine;
 
 /**
  * @author CodeDoctorDE

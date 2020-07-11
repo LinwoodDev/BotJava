@@ -1,4 +1,4 @@
-package com.github.codedoctorde.linwood.game.mode.tictactoe;
+package com.github.codedoctorde.linwood.apps.single.game.mode.tictactoe;
 
 /**
  * @author CodeDoctorDE

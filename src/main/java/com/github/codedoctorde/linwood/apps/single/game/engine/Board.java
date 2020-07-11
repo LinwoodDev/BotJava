@@ -1,8 +1,6 @@
-package com.github.codedoctorde.linwood.game.engine;
+package com.github.codedoctorde.linwood.apps.single.game.engine;
 
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author CodeDoctorDE

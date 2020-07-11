@@ -2,7 +2,7 @@ package com.github.codedoctorde.linwood.commands.game;
 
 import com.github.codedoctorde.linwood.commands.Command;
 import com.github.codedoctorde.linwood.entity.GuildEntity;
-import com.github.codedoctorde.linwood.game.mode.tictactoe.TicTacToeWorld;
+import com.github.codedoctorde.linwood.apps.single.game.mode.tictactoe.TicTacToeWorld;
 import net.dv8tion.jda.api.entities.Message;
 import org.hibernate.Session;
 import org.jetbrains.annotations.Nullable;

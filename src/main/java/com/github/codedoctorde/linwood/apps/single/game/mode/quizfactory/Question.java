@@ -1,4 +1,4 @@
-package com.github.codedoctorde.linwood.game.mode.quizfactory;
+package com.github.codedoctorde.linwood.apps.single.game.mode.quizfactory;
 
 /**
  * @author CodeDoctorDE

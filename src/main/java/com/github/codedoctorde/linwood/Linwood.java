@@ -2,7 +2,7 @@ package com.github.codedoctorde.linwood;
 
 import com.github.codedoctorde.linwood.commands.BaseCommand;
 import com.github.codedoctorde.linwood.config.MainConfig;
-import com.github.codedoctorde.linwood.game.GameManager;
+import com.github.codedoctorde.linwood.apps.single.SingleApplicationManager;
 import com.github.codedoctorde.linwood.listener.ConnectionListener;
 import com.github.codedoctorde.linwood.listener.CommandListener;
 import com.github.codedoctorde.linwood.server.WebInterface;
@@ -33,7 +33,7 @@ public class Linwood {
     private final BaseCommand baseCommand;
     private static Linwood instance;
     private final DatabaseUtil database;
-    private final GameManager gameManager;
+    private final SingleApplicationManager singleApplicationManager;
     private MainConfig config;
     private final File configFile = new File("./config.json");
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -54,7 +54,7 @@ public class Linwood {
         database = new DatabaseUtil();
         activityChanger = new ActivityChanger();
         baseCommand = new BaseCommand();
-        gameManager = new GameManager();
+        singleApplicationManager = new SingleApplicationManager();
 
         // Read config file
         if(!configFile.exists()){
@@ -82,7 +82,7 @@ public class Linwood {
         }
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            getGameManager().clearGames();
+            getSingleApplicationManager().clearGames();
             logger.info("Shutting down...");
         }));
         configure();
@@ -120,8 +120,8 @@ public class Linwood {
         return config;
     }
 
-    public GameManager getGameManager() {
-        return gameManager;
+    public SingleApplicationManager getSingleApplicationManager() {
+        return singleApplicationManager;
     }
 
     public WebInterface getWebInterface() {

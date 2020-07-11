@@ -1,9 +1,9 @@
-package com.github.codedoctorde.linwood.game.mode.quizfactory;
+package com.github.codedoctorde.linwood.apps.single.game.mode.quizfactory;
 
 import com.github.codedoctorde.linwood.Linwood;
+import com.github.codedoctorde.linwood.apps.single.SingleApplication;
 import com.github.codedoctorde.linwood.entity.GuildEntity;
-import com.github.codedoctorde.linwood.game.Game;
-import com.github.codedoctorde.linwood.game.GameMode;
+import com.github.codedoctorde.linwood.apps.single.SingleApplicationMode;
 import org.hibernate.Session;
 
 import java.text.MessageFormat;
@@ -15,9 +15,9 @@ import java.util.ResourceBundle;
 /**
  * @author CodeDoctorDE
  */
-public class QuizFactory implements GameMode {
+public class QuizFactory implements SingleApplicationMode {
     private final long ownerId;
-    private Game game;
+    private SingleApplication game;
     private long voiceChannelId;
     private long textChannelId;
     private final List<String> questions = new ArrayList<>();
@@ -27,8 +27,8 @@ public class QuizFactory implements GameMode {
     }
 
     @Override
-    public void start(Game game) {
-        this.game = game;
+    public void start(SingleApplication app) {
+        this.game = app;
 
         var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
         var guild = GuildEntity.get(session, game.getGuildId());
@@ -56,7 +56,7 @@ public class QuizFactory implements GameMode {
         return ownerId;
     }
 
-    public Game getGame() {
+    public SingleApplication getGame() {
         return game;
     }
 

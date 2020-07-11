@@ -1,4 +1,4 @@
-package com.github.codedoctorde.linwood.game.mode.whatisit;
+package com.github.codedoctorde.linwood.apps.single.game.mode.whatisit;
 
 import com.github.codedoctorde.linwood.Linwood;
 import io.sentry.Sentry;
