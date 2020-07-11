@@ -16,7 +16,7 @@ public class QuizSetup {
 
     public QuizSetup(QuizFactory factory){
         this.factory = factory;
-        Objects.requireNonNull(Linwood.getInstance().getJda().getUserById(factory.getOwnerId())).openPrivateChannel().queue(channel -> sendMessage(channel, "SetupAddMessage"));
+        Objects.requireNonNull(Linwood.getInstance().getJda().retrieveUserById(factory.getOwnerId())).queue(user -> user.openPrivateChannel().queue(channel -> sendMessage(channel, "SetupAddMessage")));
     }
 
     public void sendMessage(PrivateChannel channel, String content){

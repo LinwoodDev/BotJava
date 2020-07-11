@@ -2,11 +2,13 @@ package com.github.codedoctorde.linwood.utils;
 
 import com.github.codedoctorde.linwood.Linwood;
 import com.github.codedoctorde.linwood.entity.GuildEntity;
+import com.github.codedoctorde.linwood.entity.MemberEntity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.*;
 import org.hibernate.cfg.Configuration;
 
+import javax.persistence.criteria.Predicate;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -124,5 +126,26 @@ public class DatabaseUtil {
                 count++;
             }
         logger.info("Successfully clean up " + count + " guilds!");
+    }
+
+    public MemberEntity getMemberById(Session session, int guildId, int memberId){
+        var cb = session.getCriteriaBuilder();
+        var cq = cb.createQuery(MemberEntity.class);
+        var root = cq.from(MemberEntity.class);
+
+        cq.select(root).where(
+                cb.equal(root.get("job"), guildId),
+                cb.equal(root.get("person"), memberId)
+        );
+        var result = session.createQuery(cq).getSingleResult();
+        if(result == null)
+            return createMember(session, guildId, memberId);
+        return result;
+    }
+
+    private MemberEntity createMember(Session session, int guildId, int memberId) {
+        var member = new MemberEntity(guildId, memberId);
+        member.save(session);
+        return member;
     }
 }

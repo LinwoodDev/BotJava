@@ -1,6 +1,14 @@
 package com.github.codedoctorde.linwood.entity;
 
+import javax.persistence.*;
+
+@Entity
 public class KarmaEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
+    private Long id;
+    private int maxGiving = 3;
     private String likeEmote = null;
     private String dislikeEmote = null;
     private int constant = 2;
@@ -27,5 +35,13 @@ public class KarmaEntity {
 
     public void setConstant(int constant) {
         this.constant = constant;
+    }
+
+    public int getMaxGiving() {
+        return maxGiving;
+    }
+
+    public void setMaxGiving(int maxGiving) {
+        this.maxGiving = maxGiving;
     }
 }

@@ -23,11 +23,11 @@ public class GuildEntity {
     private String prefix = "+lw";
     private String locale = Locale.ENGLISH.toLanguageTag();
     @OneToOne
-    private GameEntity gameEntity = new GameEntity();
-    @OneToMany()
+    private final GameEntity gameEntity = new GameEntity();
+    @OneToMany
     private Set<TemplateEntity> templates;
-    @Column(nullable = true)
-    private String karmaEmote;
+    @OneToOne
+    private final KarmaEntity karmaEntity = new KarmaEntity();
 
     public GuildEntity(){
     }
@@ -72,5 +72,9 @@ public class GuildEntity {
 
     public GameEntity getGameEntity() {
         return gameEntity;
+    }
+
+    public KarmaEntity getKarmaEntity() {
+        return karmaEntity;
     }
 }
