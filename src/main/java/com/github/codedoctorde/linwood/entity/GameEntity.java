@@ -15,9 +15,9 @@ public class GameEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long id;
-    @Column(nullable = true)
+    @Column
     private Long gameMasterRoleId;
-    @Column(nullable = true)
+    @Column
     private Long gameCategoryId;
 
     public Long getGameCategoryId() {
