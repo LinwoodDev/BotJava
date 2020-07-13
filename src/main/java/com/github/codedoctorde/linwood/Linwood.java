@@ -92,6 +92,12 @@ public class Linwood {
         activityChanger.start();
         webInterface = new WebInterface();
         new Thread(webInterface::start).start();
+        System.out.println(" _     _  _      _      ____  ____  ____ \n" +
+                "/ \\   / \\/ \\  /|/ \\  /|/  _ \\/  _ \\/  _ \\\n" +
+                "| |   | || |\\ ||| |  ||| / \\|| / \\|| | \\|\n" +
+                "| |_/\\| || | \\||| |/\\||| \\_/|| \\_/|| |_/|\n" +
+                "\\____/\\_/\\_/  \\|\\_/  \\|\\____/\\____/\\____/\n" +
+                "                                         \n");
         logger.info("Successfully started the bot!");
     }
 
