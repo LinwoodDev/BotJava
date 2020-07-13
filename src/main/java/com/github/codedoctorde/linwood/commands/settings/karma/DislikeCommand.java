@@ -8,6 +8,7 @@ import net.dv8tion.jda.api.entities.Message;
 import org.hibernate.Session;
 
 import java.text.MessageFormat;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 /**
@@ -27,7 +28,7 @@ public class DislikeCommand implements Command {
                 message.getChannel().sendMessage(bundle.getString("GetNull")).queue();
         else {
             var emote = args[0];
-            if(emote.equalsIgnoreCase(entity.getKarmaEntity().getLikeEmote())){
+            if(Objects.equals(emote, entity.getKarmaEntity().getDislikeEmote())){
                 message.getChannel().sendMessage(bundle.getString("Same")).queue();
                 return true;
             }
