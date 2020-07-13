@@ -18,7 +18,6 @@ public class WebInterface {
     public WebInterface(){
         app = Javalin.create();
         register();
-        start();
     }
 
     public void register(){

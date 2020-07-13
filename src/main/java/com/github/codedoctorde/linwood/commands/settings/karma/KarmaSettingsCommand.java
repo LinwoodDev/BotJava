@@ -11,13 +11,17 @@ public class KarmaSettingsCommand extends CommandManager {
     @Override
     public Command[] commands() {
         return new Command[]{
+                new LikeCommand(),
+                new ClearLikeCommand(),
+                new DislikeCommand(),
+                new ClearDislikeCommand()
         };
     }
 
     @Override
     public String[] aliases(GuildEntity entity) {
         return new String[]{
-                "settings"
+                "karma"
         };
     }
 

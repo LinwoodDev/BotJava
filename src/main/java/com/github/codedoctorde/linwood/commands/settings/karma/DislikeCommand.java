@@ -3,7 +3,6 @@ package com.github.codedoctorde.linwood.commands.settings.karma;
 import com.github.codedoctorde.linwood.commands.Command;
 import com.github.codedoctorde.linwood.entity.GuildEntity;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.Category;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import org.hibernate.Session;
@@ -14,7 +13,7 @@ import java.util.ResourceBundle;
 /**
  * @author CodeDoctorDE
  */
-public class LikeCommand implements Command {
+public class DislikeCommand implements Command {
     @Override
     public boolean onCommand(Session session, Message message, GuildEntity entity, String label, String[] args) {
         ResourceBundle bundle = getBundle(entity);
@@ -22,8 +21,8 @@ public class LikeCommand implements Command {
         if(args.length > 1)
             return false;
         if(args.length == 0)
-            if(entity.getKarmaEntity().getLikeEmote() != null)
-                message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Get"), entity.getKarmaEntity().getLikeEmote())).queue();
+            if(entity.getKarmaEntity().getDislikeEmote() != null)
+                message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Get"), entity.getKarmaEntity().getDislikeEmote())).queue();
             else
                 message.getChannel().sendMessage(bundle.getString("GetNull")).queue();
         else {
@@ -32,9 +31,9 @@ public class LikeCommand implements Command {
                 message.getChannel().sendMessage(bundle.getString("Same")).queue();
                 return true;
             }
-            entity.getKarmaEntity().setLikeEmote(args[0]);
-            entity.save(session);
-            message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Set"), entity.getKarmaEntity().getLikeEmote())).queue();
+                entity.getKarmaEntity().setDislikeEmote(emote);
+                entity.save(session);
+                message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Set"), entity.getKarmaEntity().getLikeEmote())).queue();
         }
         return true;
     }
@@ -47,7 +46,8 @@ public class LikeCommand implements Command {
     @Override
     public String[] aliases(GuildEntity entity) {
         return new String[]{
-                "like"
+                "like",
+                "dis-like"
         };
     }
 

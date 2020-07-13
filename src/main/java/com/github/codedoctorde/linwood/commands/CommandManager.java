@@ -20,11 +20,12 @@ public abstract class CommandManager implements Command {
         for (Command command : commands())
             if (Arrays.asList(command.aliases(entity)).contains(
                     (args.length > 0) ? args[0].toLowerCase() : "")) {
-                if(command.hasPermission(message.getMember()))
-                if(!command.onCommand(session, message, entity,
-                        (args.length > 0) ? args[0] : "",
-                        (args.length > 0) ? Arrays.copyOfRange(args, 1, args.length) : new String[0]))
-                    message.getChannel().sendMessage(MessageFormat.format(ResourceBundle.getBundle("locale.Command").getString("Syntax"), Objects.requireNonNull(command.getBundle(entity)).getString("Syntax"))).queue();
+                if(command.hasPermission(message.getMember())) {
+                    if (!command.onCommand(session, message, entity,
+                            (args.length > 0) ? args[0] : "",
+                            (args.length > 0) ? Arrays.copyOfRange(args, 1, args.length) : new String[0]))
+                        message.getChannel().sendMessage(MessageFormat.format(ResourceBundle.getBundle("locale.Command").getString("Syntax"), Objects.requireNonNull(command.getBundle(entity)).getString("Syntax"))).queue();
+                }
                 else
                     message.getChannel().sendMessage(baseBundle.getString("NoPermission")).queue();
                 return true;

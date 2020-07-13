@@ -139,13 +139,13 @@ public class DatabaseUtil {
         var root = cq.from(MemberEntity.class);
 
         cq.select(root).where(
-                cb.equal(root.get("job"), guildId),
-                cb.equal(root.get("person"), memberId)
+                cb.equal(root.get("guildId"), guildId),
+                cb.equal(root.get("memberId"), memberId)
         );
-        var result = session.createQuery(cq).getSingleResult();
-        if(result == null)
+        var result = session.createQuery(cq).list();
+        if(result.size() < 1)
             return createMember(session, guildId, memberId);
-        return result;
+        return result.get(0);
     }
 
     private MemberEntity createMember(Session session, long guildId, long memberId) {

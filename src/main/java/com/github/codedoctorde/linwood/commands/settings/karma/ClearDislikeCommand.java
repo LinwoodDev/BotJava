@@ -33,13 +33,14 @@ public class ClearDislikeCommand implements Command {
     @Override
     public String[] aliases(GuildEntity entity) {
         return new String[]{
-                "clearlike",
-                "clear-like"
+                "cleardislike",
+                "clear-dislike",
+                "clear-dis-like"
         };
     }
 
     @Override
     public ResourceBundle getBundle(GuildEntity entity) {
-        return ResourceBundle.getBundle("locale.commands.settings.karma.ClearLike", entity.getLocalization());
+        return ResourceBundle.getBundle("locale.commands.settings.karma.ClearDislike", entity.getLocalization());
     }
 }

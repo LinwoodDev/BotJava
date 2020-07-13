@@ -1,5 +1,6 @@
 package com.github.codedoctorde.linwood.entity;
 
+import com.github.codedoctorde.linwood.Linwood;
 import org.hibernate.Session;
 
 import javax.persistence.*;
@@ -19,8 +20,8 @@ public class MemberEntity {
     private long guildId;
     private String locale = null;
     private int points;
-    private int likes = 0;
-    private int dislikes = 0;
+    private long likes = 0;
+    private long dislikes = 0;
 
     public MemberEntity(long guildId, long memberId) {
         this.guildId = guildId;
@@ -36,19 +37,19 @@ public class MemberEntity {
         this.locale = locale;
     }
 
-    public int getLikes() {
+    public long getLikes() {
         return likes;
     }
 
-    public void setLikes(int likes) {
+    public void setLikes(long likes) {
         this.likes = likes;
     }
 
-    public int getDislikes() {
+    public long getDislikes() {
         return dislikes;
     }
 
-    public void setDislikes(int dislikes) {
+    public void setDislikes(long dislikes) {
         this.dislikes = dislikes;
     }
 
@@ -64,9 +65,34 @@ public class MemberEntity {
         return memberId;
     }
 
+    public int getLevel(Session session) {
+        var guild = getGuild(session);
+        return (int) (guild.getKarmaEntity().getConstant() * Math.sqrt(getKarma()));
+    }
+
+    public int getRemainingKarma(Session session) {
+        var guild = getGuild(session);
+        return (int) (guild.getKarmaEntity().getConstant() * Math.pow(getKarma(), 2) - getLevel(session));
+    }
+
+    public long getKarma() {
+        return likes - dislikes;
+    }
+
     public void save(Session session) {
         var t = session.beginTransaction();
         session.saveOrUpdate(this);
         t.commit();
+    }
+
+    public long getGuildId() {
+        return guildId;
+    }
+
+    public Long getId() {
+        return id;
+    }
+    public GuildEntity getGuild(Session session) {
+        return Linwood.getInstance().getDatabase().getGuildById(session, guildId);
     }
 }
