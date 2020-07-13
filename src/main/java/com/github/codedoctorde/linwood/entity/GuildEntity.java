@@ -22,11 +22,11 @@ public class GuildEntity {
     private long guildId;
     private String prefix = "+lw";
     private String locale = Locale.ENGLISH.toLanguageTag();
-    @OneToOne(cascade=CascadeType.ALL)
+    @OneToOne(cascade=CascadeType.ALL, optional = false)
     private final GameEntity gameEntity = new GameEntity();
     @OneToMany
     private Set<TemplateEntity> templates;
-    @OneToOne(cascade=CascadeType.ALL)
+    @OneToOne(cascade=CascadeType.ALL, optional = false)
     private final KarmaEntity karmaEntity = new KarmaEntity();
 
     public GuildEntity(){
