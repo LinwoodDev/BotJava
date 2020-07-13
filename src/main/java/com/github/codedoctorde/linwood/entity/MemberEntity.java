@@ -70,9 +70,9 @@ public class MemberEntity {
         return (int) (guild.getKarmaEntity().getConstant() * Math.sqrt(getKarma()));
     }
 
-    public int getRemainingKarma(Session session) {
+    public double getRemainingKarma(Session session) {
         var guild = getGuild(session);
-        return (int) (guild.getKarmaEntity().getConstant() * Math.pow(getKarma(), 2) - getLevel(session));
+        return guild.getKarmaEntity().getConstant() * Math.sqrt(getKarma()) - getLevel(session);
     }
 
     public long getKarma() {

@@ -38,11 +38,7 @@ public class KarmaListener {
                     return;
                 boolean works = true;
                 if (taker == null || taker.getUser().isBot() || donor.getUser().isBot()) return;
-                if(donor.equals(taker)) {
-                    works = false;
-                    giveLike(entity, donor, taker, session1);
-                    memberGivingHashMap.put(donor.getIdLong(), memberGivingHashMap.getOrDefault(donor.getIdLong(), 0) - 1);
-                }
+                if(donor.equals(taker)) works = true;
                 else if(emote.equals(karma.getLikeEmote()))
                     works = giveLike(entity, donor, taker, session1);
                 else if(emote.equals(karma.getDislikeEmote()))
