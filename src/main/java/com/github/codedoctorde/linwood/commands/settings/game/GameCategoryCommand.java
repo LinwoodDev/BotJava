@@ -66,12 +66,13 @@ public class GameCategoryCommand implements Command {
     public String[] aliases(GuildEntity entity) {
         return new String[]{
                 "gamecategory",
-                "game-category"
+                "game-category",
+                "category"
         };
     }
 
     @Override
     public ResourceBundle getBundle(GuildEntity entity) {
-        return ResourceBundle.getBundle("locale.commands.settings.GameCategory", entity.getLocalization());
+        return ResourceBundle.getBundle("locale.commands.settings.game.GameCategory", entity.getLocalization());
     }
 }

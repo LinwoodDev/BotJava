@@ -2,12 +2,17 @@ package com.github.codedoctorde.linwood.entity;
 
 import org.hibernate.Session;
 
-import javax.persistence.Column;
+import javax.persistence.*;
 
 /**
  * @author CodeDoctorDE
  */
+@Entity
 public class MemberEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
+    private Long id;
     @Column(name = "memberId")
     private long memberId;
     @Column(name = "guildId")
@@ -17,10 +22,11 @@ public class MemberEntity {
     private int likes = 0;
     private int dislikes = 0;
 
-    public MemberEntity(int guildId, int memberId) {
+    public MemberEntity(long guildId, long memberId) {
         this.guildId = guildId;
         this.memberId = memberId;
     }
+    public MemberEntity(){}
 
     public String getLocale() {
         return locale;

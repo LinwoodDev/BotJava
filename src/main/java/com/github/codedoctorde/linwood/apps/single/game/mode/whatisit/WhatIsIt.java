@@ -28,6 +28,7 @@ public class WhatIsIt implements SingleApplicationMode {
     private WhatIsItEvents events;
     private final long rootChannel;
     private final HashMap<Long, Integer> points = new HashMap<>();
+    private boolean hasChannelDisabled = false;
 
     public WhatIsIt(int maxRounds, long rootChannel){
         this.maxRounds = maxRounds;
@@ -58,6 +59,7 @@ public class WhatIsIt implements SingleApplicationMode {
                 textChannel.getManager().setParent(finalCategory).queue();
             chooseNextPlayer(session);
         }));
+        hasChannelDisabled = Linwood.getInstance().getKarmaListener().getDisabledChannels().add(textChannelId);
     }
 
     @Override
@@ -72,6 +74,8 @@ public class WhatIsIt implements SingleApplicationMode {
         var textChannel = getTextChannel();
         if(textChannel != null)
             textChannel.delete().queue();
+        if(hasChannelDisabled)
+            Linwood.getInstance().getKarmaListener().getDisabledChannels().remove(textChannelId);
     }
 
     public void chooseNextPlayer(Session session){

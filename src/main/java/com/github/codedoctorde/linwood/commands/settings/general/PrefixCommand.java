@@ -1,4 +1,4 @@
-package com.github.codedoctorde.linwood.commands.settings;
+package com.github.codedoctorde.linwood.commands.settings.general;
 
 import com.github.codedoctorde.linwood.commands.Command;
 import com.github.codedoctorde.linwood.entity.GuildEntity;
@@ -48,6 +48,6 @@ public class PrefixCommand implements Command {
 
     @Override
     public ResourceBundle getBundle(GuildEntity entity) {
-        return ResourceBundle.getBundle("locale.commands.settings.Prefix", entity.getLocalization());
+        return ResourceBundle.getBundle("locale.commands.settings.general.Prefix", entity.getLocalization());
     }
 }

@@ -3,6 +3,7 @@ package com.github.codedoctorde.linwood.utils;
 import com.github.codedoctorde.linwood.Linwood;
 import com.github.codedoctorde.linwood.entity.GuildEntity;
 import com.github.codedoctorde.linwood.entity.MemberEntity;
+import net.dv8tion.jda.api.entities.Member;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.*;
@@ -128,7 +129,11 @@ public class DatabaseUtil {
         logger.info("Successfully clean up " + count + " guilds!");
     }
 
-    public MemberEntity getMemberById(Session session, int guildId, int memberId){
+    public MemberEntity getMemberEntity(Session session, Member member){
+        return getMemberById(session, member.getGuild().getIdLong(), member.getIdLong());
+    }
+
+    public MemberEntity getMemberById(Session session, long guildId, long memberId){
         var cb = session.getCriteriaBuilder();
         var cq = cb.createQuery(MemberEntity.class);
         var root = cq.from(MemberEntity.class);
@@ -143,7 +148,7 @@ public class DatabaseUtil {
         return result;
     }
 
-    private MemberEntity createMember(Session session, int guildId, int memberId) {
+    private MemberEntity createMember(Session session, long guildId, long memberId) {
         var member = new MemberEntity(guildId, memberId);
         member.save(session);
         return member;

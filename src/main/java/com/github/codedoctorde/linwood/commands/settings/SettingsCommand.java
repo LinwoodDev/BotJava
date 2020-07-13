@@ -2,10 +2,11 @@ package com.github.codedoctorde.linwood.commands.settings;
 
 import com.github.codedoctorde.linwood.commands.Command;
 import com.github.codedoctorde.linwood.commands.CommandManager;
-import com.github.codedoctorde.linwood.commands.settings.game.ClearGameCategoryCommand;
-import com.github.codedoctorde.linwood.commands.settings.game.ClearGameMasterCommand;
-import com.github.codedoctorde.linwood.commands.settings.game.GameCategoryCommand;
-import com.github.codedoctorde.linwood.commands.settings.game.GameMasterCommand;
+import com.github.codedoctorde.linwood.commands.settings.game.*;
+import com.github.codedoctorde.linwood.commands.settings.general.GeneralSettingsCommand;
+import com.github.codedoctorde.linwood.commands.settings.general.LanguageCommand;
+import com.github.codedoctorde.linwood.commands.settings.general.PrefixCommand;
+import com.github.codedoctorde.linwood.commands.settings.karma.KarmaSettingsCommand;
 import com.github.codedoctorde.linwood.entity.GuildEntity;
 
 import java.util.ResourceBundle;
@@ -17,12 +18,9 @@ public class SettingsCommand extends CommandManager {
     @Override
     public Command[] commands() {
         return new Command[]{
-                new LanguageCommand(),
-                new PrefixCommand(),
-                new GameCategoryCommand(),
-                new ClearGameCategoryCommand(),
-                new GameMasterCommand(),
-                new ClearGameMasterCommand()
+                new GameSettingsCommand(),
+                new GeneralSettingsCommand(),
+                new KarmaSettingsCommand()
         };
     }
 

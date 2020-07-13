@@ -36,12 +36,14 @@ public class ClearGameCategoryCommand implements Command {
     public String[] aliases(GuildEntity entity) {
         return new String[]{
                 "cleargamecategory",
-                "clear-game-category"
+                "clear-game-category",
+                "clearcategory",
+                "clear-category"
         };
     }
 
     @Override
     public ResourceBundle getBundle(GuildEntity entity) {
-        return ResourceBundle.getBundle("locale.commands.settings.ClearGameCategory", entity.getLocalization());
+        return ResourceBundle.getBundle("locale.commands.settings.game.ClearGameCategory", entity.getLocalization());
     }
 }

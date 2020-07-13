@@ -16,6 +16,7 @@ public abstract class CommandManager implements Command {
     @Override
     public boolean onCommand(Session session, Message message, GuildEntity entity, String label, String[] args) {
         var bundle = getBundle(entity);
+        var baseBundle = getBaseBundle(entity);
         for (Command command : commands())
             if (Arrays.asList(command.aliases(entity)).contains(
                     (args.length > 0) ? args[0].toLowerCase() : "")) {
@@ -40,5 +41,8 @@ public abstract class CommandManager implements Command {
                         ((CommandManager) command).commands())
                     if (Arrays.asList(current.aliases(entity)).contains(arg.toLowerCase())) command = current;
         return command;
+    }
+    private ResourceBundle getBaseBundle(GuildEntity entity){
+        return ResourceBundle.getBundle("locale.Command", entity.getLocalization());
     }
 }

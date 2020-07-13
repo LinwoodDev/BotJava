@@ -66,12 +66,13 @@ public class GameMasterCommand implements Command {
     public String[] aliases(GuildEntity entity) {
         return new String[]{
                 "gamemaster",
-                "game-master"
+                "game-master",
+                "master"
         };
     }
 
     @Override
     public ResourceBundle getBundle(GuildEntity entity) {
-        return ResourceBundle.getBundle("locale.commands.settings.GameMaster", entity.getLocalization());
+        return ResourceBundle.getBundle("locale.commands.settings.game.GameMaster", entity.getLocalization());
     }
 }

@@ -4,6 +4,7 @@ import com.github.codedoctorde.linwood.Linwood;
 import com.github.codedoctorde.linwood.entity.GuildEntity;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
+import net.dv8tion.jda.api.events.message.react.MessageReactionRemoveEvent;
 import net.dv8tion.jda.api.hooks.SubscribeEvent;
 import org.hibernate.Session;
 
@@ -21,8 +22,26 @@ public class KarmaListener {
 
     @SubscribeEvent
     public void onGive(MessageReactionAddEvent event){
-        var game = Linwood.getInstance().getSingleApplicationManager().getGame(event.getGuild().getIdLong());
-        if(disabledChannels.contains(event.getChannel().getIdLong()))
+        if(disabledChannels.contains(event.getChannel().getIdLong()) || event.getMember() == null)
+            return;
+        var emote = event.getReactionEmote().getAsCodepoints();
+        var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
+        var entity = Linwood.getInstance().getDatabase().getGuildById(session, event.getGuild().getIdLong());
+        var karma = entity.getKarmaEntity();
+        if(karma.getLikeEmote() == null)
+            return;
+        boolean works = false;
+        if(emote.equals(karma.getLikeEmote()))
+            works = giveLike(entity, event.getMember(), session);
+        else if(emote.equals(karma.getDislikeEmote()))
+            works = giveDislike(entity, event.getMember(), session);
+        session.close();
+        if(!works)
+            event.getReaction().removeReaction(event.getMember().getUser()).queue();
+    }
+    @SubscribeEvent
+    public void onRemove(MessageReactionRemoveEvent event){
+        if(disabledChannels.contains(event.getChannel().getIdLong()) || event.getMember() == null)
             return;
         var emote = event.getReactionEmote().getAsCodepoints();
         var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
@@ -31,15 +50,10 @@ public class KarmaListener {
         if(karma.getLikeEmote() == null)
             return;
         if(emote.equals(karma.getLikeEmote()))
-            giveLike(entity, event.getMember(), session);
+            removeLike(entity, event.getMember(), session);
         else if(emote.equals(karma.getDislikeEmote()))
-            giveDislike(entity, event.getMember(), session);
+            removeDislike(entity, event.getMember(), session);
         session.close();
-    }
-
-    public void giveLike(GuildEntity entity, Member member, Session session){
-        if(givingAction(entity, member))
-            removeDislike(entity, member, session);
     }
     public boolean givingAction(GuildEntity entity, Member member){
         if(entity.getKarmaEntity().getMaxGiving() >= memberGivingHashMap.getOrDefault(member.getIdLong(), 0))
@@ -47,15 +61,27 @@ public class KarmaListener {
         memberGivingHashMap.put(member.getIdLong(), memberGivingHashMap.getOrDefault(member.getIdLong(), 0) + 1);
         return true;
     }
-    public void removeLike(GuildEntity entity, Member member, Session session){
 
-    }
-    public void giveDislike(GuildEntity entity, Member member, Session session){
+    public boolean giveLike(GuildEntity entity, Member member, Session session){
         if(givingAction(entity, member))
-            removeLike(entity, member, session);
+            return false;
+        var memberEntity = Linwood.getInstance().getDatabase().getMemberEntity(session, member);
+        memberEntity.setLikes(memberEntity.getLikes() + 1);
+        return true;
+    }
+    public void removeLike(GuildEntity entity, Member member, Session session){
+        var memberEntity = Linwood.getInstance().getDatabase().getMemberEntity(session, member);
+        memberEntity.setLikes(memberEntity.getLikes() - 1);
+    }
+    public boolean giveDislike(GuildEntity entity, Member member, Session session){
+        if(givingAction(entity, member))
+            return false;
+        var memberEntity = Linwood.getInstance().getDatabase().getMemberEntity(session, member);
+        return true;
     }
     public void removeDislike(GuildEntity entity, Member member, Session session){
-
+        var memberEntity = Linwood.getInstance().getDatabase().getMemberEntity(session, member);
+        memberEntity.setDislikes(memberEntity.getDislikes() - 1);
     }
 
 

@@ -1,4 +1,4 @@
-package com.github.codedoctorde.linwood.commands.settings.game;
+package com.github.codedoctorde.linwood.commands.settings.karma;
 
 import com.github.codedoctorde.linwood.commands.Command;
 import com.github.codedoctorde.linwood.entity.GuildEntity;
@@ -11,14 +11,14 @@ import java.util.ResourceBundle;
 /**
  * @author CodeDoctorDE
  */
-public class ClearGameMasterCommand implements Command {
+public class ClearLikeCommand implements Command {
     @Override
     public boolean onCommand(Session session, Message message, GuildEntity entity, String label, String[] args) {
         ResourceBundle bundle = getBundle(entity);
         assert bundle != null;
         if(args.length != 0)
             return false;
-        entity.getGameEntity().setGameMasterRole(null);
+        entity.getKarmaEntity().setLikeEmote(null);
         entity.save(session);
         message.getChannel().sendMessage(bundle.getString("Clear")).queue();
         return true;
@@ -34,15 +34,13 @@ public class ClearGameMasterCommand implements Command {
     @Override
     public String[] aliases(GuildEntity entity) {
         return new String[]{
-                "cleargamemaster",
-                "clear-game-master",
-                "clearmaster",
-                "clear-master"
+                "clearlike",
+                "clear-like"
         };
     }
 
     @Override
     public ResourceBundle getBundle(GuildEntity entity) {
-        return ResourceBundle.getBundle("locale.commands.settings.game.ClearGameMaster", entity.getLocalization());
+        return ResourceBundle.getBundle("locale.commands.settings.karma.ClearLike", entity.getLocalization());
     }
 }

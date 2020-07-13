@@ -1,8 +1,9 @@
-package com.github.codedoctorde.linwood.commands.settings;
+package com.github.codedoctorde.linwood.commands.settings.karma;
 
 import com.github.codedoctorde.linwood.commands.Command;
 import com.github.codedoctorde.linwood.entity.GuildEntity;
 import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Category;
 import net.dv8tion.jda.api.entities.Message;
 import org.hibernate.Session;
 
@@ -12,7 +13,7 @@ import java.util.ResourceBundle;
 /**
  * @author CodeDoctorDE
  */
-public class LanguageCommand implements Command {
+public class LikeCommand implements Command {
     @Override
     public boolean onCommand(Session session, Message message, GuildEntity entity, String label, String[] args) {
         ResourceBundle bundle = getBundle(entity);
@@ -20,15 +21,14 @@ public class LanguageCommand implements Command {
         if(args.length > 1)
             return false;
         if(args.length == 0)
-            message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Get"), entity.getLocalization().getDisplayName(entity.getLocalization()))).queue();
+            if(entity.getKarmaEntity().getLikeEmote() != null)
+                message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Get"), entity.getKarmaEntity().getLikeEmote())).queue();
+            else
+                message.getChannel().sendMessage(bundle.getString("GetNull")).queue();
         else {
-            try {
-                entity.setLocale(args[0]);
+                entity.getKarmaEntity().setLikeEmote(args[0]);
                 entity.save(session);
-                message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Set"), entity.getLocalization().getDisplayName(entity.getLocalization()))).queue();
-            }catch(NullPointerException e){
-                message.getChannel().sendMessage(bundle.getString("NotValid")).queue();
-            }
+                message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Set"), entity.getKarmaEntity().getLikeEmote())).queue();
         }
         return true;
     }
@@ -43,14 +43,13 @@ public class LanguageCommand implements Command {
     @Override
     public String[] aliases(GuildEntity entity) {
         return new String[]{
-                "language",
-                "locale",
-                "lang"
+                "gamecategory",
+                "game-category"
         };
     }
 
     @Override
     public ResourceBundle getBundle(GuildEntity entity) {
-        return ResourceBundle.getBundle("locale.commands.settings.Language", entity.getLocalization());
+        return ResourceBundle.getBundle("locale.commands.settings.karma.Like", entity.getLocalization());
     }
 }
