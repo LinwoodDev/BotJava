@@ -2,6 +2,7 @@ package com.github.codedoctorde.linwood.commands;
 
 import com.github.codedoctorde.linwood.entity.GuildEntity;
 import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import org.hibernate.Session;
 import org.jetbrains.annotations.Nullable;
@@ -13,7 +14,7 @@ public interface Command {
     String[] aliases(final GuildEntity entity);
     @Nullable
     ResourceBundle getBundle(final GuildEntity entity);
-    default Permission[] permissions(){
-        return new Permission[0];
+    default boolean hasPermission(Member member){
+        return true;
     }
 }

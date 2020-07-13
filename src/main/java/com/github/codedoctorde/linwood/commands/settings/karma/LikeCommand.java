@@ -4,6 +4,7 @@ import com.github.codedoctorde.linwood.commands.Command;
 import com.github.codedoctorde.linwood.entity.GuildEntity;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Category;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import org.hibernate.Session;
 
@@ -34,10 +35,8 @@ public class LikeCommand implements Command {
     }
 
     @Override
-    public Permission[] permissions() {
-        return new Permission[]{
-                Permission.MANAGE_SERVER
-        };
+    public boolean hasPermission(Member member) {
+        return member.hasPermission(Permission.MANAGE_SERVER);
     }
 
     @Override
