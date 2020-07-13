@@ -100,7 +100,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.20</version>
+            <version>8.0.21</version>
             <scope>compile</scope>
         </dependency>
         <!-- https://mvnrepository.com/artifact/javax.persistence/javax.persistence-api -->
@@ -133,7 +133,7 @@
         <dependency>
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
-            <version>4.2.0_172</version>
+            <version>4.2.0_177</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
