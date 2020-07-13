@@ -63,30 +63,32 @@ public class WhatIsItEvents {
     @SubscribeEvent
     public void onJoin(MessageReactionAddEvent event){
         try {
-            var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
-            var entity = Linwood.getInstance().getDatabase().getGuildById(session, event.getGuild().getIdLong());
-            var bundle = whatIsIt.getBundle(session);
-            if (event.getChannel().getIdLong() != whatIsIt.getTextChannelId() || event.getMember() == null ||
-                    event.getMessageIdLong() != whatIsIt.getWantWriterMessageId())
-                return;
-            if (event.getMember().getUser().isBot() || !event.getReactionEmote().isEmoji())
-                return;
-            switch (event.getReactionEmote().getAsCodepoints()) {
-                case "U+1f590U+fe0f":
-                    if(!whatIsIt.wantWriter(session, event.getMember()))
-                        event.getReaction().removeReaction(event.getMember().getUser()).queue();
-                    break;
-                case "U+26d4":
-                    if (entity.getGameEntity().isGameMaster(event.getMember())) {
-                        whatIsIt.finishGame();
+            event.retrieveMember().queue(member -> {
+                var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
+                var entity = Linwood.getInstance().getDatabase().getGuildById(session, event.getGuild().getIdLong());
+                var bundle = whatIsIt.getBundle(session);
+                if (event.getChannel().getIdLong() != whatIsIt.getTextChannelId() || event.getMember() == null ||
+                        event.getMessageIdLong() != whatIsIt.getWantWriterMessageId())
+                    return;
+                if (event.getMember().getUser().isBot() || !event.getReactionEmote().isEmoji())
+                    return;
+                switch (event.getReactionEmote().getAsCodepoints()) {
+                    case "U+1f590U+fe0f":
+                        if(!whatIsIt.wantWriter(session, event.getMember()))
+                            event.getReaction().removeReaction(event.getMember().getUser()).queue();
                         break;
-                    }
-                    else
-                        event.getMember().getUser().openPrivateChannel().queue(privateChannel -> privateChannel.sendMessage(bundle.getString("NoPermission")).queue());
-                default:
-                    event.getReaction().removeReaction(event.getMember().getUser()).queue();
-            }
-            session.close();
+                    case "U+26d4":
+                        if (entity.getGameEntity().isGameMaster(event.getMember())) {
+                            whatIsIt.finishGame();
+                            break;
+                        }
+                        else
+                            event.getMember().getUser().openPrivateChannel().queue(privateChannel -> privateChannel.sendMessage(bundle.getString("NoPermission")).queue());
+                    default:
+                        event.getReaction().removeReaction(event.getMember().getUser()).queue();
+                }
+                session.close();
+            });
         }
         catch(Exception e){
             e.printStackTrace();
@@ -96,15 +98,17 @@ public class WhatIsItEvents {
     @SubscribeEvent
     public void onLeave(MessageReactionRemoveEvent event){
         try {
-            var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
-            if (event.getChannel().getIdLong() != whatIsIt.getTextChannelId() || event.getMember() == null ||
-                    event.getMessageIdLong() != whatIsIt.getWantWriterMessageId())
-                return;
-            if (event.getMember().getUser().isBot())
-                return;
-            if (event.getReactionEmote().getAsCodepoints().equals("U+1f590U+fe0f"))
-                whatIsIt.removeWriter(session, event.getMember());
-            session.close();
+            event.retrieveMember().queue(member -> {
+                var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
+                if (event.getChannel().getIdLong() != whatIsIt.getTextChannelId() || member == null ||
+                        event.getMessageIdLong() != whatIsIt.getWantWriterMessageId())
+                    return;
+                if (member.getUser().isBot())
+                    return;
+                if (event.getReactionEmote().getAsCodepoints().equals("U+1f590U+fe0f"))
+                    whatIsIt.removeWriter(session, member);
+                session.close();
+            });
         }
         catch(Exception e){
             e.printStackTrace();

@@ -24,54 +24,56 @@ public class KarmaListener {
 
     @SubscribeEvent
     public void onGive(MessageReactionAddEvent event){
-        if(disabledChannels.contains(event.getChannel().getIdLong()) || event.getMember() == null)
+        if(disabledChannels.contains(event.getChannel().getIdLong()))
             return;
-        var emote = event.getReactionEmote().getAsReactionCode();
-        var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
-        var entity = Linwood.getInstance().getDatabase().getGuildById(session, event.getGuild().getIdLong());
-        var karma = entity.getKarmaEntity();
-        session.close();
-        event.getChannel().retrieveMessageById(event.getMessageIdLong()).queue(message ->  {
-            event.getGuild().retrieveMember(message.getAuthor()).queue(taker -> {
-                var donor = event.getMember();
+        event.retrieveMember().queue(donor -> {
+            var emote = event.getReactionEmote().getAsReactionCode();
+            var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
+            var entity = Linwood.getInstance().getDatabase().getGuildById(session, event.getGuild().getIdLong());
+            var karma = entity.getKarmaEntity();
+            session.close();
+            event.getChannel().retrieveMessageById(event.getMessageIdLong()).queue(message -> event.getGuild().retrieveMember(message.getAuthor()).queue(taker -> {
                 var session1 = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
                 if(karma.getLikeEmote() == null)
                     return;
                 boolean works = true;
                 if (taker == null || taker.getUser().isBot() || donor.getUser().isBot()) return;
-                if(donor.equals(taker))
+                if(donor.equals(taker)) {
                     works = false;
+                    giveLike(entity, donor, taker, session1);
+                    memberGivingHashMap.put(donor.getIdLong(), memberGivingHashMap.getOrDefault(donor.getIdLong(), 0) - 1);
+                }
                 else if(emote.equals(karma.getLikeEmote()))
                     works = giveLike(entity, donor, taker, session1);
                 else if(emote.equals(karma.getDislikeEmote()))
                     works = giveDislike(entity, donor, taker, session1);
                 if(!works)
-                    event.getReaction().removeReaction(event.getMember().getUser()).queue();
+                    event.getReaction().removeReaction(donor.getUser()).queue();
                 session1.close();
-            });
+            }));
         });
     }
     @SubscribeEvent
     public void onRemove(MessageReactionRemoveEvent event){
-        if(disabledChannels.contains(event.getChannel().getIdLong()) || event.getMember() == null)
+        if(disabledChannels.contains(event.getChannel().getIdLong()))
             return;
-        var emote = event.getReactionEmote().getAsReactionCode();
-        event.getChannel().sendMessage("`" + emote + "`").queue();
-        var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
-        var entity = Linwood.getInstance().getDatabase().getGuildById(session, event.getGuild().getIdLong());
-        var karma = entity.getKarmaEntity();
-        session.close();
-        event.getChannel().retrieveMessageById(event.getMessageIdLong()).queue(message -> {
-            var taker = message.getMember();
-            var donor = event.getMember();
-            var session1 = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
-            if(karma.getLikeEmote() == null)
-                return;
-            if(emote.equals(karma.getLikeEmote()))
-                removeLike(donor, taker, session1);
-            else if(emote.equals(karma.getDislikeEmote()))
-                removeDislike(donor, taker, session1);
-            session1.close();
+        event.retrieveMember().queue(donor -> {
+            var emote = event.getReactionEmote().getAsReactionCode();
+            var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
+            var entity = Linwood.getInstance().getDatabase().getGuildById(session, event.getGuild().getIdLong());
+            var karma = entity.getKarmaEntity();
+            session.close();
+            event.getChannel().retrieveMessageById(event.getMessageIdLong()).queue(message -> event.getGuild().retrieveMember(message.getAuthor()).queue(taker -> {
+                var session1 = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
+                if (taker == null || taker.getUser().isBot() || donor.getUser().isBot() || donor.equals(taker)) return;
+                if (karma.getLikeEmote() == null)
+                    return;
+                else if (emote.equals(karma.getLikeEmote()))
+                    removeLike(donor, taker, session1);
+                else if (emote.equals(karma.getDislikeEmote()))
+                    removeDislike(donor, taker, session1);
+                session1.close();
+            }));
         });
     }
     public boolean givingAction(GuildEntity entity, Member member){
@@ -91,6 +93,7 @@ public class KarmaListener {
         return true;
     }
     public void removeLike(Member donor, Member taker, Session session){
+        System.out.println("4");
         var donorEntity = Linwood.getInstance().getDatabase().getMemberEntity(session, donor);
         var takerEntity = Linwood.getInstance().getDatabase().getMemberEntity(session, taker);
         takerEntity.setLikes(takerEntity.getLikes() - donorEntity.getLevel(session) - 1);

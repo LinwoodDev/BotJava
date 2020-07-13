@@ -32,7 +32,7 @@ public class KarmaCommand implements Command {
                 .addField(bundle.getString("Likes"), String.valueOf(memberEntity.getLikes()), true)
                 .addField(bundle.getString("Dislikes"), String.valueOf(memberEntity.getDislikes()), true)
                 .addField(bundle.getString("Level"), String.valueOf(memberEntity.getLevel(session)), false)
-                .addField(bundle.getString("Experience"), memberEntity.getRemainingKarma(session) * 100  + "%", true)
+                .addField(bundle.getString("Experience"), memberEntity.getRemainingKarma(session) * 10  + "%", true)
                 .addField(bundle.getString("Rank"), "invalid", true)
                 .build()).queue();
         return true;
