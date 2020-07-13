@@ -11,7 +11,7 @@ public class KarmaEntity {
     private int maxGiving = 3;
     private String likeEmote = null;
     private String dislikeEmote = null;
-    private int constant = 2;
+    private int constant = 5;
 
     public String getLikeEmote() {
         return likeEmote;

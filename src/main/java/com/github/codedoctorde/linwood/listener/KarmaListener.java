@@ -4,6 +4,7 @@ import com.github.codedoctorde.linwood.Linwood;
 import com.github.codedoctorde.linwood.entity.GuildEntity;
 import com.ibm.icu.util.LocaleData;
 import com.mysql.cj.protocol.x.XMessage;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.api.events.message.react.MessageReactionRemoveEvent;
@@ -38,10 +39,9 @@ public class KarmaListener {
                     return;
                 boolean works = true;
                 if (taker == null || taker.getUser().isBot() || donor.getUser().isBot()) return;
-                if(donor.equals(taker)) works = true;
-                else if(emote.equals(karma.getLikeEmote()))
+                if(!donor.equals(taker)) if (emote.equals(karma.getLikeEmote()))
                     works = giveLike(entity, donor, taker, session1);
-                else if(emote.equals(karma.getDislikeEmote()))
+                else if (emote.equals(karma.getDislikeEmote()))
                     works = giveDislike(entity, donor, taker, session1);
                 if(!works)
                     event.getReaction().removeReaction(donor.getUser()).queue();
@@ -73,7 +73,7 @@ public class KarmaListener {
         });
     }
     public boolean givingAction(GuildEntity entity, Member member){
-        if(entity.getKarmaEntity().getMaxGiving() <= memberGivingHashMap.getOrDefault(member.getIdLong(), 0))
+        if(entity.getKarmaEntity().getMaxGiving() <= memberGivingHashMap.getOrDefault(member.getIdLong(), 0) && !member.hasPermission(Permission.MANAGE_SERVER))
             return false;
         memberGivingHashMap.put(member.getIdLong(), memberGivingHashMap.getOrDefault(member.getIdLong(), 0) + 1);
         return true;
