@@ -59,6 +59,10 @@ public class KarmaCommand implements Command {
     public void karmaCommand(GuildEntity entity, Member member, TextChannel channel){
         var bundle = getBundle(entity);
         assert bundle != null;
+        if(member.getUser().isBot()) {
+            channel.sendMessage(bundle.getString("Invalid")).queue();
+            return;
+        }
         var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
         var memberEntity = Linwood.getInstance().getDatabase().getMemberEntity(session, member);
         channel.sendMessage(" ").embed(new EmbedBuilder()
