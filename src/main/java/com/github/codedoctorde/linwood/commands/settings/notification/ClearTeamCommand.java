@@ -22,7 +22,7 @@ public class ClearTeamCommand implements Command {
         assert bundle != null;
         if(args.length != 0)
             return false;
-        entity.setMaintainer(null);
+        entity.getNotificationEntity().setTeamRole(null);
         entity.save(session);
         message.getChannel().sendMessage(bundle.getString("Clear")).queue();
         return true;
@@ -45,6 +45,6 @@ public class ClearTeamCommand implements Command {
 
     @Override
     public ResourceBundle getBundle(GuildEntity entity) {
-        return ResourceBundle.getBundle("locale.commands.settings.game.ClearTeam", entity.getLocalization());
+        return ResourceBundle.getBundle("locale.commands.settings.notification.ClearTeam", entity.getLocalization());
     }
 }

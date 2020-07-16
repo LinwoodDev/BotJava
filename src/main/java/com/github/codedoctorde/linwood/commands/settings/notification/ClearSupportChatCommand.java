@@ -15,14 +15,14 @@ import java.util.Set;
 /**
  * @author CodeDoctorDE
  */
-public class ClearStatusChatCommand implements Command {
+public class ClearSupportChatCommand implements Command {
     @Override
     public boolean onCommand(Session session, Message message, GuildEntity entity, String label, String[] args) {
         ResourceBundle bundle = getBundle(entity);
         assert bundle != null;
         if(args.length != 0)
             return false;
-        entity.getNotificationEntity().setStatusChat(null);
+        entity.getNotificationEntity().setSupportChat(null);
         entity.save(session);
         message.getChannel().sendMessage(bundle.getString("Clear")).queue();
         return true;
@@ -36,21 +36,21 @@ public class ClearStatusChatCommand implements Command {
     @Override
     public Set<String> aliases(GuildEntity entity) {
         return new HashSet<>(Arrays.asList(
-                "clearstatus",
-                "clear-status",
-                "clearstatuschat",
-                "clear-statuschat",
-                "clearstatus-chat",
-                "clear-status-chat",
-                "clears",
-                "clear-s",
-                "clearsc",
-                "clear-sc"
+                "clearsupport",
+                "clear-support",
+                "clearsupportchat",
+                "clear-supportchat",
+                "clearsupport-chat",
+                "clear-support-chat",
+                "clearsp",
+                "clear-sp",
+                "clearspc",
+                "clear-spc"
         ));
     }
 
     @Override
     public ResourceBundle getBundle(GuildEntity entity) {
-        return ResourceBundle.getBundle("locale.commands.settings.notification.ClearStatusChat", entity.getLocalization());
+        return ResourceBundle.getBundle("locale.commands.settings.notification.ClearSupportChat", entity.getLocalization());
     }
 }

@@ -9,10 +9,7 @@ import com.github.codedoctorde.linwood.commands.settings.karma.LikeCommand;
 import com.github.codedoctorde.linwood.entity.GuildEntity;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.ResourceBundle;
-import java.util.Set;
+import java.util.*;
 
 public class NotificationSettingsCommand extends CommandManager {
     @Override
@@ -20,20 +17,25 @@ public class NotificationSettingsCommand extends CommandManager {
         return new Command[]{
                 new ClearTeamCommand(),
                 new TeamCommand(),
-                new DislikeCommand(),
-                new ClearDislikeCommand()
+                new ClearSupportChatCommand(),
+                new SupportChatCommand(),
+                new ClearStatusChatCommand(),
+                new StatusChatCommand()
         };
     }
 
     @Override
     public Set<String> aliases(GuildEntity entity) {
-        return new HashSet<>(Collections.singletonList(
-                "karma"
+        return new HashSet<>(Arrays.asList(
+                "notification",
+                "notifications",
+                "notif",
+                "n"
         ));
     }
 
     @Override
     public @Nullable ResourceBundle getBundle(GuildEntity entity) {
-        return ResourceBundle.getBundle("locale.commands.settings.karma.Base");
+        return ResourceBundle.getBundle("locale.commands.settings.notification.Base");
     }
 }

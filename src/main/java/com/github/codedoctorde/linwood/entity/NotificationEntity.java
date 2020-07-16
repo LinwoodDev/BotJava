@@ -41,7 +41,7 @@ public class NotificationEntity {
     public Long getSupportChatId() {
         return supportChatId;
     }
-    public TextChannel getSupportChannel() {
+    public TextChannel getSupportChat() {
         if(supportChatId == null)
             return null;
         else
