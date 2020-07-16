@@ -2,8 +2,8 @@ package com.github.codedoctorde.linwood.commands.settings.notification;
 
 import com.github.codedoctorde.linwood.commands.Command;
 import com.github.codedoctorde.linwood.entity.GuildEntity;
+import com.github.codedoctorde.linwood.utils.TagUtil;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.Category;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -32,26 +32,20 @@ public class StatusChatCommand implements Command {
                 message.getChannel().sendMessage(bundle.getString("GetNull")).queue();
         else {
             try {
-                TextChannel category = null;
-                try{
-                    category = message.getGuild().getTextChannelById(args[0]);
-                }catch(Exception ignored){
-
+                TextChannel channel;
+                try {
+                    channel = TagUtil.convertToTextChannel(message.getGuild(), args[0]);
+                }catch(UnsupportedOperationException ignored) {
+                    message.getChannel().sendMessage(bundle.getString("SetMultiple")).queue();
+                    return true;
                 }
-                if(category == null){
-                    var categories = message.getGuild().getTextChannelsByName(args[0], true);
-                    if(categories.size() < 1)
-                        message.getChannel().sendMessage(bundle.getString("SetNothing")).queue();
-                    else if(categories.size() > 1)
-                        message.getChannel().sendMessage(bundle.getString("SetMultiple")).queue();
-                    else
-                        category = categories.get(0);
-                    if(category == null)
-                        return true;
+                if(channel == null) {
+                    message.getChannel().sendMessage(bundle.getString("SetNothing")).queue();
+                    return true;
                 }
-                entity.getNotificationEntity().setStatusChat(category);
+                entity.getNotificationEntity().setStatusChat(channel);
                 entity.save(session);
-                message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Set"), entity.getNotificationEntity().getStatusChat().getName(), entity.getNotificationEntity().getStatusChatId())).queue();
+                message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Set"), entity.getNotificationEntity().getStatusChat().getAsMention(), entity.getNotificationEntity().getStatusChatId())).queue();
             }catch(NullPointerException e){
                 message.getChannel().sendMessage(bundle.getString("NotValid")).queue();
             }
@@ -69,6 +63,7 @@ public class StatusChatCommand implements Command {
         return new HashSet<>(Arrays.asList(
                 "statuschat",
                 "status-chat",
+                "status",
                 "sc",
                 "s"
         ));

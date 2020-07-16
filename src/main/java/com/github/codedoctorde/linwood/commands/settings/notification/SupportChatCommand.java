@@ -2,6 +2,7 @@ package com.github.codedoctorde.linwood.commands.settings.notification;
 
 import com.github.codedoctorde.linwood.commands.Command;
 import com.github.codedoctorde.linwood.entity.GuildEntity;
+import com.github.codedoctorde.linwood.utils.TagUtil;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
@@ -13,6 +14,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 /**
  * @author CodeDoctorDE
@@ -30,30 +32,20 @@ public class SupportChatCommand implements Command {
             else
                 message.getChannel().sendMessage(bundle.getString("GetNull")).queue();
         else {
+            TextChannel channel;
             try {
-                TextChannel category = null;
-                try{
-                    category = message.getGuild().getTextChannelById(args[0]);
-                }catch(Exception ignored){
-
-                }
-                if(category == null){
-                    var categories = message.getGuild().getTextChannelsByName(args[0], true);
-                    if(categories.size() < 1)
-                        message.getChannel().sendMessage(bundle.getString("SetNothing")).queue();
-                    else if(categories.size() > 1)
-                        message.getChannel().sendMessage(bundle.getString("SetMultiple")).queue();
-                    else
-                        category = categories.get(0);
-                    if(category == null)
-                        return true;
-                }
-                entity.getNotificationEntity().setSupportChat(category);
-                entity.save(session);
-                message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Set"), entity.getNotificationEntity().getSupportChat().getName(), entity.getNotificationEntity().getSupportChatId())).queue();
-            }catch(NullPointerException e){
-                message.getChannel().sendMessage(bundle.getString("NotValid")).queue();
+                channel = TagUtil.convertToTextChannel(message.getGuild(), args[0]);
+            }catch(UnsupportedOperationException ignored) {
+                message.getChannel().sendMessage(bundle.getString("SetMultiple")).queue();
+                return true;
             }
+            if(channel == null) {
+                message.getChannel().sendMessage(bundle.getString("SetNothing")).queue();
+                return true;
+            }
+            entity.getNotificationEntity().setSupportChat(channel);
+            entity.save(session);
+            message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Set"), entity.getNotificationEntity().getSupportChat().getAsMention(), entity.getNotificationEntity().getSupportChatId())).queue();
         }
         return true;
     }
@@ -68,6 +60,7 @@ public class SupportChatCommand implements Command {
         return new HashSet<>(Arrays.asList(
                 "supportchat",
                 "support-chat",
+                "support",
                 "spc",
                 "sp"
         ));

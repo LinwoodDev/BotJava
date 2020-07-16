@@ -11,7 +11,7 @@ public class MainConfig {
     private String secret;
     private int port = 9000;
     private boolean userStats = false;
-    private List<Long> owners = new ArrayList<>();
+    private final List<Long> owners = new ArrayList<>();
 
 
     private final List<ActivityConfig> activities = new ArrayList<>(){{

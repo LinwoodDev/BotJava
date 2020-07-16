@@ -5,6 +5,7 @@ import com.github.codedoctorde.linwood.commands.CommandManager;
 import com.github.codedoctorde.linwood.commands.settings.game.*;
 import com.github.codedoctorde.linwood.commands.settings.general.GeneralSettingsCommand;
 import com.github.codedoctorde.linwood.commands.settings.karma.KarmaSettingsCommand;
+import com.github.codedoctorde.linwood.commands.settings.notification.NotificationSettingsCommand;
 import com.github.codedoctorde.linwood.entity.GuildEntity;
 
 import java.util.Arrays;
@@ -21,7 +22,8 @@ public class SettingsCommand extends CommandManager {
         return new Command[]{
                 new GameSettingsCommand(),
                 new GeneralSettingsCommand(),
-                new KarmaSettingsCommand()
+                new KarmaSettingsCommand(),
+                new NotificationSettingsCommand()
         };
     }
 

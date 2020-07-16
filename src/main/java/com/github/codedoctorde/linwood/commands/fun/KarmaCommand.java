@@ -3,6 +3,7 @@ package com.github.codedoctorde.linwood.commands.fun;
 import com.github.codedoctorde.linwood.Linwood;
 import com.github.codedoctorde.linwood.commands.Command;
 import com.github.codedoctorde.linwood.entity.GuildEntity;
+import com.github.codedoctorde.linwood.utils.TagUtil;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
@@ -21,33 +22,22 @@ public class KarmaCommand implements Command {
         if(args.length > 1)
         return false;
         var bundle = getBundle(entity);
-        var pattern = Pattern.compile("<@(?!)(\\d+)>|(\\d+)");
+        assert bundle != null;
         if(args.length == 0)
             karmaCommand(entity, Objects.requireNonNull(message.getMember()), message.getTextChannel());
         else{
-            var matcher = pattern.matcher(args[0]);
-            assert bundle != null;
-            if (matcher.find()) {
-                String memberId;
-                System.out.println(matcher.groupCount());
-                if (matcher.groupCount() == 2){
-                    var mentionGroup = matcher.group(0);
-                    var idGroup = matcher.group(1);
-                    if(mentionGroup != null)
-                        memberId = mentionGroup;
-                    else
-                        memberId = idGroup;
-                }
-                else {
-                    message.getChannel().sendMessage(bundle.getString("Invalid")).queue();
-                    return true;
-                }
-                try {
-                    message.getGuild().retrieveMemberById(memberId).queue(member -> karmaCommand(entity, member, message.getTextChannel()));
-                }catch(Exception ignored){
-                    message.getChannel().sendMessage(bundle.getString("Invalid")).queue();
-                }
+            Member member;
+            try {
+                member = TagUtil.convertToMember(message.getGuild(), args[0]);
+            }catch(UnsupportedOperationException ignored) {
+                message.getChannel().sendMessage(bundle.getString("SetMultiple")).queue();
+                return true;
             }
+            if(member == null) {
+                message.getChannel().sendMessage(bundle.getString("SetNothing")).queue();
+                return true;
+            }
+            karmaCommand(entity, member, message.getTextChannel());
         }
         return true;
     }

@@ -8,7 +8,7 @@ import java.util.List;
  * @author CodeDoctorDE
  */
 public class SingleApplicationManager {
-    private List<SingleApplication> apps = new ArrayList<>();
+    private final List<SingleApplication> apps = new ArrayList<>();
 
     public SingleApplicationManager(){
     }
