@@ -59,7 +59,7 @@ public class WhatIsIt implements SingleApplicationMode {
                 textChannel.getManager().setParent(finalCategory).queue();
             chooseNextPlayer(session);
         }));
-        hasChannelDisabled = Linwood.getInstance().getKarmaListener().getDisabledChannels().add(textChannelId);
+        hasChannelDisabled = Linwood.getInstance().getUserListener().getDisabledChannels().add(textChannelId);
     }
 
     @Override
@@ -75,7 +75,7 @@ public class WhatIsIt implements SingleApplicationMode {
         if(textChannel != null)
             textChannel.delete().queue();
         if(hasChannelDisabled)
-            Linwood.getInstance().getKarmaListener().getDisabledChannels().remove(textChannelId);
+            Linwood.getInstance().getUserListener().getDisabledChannels().remove(textChannelId);
     }
 
     public void chooseNextPlayer(Session session){

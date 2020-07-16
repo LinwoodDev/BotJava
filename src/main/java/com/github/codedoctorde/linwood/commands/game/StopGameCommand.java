@@ -6,7 +6,10 @@ import com.github.codedoctorde.linwood.entity.GuildEntity;
 import net.dv8tion.jda.api.entities.Message;
 import org.hibernate.Session;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 /**
  * @author CodeDoctorDE
@@ -34,15 +37,15 @@ public class StopGameCommand implements Command {
     }
 
     @Override
-    public String[] aliases(GuildEntity entity) {
-        return new String[]{
+    public Set<String> aliases(GuildEntity entity) {
+        return new HashSet<>(Arrays.asList(
                 "stop",
                 "stopgame",
                 "cancel",
                 "stop-game",
                 "s",
                 "c"
-        };
+        ));
     }
 
     @Override

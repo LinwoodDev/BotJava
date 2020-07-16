@@ -2,21 +2,17 @@ package com.github.codedoctorde.linwood.commands.fun;
 
 import com.github.codedoctorde.linwood.Linwood;
 import com.github.codedoctorde.linwood.commands.Command;
-import com.github.codedoctorde.linwood.commands.settings.karma.LikeCommand;
 import com.github.codedoctorde.linwood.entity.GuildEntity;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.requests.RestAction;
 import org.hibernate.Session;
 import org.jetbrains.annotations.Nullable;
 
 import java.awt.*;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.regex.Pattern;
 
 public class KarmaCommand implements Command {
@@ -25,13 +21,12 @@ public class KarmaCommand implements Command {
         if(args.length > 1)
         return false;
         var bundle = getBundle(entity);
-        var pattern = Pattern.compile("<@(?!|)(\\d+)>|(\\d+)");
+        var pattern = Pattern.compile("<@(?!)(\\d+)>|(\\d+)");
         if(args.length == 0)
             karmaCommand(entity, Objects.requireNonNull(message.getMember()), message.getTextChannel());
         else{
             var matcher = pattern.matcher(args[0]);
             assert bundle != null;
-
             if (matcher.find()) {
                 String memberId;
                 System.out.println(matcher.groupCount());
@@ -82,18 +77,18 @@ public class KarmaCommand implements Command {
     }
 
     @Override
-    public String[] aliases(GuildEntity entity) {
-        return new String[]{
+    public Set<String> aliases(GuildEntity entity) {
+        return new HashSet<>(Arrays.asList(
                 "karma",
                 "likes",
                 "level",
                 "levels",
                 "rank"
-        };
+        ));
     }
 
     @Override
-    public @Nullable ResourceBundle getBundle(GuildEntity entity) {
+    public ResourceBundle getBundle(GuildEntity entity) {
         return ResourceBundle.getBundle("locale.commands.fun.Karma", entity.getLocalization());
     }
 }

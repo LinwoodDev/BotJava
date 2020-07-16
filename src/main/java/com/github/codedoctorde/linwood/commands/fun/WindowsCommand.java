@@ -5,12 +5,8 @@ import com.github.codedoctorde.linwood.entity.GuildEntity;
 import net.dv8tion.jda.api.entities.Message;
 import org.hibernate.Session;
 
-import java.io.File;
 import java.io.InputStream;
-import java.net.URISyntaxException;
-import java.util.Objects;
-import java.util.Random;
-import java.util.ResourceBundle;
+import java.util.*;
 
 /**
  * @author CodeDoctorDE
@@ -50,12 +46,12 @@ public class WindowsCommand implements Command {
     }
 
     @Override
-    public String[] aliases(GuildEntity entity) {
-        return new String[]{
+    public Set<String> aliases(GuildEntity entity) {
+        return new HashSet<>(Arrays.asList(
                 "windows",
                 "win",
                 "window"
-        };
+        ));
     }
 
     @Override

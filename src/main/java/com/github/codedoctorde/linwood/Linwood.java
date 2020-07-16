@@ -5,7 +5,7 @@ import com.github.codedoctorde.linwood.config.MainConfig;
 import com.github.codedoctorde.linwood.apps.single.SingleApplicationManager;
 import com.github.codedoctorde.linwood.listener.ConnectionListener;
 import com.github.codedoctorde.linwood.listener.CommandListener;
-import com.github.codedoctorde.linwood.listener.KarmaListener;
+import com.github.codedoctorde.linwood.listener.UserListener;
 import com.github.codedoctorde.linwood.server.WebInterface;
 import com.github.codedoctorde.linwood.utils.ActivityChanger;
 import com.github.codedoctorde.linwood.utils.DatabaseUtil;
@@ -36,7 +36,7 @@ public class Linwood {
     private final DatabaseUtil database;
     private final SingleApplicationManager singleApplicationManager;
     private MainConfig config;
-    private final KarmaListener karmaListener = new KarmaListener();
+    private final UserListener userListener = new UserListener();
     private final File configFile = new File("./config.json");
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private static final Logger logger = LogManager.getLogger(Linwood.class);
@@ -52,7 +52,7 @@ public class Linwood {
         var builder = JDABuilder.createDefault(token)
                 .setEventManager(new AnnotatedEventManager())
                 .addEventListeners(new CommandListener())
-                .addEventListeners(karmaListener)
+                .addEventListeners(userListener)
                 .addEventListeners(new ConnectionListener());
         database = new DatabaseUtil();
         activityChanger = new ActivityChanger();
@@ -153,7 +153,7 @@ public class Linwood {
         activityChanger.getActivities().add(Activity.playing(Linwood.getInstance().getVersion()));
     }
 
-    public KarmaListener getKarmaListener() {
-        return karmaListener;
+    public UserListener getUserListener() {
+        return userListener;
     }
 }

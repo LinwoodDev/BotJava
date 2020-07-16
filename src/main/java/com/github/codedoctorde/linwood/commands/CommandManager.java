@@ -1,5 +1,6 @@
 package com.github.codedoctorde.linwood.commands;
 
+import com.github.codedoctorde.linwood.Linwood;
 import com.github.codedoctorde.linwood.entity.GuildEntity;
 import net.dv8tion.jda.api.entities.Message;
 import org.hibernate.Session;
@@ -18,9 +19,9 @@ public abstract class CommandManager implements Command {
         var bundle = getBundle(entity);
         var baseBundle = getBaseBundle(entity);
         for (Command command : commands())
-            if (Arrays.asList(command.aliases(entity)).contains(
+            if (command.aliases(entity).contains(
                     (args.length > 0) ? args[0].toLowerCase() : "")) {
-                if(command.hasPermission(message.getMember())) {
+                if(command.hasPermission(message.getMember()) || Linwood.getInstance().getConfig().getOwners().contains(message.getAuthor().getIdLong())) {
                     if (!command.onCommand(session, message, entity,
                             (args.length > 0) ? args[0] : "",
                             (args.length > 0) ? Arrays.copyOfRange(args, 1, args.length) : new String[0]))

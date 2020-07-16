@@ -2,10 +2,12 @@ package com.github.codedoctorde.linwood.commands.game;
 
 import com.github.codedoctorde.linwood.commands.Command;
 import com.github.codedoctorde.linwood.commands.CommandManager;
-import com.github.codedoctorde.linwood.commands.fun.WindowsCommand;
 import com.github.codedoctorde.linwood.entity.GuildEntity;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 /**
  * @author CodeDoctorDE
@@ -21,10 +23,10 @@ public class GameCommand extends CommandManager {
     }
 
     @Override
-    public String[] aliases(GuildEntity entity) {
-        return new String[]{
+    public Set<String> aliases(GuildEntity entity) {
+        return new HashSet<>(Arrays.asList(
                 "game", "games", "play"
-        };
+        ));
     }
 
     @Override

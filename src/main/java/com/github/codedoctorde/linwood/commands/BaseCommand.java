@@ -7,7 +7,9 @@ import com.github.codedoctorde.linwood.entity.GuildEntity;
 import net.dv8tion.jda.api.entities.Message;
 import org.hibernate.Session;
 
+import java.util.HashSet;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 /**
  * @author CodeDoctorDE
@@ -26,8 +28,8 @@ public class BaseCommand extends CommandManager {
     }
 
     @Override
-    public String[] aliases(GuildEntity entity) {
-        return new String[0];
+    public Set<String> aliases(GuildEntity entity) {
+        return new HashSet<>();
     }
 
     @Override

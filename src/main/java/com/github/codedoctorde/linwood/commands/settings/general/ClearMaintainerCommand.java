@@ -7,7 +7,6 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import org.hibernate.Session;
 
-import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.ResourceBundle;
@@ -16,22 +15,16 @@ import java.util.Set;
 /**
  * @author CodeDoctorDE
  */
-public class PrefixCommand implements Command {
+public class ClearMaintainerCommand implements Command {
     @Override
     public boolean onCommand(Session session, Message message, GuildEntity entity, String label, String[] args) {
         ResourceBundle bundle = getBundle(entity);
         assert bundle != null;
-        if(args.length == 0)
-            message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Get"), entity.getPrefix())).queue();
-        else {
-            try {
-                entity.setPrefix(String.join(" ", args));
-                entity.save(session);
-                message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Set"), entity.getPrefix())).queue();
-            }catch(NullPointerException e){
-                message.getChannel().sendMessage(bundle.getString("NotValid")).queue();
-            }
-        }
+        if(args.length != 0)
+            return false;
+        entity.setMaintainer(null);
+        entity.save(session);
+        message.getChannel().sendMessage(bundle.getString("Clear")).queue();
         return true;
     }
 
@@ -43,13 +36,19 @@ public class PrefixCommand implements Command {
     @Override
     public Set<String> aliases(GuildEntity entity) {
         return new HashSet<>(Arrays.asList(
-                "prefix",
-                "pre-fix"
+                "clearmaintainer",
+                "clear-maintainer",
+                "clearmaint",
+                "clear-maint",
+                "clearcontroller",
+                "clearcontrol",
+                "clear-controller",
+                "clear-control"
         ));
     }
 
     @Override
     public ResourceBundle getBundle(GuildEntity entity) {
-        return ResourceBundle.getBundle("locale.commands.settings.general.Prefix", entity.getLocalization());
+        return ResourceBundle.getBundle("locale.commands.settings.game.ClearGameMaster", entity.getLocalization());
     }
 }

@@ -1,11 +1,11 @@
-package com.github.codedoctorde.linwood.commands.settings.game;
+package com.github.codedoctorde.linwood.commands.settings.notification;
 
 import com.github.codedoctorde.linwood.commands.Command;
 import com.github.codedoctorde.linwood.entity.GuildEntity;
 import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Category;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.Role;
 import org.hibernate.Session;
 
 import java.text.MessageFormat;
@@ -17,7 +17,7 @@ import java.util.Set;
 /**
  * @author CodeDoctorDE
  */
-public class GameMasterCommand implements Command {
+public class StatusChatCommand implements Command {
     @Override
     public boolean onCommand(Session session, Message message, GuildEntity entity, String label, String[] args) {
         ResourceBundle bundle = getBundle(entity);
@@ -31,26 +31,26 @@ public class GameMasterCommand implements Command {
                 message.getChannel().sendMessage(bundle.getString("GetNull")).queue();
         else {
             try {
-                Role role = null;
+                Category category = null;
                 try{
-                    role = message.getGuild().getRoleById(args[0]);
+                    category = message.getGuild().getCategoryById(args[0]);
                 }catch(Exception ignored){
 
                 }
-                if(role == null){
-                    var roles = message.getGuild().getRolesByName(args[0], true);
-                    if(roles.size() < 1)
+                if(category == null){
+                    var categories = message.getGuild().getCategoriesByName(args[0], true);
+                    if(categories.size() < 1)
                         message.getChannel().sendMessage(bundle.getString("SetNothing")).queue();
-                    else if(roles.size() > 1)
+                    else if(categories.size() > 1)
                         message.getChannel().sendMessage(bundle.getString("SetMultiple")).queue();
                     else
-                        role = roles.get(0);
+                        category = categories.get(0);
+                    if(category == null)
+                        return true;
                 }
-                if(role == null)
-                    return true;
-                entity.getGameEntity().setGameMasterRole(role);
+                entity.getGameEntity().setGameCategory(category);
                 entity.save(session);
-                message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Set"), entity.getGameEntity().getGameMasterRole().getName(), entity.getGameEntity().getGameMasterRoleId())).queue();
+                message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Set"), entity.getGameEntity().getGameCategory().getName(), entity.getGameEntity().getGameCategoryId())).queue();
             }catch(NullPointerException e){
                 message.getChannel().sendMessage(bundle.getString("NotValid")).queue();
             }
@@ -66,14 +66,14 @@ public class GameMasterCommand implements Command {
     @Override
     public Set<String> aliases(GuildEntity entity) {
         return new HashSet<>(Arrays.asList(
-                "gamemaster",
-                "game-master",
-                "master"
+                "gamecategory",
+                "game-category",
+                "category"
         ));
     }
 
     @Override
     public ResourceBundle getBundle(GuildEntity entity) {
-        return ResourceBundle.getBundle("locale.commands.settings.game.GameMaster", entity.getLocalization());
+        return ResourceBundle.getBundle("locale.commands.settings.game.GameCategory", entity.getLocalization());
     }
 }

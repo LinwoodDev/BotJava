@@ -8,7 +8,10 @@ import org.hibernate.Session;
 
 import java.lang.management.ManagementFactory;
 import java.text.MessageFormat;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 /**
  * @author CodeDoctorDE
@@ -37,10 +40,10 @@ public class InfoCommand implements Command {
     }
 
     @Override
-    public String[] aliases(GuildEntity entity) {
-        return new String[]{
+    public Set<String> aliases(GuildEntity entity) {
+        return new HashSet<>(Arrays.asList(
                 "", "info", "i", "information"
-        };
+        ));
     }
 
     @Override

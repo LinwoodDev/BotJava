@@ -3,14 +3,12 @@ package com.github.codedoctorde.linwood.commands.settings.karma;
 import com.github.codedoctorde.linwood.commands.Command;
 import com.github.codedoctorde.linwood.entity.GuildEntity;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.Category;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import org.hibernate.Session;
 
 import java.text.MessageFormat;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.*;
 
 /**
  * @author CodeDoctorDE
@@ -46,10 +44,10 @@ public class LikeCommand implements Command {
     }
 
     @Override
-    public String[] aliases(GuildEntity entity) {
-        return new String[]{
+    public Set<String> aliases(GuildEntity entity) {
+        return new HashSet<>(Arrays.asList(
                 "like"
-        };
+        ));
     }
 
     @Override

@@ -6,6 +6,7 @@ import com.ibm.icu.util.LocaleData;
 import com.mysql.cj.protocol.x.XMessage;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.events.StatusChangeEvent;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.api.events.message.react.MessageReactionRemoveEvent;
 import net.dv8tion.jda.api.hooks.SubscribeEvent;
@@ -18,7 +19,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-public class KarmaListener {
+public class UserListener {
     private final HashMap<Long, Integer> memberGivingHashMap = new HashMap<>();
     private LocalDate lastReset = LocalDate.now();
     private final Set<Long> disabledChannels = new HashSet<>();
@@ -89,7 +90,6 @@ public class KarmaListener {
         return true;
     }
     public void removeLike(Member donor, Member taker, Session session){
-        System.out.println("4");
         var donorEntity = Linwood.getInstance().getDatabase().getMemberEntity(session, donor);
         var takerEntity = Linwood.getInstance().getDatabase().getMemberEntity(session, taker);
         takerEntity.setLikes(takerEntity.getLikes() - donorEntity.getLevel(session) - 1);
@@ -133,5 +133,11 @@ public class KarmaListener {
 
     public Set<Long> getDisabledChannels() {
         return disabledChannels;
+    }
+
+
+    @SubscribeEvent
+    public void onStatusChange(StatusChangeEvent event){
+
     }
 }

@@ -5,10 +5,8 @@ import com.github.codedoctorde.linwood.entity.GuildEntity;
 import net.dv8tion.jda.api.entities.Message;
 import org.hibernate.Session;
 
-import java.io.InputStream;
 import java.text.MessageFormat;
-import java.util.Random;
-import java.util.ResourceBundle;
+import java.util.*;
 
 /**
  * @author CodeDoctorDE
@@ -28,11 +26,11 @@ public class DiceCommand implements Command {
     }
 
     @Override
-    public String[] aliases(GuildEntity entity) {
-        return new String[]{
+    public Set<String> aliases(GuildEntity entity) {
+        return new HashSet<>(Arrays.asList(
                 "dice",
                 "d"
-        };
+        ));
     }
 
     @Override

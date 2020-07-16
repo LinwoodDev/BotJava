@@ -11,6 +11,7 @@ public class MainConfig {
     private String secret;
     private int port = 9000;
     private boolean userStats = false;
+    private List<Long> owners = new ArrayList<>();
 
 
     private final List<ActivityConfig> activities = new ArrayList<>(){{
@@ -66,5 +67,9 @@ public class MainConfig {
 
     public void setPort(int port) {
         this.port = port;
+    }
+
+    public List<Long> getOwners() {
+        return owners;
     }
 }

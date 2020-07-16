@@ -8,7 +8,10 @@ import net.dv8tion.jda.api.entities.Message;
 import org.hibernate.Session;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 /**
  * @author CodeDoctorDE
@@ -42,12 +45,12 @@ public class WhatIsItCommand implements Command {
         return true;
     }
     @Override
-    public String[] aliases(GuildEntity entity) {
-        return new String[]{
+    public Set<String> aliases(GuildEntity entity) {
+        return new HashSet<>(Arrays.asList(
                 "whatisit",
                 "what-is-it",
                 "what"
-        };
+        ));
     }
 
     @Override

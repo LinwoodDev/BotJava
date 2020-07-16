@@ -8,8 +8,7 @@ import net.dv8tion.jda.api.entities.Message;
 import org.hibernate.Session;
 
 import java.text.MessageFormat;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.*;
 
 /**
  * @author CodeDoctorDE
@@ -45,11 +44,11 @@ public class DislikeCommand implements Command {
     }
 
     @Override
-    public String[] aliases(GuildEntity entity) {
-        return new String[]{
+    public Set<String> aliases(GuildEntity entity) {
+        return new HashSet<>(Arrays.asList(
                 "like",
                 "dis-like"
-        };
+        ));
     }
 
     @Override

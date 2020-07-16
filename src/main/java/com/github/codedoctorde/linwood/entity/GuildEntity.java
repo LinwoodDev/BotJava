@@ -1,13 +1,10 @@
 package com.github.codedoctorde.linwood.entity;
 
 import com.github.codedoctorde.linwood.Linwood;
-import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.Category;
-import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.entities.TextChannel;
 import org.hibernate.Session;
 
-import javax.annotation.Nullable;
 import javax.persistence.*;
 import java.util.Locale;
 import java.util.Set;
@@ -28,6 +25,9 @@ public class GuildEntity {
     private Set<TemplateEntity> templates;
     @OneToOne(cascade=CascadeType.ALL, optional = false)
     private final KarmaEntity karmaEntity = new KarmaEntity();
+    @OneToOne(cascade=CascadeType.ALL, optional = false)
+    private final NotificationEntity notificationEntity = new NotificationEntity();
+    private Long maintainerId = null;
 
     public GuildEntity(){
     }
@@ -76,5 +76,29 @@ public class GuildEntity {
 
     public KarmaEntity getKarmaEntity() {
         return karmaEntity;
+    }
+
+    public NotificationEntity getNotificationEntity() {
+        return notificationEntity;
+    }
+
+    public Long getMaintainerId() {
+        return maintainerId;
+    }
+    public Role getMaintainer(){
+        if(maintainerId == null)
+            return null;
+        return Linwood.getInstance().getJda().getRoleById(maintainerId);
+    }
+
+    public void setMaintainerId(Long maintainer) {
+        this.maintainerId = maintainer;
+    }
+
+    public void setMaintainer(Role role){
+        if(role == null)
+            maintainerId = null;
+        else
+            maintainerId = role.getIdLong();
     }
 }

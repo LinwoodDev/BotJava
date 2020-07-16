@@ -10,7 +10,10 @@ import org.jetbrains.annotations.Nullable;
 import javax.imageio.ImageIO;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 /**
  * @author CodeDoctorDE
@@ -50,12 +53,12 @@ public class TicTacToeCommand implements Command {
         return true;
     }
     @Override
-    public String[] aliases(GuildEntity entity) {
-        return new String[]{
+    public Set<String> aliases(GuildEntity entity) {
+        return new HashSet<>(Arrays.asList(
                 "tictactoe",
                 "tic-tac-toe",
                 "ttt"
-        };
+        ));
     }
 
     @Override

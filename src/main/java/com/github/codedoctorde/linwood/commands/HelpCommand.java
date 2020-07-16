@@ -9,7 +9,10 @@ import org.hibernate.Session;
 
 import java.awt.*;
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 /**
  * @author CodeDoctorDE
@@ -47,11 +50,11 @@ public class HelpCommand implements Command {
     }
 
     @Override
-    public String[] aliases(GuildEntity entity) {
-        return new String[]{
+    public Set<String> aliases(GuildEntity entity) {
+        return new HashSet<>(Arrays.asList(
                 "help",
                 "h"
-        };
+        ));
     }
 
     @Override

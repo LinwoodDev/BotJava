@@ -9,8 +9,10 @@ import net.dv8tion.jda.api.entities.Message;
 import org.hibernate.Session;
 
 import java.text.MessageFormat;
-import java.util.List;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 /**
  * @author CodeDoctorDE
@@ -62,12 +64,12 @@ public class GameCategoryCommand implements Command {
     }
 
     @Override
-    public String[] aliases(GuildEntity entity) {
-        return new String[]{
+    public Set<String> aliases(GuildEntity entity) {
+        return new HashSet<>(Arrays.asList(
                 "gamecategory",
                 "game-category",
                 "category"
-        };
+        ));
     }
 
     @Override

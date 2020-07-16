@@ -16,5 +16,6 @@
         <mapping class="com.github.codedoctorde.linwood.entity.GameEntity"/>
         <mapping class="com.github.codedoctorde.linwood.entity.MemberEntity"/>
         <mapping class="com.github.codedoctorde.linwood.entity.KarmaEntity"/>
+        <mapping class="com.github.codedoctorde.linwood.entity.NotificationEntity"/>
     </session-factory>
 </hibernate-configuration>
