@@ -35,7 +35,7 @@ public class SettingsCommand extends CommandManager {
     }
 
     @Override
-    public ResourceBundle getBundle(GuildEntity entity) {
+    public @org.jetbrains.annotations.NotNull ResourceBundle getBundle(GuildEntity entity) {
         return ResourceBundle.getBundle("locale.commands.settings.Base", entity.getLocalization());
     }
 }

@@ -22,21 +22,20 @@ public class InfoCommand implements Command {
         var bundle = getBundle(entity);
         if(args.length > 0)
             return false;
-        assert bundle != null;
-        message.getChannel().sendMessage(" ").embed(new EmbedBuilder().setTitle(infoFormat(session, message, bundle.getString("title")))
-                .setDescription(infoFormat(session, message, bundle.getString("Body.regexp"))).build()).queue();
+        message.getChannel().sendMessage(" ").embed(new EmbedBuilder().setTitle(infoFormat(message, entity, bundle.getString("title")))
+                .setDescription(infoFormat(message, entity, bundle.getString("Body.regexp"))).build()).queue();
         return true;
     }
 
-    public String infoFormat(Session session, Message message, String text){
-        var guild = GuildEntity.get(session, message.getGuild().getIdLong());
+    public String infoFormat(Message message, GuildEntity entity, String text){
         var uptime = ManagementFactory.getRuntimeMXBean().getUptime();
         long millis = uptime % 1000;
         long second = (uptime / 1000) % 60;
         long minute = (uptime / (1000 * 60)) % 60;
         long hour = (uptime / (1000 * 60 * 60)) % 24;
         long days = (uptime / (1000 * 60 * 24));
-        return MessageFormat.format(text, Linwood.getInstance().getVersion(), message.getAuthor().getAsMention(), guild.getPrefix(), days, hour, minute, second, millis, Linwood.getInstance().getConfig().getSupportURL());
+        return MessageFormat.format(text, Linwood.getInstance().getVersion(), message.getAuthor().getAsMention(), String.join(", ", entity.getPrefixes()),
+                days, hour, minute, second, millis, Linwood.getInstance().getConfig().getSupportURL());
     }
 
     @Override
@@ -47,7 +46,7 @@ public class InfoCommand implements Command {
     }
 
     @Override
-    public ResourceBundle getBundle(GuildEntity entity) {
+    public @org.jetbrains.annotations.NotNull ResourceBundle getBundle(GuildEntity entity) {
         return ResourceBundle.getBundle("locale.commands.Info", entity.getLocalization());
     }
 }

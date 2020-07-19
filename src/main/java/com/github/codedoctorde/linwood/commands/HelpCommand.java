@@ -26,12 +26,7 @@ public class HelpCommand implements Command {
             return false;
 
         var bundle = getBundle(entity);
-        assert bundle != null;
         var commandBundle = command.getBundle(entity);
-        if(commandBundle == null) {
-            message.getChannel().sendMessage(bundle.getString("NotExist")).queue();
-            return true;
-        }
         var output = new MessageBuilder()
                 .append(" ")
                 .setEmbed(new EmbedBuilder()
@@ -58,7 +53,7 @@ public class HelpCommand implements Command {
     }
 
     @Override
-    public ResourceBundle getBundle(GuildEntity entity) {
+    public @org.jetbrains.annotations.NotNull ResourceBundle getBundle(GuildEntity entity) {
         return ResourceBundle.getBundle("locale.commands.Help", entity.getLocalization());
     }
 }

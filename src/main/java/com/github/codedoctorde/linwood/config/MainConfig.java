@@ -1,13 +1,15 @@
 package com.github.codedoctorde.linwood.config;
 
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
  * @author CodeDoctorDE
  */
 public class MainConfig {
-    private String prefix = "+lw";
+    private final List<String> prefixes = Arrays.asList("+lw", "+linwood");
     private String secret;
     private int port = 9000;
     private boolean userStats = false;
@@ -25,12 +27,8 @@ public class MainConfig {
 
     }
 
-    public String getPrefix() {
-        return prefix;
-    }
-
-    public void setPrefix(String prefix) {
-        this.prefix = prefix;
+    public List<String> getPrefixes() {
+        return prefixes;
     }
 
     public List<ActivityConfig> getActivities() {

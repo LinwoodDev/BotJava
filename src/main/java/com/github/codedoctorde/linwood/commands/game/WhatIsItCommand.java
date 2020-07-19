@@ -6,7 +6,6 @@ import com.github.codedoctorde.linwood.entity.GuildEntity;
 import com.github.codedoctorde.linwood.apps.single.game.mode.whatisit.WhatIsIt;
 import net.dv8tion.jda.api.entities.Message;
 import org.hibernate.Session;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -23,7 +22,6 @@ public class WhatIsItCommand implements Command {
             return false;
         int rounds = 5;
         var bundle = getBundle(entity);
-        assert bundle != null;
         assert message.getMember() != null;
         if(!entity.getGameEntity().isGameMaster(message.getMember())){
             message.getChannel().sendMessage(bundle.getString("NoPermission")).queue();
@@ -54,7 +52,7 @@ public class WhatIsItCommand implements Command {
     }
 
     @Override
-    public @Nullable ResourceBundle getBundle(GuildEntity entity) {
+    public @org.jetbrains.annotations.NotNull ResourceBundle getBundle(GuildEntity entity) {
         return ResourceBundle.getBundle("locale.commands.game.WhatIsIt");
     }
 }

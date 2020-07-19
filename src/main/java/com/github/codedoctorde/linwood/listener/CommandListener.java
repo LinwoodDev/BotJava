@@ -24,11 +24,15 @@ public class CommandListener {
         if(event.getAuthor().isBot())
             return;
         var content = event.getMessage().getContentRaw();
-        var prefix = guild.getPrefix();
+        var prefixes = guild.getPrefixes();
         var id = event.getJDA().getSelfUser().getId();
         var nicknameMention = "<@!" + id + ">";
         var normalMention = "<@" + id + ">";
-        if (content.startsWith(prefix) || content.startsWith(nicknameMention) || content.startsWith(normalMention)) {
+        String prefix = null;
+        for(var current: prefixes)
+            if(content.startsWith(current))
+                prefix = current;
+        if (prefix != null && (content.startsWith(prefix) || content.startsWith(nicknameMention) || content.startsWith(normalMention))) {
             String split;
             if (content.startsWith(prefix))
                 split = prefix;
@@ -39,9 +43,8 @@ public class CommandListener {
             var command = content.substring(split.length()).trim().split(" ");
             var bundle = getBundle(guild);
             var commandBundle = Linwood.getInstance().getBaseCommand().getBundle(guild);
-            assert bundle != null && commandBundle != null;
             try {
-                if (!Linwood.getInstance().getBaseCommand().onCommand(session, event.getMessage(), guild, guild.getPrefix(), command))
+                if (!Linwood.getInstance().getBaseCommand().onCommand(session, event.getMessage(), guild, prefix, command))
                     event.getChannel().sendMessage(MessageFormat.format(bundle.getString("Syntax"), commandBundle.getString("Syntax"))).queue();
             }catch(Exception e){
                 event.getChannel().sendMessage(bundle.getString("Error")).queue();

@@ -6,7 +6,6 @@ import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import org.hibernate.Session;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -28,12 +27,12 @@ public class InfoCommand implements Command {
     }
 
     @Override
-    public boolean hasPermission(Member member) {
-        return member.hasPermission(Permission.MANAGE_SERVER);
+    public boolean hasPermission(Member member, GuildEntity entity, Session session) {
+        return member.hasPermission(Permission.MANAGE_SERVER) || member.getRoles().contains(member.getGuild().getRoleById(entity.getMaintainerId()));
     }
 
     @Override
-    public @Nullable ResourceBundle getBundle(GuildEntity entity) {
+    public @org.jetbrains.annotations.NotNull ResourceBundle getBundle(GuildEntity entity) {
         return null;
     }
 }

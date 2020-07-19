@@ -97,7 +97,7 @@ public class DatabaseUtil {
         }
     }
     public GuildEntity createGuild(Session session, long guildId){
-        var guild = new GuildEntity(Linwood.getInstance().getConfig().getPrefix(),guildId);
+        var guild = new GuildEntity(guildId);
         guild.save(session);
         return guild;
     }

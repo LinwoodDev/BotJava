@@ -3,7 +3,6 @@ package com.github.codedoctorde.linwood.commands.settings.general;
 import com.github.codedoctorde.linwood.commands.Command;
 import com.github.codedoctorde.linwood.commands.CommandManager;
 import com.github.codedoctorde.linwood.entity.GuildEntity;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -15,7 +14,7 @@ public class GeneralSettingsCommand extends CommandManager {
     public Command[] commands() {
         return new Command[]{
                 new LanguageCommand(),
-                new PrefixCommand()
+                new AddPrefixCommand()
         };
     }
 
@@ -29,7 +28,7 @@ public class GeneralSettingsCommand extends CommandManager {
     }
 
     @Override
-    public @Nullable ResourceBundle getBundle(GuildEntity entity) {
+    public @org.jetbrains.annotations.NotNull ResourceBundle getBundle(GuildEntity entity) {
         return ResourceBundle.getBundle("locale.commands.settings.general.Base", entity.getLocalization());
     }
 }

@@ -9,12 +9,10 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import org.hibernate.Session;
-import org.jetbrains.annotations.Nullable;
 
 import java.awt.*;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.regex.Pattern;
 
 public class KarmaCommand implements Command {
     @Override
@@ -22,7 +20,6 @@ public class KarmaCommand implements Command {
         if(args.length > 1)
         return false;
         var bundle = getBundle(entity);
-        assert bundle != null;
         if(args.length == 0)
             karmaCommand(entity, Objects.requireNonNull(message.getMember()), message.getTextChannel());
         else{
@@ -43,7 +40,6 @@ public class KarmaCommand implements Command {
     }
     public void karmaCommand(GuildEntity entity, Member member, TextChannel channel){
         var bundle = getBundle(entity);
-        assert bundle != null;
         if(member.getUser().isBot()) {
             channel.sendMessage(bundle.getString("Invalid")).queue();
             return;
@@ -78,7 +74,7 @@ public class KarmaCommand implements Command {
     }
 
     @Override
-    public ResourceBundle getBundle(GuildEntity entity) {
+    public @org.jetbrains.annotations.NotNull ResourceBundle getBundle(GuildEntity entity) {
         return ResourceBundle.getBundle("locale.commands.fun.Karma", entity.getLocalization());
     }
 }

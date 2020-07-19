@@ -5,7 +5,6 @@ import com.github.codedoctorde.linwood.entity.GuildEntity;
 import com.github.codedoctorde.linwood.apps.single.game.mode.tictactoe.TicTacToeWorld;
 import net.dv8tion.jda.api.entities.Message;
 import org.hibernate.Session;
-import org.jetbrains.annotations.Nullable;
 
 import javax.imageio.ImageIO;
 import java.io.ByteArrayOutputStream;
@@ -25,7 +24,6 @@ public class TicTacToeCommand implements Command {
             return false;
         int rounds = 5;
         var bundle = getBundle(entity);
-        assert bundle != null;
         assert message.getMember() != null;
         if(!entity.getGameEntity().isGameMaster(message.getMember())){
             message.getChannel().sendMessage(bundle.getString("NoPermission")).queue();
@@ -62,7 +60,7 @@ public class TicTacToeCommand implements Command {
     }
 
     @Override
-    public @Nullable ResourceBundle getBundle(GuildEntity entity) {
+    public @org.jetbrains.annotations.NotNull ResourceBundle getBundle(GuildEntity entity) {
         return ResourceBundle.getBundle("locale.commands.game.TicTacToe");
     }
 }

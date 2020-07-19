@@ -18,7 +18,6 @@ public class MaintainerCommand implements Command {
     @Override
     public boolean onCommand(Session session, Message message, GuildEntity entity, String label, String[] args) {
         ResourceBundle bundle = getBundle(entity);
-        assert bundle != null;
         if(args.length > 1)
             return false;
         if(args.length == 0)
@@ -54,7 +53,7 @@ public class MaintainerCommand implements Command {
     }
 
     @Override
-    public boolean hasPermission(Member member) {
+    public boolean hasPermission(Member member, GuildEntity entity, Session session) {
         return member.hasPermission(Permission.MANAGE_SERVER);
     }
 
@@ -69,7 +68,7 @@ public class MaintainerCommand implements Command {
     }
 
     @Override
-    public ResourceBundle getBundle(GuildEntity entity) {
+    public @org.jetbrains.annotations.NotNull ResourceBundle getBundle(GuildEntity entity) {
         return ResourceBundle.getBundle("locale.commands.settings.general.Maintainer", entity.getLocalization());
     }
 }

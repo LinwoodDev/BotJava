@@ -6,6 +6,8 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import org.hibernate.Session;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
@@ -17,7 +19,10 @@ public class GuildEntity {
     @Id
     @Column(name="ID", unique = true, nullable = false)
     private long guildId;
-    private String prefix = "+lw";
+    @ElementCollection
+    @CollectionTable(name="Prefixes", joinColumns=@JoinColumn(name="guild_id"))
+    @Column(name="prefix")
+    private final List<String> prefixes = new ArrayList<>(Linwood.getInstance().getConfig().getPrefixes());
     private String locale = Locale.ENGLISH.toLanguageTag();
     @OneToOne(cascade=CascadeType.ALL, optional = false)
     private final GameEntity gameEntity = new GameEntity();
@@ -31,17 +36,8 @@ public class GuildEntity {
 
     public GuildEntity(){
     }
-    public GuildEntity(String prefix, long id) {
-        this.prefix = prefix;
+    public GuildEntity(long id) {
         this.guildId = id;
-    }
-
-    public String getPrefix() {
-        return prefix;
-    }
-
-    public void setPrefix(String prefix) {
-        this.prefix = prefix;
     }
 
     public Long getGuildId() {
@@ -100,5 +96,9 @@ public class GuildEntity {
             maintainerId = null;
         else
             maintainerId = role.getIdLong();
+    }
+
+    public List<String> getPrefixes() {
+        return prefixes;
     }
 }

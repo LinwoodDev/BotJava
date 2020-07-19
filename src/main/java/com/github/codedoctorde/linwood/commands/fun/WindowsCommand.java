@@ -21,8 +21,6 @@ public class WindowsCommand implements Command {
         String response;
         InputStream file = null;
         var bundle = getBundle(entity);
-        if(bundle == null)
-            return false;
         switch (random.nextInt(3)){
             case 0:
                 response = bundle.getString("Crash");
@@ -55,7 +53,7 @@ public class WindowsCommand implements Command {
     }
 
     @Override
-    public ResourceBundle getBundle(GuildEntity entity) {
+    public @org.jetbrains.annotations.NotNull ResourceBundle getBundle(GuildEntity entity) {
         return ResourceBundle.getBundle("locale.commands.fun.Windows", entity.getLocalization());
     }
 }

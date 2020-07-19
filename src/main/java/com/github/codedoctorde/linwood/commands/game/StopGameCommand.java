@@ -20,7 +20,6 @@ public class StopGameCommand implements Command {
         if(args.length > 0)
         return false;
         var bundle = getBundle(entity);
-        assert bundle != null;
         if(message.getMember() == null)
             return false;
         if(!entity.getGameEntity().isGameMaster(message.getMember())){
@@ -49,7 +48,7 @@ public class StopGameCommand implements Command {
     }
 
     @Override
-    public ResourceBundle getBundle(GuildEntity entity) {
+    public @org.jetbrains.annotations.NotNull ResourceBundle getBundle(GuildEntity entity) {
         return ResourceBundle.getBundle("locale.commands.game.Stop");
     }
 }

@@ -19,8 +19,6 @@ public class DiceCommand implements Command {
         if(args.length > 0)
             return false;
         var bundle = getBundle(entity);
-        if(bundle == null)
-            return false;
         message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Output"), random.nextInt(5) + 1)).queue();
         return true;
     }
@@ -34,7 +32,7 @@ public class DiceCommand implements Command {
     }
 
     @Override
-    public ResourceBundle getBundle(GuildEntity entity) {
+    public @org.jetbrains.annotations.NotNull ResourceBundle getBundle(GuildEntity entity) {
         return ResourceBundle.getBundle("locale.commands.fun.Dice", entity.getLocalization());
     }
 }

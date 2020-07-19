@@ -19,7 +19,6 @@ public class ClearStatusChatCommand implements Command {
     @Override
     public boolean onCommand(Session session, Message message, GuildEntity entity, String label, String[] args) {
         ResourceBundle bundle = getBundle(entity);
-        assert bundle != null;
         if(args.length != 0)
             return false;
         entity.getNotificationEntity().setStatusChat(null);
@@ -29,8 +28,8 @@ public class ClearStatusChatCommand implements Command {
     }
 
     @Override
-    public boolean hasPermission(Member member) {
-        return member.hasPermission(Permission.MANAGE_SERVER);
+    public boolean hasPermission(Member member, GuildEntity entity, Session session) {
+        return member.hasPermission(Permission.MANAGE_SERVER) || member.getRoles().contains(member.getGuild().getRoleById(entity.getMaintainerId()));
     }
 
     @Override
@@ -50,7 +49,7 @@ public class ClearStatusChatCommand implements Command {
     }
 
     @Override
-    public ResourceBundle getBundle(GuildEntity entity) {
+    public @org.jetbrains.annotations.NotNull ResourceBundle getBundle(GuildEntity entity) {
         return ResourceBundle.getBundle("locale.commands.settings.notification.ClearStatusChat", entity.getLocalization());
     }
 }

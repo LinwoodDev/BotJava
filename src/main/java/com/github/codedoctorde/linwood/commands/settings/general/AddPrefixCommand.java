@@ -16,28 +16,26 @@ import java.util.Set;
 /**
  * @author CodeDoctorDE
  */
-public class PrefixCommand implements Command {
+public class AddPrefixCommand implements Command {
     @Override
     public boolean onCommand(Session session, Message message, GuildEntity entity, String label, String[] args) {
         ResourceBundle bundle = getBundle(entity);
-        assert bundle != null;
         if(args.length == 0)
-            message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Get"), entity.getPrefix())).queue();
-        else {
-            try {
-                entity.setPrefix(String.join(" ", args));
-                entity.save(session);
-                message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Set"), entity.getPrefix())).queue();
-            }catch(NullPointerException e){
-                message.getChannel().sendMessage(bundle.getString("NotValid")).queue();
-            }
+            return false;
+        else try {
+            var prefix = String.join(" ", args);
+            entity.getPrefixes().add(prefix);
+            entity.save(session);
+            message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Set"), prefix)).queue();
+        } catch (NullPointerException e) {
+            message.getChannel().sendMessage(bundle.getString("NotValid")).queue();
         }
         return true;
     }
 
     @Override
-    public boolean hasPermission(Member member) {
-        return member.hasPermission(Permission.MANAGE_SERVER);
+    public boolean hasPermission(Member member, GuildEntity entity, Session session) {
+        return member.hasPermission(Permission.MANAGE_SERVER) || member.getRoles().contains(member.getGuild().getRoleById(entity.getMaintainerId()));
     }
 
     @Override
@@ -49,7 +47,7 @@ public class PrefixCommand implements Command {
     }
 
     @Override
-    public ResourceBundle getBundle(GuildEntity entity) {
+    public @org.jetbrains.annotations.NotNull ResourceBundle getBundle(GuildEntity entity) {
         return ResourceBundle.getBundle("locale.commands.settings.general.Prefix", entity.getLocalization());
     }
 }
