@@ -21,6 +21,11 @@ html, body
     color: $text
     font-family: 'Roboto'
     letter-spacing: 0.1em
+a
+    text-decoration: inherit
+    color: $second-active
+img, iframe 
+  max-width: 100%
 .center
     text-align: center
 .title
@@ -44,6 +49,7 @@ html, body
         margin: 3em 5em
 .main
     margin-top: 5em
+    
 .topnav
     list-style-type: none
     position: fixed
@@ -53,8 +59,10 @@ html, body
     width: 100%
     text-align: center
     align-items: center
+    color: $second-text
     background-color: $second-background
     z-index: 10
+    overflow: hidden
     .item
         display: inline-block
         align-items: center
@@ -75,6 +83,29 @@ html, body
         &.active
             a
                 color: $second-active
+    &-icon
+        display: none
+@media screen and (max-width: 600px)
+    .topnav
+        .item
+            display: none
+        &-icon
+            display: block
+            float: right
+        &.responsive
+            .item
+                float: none
+                display: block
+            .topnav-icon
+                position: absolute
+                right: 0
+                top: 0
+                float: none
+                display: block
+                text-align: left
+.icon, .topnav-icon
+    padding: 0.75em
+    margin: 0.5em
 .main-section, .section
     padding: 5em 0
     margin: 1em 0
@@ -128,7 +159,7 @@ html, body
         width: 100%
         height: 100%
         box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2)
-        .front,
+        .front
             position: relative
             backface-visibility: hidden
             overflow-y: inherit
@@ -186,9 +217,8 @@ html, body
 .progress-item
     background-color: $third-text
     height: 0.5em
-a
-    text-decoration: inherit
-    color: $second-active
 @for $i from 1 through 20 
   .wd-#{$i * 5}
     width: #{$i * 5%}
+.inline
+    display: inline-block
