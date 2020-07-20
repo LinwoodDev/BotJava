@@ -29,7 +29,7 @@ public class UserListener {
         if(disabledChannels.contains(event.getChannel().getIdLong()))
             return;
         event.retrieveMember().queue(donor -> {
-            var emote = event.getReactionEmote().getAsReactionCode();
+            var emote = event.getReactionEmote().isEmoji() ? event.getReactionEmote().getAsReactionCode() : event.getReactionEmote().getAsCodepoints();
             var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
             var entity = Linwood.getInstance().getDatabase().getGuildById(session, event.getGuild().getIdLong());
             var karma = entity.getKarmaEntity();
@@ -55,7 +55,7 @@ public class UserListener {
         if(disabledChannels.contains(event.getChannel().getIdLong()))
             return;
         event.retrieveMember().queue(donor -> {
-            var emote = event.getReactionEmote().getAsReactionCode();
+            var emote = event.getReactionEmote().isEmoji() ? event.getReactionEmote().getAsReactionCode() : event.getReactionEmote().getAsCodepoints();
             var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
             var entity = Linwood.getInstance().getDatabase().getGuildById(session, event.getGuild().getIdLong());
             var karma = entity.getKarmaEntity();
