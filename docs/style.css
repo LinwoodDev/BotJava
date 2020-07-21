@@ -1,3 +1,22 @@
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #eee;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #333;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #191b7c;
+}
+
 @font-face {
   font-family: "Roboto";
   src: url("Roboto.ttf");
@@ -10,15 +29,6 @@ html, body {
   color: #eee;
   font-family: 'Roboto';
   letter-spacing: 0.1em;
-}
-
-a {
-  text-decoration: inherit;
-  color: #8e8;
-}
-
-img, iframe {
-  max-width: 100%;
 }
 
 .center {
@@ -112,7 +122,7 @@ img, iframe {
 }
 
 .topnav .item.active a {
-  color: #8e8;
+  color: #88e;
 }
 
 .topnav-icon {
@@ -277,7 +287,6 @@ img, iframe {
   margin: 0.25em;
   display: inline-block;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
   background-color: #333;
   -webkit-transition: all 0.25s ease-out;
   transition: all 0.25s ease-out;
@@ -286,9 +295,9 @@ img, iframe {
 .button:hover {
   -webkit-transform: scale(1.1);
           transform: scale(1.1);
-  -webkit-box-shadow: 0 5px 1em #317731;
-          box-shadow: 0 5px 1em #317731;
-  background-color: #317731;
+  -webkit-box-shadow: 0 5px 1em #191b7c;
+          box-shadow: 0 5px 1em #191b7c;
+  background-color: #191b7c;
 }
 
 .dot {
@@ -349,6 +358,11 @@ img, iframe {
 .progress-item {
   background-color: #aaa;
   height: 0.5em;
+}
+
+a {
+  text-decoration: inherit;
+  color: #88e;
 }
 
 .wd-5 {
@@ -429,9 +443,5 @@ img, iframe {
 
 .wd-100 {
   width: 100%;
-}
-
-.inline {
-  display: inline-block;
 }
 /*# sourceMappingURL=style.css.map */

@@ -1,15 +1,29 @@
 $background: #161b1f
 $text: #eee
-$active: #317731
+$active: #191b7c
 $panel: #333
 $second-background: rgba(10, 10, 10, 0.95)
 $second-text: #aaa
-$second-active: #8e8
+$second-active: #88e
 $third-background: #333
 $third-text: #aaa
-$third-active: #afa
-
+$third-active: #aaf
 $colors: ("finished": #0ff, "active": #0f0, "paused": #fa0, "dead": #999) 
+
+::-webkit-scrollbar
+  width: 5px
+
+/* Track */
+::-webkit-scrollbar-track
+  background: $text
+
+/* Handle */
+::-webkit-scrollbar-thumb
+  background: $panel
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover
+  background: $active
 
 @font-face 
   font-family: "Roboto"
@@ -21,11 +35,6 @@ html, body
     color: $text
     font-family: 'Roboto'
     letter-spacing: 0.1em
-a
-    text-decoration: inherit
-    color: $second-active
-img, iframe 
-  max-width: 100%
 .center
     text-align: center
 .title
@@ -49,7 +58,6 @@ img, iframe
         margin: 3em 5em
 .main
     margin-top: 5em
-    
 .topnav
     list-style-type: none
     position: fixed
@@ -159,7 +167,7 @@ img, iframe
         width: 100%
         height: 100%
         box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2)
-        .front
+        .front,
             position: relative
             backface-visibility: hidden
             overflow-y: inherit
@@ -181,7 +189,6 @@ img, iframe
     margin: 0.25em
     display: inline-block
     text-transform: uppercase
-    letter-spacing: 0.1em
     background-color: $panel
     transition: all 0.25s ease-out
     &:hover
@@ -217,8 +224,9 @@ img, iframe
 .progress-item
     background-color: $third-text
     height: 0.5em
+a
+    text-decoration: inherit
+    color: $second-active
 @for $i from 1 through 20 
   .wd-#{$i * 5}
     width: #{$i * 5%}
-.inline
-    display: inline-block
