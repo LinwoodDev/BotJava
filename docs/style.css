@@ -1,5 +1,5 @@
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 10px;
 }
 
 /* Track */
@@ -14,7 +14,7 @@
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #191b7c;
+  background: #317731;
 }
 
 @font-face {
@@ -122,7 +122,7 @@ html, body {
 }
 
 .topnav .item.active a {
-  color: #88e;
+  color: #8e8;
 }
 
 .topnav-icon {
@@ -295,9 +295,9 @@ html, body {
 .button:hover {
   -webkit-transform: scale(1.1);
           transform: scale(1.1);
-  -webkit-box-shadow: 0 5px 1em #191b7c;
-          box-shadow: 0 5px 1em #191b7c;
-  background-color: #191b7c;
+  -webkit-box-shadow: 0 5px 1em #317731;
+          box-shadow: 0 5px 1em #317731;
+  background-color: #317731;
 }
 
 .dot {
@@ -362,7 +362,7 @@ html, body {
 
 a {
   text-decoration: inherit;
-  color: #88e;
+  color: #8e8;
 }
 
 .wd-5 {
