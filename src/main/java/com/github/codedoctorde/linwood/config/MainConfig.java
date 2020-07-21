@@ -1,6 +1,8 @@
 package com.github.codedoctorde.linwood.config;
 
 
+import net.dv8tion.jda.api.entities.Activity;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -17,9 +19,9 @@ public class MainConfig {
 
 
     private final List<ActivityConfig> activities = new ArrayList<>(){{
-        add(new ActivityConfig(ActivityConfig.Type.LISTENING, "CodeDoctor"));
-        add(new ActivityConfig(ActivityConfig.Type.WATCHING, "github/CodeDoctorDE"));
-        add(new ActivityConfig(ActivityConfig.Type.PLAYING, "games with players :D"));
+        add(new ActivityConfig(Activity.ActivityType.LISTENING, "CodeDoctor"));
+        add(new ActivityConfig(Activity.ActivityType.WATCHING, "github/CodeDoctorDE"));
+        add(new ActivityConfig(Activity.ActivityType.CUSTOM_STATUS, "games with players :D"));
     }};
     private String supportURL = "https://discord.gg/a2vubnD";
 

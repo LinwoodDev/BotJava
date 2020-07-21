@@ -15,6 +15,7 @@ public class NotificationEntity {
     private Long teamRoleId = null;
     private Long supportChatId = null;
     private Long statusChatId = null;
+    private Long logChatId = null;
 
 
     public Role getTeamRole(){
@@ -76,5 +77,25 @@ public class NotificationEntity {
             statusChatId = null;
         else
             statusChatId = chat.getIdLong();
+    }
+
+    public Long getLogChatId() {
+        return logChatId;
+    }
+    public TextChannel getLogChat() {
+        if(logChatId == null)
+            return null;
+        else
+            return Linwood.getInstance().getJda().getTextChannelById(logChatId);
+    }
+
+    public void setLogChatId(Long logChatId) {
+        this.logChatId = logChatId;
+    }
+    public void setLogChat(TextChannel chat){
+        if(chat == null)
+            logChatId = null;
+        else
+            logChatId = chat.getIdLong();
     }
 }

@@ -39,7 +39,8 @@ public class DislikeCommand implements Command {
 
     @Override
     public boolean hasPermission(Member member, GuildEntity entity, Session session) {
-        return member.hasPermission(Permission.MANAGE_SERVER) || member.getRoles().contains(member.getGuild().getRoleById(entity.getMaintainerId()));
+        var maintainer = entity.getMaintainerId() == null ? null : member.getGuild().getRoleById(entity.getMaintainerId());
+        return !member.hasPermission(Permission.MANAGE_SERVER) && maintainer != null && member.getRoles().contains(maintainer);
     }
 
     @Override

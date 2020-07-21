@@ -5,7 +5,7 @@ import com.github.codedoctorde.linwood.config.MainConfig;
 import com.github.codedoctorde.linwood.apps.single.SingleApplicationManager;
 import com.github.codedoctorde.linwood.listener.ConnectionListener;
 import com.github.codedoctorde.linwood.listener.CommandListener;
-import com.github.codedoctorde.linwood.listener.UserListener;
+import com.github.codedoctorde.linwood.listener.KarmaListener;
 import com.github.codedoctorde.linwood.server.WebInterface;
 import com.github.codedoctorde.linwood.utils.ActivityChanger;
 import com.github.codedoctorde.linwood.utils.DatabaseUtil;
@@ -15,7 +15,6 @@ import io.sentry.Sentry;
 import io.sentry.SentryClientFactory;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
-import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.hooks.AnnotatedEventManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -36,7 +35,7 @@ public class Linwood {
     private final DatabaseUtil database;
     private final SingleApplicationManager singleApplicationManager;
     private MainConfig config;
-    private final UserListener userListener = new UserListener();
+    private final KarmaListener userListener = new KarmaListener();
     private final File configFile = new File("./config.json");
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private static final Logger logger = LogManager.getLogger(Linwood.class);
@@ -150,10 +149,9 @@ public class Linwood {
     public void configure(){
         activityChanger.getActivities().clear();
         config.getActivities().forEach(activity -> activityChanger.getActivities().add(activity.build()));
-        activityChanger.getActivities().add(Activity.playing(Linwood.getInstance().getVersion()));
     }
 
-    public UserListener getUserListener() {
+    public KarmaListener getUserListener() {
         return userListener;
     }
 }
