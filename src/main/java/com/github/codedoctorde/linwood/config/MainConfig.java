@@ -21,7 +21,8 @@ public class MainConfig {
     private final List<ActivityConfig> activities = new ArrayList<>(){{
         add(new ActivityConfig(Activity.ActivityType.LISTENING, "CodeDoctor"));
         add(new ActivityConfig(Activity.ActivityType.WATCHING, "github/CodeDoctorDE"));
-        add(new ActivityConfig(Activity.ActivityType.CUSTOM_STATUS, "games with players :D"));
+        add(new ActivityConfig(Activity.ActivityType.DEFAULT, "games with players :D"));
+        add(new ActivityConfig(Activity.ActivityType.DEFAULT, "{0}"));
     }};
     private String supportURL = "https://discord.gg/a2vubnD";
 
