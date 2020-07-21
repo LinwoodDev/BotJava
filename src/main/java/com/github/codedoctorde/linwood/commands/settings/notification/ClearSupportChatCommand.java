@@ -30,7 +30,7 @@ public class ClearSupportChatCommand implements Command {
     @Override
     public boolean hasPermission(Member member, GuildEntity entity, Session session) {
         var maintainer = entity.getMaintainerId() == null ? null : member.getGuild().getRoleById(entity.getMaintainerId());
-        return !member.hasPermission(Permission.MANAGE_SERVER) && maintainer != null && member.getRoles().contains(maintainer);
+        return (member.hasPermission(Permission.MANAGE_SERVER) || maintainer != null) && member.getRoles().contains(maintainer);
     }
 
     @Override
