@@ -16,6 +16,7 @@ import io.sentry.SentryClientFactory;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.hooks.AnnotatedEventManager;
+import net.dv8tion.jda.api.requests.GatewayIntent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -48,7 +49,7 @@ public class Linwood {
         instance = this;
         Sentry.init();
         sentry = SentryClientFactory.sentryClient();
-        var builder = JDABuilder.createDefault(token)
+        var builder = JDABuilder.createDefault(token, GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_PRESENCES)
                 .setEventManager(new AnnotatedEventManager())
                 .addEventListeners(new CommandListener())
                 .addEventListeners(userListener)
