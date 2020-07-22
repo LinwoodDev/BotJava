@@ -37,15 +37,18 @@ public class NotificationListener {
         var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
         var entity = Linwood.getInstance().getDatabase().getGuildById(session, event.getGuild().getIdLong());
         var bundle = getBundle(entity);
-        if(!event.getMember().getRoles().contains(event.getGuild().getRoleById(entity.getNotificationEntity().getTeamRoleId())))
+        var team = event.getGuild().getRoleById(entity.getNotificationEntity().getTeamRoleId());
+        if(team == null)
+            return;
+        if(!event.getMember().getRoles().contains(team))
             return;
         var chat = event.getGuild().getTextChannelById(entity.getNotificationEntity().getStatusChatId());
-        if(chat == null || event.getNewOnlineStatus() != OnlineStatus.ONLINE)
+        if(chat == null || !(event.getNewOnlineStatus() == OnlineStatus.ONLINE || event.getOldOnlineStatus() == OnlineStatus.ONLINE && event.getNewOnlineStatus() == OnlineStatus.OFFLINE))
             return;
         chat.sendMessage(" ")
                 .embed(new EmbedBuilder()
-                        .setTitle(statusFormat(bundle.getString("OnlineTitle"), event.getMember()))
-                        .setDescription(statusFormat(bundle.getString("OnlineBody"), event.getMember()))
+                        .setTitle(statusFormat(event.getNewOnlineStatus() == OnlineStatus.ONLINE ? bundle.getString("OnlineTitle") : bundle.getString("OfflineTitle"), event.getMember()))
+                        .setDescription(statusFormat(event.getNewOnlineStatus() == OnlineStatus.ONLINE ? bundle.getString("OnlineBody") : bundle.getString("OfflineBody"), event.getMember()))
                         .setAuthor(event.getMember().getUser().getAsTag(), event.getMember().getUser().getAvatarUrl())
                         .setColor(new Color(0x3B863B))
                         .setTimestamp(LocalDateTime.now())

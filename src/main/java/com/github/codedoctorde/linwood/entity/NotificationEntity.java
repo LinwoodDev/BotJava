@@ -66,7 +66,7 @@ public class NotificationEntity {
         if(statusChatId == null)
             return null;
         else
-            return Linwood.getInstance().getJda().getTextChannelById(supportChatId);
+            return Linwood.getInstance().getJda().getTextChannelById(statusChatId);
     }
 
     public void setStatusChatId(Long statusChatId) {
