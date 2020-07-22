@@ -5,6 +5,7 @@ import com.github.codedoctorde.linwood.entity.GuildEntity;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.user.update.UserUpdateOnlineStatusEvent;
 import net.dv8tion.jda.api.hooks.SubscribeEvent;
@@ -37,7 +38,9 @@ public class NotificationListener {
         var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
         var entity = Linwood.getInstance().getDatabase().getGuildById(session, event.getGuild().getIdLong());
         var bundle = getBundle(entity);
-        var team = event.getGuild().getRoleById(entity.getNotificationEntity().getTeamRoleId());
+        Role team = null;
+        if(entity.getNotificationEntity().getTeamRoleId() != null)
+        team = event.getGuild().getRoleById(entity.getNotificationEntity().getTeamRoleId());
         if(team == null)
             return;
         if(!event.getMember().getRoles().contains(team))
