@@ -52,7 +52,7 @@ public class NotificationListener {
                 .embed(new EmbedBuilder()
                         .setTitle(statusFormat(event.getNewValue() == OnlineStatus.ONLINE ? bundle.getString("OnlineTitle") : bundle.getString("OfflineTitle"), event.getMember()))
                         .setDescription(statusFormat(event.getNewValue() == OnlineStatus.ONLINE ? bundle.getString("OnlineBody") : bundle.getString("OfflineBody"), event.getMember()))
-                        .setAuthor(event.getMember().getUser().getAsTag(), event.getMember().getUser().getAvatarUrl())
+                        .setAuthor(event.getMember().getUser().getAsTag(), "https://discord.com", event.getMember().getUser().getAvatarUrl())
                         .setColor(new Color(0x3B863B))
                         .setTimestamp(LocalDateTime.now())
                         .setFooter(null, null)

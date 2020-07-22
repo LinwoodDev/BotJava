@@ -17,7 +17,7 @@ public class AuthController {
     public static void login(@NotNull Context context) throws IOException, InterruptedException {
         var client = HttpClient.newHttpClient();
         var request = HttpRequest.newBuilder()
-                .uri(URI.create("https://discordapp.com/api/oauth2/token?grant_type=authorization_code&code=" + URLEncoder.encode(Objects.requireNonNull(context.formParam("code")), StandardCharsets.UTF_8))).build();
+                .uri(URI.create("https://discord.com/api/oauth2/token?grant_type=authorization_code&code=" + URLEncoder.encode(Objects.requireNonNull(context.formParam("code")), StandardCharsets.UTF_8))).build();
         var response = client.send(request,
                 HttpResponse.BodyHandlers.ofString());
         context.result(response.body());

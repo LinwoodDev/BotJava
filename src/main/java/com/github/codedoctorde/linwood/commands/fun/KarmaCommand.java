@@ -52,7 +52,7 @@ public class KarmaCommand implements Command {
                 .setDescription(bundle.getString("Body"))
                 .setColor(new Color(0x3B863B))
                 .setTimestamp(LocalDateTime.now())
-                .setAuthor(member.getUser().getAsTag(), "https://discordapp.com", member.getUser().getAvatarUrl())
+                .setAuthor(member.getUser().getAsTag(), "https://discord.com", member.getUser().getAvatarUrl())
                 .addField(bundle.getString("KarmaPoints"), String.valueOf(memberEntity.getKarma()), true)
                 .addField(bundle.getString("Likes"), String.valueOf(memberEntity.getLikes()), true)
                 .addField(bundle.getString("Dislikes"), String.valueOf(memberEntity.getDislikes()), true)
