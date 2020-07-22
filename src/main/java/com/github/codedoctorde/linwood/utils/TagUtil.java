@@ -52,7 +52,7 @@ public final class TagUtil {
         var matcher = pattern.matcher(input);
         if(matcher.find())
             try{
-                member = guild.getMemberById(matcher.group(2));
+                member = guild.getMemberById(matcher.group("id"));
             }catch(Exception ignored){
 
             }
