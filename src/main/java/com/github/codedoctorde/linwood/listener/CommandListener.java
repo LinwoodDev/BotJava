@@ -32,7 +32,6 @@ public class CommandListener {
         for(var current: prefixes)
             if(content.startsWith(current))
                 prefix = current;
-            System.out.println("************ COMMAND ************");
         String split = null;
         if (!prefix.isBlank() && content.startsWith(prefix))
             split = prefix;
@@ -41,7 +40,6 @@ public class CommandListener {
         else if(content.startsWith(normalMention))
             split = normalMention;
         if (split != null) {
-            System.out.println("************ GETT!! ************");
             var command = content.substring(split.length()).trim().split(" ");
             var bundle = getBundle(guild);
             var commandBundle = Linwood.getInstance().getBaseCommand().getBundle(guild);

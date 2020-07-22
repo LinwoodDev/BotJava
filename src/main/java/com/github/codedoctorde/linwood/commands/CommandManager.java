@@ -23,9 +23,7 @@ public abstract class CommandManager implements Command {
         for (Command command : commands())
             if (command.aliases(entity).contains(
                     (args.length > 0) ? args[0].toLowerCase() : "")) {
-                System.out.println("************ MANAGER ************");
                 if(command.hasPermission(message.getMember(), entity, session) || Linwood.getInstance().getConfig().getOwners().contains(message.getAuthor().getIdLong())) {
-                    System.out.println("************ EFE ************");
                     if (!command.onCommand(session, message, entity,
                             (args.length > 0) ? args[0] : "",
                             (args.length > 0) ? Arrays.copyOfRange(args, 1, args.length) : new String[0]))

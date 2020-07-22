@@ -20,7 +20,6 @@ import java.util.Set;
 public class InfoCommand implements Command {
     @Override
     public boolean onCommand(Session session, Message message, GuildEntity entity, String label, String[] args) {
-        System.out.println("************ INFO ************");
         var bundle = getBundle(entity);
         if(args.length > 0)
             return false;
