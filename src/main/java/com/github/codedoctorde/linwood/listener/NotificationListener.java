@@ -38,20 +38,21 @@ public class NotificationListener {
         var bundle = getBundle(entity);
         if(!event.getMember().getRoles().contains(event.getGuild().getRoleById(entity.getNotificationEntity().getTeamRoleId())))
             return;
-        var chat = event.getGuild().getTextChannelById(entity.getNotificationEntity().getSupportChatId());
+        var chat = event.getGuild().getTextChannelById(entity.getNotificationEntity().getStatusChatId());
         if(chat == null)
             return;
         chat.sendMessage(" ")
                 .embed(new EmbedBuilder()
                         .setTitle(statusFormat(bundle.getString("OnlineTitle"), event.getMember()))
                         .setDescription(statusFormat(bundle.getString("OnlineBody"), event.getMember()))
+                        .setAuthor(event.getMember().getUser().getAsTag(), event.getMember().getUser().getAvatarUrl())
                         .setColor(new Color(0x3B863B))
                         .setTimestamp(LocalDateTime.now())
                         .setFooter(null, null)
                         .build()).queue();
     }
     public String statusFormat(String string, Member member){
-        return MessageFormat.format(string, member.getAsMention());
+        return MessageFormat.format(string, member.getAsMention(), member.getUser().getAsTag());
     }
 
     public @NotNull ResourceBundle getBundle(GuildEntity entity){

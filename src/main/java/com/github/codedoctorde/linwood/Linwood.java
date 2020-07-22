@@ -6,6 +6,7 @@ import com.github.codedoctorde.linwood.apps.single.SingleApplicationManager;
 import com.github.codedoctorde.linwood.listener.ConnectionListener;
 import com.github.codedoctorde.linwood.listener.CommandListener;
 import com.github.codedoctorde.linwood.listener.KarmaListener;
+import com.github.codedoctorde.linwood.listener.NotificationListener;
 import com.github.codedoctorde.linwood.server.WebInterface;
 import com.github.codedoctorde.linwood.utils.ActivityChanger;
 import com.github.codedoctorde.linwood.utils.DatabaseUtil;
@@ -49,10 +50,12 @@ public class Linwood {
         instance = this;
         Sentry.init();
         sentry = SentryClientFactory.sentryClient();
-        var builder = JDABuilder.createDefault(token, GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_PRESENCES)
+        var builder = JDABuilder.createDefault(token)
+                .enableIntents(GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_PRESENCES)
                 .setEventManager(new AnnotatedEventManager())
                 .addEventListeners(new CommandListener())
                 .addEventListeners(userListener)
+                .addEventListeners(new NotificationListener())
                 .addEventListeners(new ConnectionListener());
         database = new DatabaseUtil();
         activityChanger = new ActivityChanger();
