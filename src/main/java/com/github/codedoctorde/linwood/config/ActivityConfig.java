@@ -19,7 +19,10 @@ public class ActivityConfig {
     }
 
     public Activity build(Object... format){
-        return Activity.of(type, MessageFormat.format(name, format));
+        var status = name;
+        if(format != null)
+            status = MessageFormat.format(status, format);
+        return Activity.of(type, status);
     }
 
     public Activity.ActivityType getType() {

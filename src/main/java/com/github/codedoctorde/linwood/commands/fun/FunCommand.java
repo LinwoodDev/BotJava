@@ -24,7 +24,7 @@ public class FunCommand extends CommandManager {
     }
 
     @Override
-    public Set<String> aliases(GuildEntity entity) {
+    public @NotNull Set<String> aliases(GuildEntity entity) {
         return new HashSet<>(Arrays.asList(
                 "fun", "f", "funny"
         ));

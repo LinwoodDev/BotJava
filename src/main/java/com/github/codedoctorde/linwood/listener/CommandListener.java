@@ -28,18 +28,20 @@ public class CommandListener {
         var id = event.getJDA().getSelfUser().getId();
         var nicknameMention = "<@!" + id + ">";
         var normalMention = "<@" + id + ">";
-        String prefix = null;
+        String prefix = "";
         for(var current: prefixes)
             if(content.startsWith(current))
                 prefix = current;
-        if (prefix != null && (content.startsWith(prefix) || content.startsWith(nicknameMention) || content.startsWith(normalMention))) {
-            String split;
-            if (content.startsWith(prefix))
-                split = prefix;
-            else if (content.startsWith(nicknameMention))
-                split = nicknameMention;
-            else
-                split = normalMention;
+            System.out.println("************ COMMAND ************");
+        String split = null;
+        if (!prefix.isBlank() && content.startsWith(prefix))
+            split = prefix;
+        else if (content.startsWith(nicknameMention))
+            split = nicknameMention;
+        else if(content.startsWith(normalMention))
+            split = normalMention;
+        if (split != null) {
+            System.out.println("************ GETT!! ************");
             var command = content.substring(split.length()).trim().split(" ");
             var bundle = getBundle(guild);
             var commandBundle = Linwood.getInstance().getBaseCommand().getBundle(guild);

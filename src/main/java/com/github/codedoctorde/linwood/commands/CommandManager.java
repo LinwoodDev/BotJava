@@ -4,6 +4,7 @@ import com.github.codedoctorde.linwood.Linwood;
 import com.github.codedoctorde.linwood.entity.GuildEntity;
 import net.dv8tion.jda.api.entities.Message;
 import org.hibernate.Session;
+import org.jetbrains.annotations.NotNull;
 
 import java.text.MessageFormat;
 import java.util.*;
@@ -12,6 +13,7 @@ import java.util.*;
  * @author CodeDoctorDE
  */
 public abstract class CommandManager implements Command {
+    @NotNull
     public abstract Command[] commands();
 
     @Override
@@ -21,7 +23,9 @@ public abstract class CommandManager implements Command {
         for (Command command : commands())
             if (command.aliases(entity).contains(
                     (args.length > 0) ? args[0].toLowerCase() : "")) {
+                System.out.println("************ MANAGER ************");
                 if(command.hasPermission(message.getMember(), entity, session) || Linwood.getInstance().getConfig().getOwners().contains(message.getAuthor().getIdLong())) {
+                    System.out.println("************ EFE ************");
                     if (!command.onCommand(session, message, entity,
                             (args.length > 0) ? args[0] : "",
                             (args.length > 0) ? Arrays.copyOfRange(args, 1, args.length) : new String[0]))
@@ -31,7 +35,7 @@ public abstract class CommandManager implements Command {
                     message.getChannel().sendMessage(baseBundle.getString("NoPermission")).queue();
                 return true;
             }
-        if(args.length <= 0 && bundle != null)message.getChannel().sendMessage(bundle.containsKey("Description")?bundle.getString("Description"): Objects.requireNonNull(getBundle(entity)).getString("Syntax")).queue();
+        if(args.length <= 0)message.getChannel().sendMessage(bundle.containsKey("Description")?bundle.getString("Description"): Objects.requireNonNull(getBundle(entity)).getString("Syntax")).queue();
         else
             return false;
         return true;

@@ -59,7 +59,7 @@ public class MaintainerCommand implements Command {
     }
 
     @Override
-    public Set<String> aliases(GuildEntity entity) {
+    public @NotNull Set<String> aliases(GuildEntity entity) {
         return new HashSet<>(Arrays.asList(
                 "maintainer",
                 "maint",

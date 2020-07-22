@@ -44,7 +44,7 @@ public class WhatIsItCommand implements Command {
         return true;
     }
     @Override
-    public Set<String> aliases(GuildEntity entity) {
+    public @NotNull Set<String> aliases(GuildEntity entity) {
         return new HashSet<>(Arrays.asList(
                 "whatisit",
                 "what-is-it",

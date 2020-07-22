@@ -34,10 +34,12 @@ public class RemovePrefixCommand implements Command {
     }
 
     @Override
-    public Set<String> aliases(GuildEntity entity) {
+    public @NotNull Set<String> aliases(GuildEntity entity) {
         return new HashSet<>(Arrays.asList(
+                "removeprefix",
+                "removepre-fix",
                 "remove-prefix",
-                "removeprefix"
+                "remove-pre-fix"
         ));
     }
 

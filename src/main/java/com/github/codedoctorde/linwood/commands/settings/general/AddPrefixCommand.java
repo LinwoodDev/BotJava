@@ -40,10 +40,12 @@ public class AddPrefixCommand implements Command {
     }
 
     @Override
-    public Set<String> aliases(GuildEntity entity) {
+    public @NotNull Set<String> aliases(GuildEntity entity) {
         return new HashSet<>(Arrays.asList(
-                "prefix",
-                "pre-fix"
+                "addprefix",
+                "addpre-fix",
+                "add-prefix",
+                "add-pre-fix"
         ));
     }
 

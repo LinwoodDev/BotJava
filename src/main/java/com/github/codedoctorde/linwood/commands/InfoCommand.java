@@ -20,6 +20,7 @@ import java.util.Set;
 public class InfoCommand implements Command {
     @Override
     public boolean onCommand(Session session, Message message, GuildEntity entity, String label, String[] args) {
+        System.out.println("************ INFO ************");
         var bundle = getBundle(entity);
         if(args.length > 0)
             return false;
@@ -35,12 +36,13 @@ public class InfoCommand implements Command {
         long minute = (uptime / (1000 * 60)) % 60;
         long hour = (uptime / (1000 * 60 * 60)) % 24;
         long days = (uptime / (1000 * 60 * 24));
-        return MessageFormat.format(text, Linwood.getInstance().getVersion(), message.getAuthor().getAsMention(), String.join(", ", entity.getPrefixes()),
+        var prefixes = String.join(", ", entity.getPrefixes());
+        return MessageFormat.format(text, Linwood.getInstance().getVersion(), message.getAuthor().getAsMention(), prefixes.isBlank()? " ": prefixes,
                 days, hour, minute, second, millis, Linwood.getInstance().getConfig().getSupportURL());
     }
 
     @Override
-    public Set<String> aliases(GuildEntity entity) {
+    public @NotNull Set<String> aliases(GuildEntity entity) {
         return new HashSet<>(Arrays.asList(
                 "", "info", "i", "information"
         ));

@@ -15,12 +15,14 @@ public class GeneralSettingsCommand extends CommandManager {
     public Command[] commands() {
         return new Command[]{
                 new LanguageCommand(),
-                new AddPrefixCommand()
+                new PrefixesCommand(),
+                new AddPrefixCommand(),
+                new RemovePrefixCommand()
         };
     }
 
     @Override
-    public Set<String> aliases(GuildEntity entity) {
+    public @NotNull Set<String> aliases(GuildEntity entity) {
         return new HashSet<>(Arrays.asList(
                 "general",
                 "gen",
