@@ -46,12 +46,12 @@ public class NotificationListener {
         if(!event.getMember().getRoles().contains(team))
             return;
         var chat = event.getGuild().getTextChannelById(entity.getNotificationEntity().getStatusChatId());
-        if(chat == null || !(event.getNewOnlineStatus() == OnlineStatus.ONLINE || event.getOldOnlineStatus() == OnlineStatus.ONLINE && event.getNewOnlineStatus() == OnlineStatus.OFFLINE))
+        if(chat == null || !(event.getNewValue() == OnlineStatus.ONLINE || event.getOldValue() == OnlineStatus.ONLINE && event.getNewValue() == OnlineStatus.OFFLINE))
             return;
         chat.sendMessage(" ")
                 .embed(new EmbedBuilder()
-                        .setTitle(statusFormat(event.getNewOnlineStatus() == OnlineStatus.ONLINE ? bundle.getString("OnlineTitle") : bundle.getString("OfflineTitle"), event.getMember()))
-                        .setDescription(statusFormat(event.getNewOnlineStatus() == OnlineStatus.ONLINE ? bundle.getString("OnlineBody") : bundle.getString("OfflineBody"), event.getMember()))
+                        .setTitle(statusFormat(event.getNewValue() == OnlineStatus.ONLINE ? bundle.getString("OnlineTitle") : bundle.getString("OfflineTitle"), event.getMember()))
+                        .setDescription(statusFormat(event.getNewValue() == OnlineStatus.ONLINE ? bundle.getString("OnlineBody") : bundle.getString("OfflineBody"), event.getMember()))
                         .setAuthor(event.getMember().getUser().getAsTag(), event.getMember().getUser().getAvatarUrl())
                         .setColor(new Color(0x3B863B))
                         .setTimestamp(LocalDateTime.now())
