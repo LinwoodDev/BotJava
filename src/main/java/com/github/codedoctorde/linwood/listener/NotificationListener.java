@@ -3,6 +3,7 @@ package com.github.codedoctorde.linwood.listener;
 import com.github.codedoctorde.linwood.Linwood;
 import com.github.codedoctorde.linwood.entity.GuildEntity;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.user.update.UserUpdateOnlineStatusEvent;
@@ -25,7 +26,7 @@ public class NotificationListener {
         if(event.getChannel().getIdLong() != entity.getNotificationEntity().getSupportChatId()) return;
         var role = event.getGuild().getRoleById(entity.getNotificationEntity().getTeamRoleId());
         var bundle = getBundle(entity);
-        event.getGuild().findMembers(member -> member.getRoles().contains(role)).onSuccess(members -> {
+        event.getGuild().findMembers(member -> member.getRoles().contains(role) && member.getOnlineStatus() == OnlineStatus.ONLINE).onSuccess(members -> {
             if(members.size() > 0) event.getChannel().sendMessage(bundle.getString("NoSupport")).queue();
         });
     }
@@ -39,7 +40,7 @@ public class NotificationListener {
         if(!event.getMember().getRoles().contains(event.getGuild().getRoleById(entity.getNotificationEntity().getTeamRoleId())))
             return;
         var chat = event.getGuild().getTextChannelById(entity.getNotificationEntity().getStatusChatId());
-        if(chat == null)
+        if(chat == null || event.getNewOnlineStatus() != OnlineStatus.ONLINE)
             return;
         chat.sendMessage(" ")
                 .embed(new EmbedBuilder()
