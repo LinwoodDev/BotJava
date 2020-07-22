@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import org.hibernate.Session;
+import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.time.LocalDateTime;
@@ -53,7 +54,7 @@ public class HelpCommand implements Command {
     }
 
     @Override
-    public @org.jetbrains.annotations.NotNull ResourceBundle getBundle(GuildEntity entity) {
+    public @NotNull ResourceBundle getBundle(GuildEntity entity) {
         return ResourceBundle.getBundle("locale.commands.Help", entity.getLocalization());
     }
 }

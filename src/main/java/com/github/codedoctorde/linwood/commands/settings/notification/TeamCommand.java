@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.Role;
 import org.hibernate.Session;
+import org.jetbrains.annotations.NotNull;
 
 import java.text.MessageFormat;
 import java.util.Arrays;
@@ -66,7 +67,7 @@ public class TeamCommand implements Command {
     }
 
     @Override
-    public @org.jetbrains.annotations.NotNull ResourceBundle getBundle(GuildEntity entity) {
+    public @NotNull ResourceBundle getBundle(GuildEntity entity) {
         return ResourceBundle.getBundle("locale.commands.settings.notification.Team", entity.getLocalization());
     }
 }

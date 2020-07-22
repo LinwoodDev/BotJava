@@ -4,6 +4,7 @@ import com.github.codedoctorde.linwood.commands.Command;
 import com.github.codedoctorde.linwood.entity.GuildEntity;
 import net.dv8tion.jda.api.entities.Message;
 import org.hibernate.Session;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.InputStream;
 import java.util.*;
@@ -53,7 +54,7 @@ public class WindowsCommand implements Command {
     }
 
     @Override
-    public @org.jetbrains.annotations.NotNull ResourceBundle getBundle(GuildEntity entity) {
+    public @NotNull ResourceBundle getBundle(GuildEntity entity) {
         return ResourceBundle.getBundle("locale.commands.fun.Windows", entity.getLocalization());
     }
 }

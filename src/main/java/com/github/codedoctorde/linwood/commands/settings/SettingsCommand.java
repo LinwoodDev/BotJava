@@ -7,6 +7,7 @@ import com.github.codedoctorde.linwood.commands.settings.general.GeneralSettings
 import com.github.codedoctorde.linwood.commands.settings.karma.KarmaSettingsCommand;
 import com.github.codedoctorde.linwood.commands.settings.notification.NotificationSettingsCommand;
 import com.github.codedoctorde.linwood.entity.GuildEntity;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -35,7 +36,7 @@ public class SettingsCommand extends CommandManager {
     }
 
     @Override
-    public @org.jetbrains.annotations.NotNull ResourceBundle getBundle(GuildEntity entity) {
+    public @NotNull ResourceBundle getBundle(GuildEntity entity) {
         return ResourceBundle.getBundle("locale.commands.settings.Base", entity.getLocalization());
     }
 }

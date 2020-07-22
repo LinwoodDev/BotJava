@@ -5,7 +5,9 @@ import com.github.codedoctorde.linwood.entity.GuildEntity;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import org.hibernate.Session;
+import org.jetbrains.annotations.NotNull;
 
+import java.text.MessageFormat;
 import java.util.ResourceBundle;
 import java.util.Set;
 
@@ -15,7 +17,7 @@ public class PrefixesCommand implements Command {
         if(args.length == 0)
             return false;
         var bundle = getBundle(entity);
-        message.getChannel().sendMessage(bundle.getString("Before")+ String.join(bundle.getString("Delimiter") + bundle.getString("After"), entity.getPrefixes())).queue();
+        message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Get"), String.join("," , entity.getPrefixes()))).queue();
         return true;
     }
 
@@ -25,8 +27,8 @@ public class PrefixesCommand implements Command {
     }
 
     @Override
-    public @org.jetbrains.annotations.NotNull ResourceBundle getBundle(GuildEntity entity) {
-        return ResourceBundle.getBundle("locale.commands.settings.general.prefixes", entity.getLocalization());
+    public @NotNull ResourceBundle getBundle(GuildEntity entity) {
+        return ResourceBundle.getBundle("locale.commands.settings.general.Prefixes", entity.getLocalization());
     }
 
     @Override

@@ -5,6 +5,7 @@ import com.github.codedoctorde.linwood.entity.GuildEntity;
 import com.github.codedoctorde.linwood.apps.single.game.mode.tictactoe.TicTacToeWorld;
 import net.dv8tion.jda.api.entities.Message;
 import org.hibernate.Session;
+import org.jetbrains.annotations.NotNull;
 
 import javax.imageio.ImageIO;
 import java.io.ByteArrayOutputStream;
@@ -60,7 +61,7 @@ public class TicTacToeCommand implements Command {
     }
 
     @Override
-    public @org.jetbrains.annotations.NotNull ResourceBundle getBundle(GuildEntity entity) {
+    public @NotNull ResourceBundle getBundle(GuildEntity entity) {
         return ResourceBundle.getBundle("locale.commands.game.TicTacToe");
     }
 }

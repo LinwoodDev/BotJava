@@ -117,7 +117,7 @@ public class Linwood {
     }
 
     public String getVersion(){
-        return "Alpha-0.0.1";
+        return getClass().getPackage().getImplementationVersion();
     }
 
     public DatabaseUtil getDatabase() {
