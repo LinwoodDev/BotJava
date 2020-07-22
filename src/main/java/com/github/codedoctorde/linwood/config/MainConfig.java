@@ -24,7 +24,7 @@ public class MainConfig {
         add(new ActivityConfig(Activity.ActivityType.DEFAULT, "games with players :D"));
         add(new ActivityConfig(Activity.ActivityType.DEFAULT, "{0}"));
     }};
-    private String supportURL = "https://discord.gg/a2vubnD";
+    private String supportURL = "https://discord.gg/97zFtYN";
 
     public MainConfig(){
 
