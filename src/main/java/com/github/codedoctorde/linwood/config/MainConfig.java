@@ -3,19 +3,17 @@ package com.github.codedoctorde.linwood.config;
 
 import net.dv8tion.jda.api.entities.Activity;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author CodeDoctorDE
  */
 public class MainConfig {
-    private final List<String> prefixes = Arrays.asList("+lw", "+linwood");
+    private final Set<String> prefixes = new HashSet<>(Arrays.asList("+lw", "+linwood"));
     private String secret;
     private int port = 9000;
     private boolean userStats = false;
-    private final List<Long> owners = new ArrayList<>();
+    private final Set<Long> owners = new HashSet<>(new ArrayList<>());
 
 
     private final List<ActivityConfig> activities = new ArrayList<>(){{
@@ -30,7 +28,7 @@ public class MainConfig {
 
     }
 
-    public List<String> getPrefixes() {
+    public Set<String> getPrefixes() {
         return prefixes;
     }
 
@@ -70,7 +68,7 @@ public class MainConfig {
         this.port = port;
     }
 
-    public List<Long> getOwners() {
+    public Set<Long> getOwners() {
         return owners;
     }
 }

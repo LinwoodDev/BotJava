@@ -17,18 +17,11 @@ public class RemovePrefixCommand implements Command {
         if(args.length != 1)
         return false;
         var bundle = getBundle(entity);
-        int index;
-        try {
-            index = Integer.parseInt(args[0]);
-        }catch(Exception e){
+        var string = String.join(" ", args);
+        if(!entity.getPrefixes().remove(string)){
             message.getChannel().sendMessage(bundle.getString("Invalid")).queue();
             return true;
         }
-        if(index < 0 || index >= entity.getPrefixes().size()){
-            message.getChannel().sendMessage(bundle.getString("Invalid")).queue();
-            return true;
-        }
-        entity.getPrefixes().remove(index);
         message.getChannel().sendMessage(bundle.getString("Success")).queue();
         return true;
     }

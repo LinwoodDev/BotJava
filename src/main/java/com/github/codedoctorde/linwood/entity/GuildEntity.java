@@ -6,10 +6,7 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import org.hibernate.Session;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author CodeDoctorDE
@@ -22,7 +19,7 @@ public class GuildEntity {
     @ElementCollection
     @CollectionTable(name="Prefixes", joinColumns=@JoinColumn(name="guild_id"))
     @Column(name="prefix")
-    private final List<String> prefixes = new ArrayList<>(Linwood.getInstance().getConfig().getPrefixes());
+    private final Set<String> prefixes = new HashSet<>(Linwood.getInstance().getConfig().getPrefixes());
     private String locale = Locale.ENGLISH.toLanguageTag();
     @OneToOne(cascade=CascadeType.ALL, optional = false)
     private final GameEntity gameEntity = new GameEntity();
@@ -98,7 +95,7 @@ public class GuildEntity {
             maintainerId = role.getIdLong();
     }
 
-    public List<String> getPrefixes() {
+    public Set<String> getPrefixes() {
         return prefixes;
     }
 }

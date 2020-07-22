@@ -2,6 +2,7 @@ package com.github.codedoctorde.linwood.commands.settings.general;
 
 import com.github.codedoctorde.linwood.commands.Command;
 import com.github.codedoctorde.linwood.entity.GuildEntity;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import org.hibernate.Session;
@@ -16,7 +17,7 @@ import java.util.Set;
 public class PrefixesCommand implements Command {
     @Override
     public boolean onCommand(Session session, Message message, GuildEntity entity, String label, String[] args) {
-        if(args.length == 0)
+        if(args.length != 0)
             return false;
         var bundle = getBundle(entity);
         message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Get"), String.join("," , entity.getPrefixes()))).queue();
@@ -27,7 +28,11 @@ public class PrefixesCommand implements Command {
     public @NotNull Set<String> aliases(GuildEntity entity) {
         return new HashSet<>(Arrays.asList(
                 "prefixes",
-                "pre-fixes"
+                "pre-fixes",
+                "list-prefixes",
+                "list-pre-fixes",
+                "listprefixes",
+                "listpre-fixes"
         ));
     }
 
@@ -38,6 +43,6 @@ public class PrefixesCommand implements Command {
 
     @Override
     public boolean hasPermission(Member member, GuildEntity entity, Session session) {
-        return false;
+        return member.hasPermission(Permission.MANAGE_SERVER) || entity.getMaintainerId() != null && member.getRoles().contains(member.getGuild().getRoleById(entity.getMaintainerId()));
     }
 }
