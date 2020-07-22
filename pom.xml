@@ -74,6 +74,8 @@
                         <mainClass>com.github.codedoctorde.linwood.Linwood</mainClass>
                     </manifest>
                 </archive>
+                <finalName>linwood</finalName>
+                <appendAssemblyId>false</appendAssemblyId>
                 <descriptorRefs>
                     <descriptorRef>jar-with-dependencies</descriptorRef>
                 </descriptorRefs>
