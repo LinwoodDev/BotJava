@@ -54,6 +54,7 @@
                         <mainClass>com.github.codedoctorde.linwood.Linwood</mainClass>
                     </manifest>
                 </archive>
+                <finalName>${project.name}</finalName>
             </configuration>
         </plugin>
         <plugin>
@@ -81,8 +82,7 @@
                         <Implementation-Version>${project.version}_${build.number}</Implementation-Version>
                     </manifestEntries>
                 </archive>
-                <finalName>linwood-jar-with-dependencies</finalName>
-                <appendAssemblyId>false</appendAssemblyId>
+                <finalName>${project.name}-jar-with-dependencies</finalName>
                 <descriptorRefs>
                     <descriptorRef>jar-with-dependencies</descriptorRef>
                 </descriptorRefs>
