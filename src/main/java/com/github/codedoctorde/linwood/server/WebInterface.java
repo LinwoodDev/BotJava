@@ -4,10 +4,6 @@ package com.github.codedoctorde.linwood.server;
 import com.github.codedoctorde.linwood.Linwood;
 import io.javalin.Javalin;
 import io.sentry.Sentry;
-import org.eclipse.jetty.server.Server;
-
-import static io.javalin.apibuilder.ApiBuilder.path;
-import static io.javalin.apibuilder.ApiBuilder.post;
 
 /**
  * @author CodeDoctorDE

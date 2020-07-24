@@ -9,7 +9,6 @@ import org.apache.logging.log4j.Logger;
 import org.hibernate.*;
 import org.hibernate.cfg.Configuration;
 
-import javax.persistence.criteria.Predicate;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;

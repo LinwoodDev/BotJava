@@ -1,9 +1,5 @@
 package com.github.codedoctorde.linwood.console;
 
-import com.github.codedoctorde.linwood.entity.GuildEntity;
-import net.dv8tion.jda.api.entities.Message;
-import org.hibernate.Session;
-
 /**
  * @author CodeDoctorDE
  */

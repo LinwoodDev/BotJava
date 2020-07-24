@@ -2,7 +2,6 @@ package com.github.codedoctorde.linwood.entity;
 
 import com.github.codedoctorde.linwood.Linwood;
 import net.dv8tion.jda.api.entities.Role;
-import net.dv8tion.jda.api.entities.TextChannel;
 import org.hibernate.Session;
 
 import javax.persistence.*;

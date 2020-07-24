@@ -24,18 +24,22 @@ public class KarmaCommand implements Command {
         if(args.length == 0)
             karmaCommand(entity, Objects.requireNonNull(message.getMember()), message.getTextChannel());
         else{
-            Member member;
-            try {
-                member = TagUtil.convertToMember(message.getGuild(), args[0]);
-            }catch(UnsupportedOperationException ignored) {
+            var action =
+                    TagUtil.convertIdToMember(message.getGuild(), args[0]);
+            if(action == null){
                 message.getChannel().sendMessage(bundle.getString("SetMultiple")).queue();
                 return true;
             }
-            if(member == null) {
-                message.getChannel().sendMessage(bundle.getString("SetNothing")).queue();
-                return true;
-            }
-            karmaCommand(entity, member, message.getTextChannel());
+            action.queue(member -> {
+                if(member == null) {
+                    member = TagUtil.convertNameToMember(message.getGuild(), args[0]);
+                    if (member == null) {
+                        message.getChannel().sendMessage(bundle.getString("SetMultiple")).queue();
+                        return;
+                    }
+                }
+                karmaCommand(entity, member, message.getTextChannel());
+            });
         }
         return true;
     }

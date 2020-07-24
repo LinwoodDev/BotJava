@@ -4,6 +4,7 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.requests.RestAction;
 
 import java.util.regex.Pattern;
 
@@ -46,23 +47,22 @@ public final class TagUtil {
         }
         return role;
     }
-    public static Member convertToMember(Guild guild, String input) throws UnsupportedOperationException{
-        Member member = null;
+    public static Member convertNameToMember(Guild guild, String input){
+            var members = guild.getMembersByName(input, true);
+            if(members.size() == 1)
+                return members.get(0);
+            else
+                return null;
+    }
+    public static RestAction<Member> convertIdToMember(Guild guild, String input){
         var pattern = Pattern.compile("(<@(!)?)?(?<id>\\d+)(>)?");
         var matcher = pattern.matcher(input);
         if(matcher.find())
             try{
-                member = guild.getMemberById(matcher.group("id"));
+                return guild.retrieveMemberById(matcher.group("id"));
             }catch(Exception ignored){
 
             }
-        if(member == null) {
-            var members = guild.getMembersByName(input, true);
-            if(members.size() == 1)
-                member = members.get(0);
-            else
-                throw new UnsupportedOperationException();
-        }
-        return member;
+        return null;
     }
 }

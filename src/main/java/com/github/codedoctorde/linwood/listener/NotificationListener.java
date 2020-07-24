@@ -9,7 +9,6 @@ import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.user.update.UserUpdateOnlineStatusEvent;
 import net.dv8tion.jda.api.hooks.SubscribeEvent;
-import org.eclipse.jetty.util.resource.Resource;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;

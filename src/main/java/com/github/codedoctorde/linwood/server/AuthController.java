@@ -4,7 +4,6 @@ import io.javalin.http.Context;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.net.http.HttpClient;
