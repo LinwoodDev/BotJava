@@ -82,7 +82,7 @@
                         <Implementation-Version>${project.version}_${build.number}</Implementation-Version>
                     </manifestEntries>
                 </archive>
-                <finalName>${project.name}-jar-with-dependencies</finalName>
+                <finalName>linwood-jar-with-dependencies</finalName>
                 <descriptorRefs>
                     <descriptorRef>jar-with-dependencies</descriptorRef>
                 </descriptorRefs>
