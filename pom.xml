@@ -6,12 +6,13 @@
 
     <groupId>com.github.codedoctorde</groupId>
     <artifactId>linwood</artifactId>
-    <version>0.1.0_${env.BUILD_NUMBER}</version>
+    <version>0.1.0</version>
     <properties>
         <java.version>11</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
+        <build.number>SNAPSHOT</build.number>
     </properties>
     <repositories>
         <repository>
@@ -74,6 +75,11 @@
                         <addClasspath>true</addClasspath>
                         <mainClass>com.github.codedoctorde.linwood.Linwood</mainClass>
                     </manifest>
+                    <manifestEntries>
+                        <Specification-Title>${project.name}</Specification-Title>
+                        <Specification-Version>${project.version}</Specification-Version>
+                        <Implementation-Version>${build.number}</Implementation-Version>
+                    </manifestEntries>
                 </archive>
                 <finalName>linwood-jar-with-dependencies</finalName>
                 <appendAssemblyId>false</appendAssemblyId>
