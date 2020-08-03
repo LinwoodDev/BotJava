@@ -1,6 +1,7 @@
 package com.github.codedoctorde.linwood.entity;
 
 import com.github.codedoctorde.linwood.Linwood;
+import com.sun.istack.NotNull;
 import net.dv8tion.jda.api.entities.Role;
 import org.hibernate.Session;
 
@@ -21,12 +22,16 @@ public class GuildEntity {
     private final Set<String> prefixes = new HashSet<>(Linwood.getInstance().getConfig().getPrefixes());
     private String locale = Locale.ENGLISH.toLanguageTag();
     @OneToOne(cascade=CascadeType.ALL, optional = false)
+    @NotNull
     private final GameEntity gameEntity = new GameEntity();
     @OneToMany
-    private Set<TemplateEntity> templates;
+    @NotNull
+    private Set<TemplateEntity> templates = new HashSet<>();
     @OneToOne(cascade=CascadeType.ALL, optional = false)
+    @NotNull
     private final KarmaEntity karmaEntity = new KarmaEntity();
     @OneToOne(cascade=CascadeType.ALL, optional = false)
+    @NotNull
     private final NotificationEntity notificationEntity = new NotificationEntity();
     private Long maintainerId = null;
     public enum Plan {
