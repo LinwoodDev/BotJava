@@ -26,7 +26,6 @@ public class HelpCommand implements Command {
         if(command == null)
             return false;
 
-        var bundle = getBundle(entity);
         var commandBundle = command.getBundle(entity);
         var output = new MessageBuilder()
                 .append(" ")

@@ -25,10 +25,8 @@ public class GameMasterCommand implements Command {
         if(args.length > 1)
             return false;
         if(args.length == 0)
-            if(entity.getGameEntity().getGameCategoryId() != null)
-                message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Get"), entity.getGameEntity().getGameCategory().getName(), entity.getGameEntity().getGameCategoryId())).queue();
-            else
-                message.getChannel().sendMessage(bundle.getString("GetNull")).queue();
+                message.getChannel().sendMessage((entity.getGameEntity().getGameCategoryId() != null)?MessageFormat.format(bundle.getString("Get"), entity.getGameEntity().getGameMasterRole().getName(), entity.getGameEntity().getGameMasterRoleId()):
+                        bundle.getString("GetNull")).queue();
         else {
             try {
                 Role role = null;

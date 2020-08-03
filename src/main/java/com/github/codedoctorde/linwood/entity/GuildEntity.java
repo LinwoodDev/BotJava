@@ -29,6 +29,10 @@ public class GuildEntity {
     @OneToOne(cascade=CascadeType.ALL, optional = false)
     private final NotificationEntity notificationEntity = new NotificationEntity();
     private Long maintainerId = null;
+    public enum Plan {
+        DEFAULT, PRIVATE
+    }
+    private Plan plan = Plan.DEFAULT;
 
     public GuildEntity(){
     }

@@ -1,4 +1,4 @@
-package com.github.codedoctorde.linwood.commands.fun;
+package com.github.codedoctorde.linwood.commands.karma;
 
 import com.github.codedoctorde.linwood.Linwood;
 import com.github.codedoctorde.linwood.commands.Command;
@@ -15,7 +15,7 @@ import java.awt.*;
 import java.time.LocalDateTime;
 import java.util.*;
 
-public class KarmaCommand implements Command {
+public class KarmaInfoCommand implements Command {
     @Override
     public boolean onCommand(Session session, Message message, GuildEntity entity, String label, String[] args) {
         if(args.length > 1)
@@ -74,12 +74,15 @@ public class KarmaCommand implements Command {
                 "likes",
                 "level",
                 "levels",
-                "rank"
+                "rank",
+                "info",
+                "information",
+                "i"
         ));
     }
 
     @Override
     public @NotNull ResourceBundle getBundle(GuildEntity entity) {
-        return ResourceBundle.getBundle("locale.commands.fun.Karma", entity.getLocalization());
+        return ResourceBundle.getBundle("locale.commands.karma.Info", entity.getLocalization());
     }
 }

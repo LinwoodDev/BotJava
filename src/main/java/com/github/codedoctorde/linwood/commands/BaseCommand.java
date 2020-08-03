@@ -2,6 +2,7 @@ package com.github.codedoctorde.linwood.commands;
 
 import com.github.codedoctorde.linwood.commands.fun.FunCommand;
 import com.github.codedoctorde.linwood.commands.game.GameCommand;
+import com.github.codedoctorde.linwood.commands.karma.KarmaCommand;
 import com.github.codedoctorde.linwood.commands.settings.SettingsCommand;
 import com.github.codedoctorde.linwood.entity.GuildEntity;
 import net.dv8tion.jda.api.entities.Message;
@@ -20,7 +21,7 @@ public class BaseCommand extends CommandManager {
     @Override
     public Command[] commands() {
         return new Command[]{
-                infoCommand,
+                new KarmaCommand(),
                 new HelpCommand(),
                 new FunCommand(),
                 new GameCommand(),

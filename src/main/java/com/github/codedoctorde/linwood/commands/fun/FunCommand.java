@@ -18,8 +18,7 @@ public class FunCommand extends CommandManager {
     public Command[] commands() {
         return new Command[]{
                 new WindowsCommand(),
-                new DiceCommand(),
-                new KarmaCommand()
+                new DiceCommand()
         };
     }
 
