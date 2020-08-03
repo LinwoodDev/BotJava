@@ -23,7 +23,8 @@ public class NotificationListener {
             return;
         var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
         var entity = Linwood.getInstance().getDatabase().getGuildById(session, event.getGuild().getIdLong());
-        if(event.getChannel().getIdLong() != entity.getNotificationEntity().getSupportChatId()) return;
+        if(event.getChannel().getIdLong() !=
+                entity.getNotificationEntity().getSupportChatId()) return;
         var role = event.getGuild().getRoleById(entity.getNotificationEntity().getTeamRoleId());
         var bundle = getBundle(entity);
         event.getGuild().findMembers(member -> member.getRoles().contains(role) && member.getOnlineStatus() == OnlineStatus.ONLINE).onSuccess(members -> {
