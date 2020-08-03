@@ -12,6 +12,9 @@ public class NotificationEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long id;
+    @OneToOne
+    @JoinColumn(name="ID", referencedColumnName="ID", nullable=false)
+    private GuildEntity guild;
     private Long teamRoleId = null;
     private Long supportChatId = null;
     private Long statusChatId = null;
@@ -97,5 +100,9 @@ public class NotificationEntity {
             logChatId = null;
         else
             logChatId = chat.getIdLong();
+    }
+
+    public GuildEntity getGuild() {
+        return guild;
     }
 }

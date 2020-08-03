@@ -8,6 +8,9 @@ public class KarmaEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long id;
+    @OneToOne
+    @JoinColumn(name="ID", referencedColumnName="ID", nullable=false)
+    private GuildEntity guild;
     private int maxGiving = 3;
     private String likeEmote = null;
     private String dislikeEmote = null;
@@ -43,5 +46,9 @@ public class KarmaEntity {
 
     public void setMaxGiving(int maxGiving) {
         this.maxGiving = maxGiving;
+    }
+
+    public GuildEntity getGuild() {
+        return guild;
     }
 }
