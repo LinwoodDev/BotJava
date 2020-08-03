@@ -9,6 +9,7 @@ import net.dv8tion.jda.api.hooks.SubscribeEvent;
 
 import javax.annotation.Nonnull;
 import java.text.MessageFormat;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 /**

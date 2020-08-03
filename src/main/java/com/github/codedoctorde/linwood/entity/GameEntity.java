@@ -15,9 +15,6 @@ public class GameEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long id;
-    @OneToOne
-    @JoinColumn(name="ID", referencedColumnName="ID", nullable=false)
-    private GuildEntity guild;
     @Column
     private Long gameMasterRoleId;
     @Column
@@ -67,9 +64,5 @@ public class GameEntity {
 
     public void setGameMasterRoleId(Long gameMasterRoleId) {
         this.gameMasterRoleId = gameMasterRoleId;
-    }
-
-    public GuildEntity getGuild() {
-        return guild;
     }
 }

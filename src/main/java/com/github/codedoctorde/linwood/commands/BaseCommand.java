@@ -25,7 +25,8 @@ public class BaseCommand extends CommandManager {
                 new HelpCommand(),
                 new FunCommand(),
                 new GameCommand(),
-                new SettingsCommand()
+                new SettingsCommand(),
+                new InfoCommand()
         };
     }
 

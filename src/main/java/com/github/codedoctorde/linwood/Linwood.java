@@ -57,7 +57,6 @@ public class Linwood {
                 .addEventListeners(userListener)
                 .addEventListeners(new NotificationListener())
                 .addEventListeners(new ConnectionListener());
-        database = new DatabaseUtil();
         activityChanger = new ActivityChanger();
         baseCommand = new BaseCommand();
         singleApplicationManager = new SingleApplicationManager();
@@ -81,6 +80,7 @@ public class Linwood {
         if(config == null)
             config = new MainConfig();
         saveConfig();
+        database = new DatabaseUtil();
         try {
             jda = builder.build();
         } catch (LoginException e) {
