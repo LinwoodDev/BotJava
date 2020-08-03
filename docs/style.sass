@@ -166,13 +166,13 @@ html, body
         transition: transform 0.6s
         transform-style: preserve-3d
         width: 100%
-        backface-visibility: hidden
         height: 100%
         box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2)
         .front
             position: relative
-            backface-visibility: hidden
             overflow-y: inherit
+            transform: rotateY(0deg)
+            backface-visibility: hidden
         .back
             overflow-y: auto
             position: absolute
