@@ -152,7 +152,7 @@ public class Linwood {
 
     public void configure(){
         activityChanger.getActivities().clear();
-        config.getActivities().forEach(activity -> activityChanger.getActivities().add(activity.build(getVersion())));
+        config.getActivities().forEach(activityChanger.getActivities()::add);
     }
 
     public KarmaListener getUserListener() {

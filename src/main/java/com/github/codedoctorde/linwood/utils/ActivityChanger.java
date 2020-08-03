@@ -1,6 +1,7 @@
 package com.github.codedoctorde.linwood.utils;
 
 import com.github.codedoctorde.linwood.Linwood;
+import com.github.codedoctorde.linwood.config.ActivityConfig;
 import net.dv8tion.jda.api.entities.Activity;
 
 import java.util.*;
@@ -11,8 +12,8 @@ import java.util.*;
 public class ActivityChanger {
     private Timer timer;
     private int index;
-    private final List<Activity> activities;
-    public ActivityChanger(Activity... activities){
+    private final List<ActivityConfig> activities;
+    public ActivityChanger(ActivityConfig... activities){
         this.activities =new ArrayList<>(Arrays.asList(activities));
     }
 
@@ -23,7 +24,8 @@ public class ActivityChanger {
                 if(Linwood.getInstance().getJda() != null) {
                     if (index < 0 || index >= activities.size()) index = 0;
                     if(activities.size() <= 0) return;
-                    Linwood.getInstance().getJda().getPresence().setActivity(activities.get(index));
+                    Linwood.getInstance().getJda().getPresence().setActivity(activities.get(index).build(Linwood.getInstance().getVersion(), Linwood.getInstance().getJda().getGuilds().size(),
+                            Linwood.getInstance().getJda().getUsers().size()));
                     index++;
                 }
             }
@@ -44,7 +46,8 @@ public class ActivityChanger {
         this.index = index;
     }
 
-    public List<Activity> getActivities() {
+    public List<ActivityConfig> getActivities() {
         return activities;
     }
+
 }
