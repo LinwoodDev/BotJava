@@ -21,7 +21,7 @@ public class GameEntity {
     @Column
     private Long gameCategoryId;
     @OneToOne(optional = false, cascade = CascadeType.ALL)
-    @JoinColumn(name = "guildID", unique = true, nullable = false)
+    @JoinColumn(name = "guildID", unique = true, nullable = false,referencedColumnName = "ID")
     @NotNull
     private GuildEntity guild;
 
