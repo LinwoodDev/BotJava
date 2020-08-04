@@ -46,7 +46,7 @@ public class TicTacToe extends Board implements SingleApplicationMode {
 
     @Override
     public void start(SingleApplication app) {
-        this.game = game;
+        game = app;
         events = new TicTacToeEvents(this);
         Linwood.getInstance().getJda().getEventManager().register(events);
         var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
@@ -57,19 +57,18 @@ public class TicTacToe extends Board implements SingleApplicationMode {
         var bundle = getBundle(session);
         Category finalCategory = category;
         ChannelAction<TextChannel> action;
-        if(finalCategory == null)
-            action = game.getGuild().createTextChannel(MessageFormat.format(bundle.getString("TextChannel"),game.getId()));
-        else
-            action = finalCategory.createTextChannel(MessageFormat.format(bundle.getString("TextChannel"),game.getId()));
+        action = finalCategory == null ?game.getGuild().createTextChannel(MessageFormat.format(bundle.getString("TextChannel"),game.getId())):
+                finalCategory.createTextChannel(MessageFormat.format(bundle.getString("TextChannel"),game.getId()));
+        session.close();
         action.queue((textChannel -> {
             this.textChannelId = textChannel.getIdLong();
             if(finalCategory != null)
                 textChannel.getManager().setParent(finalCategory).queue();
-            chooseNextPlayer(session);
+            chooseNextPlayer();
         }));
     }
 
-    private void chooseNextPlayer(Session session) {
+    private void chooseNextPlayer() {
 
     }
 

@@ -53,11 +53,12 @@ public class WhatIsIt implements SingleApplicationMode {
             action = game.getGuild().createTextChannel(MessageFormat.format(bundle.getString("TextChannel"),game.getId()));
         else
             action = finalCategory.createTextChannel(MessageFormat.format(bundle.getString("TextChannel"),game.getId()));
+        session.close();
         action.queue((textChannel -> {
             this.textChannelId = textChannel.getIdLong();
             if(finalCategory != null)
                 textChannel.getManager().setParent(finalCategory).queue();
-            chooseNextPlayer(session);
+            chooseNextPlayer();
         }));
         hasChannelDisabled = Linwood.getInstance().getUserListener().getDisabledChannels().add(textChannelId);
     }
@@ -78,7 +79,8 @@ public class WhatIsIt implements SingleApplicationMode {
             Linwood.getInstance().getUserListener().getDisabledChannels().remove(textChannelId);
     }
 
-    public void chooseNextPlayer(Session session){
+    public void chooseNextPlayer(){
+        var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
         var bundle = getBundle(session);
         sendLeaderboard(session);
         getTextChannel().sendMessage(MessageFormat.format(bundle.getString("Next"), currentRound + 1)).queue(message -> {
@@ -159,11 +161,9 @@ public class WhatIsIt implements SingleApplicationMode {
             round = null;
             wantWriterMessageId = null;
             wantWriter.clear();
-            if(currentRound >= maxRounds) {
-                finishGame();
-                return;
-            }
-            chooseNextPlayer(session);
+            if(currentRound >= maxRounds) finishGame();
+            else
+            chooseNextPlayer();
             session.close();
         });
     }

@@ -93,6 +93,7 @@ public class WhatIsItRound {
                         whatIsIt.getTextChannel().sendMessage(message).queue();
                     time--;
                 }
+                session.close();
             }
         }, 1000, 1000);
     }

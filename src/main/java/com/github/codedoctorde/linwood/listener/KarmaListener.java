@@ -33,16 +33,16 @@ public class KarmaListener {
             session.close();
             event.getChannel().retrieveMessageById(event.getMessageIdLong()).queue(message -> event.getGuild().retrieveMember(message.getAuthor()).queue(taker -> {
                 var session1 = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
-                if(karma.getLikeEmote() == null)
-                    return;
-                boolean works = true;
-                if (taker == null || taker.getUser().isBot() || donor.getUser().isBot()) return;
-                if(!donor.equals(taker)) if (emote.equals(karma.getLikeEmote()))
-                    works = giveLike(entity, donor, taker, session1);
-                else if (emote.equals(karma.getDislikeEmote()))
-                    works = giveDislike(entity, donor, taker, session1);
-                if(!works)
-                    event.getReaction().removeReaction(donor.getUser()).queue();
+                if(karma.getLikeEmote() != null) {
+                    boolean works = true;
+                    if (taker == null || taker.getUser().isBot() || donor.getUser().isBot()) return;
+                    if (!donor.equals(taker)) if (emote.equals(karma.getLikeEmote()))
+                        works = giveLike(entity, donor, taker, session1);
+                    else if (emote.equals(karma.getDislikeEmote()))
+                        works = giveDislike(entity, donor, taker, session1);
+                    if (!works)
+                        event.getReaction().removeReaction(donor.getUser()).queue();
+                }
                 session1.close();
             }));
         });
@@ -60,8 +60,7 @@ public class KarmaListener {
             session.close();
             event.getChannel().retrieveMessageById(event.getMessageIdLong()).queue(message -> event.getGuild().retrieveMember(message.getAuthor()).queue(taker -> {
                 var session1 = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
-                if (taker == null || taker.getUser().isBot() || donor.getUser().isBot() || donor.equals(taker)) return;
-                if (karma.getLikeEmote() != null)
+                if (taker != null && !taker.getUser().isBot() && !donor.getUser().isBot() && !donor.equals(taker) && karma.getLikeEmote() != null)
                     if (emote.equals(karma.getLikeEmote()))
                         removeLike(donor, taker, session1);
                     else if (emote.equals(karma.getDislikeEmote()))
