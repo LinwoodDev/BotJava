@@ -23,13 +23,15 @@ public class NotificationListener {
             return;
         var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
         var entity = Linwood.getInstance().getDatabase().getGuildById(session, event.getGuild().getIdLong());
-        if(event.getChannel().getIdLong() !=
-                entity.getNotificationEntity().getSupportChatId()) return;
-        var role = event.getGuild().getRoleById(entity.getNotificationEntity().getTeamRoleId());
-        var bundle = getBundle(entity);
-        event.getGuild().findMembers(member -> member.getRoles().contains(role) && member.getOnlineStatus() == OnlineStatus.ONLINE).onSuccess(members -> {
-            if(members.size() > 0) event.getChannel().sendMessage(bundle.getString("NoSupport")).queue();
-        });
+        if(event.getChannel().getIdLong() ==
+                entity.getNotificationEntity().getSupportChatId()){
+            var role = event.getGuild().getRoleById(entity.getNotificationEntity().getTeamRoleId());
+            var bundle = getBundle(entity);
+            event.getGuild().findMembers(member -> member.getRoles().contains(role) && member.getOnlineStatus() == OnlineStatus.ONLINE).onSuccess(members -> {
+                if (members.size() > 0) event.getChannel().sendMessage(bundle.getString("NoSupport")).queue();
+            });
+        }
+        session.close();
     }
     @SubscribeEvent
     public void onStatus(UserUpdateOnlineStatusEvent event){
@@ -40,23 +42,20 @@ public class NotificationListener {
         var bundle = getBundle(entity);
         Role team = null;
         if(entity.getNotificationEntity().getTeamRoleId() != null)
-        team = event.getGuild().getRoleById(entity.getNotificationEntity().getTeamRoleId());
-        if(team == null)
-            return;
-        if(!event.getMember().getRoles().contains(team))
-            return;
+            team = event.getGuild().getRoleById(entity.getNotificationEntity().getTeamRoleId());
+        if (team == null || !event.getMember().getRoles().contains(team)) return;
         var chat = event.getGuild().getTextChannelById(entity.getNotificationEntity().getStatusChatId());
-        if(chat == null || !(event.getNewValue() == OnlineStatus.ONLINE || event.getOldValue() == OnlineStatus.ONLINE && event.getNewValue() == OnlineStatus.OFFLINE))
-            return;
-        chat.sendMessage(" ")
-                .embed(new EmbedBuilder()
-                        .setTitle(statusFormat(event.getNewValue() == OnlineStatus.ONLINE ? bundle.getString("OnlineTitle") : bundle.getString("OfflineTitle"), event.getMember()))
-                        .setDescription(statusFormat(event.getNewValue() == OnlineStatus.ONLINE ? bundle.getString("OnlineBody") : bundle.getString("OfflineBody"), event.getMember()))
-                        .setAuthor(event.getMember().getUser().getAsTag(), "https://discord.com", event.getMember().getUser().getAvatarUrl())
-                        .setColor(new Color(0x3B863B))
-                        .setTimestamp(LocalDateTime.now())
-                        .setFooter(null, null)
-                        .build()).queue();
+        if(chat != null && (event.getNewValue() == OnlineStatus.ONLINE || event.getOldValue() == OnlineStatus.ONLINE && event.getNewValue() == OnlineStatus.OFFLINE))
+            chat.sendMessage(" ")
+                    .embed(new EmbedBuilder()
+                            .setTitle(statusFormat(event.getNewValue() == OnlineStatus.ONLINE ? bundle.getString("OnlineTitle") : bundle.getString("OfflineTitle"), event.getMember()))
+                            .setDescription(statusFormat(event.getNewValue() == OnlineStatus.ONLINE ? bundle.getString("OnlineBody") : bundle.getString("OfflineBody"), event.getMember()))
+                            .setAuthor(event.getMember().getUser().getAsTag(), "https://discord.com", event.getMember().getUser().getAvatarUrl())
+                            .setColor(new Color(0x3B863B))
+                            .setTimestamp(LocalDateTime.now())
+                            .setFooter(null, null)
+                            .build()).queue();
+        session.close();
     }
     public String statusFormat(String string, Member member){
         return MessageFormat.format(string, member.getAsMention(), member.getUser().getAsTag());

@@ -61,12 +61,11 @@ public class KarmaListener {
             event.getChannel().retrieveMessageById(event.getMessageIdLong()).queue(message -> event.getGuild().retrieveMember(message.getAuthor()).queue(taker -> {
                 var session1 = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
                 if (taker == null || taker.getUser().isBot() || donor.getUser().isBot() || donor.equals(taker)) return;
-                if (karma.getLikeEmote() == null)
-                    return;
-                else if (emote.equals(karma.getLikeEmote()))
-                    removeLike(donor, taker, session1);
-                else if (emote.equals(karma.getDislikeEmote()))
-                    removeDislike(donor, taker, session1);
+                if (karma.getLikeEmote() != null)
+                    if (emote.equals(karma.getLikeEmote()))
+                        removeLike(donor, taker, session1);
+                    else if (emote.equals(karma.getDislikeEmote()))
+                        removeDislike(donor, taker, session1);
                 session1.close();
             }));
         });

@@ -23,7 +23,7 @@ public class InfoCommand implements Command {
         var bundle = getBundle(entity);
         if(args.length > 0)
             return false;
-        message.getChannel().sendMessage(" ").embed(new EmbedBuilder().setTitle(infoFormat(message, entity, bundle.getString("title")))
+        message.getChannel().sendMessage(new EmbedBuilder().setTitle(infoFormat(message, entity, bundle.getString("title")))
                 .setDescription(infoFormat(message, entity, bundle.getString("Body.regexp"))).build()).queue();
         return true;
     }
