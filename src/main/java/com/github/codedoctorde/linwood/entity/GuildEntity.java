@@ -22,13 +22,13 @@ public class GuildEntity {
     private final Set<String> prefixes = new HashSet<>(Linwood.getInstance().getConfig().getPrefixes());
     private String locale = Locale.ENGLISH.toLanguageTag();
     @OneToOne(cascade={CascadeType.ALL})
-    @JoinColumn(name = "notification_id", referencedColumnName = "id")
+    @JoinColumn(name = "gameEntity_id", referencedColumnName = "id")
     private final GameEntity gameEntity = new GameEntity();
     @OneToMany
     @NotNull
     private Set<TemplateEntity> templates = new HashSet<>();
     @OneToOne(cascade={CascadeType.ALL})
-    @JoinColumn(name = "notification_id", referencedColumnName = "id")
+    @JoinColumn(name = "karmaEntity_id", referencedColumnName = "id")
     private final KarmaEntity karmaEntity = new KarmaEntity();
     @OneToOne(cascade={CascadeType.ALL})
     @JoinColumn(name = "notificationEntity_id", referencedColumnName = "id")
