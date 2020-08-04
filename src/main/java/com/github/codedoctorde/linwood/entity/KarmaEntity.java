@@ -14,9 +14,8 @@ public class KarmaEntity {
     private String likeEmote = null;
     private String dislikeEmote = null;
     private int constant = 5;
-    @OneToOne(optional = false, cascade = CascadeType.ALL)
-    @JoinColumn(name = "guildID", unique = true, nullable = false,referencedColumnName = "ID")
-    @NotNull
+    @OneToOne(optional = false)
+    @MapsId
     private GuildEntity guild;
 
 

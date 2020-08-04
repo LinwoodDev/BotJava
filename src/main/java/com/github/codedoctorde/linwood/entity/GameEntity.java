@@ -20,9 +20,8 @@ public class GameEntity {
     private Long gameMasterRoleId;
     @Column
     private Long gameCategoryId;
-    @OneToOne(optional = false, cascade = CascadeType.ALL)
-    @JoinColumn(name = "guildID", unique = true, nullable = false,referencedColumnName = "ID")
-    @NotNull
+    @OneToOne(optional = false)
+    @MapsId
     private GuildEntity guild;
 
 
