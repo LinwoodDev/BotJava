@@ -14,7 +14,7 @@ public class KarmaEntity {
     private String likeEmote = null;
     private String dislikeEmote = null;
     private int constant = 5;
-    @OneToOne(optional = false, mappedBy = "karmaEntity")
+    @OneToOne(mappedBy = "karmaEntity")
     private GuildEntity guild;
 
 

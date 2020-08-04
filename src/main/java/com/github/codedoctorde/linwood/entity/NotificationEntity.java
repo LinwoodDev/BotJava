@@ -17,7 +17,7 @@ public class NotificationEntity {
     private Long supportChatId = null;
     private Long statusChatId = null;
     private Long logChatId = null;
-    @OneToOne(optional = false, mappedBy = "notificationEntity")
+    @OneToOne(mappedBy = "notificationEntity")
     private GuildEntity guild;
 
     public Long getId() {
