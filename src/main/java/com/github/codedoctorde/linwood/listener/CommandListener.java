@@ -20,7 +20,7 @@ public class CommandListener {
     public void onCommand(@Nonnull MessageReceivedEvent event) {
         var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
         var guild = GuildEntity.get(session, event.getGuild().getIdLong());
-        if (event.getChannelType() != ChannelType.TEXT || event.getAuthor().isBot()) {
+        if (event.getChannelType() == ChannelType.TEXT && !event.getAuthor().isBot()) {
             var content = event.getMessage().getContentRaw();
             var prefixes = guild.getPrefixes();
             var id = event.getJDA().getSelfUser().getId();

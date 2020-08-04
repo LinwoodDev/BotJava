@@ -18,7 +18,7 @@ public class NotificationEntity {
     private Long statusChatId = null;
     private Long logChatId = null;
     @OneToOne(optional = false, cascade = CascadeType.ALL)
-    @JoinColumn(name = "DETAILS_ID", unique = true, nullable = false)
+    @JoinColumn(name = "ID", unique = true, nullable = false)
     @NotNull
     private GuildEntity guild;
 

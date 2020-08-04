@@ -11,6 +11,7 @@ public class GlobalEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long id;
+    @OneToMany
     private final List<GlobalGuildEntity> guilds = new ArrayList<>();
 
     public GlobalEntity(){}
