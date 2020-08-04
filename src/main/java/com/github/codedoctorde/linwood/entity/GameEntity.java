@@ -1,6 +1,7 @@
 package com.github.codedoctorde.linwood.entity;
 
 import com.github.codedoctorde.linwood.Linwood;
+import com.sun.istack.NotNull;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Category;
 import net.dv8tion.jda.api.entities.Member;
@@ -19,6 +20,15 @@ public class GameEntity {
     private Long gameMasterRoleId;
     @Column
     private Long gameCategoryId;
+    @OneToOne(optional = false, cascade = CascadeType.ALL)
+    @JoinColumn(name = "DETAILS_ID", unique = true, nullable = false)
+    @NotNull
+    private GuildEntity guild;
+
+
+    public GuildEntity getGuild() {
+        return guild;
+    }
 
     public Long getGameCategoryId() {
         return gameCategoryId;

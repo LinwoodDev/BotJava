@@ -1,5 +1,7 @@
 package com.github.codedoctorde.linwood.entity;
 
+import com.sun.istack.NotNull;
+
 import javax.persistence.*;
 
 @Entity
@@ -12,6 +14,15 @@ public class KarmaEntity {
     private String likeEmote = null;
     private String dislikeEmote = null;
     private int constant = 5;
+    @OneToOne(optional = false, cascade = CascadeType.ALL)
+    @JoinColumn(name = "DETAILS_ID", unique = true, nullable = false)
+    @NotNull
+    private GuildEntity guild;
+
+
+    public GuildEntity getGuild() {
+        return guild;
+    }
 
     public String getLikeEmote() {
         return likeEmote;

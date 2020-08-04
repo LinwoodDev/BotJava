@@ -1,6 +1,7 @@
 package com.github.codedoctorde.linwood.entity;
 
 import com.github.codedoctorde.linwood.Linwood;
+import com.sun.istack.NotNull;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.TextChannel;
 
@@ -16,6 +17,15 @@ public class NotificationEntity {
     private Long supportChatId = null;
     private Long statusChatId = null;
     private Long logChatId = null;
+    @OneToOne(optional = false, cascade = CascadeType.ALL)
+    @JoinColumn(name = "DETAILS_ID", unique = true, nullable = false)
+    @NotNull
+    private GuildEntity guild;
+
+
+    public GuildEntity getGuild() {
+        return guild;
+    }
 
 
     public Role getTeamRole(){
