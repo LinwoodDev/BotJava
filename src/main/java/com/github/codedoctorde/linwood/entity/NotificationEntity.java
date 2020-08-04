@@ -17,10 +17,12 @@ public class NotificationEntity {
     private Long supportChatId = null;
     private Long statusChatId = null;
     private Long logChatId = null;
-    @OneToOne(optional = false)
-    @MapsId
+    @OneToOne(optional = false, mappedBy = "notificationEntity")
     private GuildEntity guild;
 
+    public Long getId() {
+        return id;
+    }
 
     public GuildEntity getGuild() {
         return guild;

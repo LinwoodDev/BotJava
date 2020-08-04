@@ -20,8 +20,7 @@ public class GameEntity {
     private Long gameMasterRoleId;
     @Column
     private Long gameCategoryId;
-    @OneToOne(optional = false)
-    @MapsId
+    @OneToOne(optional = false, mappedBy = "gameEntity")
     private GuildEntity guild;
 
 

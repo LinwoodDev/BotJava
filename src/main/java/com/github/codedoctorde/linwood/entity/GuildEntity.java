@@ -21,14 +21,17 @@ public class GuildEntity {
     @Column(name="prefix")
     private final Set<String> prefixes = new HashSet<>(Linwood.getInstance().getConfig().getPrefixes());
     private String locale = Locale.ENGLISH.toLanguageTag();
-    @OneToOne(fetch=FetchType.LAZY, cascade={CascadeType.ALL}, mappedBy = "guild")
+    @OneToOne(cascade={CascadeType.ALL})
+    @JoinColumn(name = "notification_id", referencedColumnName = "id")
     private final GameEntity gameEntity = new GameEntity();
     @OneToMany
     @NotNull
     private Set<TemplateEntity> templates = new HashSet<>();
-    @OneToOne(fetch=FetchType.LAZY, cascade={CascadeType.ALL}, mappedBy = "guild")
+    @OneToOne(cascade={CascadeType.ALL})
+    @JoinColumn(name = "notification_id", referencedColumnName = "id")
     private final KarmaEntity karmaEntity = new KarmaEntity();
-    @OneToOne(fetch=FetchType.LAZY, cascade={CascadeType.ALL}, mappedBy = "guild")
+    @OneToOne(cascade={CascadeType.ALL})
+    @JoinColumn(name = "notificationEntity_id", referencedColumnName = "id")
     private final NotificationEntity notificationEntity = new NotificationEntity();
     private Long maintainerId = null;
     public enum Plan {
