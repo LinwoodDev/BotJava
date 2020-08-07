@@ -6,3 +6,6 @@ theme:
   highlightjs: true
 markdown_extensions:
   - codehilite
+nav:
+  - Home: "wiki/index.md"
+  - Modules: "wiki/modules"
