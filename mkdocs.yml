@@ -6,9 +6,3 @@ theme:
   highlightjs: true
 markdown_extensions:
   - codehilite
-nav:
-  - Home: 'wiki'
-  - 'Wiki':
-    - 'Teams':
-        - 'wiki/teams/index.md'
-        - Commands: 'wiki/teams/commands.md'
