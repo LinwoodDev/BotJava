@@ -7,4 +7,7 @@ theme:
 markdown_extensions:
   - codehilite
 nav:
-  - Home: README.md
+  - Home: wiki
+  - Teams:
+      - wiki/teams/index.md
+      - wiki/teams/commands.md
