@@ -1,5 +1,5 @@
 
-name: GitHub Page
+name: MKDocs Build
 
 on:
   push:
