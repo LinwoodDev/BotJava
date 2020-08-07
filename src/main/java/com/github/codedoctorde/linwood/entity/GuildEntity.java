@@ -106,4 +106,8 @@ public class GuildEntity {
     public Set<String> getPrefixes() {
         return prefixes;
     }
+
+    public Plan getPlan() {
+        return plan;
+    }
 }

@@ -1,0 +1,10 @@
+site_name: Linwood
+site_url: https://linwood.tk
+repo_url: https://github.com/codedoctorde/Linwood/
+theme:
+  name: 'readthedocs'
+  highlightjs: true
+markdown_extensions:
+  - codehilite
+nav:
+  - Home: README.md
