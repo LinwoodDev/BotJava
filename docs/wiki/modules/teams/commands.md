@@ -1,3 +1,0 @@
-# Teams » Commands
-
-TODO

@@ -8,4 +8,6 @@ markdown_extensions:
   - codehilite
 nav:
   - Home: "wiki/index.md"
-  - Modules: "wiki/modules"
+  - Teams:
+      - "wiki/teams"
+      - Commands: "wiki/teams/commands"
