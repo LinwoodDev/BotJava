@@ -9,5 +9,4 @@ markdown_extensions:
 nav:
   - Home: "wiki/index.md"
   - Teams:
-      - "wiki/teams"
       - Commands: "wiki/teams/commands"
