@@ -1,5 +1,0 @@
-# Teams
-
-## Overview
-
-TODO
