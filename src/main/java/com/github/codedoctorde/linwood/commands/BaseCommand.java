@@ -18,6 +18,7 @@ import java.util.Set;
  */
 public class BaseCommand extends CommandManager {
     private final InfoCommand infoCommand = new InfoCommand();
+    private final HelpCommand helpCommand = new HelpCommand();
     @Override
     public Command[] commands() {
         return new Command[]{
@@ -26,7 +27,7 @@ public class BaseCommand extends CommandManager {
                 new FunCommand(),
                 new GameCommand(),
                 new SettingsCommand(),
-                new InfoCommand()
+                infoCommand
         };
     }
 
@@ -42,5 +43,9 @@ public class BaseCommand extends CommandManager {
 
     public void runInfo(Session session, GuildEntity entity, Message message) {
         infoCommand.onCommand(session, message, entity, "", new String[0]);
+    }
+
+    public HelpCommand getHelpCommand() {
+        return helpCommand;
     }
 }

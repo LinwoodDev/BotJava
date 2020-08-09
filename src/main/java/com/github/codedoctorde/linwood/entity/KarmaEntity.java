@@ -5,6 +5,7 @@ import com.sun.istack.NotNull;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "karma")
 public class KarmaEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

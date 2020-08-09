@@ -5,10 +5,12 @@ import com.github.codedoctorde.linwood.entity.GuildEntity;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.TextChannel;
 import org.hibernate.Session;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
+import java.nio.channels.Channel;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -25,22 +27,7 @@ public class HelpCommand implements Command {
         Command command = Linwood.getInstance().getBaseCommand().getCommand(entity, args);
         if(command == null)
             return false;
-
-        var commandBundle = command.getBundle(entity);
-        var output = new MessageBuilder()
-                .append(" ")
-                .setEmbed(new EmbedBuilder()
-                        .setTitle("Help")
-                        .setDescription(commandBundle.containsKey("Description")?commandBundle.getString("Description"):"")
-                        .setColor(new Color(0x3B863B))
-                        .setTimestamp(LocalDateTime.now())
-                        .setFooter(null, null)
-                        .addField("Aliases", String.join(", ", command.aliases(entity)), true)
-                        .addField("Permissions", commandBundle.containsKey("Permission")?commandBundle.getString("Permission"):"", true)
-                        .addField("Syntax", commandBundle.containsKey("Syntax")?commandBundle.getString("Syntax"):"", false)
-                        .build())
-                .build();
-        message.getChannel().sendMessage(output).queue();
+        sendHelp(entity, command, message.getTextChannel());
         return true;
     }
 
@@ -55,5 +42,23 @@ public class HelpCommand implements Command {
     @Override
     public @NotNull ResourceBundle getBundle(GuildEntity entity) {
         return ResourceBundle.getBundle("locale.commands.Help", entity.getLocalization());
+    }
+
+    public void sendHelp(@NotNull GuildEntity entity, @NotNull Command command, @NotNull TextChannel channel) {
+        var commandBundle = command.getBundle(entity);
+        var output = new MessageBuilder()
+                .append(" ")
+                .setEmbed(new EmbedBuilder()
+                        .setTitle("Help")
+                        .setDescription(commandBundle.containsKey("Description")?commandBundle.getString("Description"):"")
+                        .setColor(new Color(0x3B863B))
+                        .setTimestamp(LocalDateTime.now())
+                        .setFooter(null, null)
+                        .addField("Aliases", String.join(", ", command.aliases(entity)), true)
+                        .addField("Permissions", commandBundle.containsKey("Permission")?commandBundle.getString("Permission"):"", true)
+                        .addField("Syntax", commandBundle.containsKey("Syntax")?commandBundle.getString("Syntax"):"", false)
+                        .build())
+                .build();
+        channel.sendMessage(output).queue();
     }
 }

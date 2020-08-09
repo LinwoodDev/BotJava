@@ -12,9 +12,10 @@ import java.util.*;
  * @author CodeDoctorDE
  */
 @Entity
+@Table(name = "guild")
 public class GuildEntity {
     @Id
-    @Column(name="ID", unique = true, nullable = false)
+    @Column(name="id", unique = true, nullable = false)
     private long guildId;
     @ElementCollection
     @CollectionTable(name="Prefixes", joinColumns=@JoinColumn(name="guild_id"))
@@ -22,16 +23,16 @@ public class GuildEntity {
     private final Set<String> prefixes = new HashSet<>(Linwood.getInstance().getConfig().getPrefixes());
     private String locale = Locale.ENGLISH.toLanguageTag();
     @OneToOne(cascade={CascadeType.ALL}, optional = false)
-    @JoinColumn(name = "gameEntity_id", referencedColumnName = "id")
+    @JoinColumn(name = "game_id", referencedColumnName = "id")
     private final GameEntity gameEntity = new GameEntity();
     @OneToMany
     @NotNull
-    private Set<TemplateEntity> templates = new HashSet<>();
+    private final Set<TemplateEntity> templates = new HashSet<>();
     @OneToOne(cascade={CascadeType.ALL}, optional = false)
-    @JoinColumn(name = "karmaEntity_id", referencedColumnName = "id")
+    @JoinColumn(name = "karma_id", referencedColumnName = "id")
     private final KarmaEntity karmaEntity = new KarmaEntity();
     @OneToOne(cascade={CascadeType.ALL}, optional = false)
-    @JoinColumn(name = "notificationEntity_id", referencedColumnName = "id")
+    @JoinColumn(name = "notification_id", referencedColumnName = "id")
     private final NotificationEntity notificationEntity = new NotificationEntity();
     private Long maintainerId = null;
     public enum Plan {
@@ -80,7 +81,10 @@ public class GuildEntity {
     }
 
     public NotificationEntity getNotificationEntity() {
+        if(notificationEntity != null)
         return notificationEntity;
+        else
+            return null;
     }
 
     public Long getMaintainerId() {

@@ -11,6 +11,7 @@ import javax.annotation.Nullable;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "game")
 public class GameEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

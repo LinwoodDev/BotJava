@@ -33,7 +33,7 @@ public abstract class CommandManager implements Command {
                     message.getChannel().sendMessage(baseBundle.getString("NoPermission")).queue();
                 return true;
             }
-        if(args.length <= 0)message.getChannel().sendMessage(bundle.containsKey("Description")?bundle.getString("Description"): Objects.requireNonNull(getBundle(entity)).getString("Syntax")).queue();
+        if(args.length <= 0)Linwood.getInstance().getBaseCommand().getHelpCommand().sendHelp(entity, this, message.getTextChannel());
         else
             return false;
         return true;
@@ -48,6 +48,9 @@ public abstract class CommandManager implements Command {
                         ((CommandManager) command).commands())
                     if (current.aliases(entity).contains(arg.toLowerCase())) command = current;
         return command;
+    }
+    public Command getCommand(Class<? extends Command> commandClass){
+        return Arrays.stream(commands()).filter(command -> command.getClass().equals(commandClass)).findFirst().orElse(null);
     }
     private ResourceBundle getBaseBundle(GuildEntity entity){
         return ResourceBundle.getBundle("locale.Command", entity.getLocalization());

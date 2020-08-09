@@ -2,20 +2,30 @@ package com.github.codedoctorde.linwood.entity;
 
 import com.github.codedoctorde.linwood.Linwood;
 import com.sun.istack.NotNull;
+import com.sun.istack.Nullable;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.TextChannel;
 
 import javax.persistence.*;
 
 @Entity
+@Table(name = "notification")
 public class NotificationEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long id;
+    @Column
+    @Nullable
     private Long teamRoleId = null;
+    @Column
+    @Nullable
     private Long supportChatId = null;
+    @Column
+    @Nullable
     private Long statusChatId = null;
+    @Column
+    @Nullable
     private Long logChatId = null;
     @OneToOne(mappedBy = "notificationEntity")
     private GuildEntity guild;

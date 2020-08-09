@@ -35,7 +35,8 @@ public class Linwood {
     private final BaseCommand baseCommand;
     private static Linwood instance;
     private final DatabaseUtil database;
-    private final SingleApplicationManager singleApplicationManager;
+    private final SingleApplicationManager gameManager;
+    private final SingleApplicationManager audioManager;
     private MainConfig config;
     private final KarmaListener userListener = new KarmaListener();
     private final File configFile = new File("./config.json");
@@ -59,7 +60,8 @@ public class Linwood {
                 .addEventListeners(new ConnectionListener());
         activityChanger = new ActivityChanger();
         baseCommand = new BaseCommand();
-        singleApplicationManager = new SingleApplicationManager();
+        gameManager = new SingleApplicationManager();
+        audioManager = new SingleApplicationManager();
 
         // Read config file
         if(!configFile.exists()){
@@ -88,7 +90,7 @@ public class Linwood {
         }
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            getSingleApplicationManager().clearGames();
+            getGameManager().clearGames();
             logger.info("Shutting down...");
         }));
         configure();
@@ -132,8 +134,12 @@ public class Linwood {
         return config;
     }
 
-    public SingleApplicationManager getSingleApplicationManager() {
-        return singleApplicationManager;
+    public SingleApplicationManager getGameManager() {
+        return gameManager;
+    }
+
+    public SingleApplicationManager getAudioManager() {
+        return audioManager;
     }
 
     public WebInterface getWebInterface() {

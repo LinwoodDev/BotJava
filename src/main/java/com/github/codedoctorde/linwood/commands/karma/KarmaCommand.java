@@ -11,7 +11,8 @@ public class KarmaCommand extends CommandManager {
     @Override
     public @NotNull Command[] commands() {
         return new Command[]{
-                new KarmaInfoCommand()
+                new KarmaInfoCommand(),
+                new KarmaLeaderboardCommand()
         };
     }
 

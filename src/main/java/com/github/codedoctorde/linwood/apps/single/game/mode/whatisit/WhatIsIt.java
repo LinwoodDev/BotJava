@@ -11,6 +11,7 @@ import org.hibernate.Session;
 
 import java.text.MessageFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author CodeDoctorDE
@@ -141,7 +142,7 @@ public class WhatIsIt implements SingleApplicationMode {
             @Override
             public void run() {
                 stopTimer();
-                Linwood.getInstance().getSingleApplicationManager().stopGame(game);
+                Linwood.getInstance().getGameManager().stopGame(game);
             }
         }, 30 * 1000);
     }
@@ -174,28 +175,23 @@ public class WhatIsIt implements SingleApplicationMode {
 
     public void sendLeaderboard(Session session, TextChannel textChannel){
         var bundle = getBundle(session);
-        sendLeaderboard(0, "", " ", bundle, textChannel);
+        sendLeaderboard(bundle, textChannel);
     }
 
-    private void sendLeaderboard(int index, String description, String message, ResourceBundle bundle){
-        sendLeaderboard(index, description, message, bundle, getTextChannel());
-    }
-
-    private void sendLeaderboard(int index, String description, String message, ResourceBundle bundle, TextChannel textChannel){
+    private void sendLeaderboard(ResourceBundle bundle, TextChannel textChannel){
         var leaderboard = getLeaderboard();
         if(textChannel == null)
             return;
-        if(index >= leaderboard.size())
-            textChannel.sendMessage(message).embed(new EmbedBuilder().setTitle(bundle.getString("LeaderboardHeader")).setDescription(description).setFooter(bundle.getString("LeaderboardFooter")).build()).queue();
-        else{
-            Linwood.getInstance().getJda().retrieveUserById(leaderboard.get(index).getKey()).queue(user -> {
-                var entry = leaderboard.get(index);
-                String newDescription = description;
-                if(user != null) newDescription += (MessageFormat.format(bundle.getString("Leaderboard"), index + 1,
-                        user.getAsMention(), entry.getValue()));
-                sendLeaderboard(index +1, newDescription, message, bundle);
+            textChannel.getGuild().retrieveMembersByIds(leaderboard.stream().map(Map.Entry::getKey).collect(Collectors.toList())).onSuccess(members -> {
+                StringBuilder stringBuilder = new StringBuilder();
+                for (int i = 0; i < members.size(); i++) {
+                    var member = members.get(i);
+                    if (member != null)
+                        stringBuilder.append(MessageFormat.format(bundle.getString("Leaderboard"), i + 1,
+                                member.getAsMention(), leaderboard.get(i).getValue()));
+                }
+                textChannel.sendMessage(new EmbedBuilder().setTitle(bundle.getString("LeaderboardHeader")).setDescription(stringBuilder.toString()).setFooter(bundle.getString("LeaderboardFooter")).build()).queue();
             });
-        }
     }
 
     private ArrayList<Map.Entry<Long, Integer>> getLeaderboard() {

@@ -3,12 +3,14 @@ package com.github.codedoctorde.linwood.utils;
 import com.github.codedoctorde.linwood.Linwood;
 import com.github.codedoctorde.linwood.entity.GuildEntity;
 import com.github.codedoctorde.linwood.entity.MemberEntity;
+import com.sun.istack.Nullable;
 import net.dv8tion.jda.api.entities.Member;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.*;
 import org.hibernate.cfg.Configuration;
 
+import javax.persistence.criteria.Order;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -126,6 +128,22 @@ public class DatabaseUtil {
                 count++;
             }
         logger.info("Successfully clean up " + count + " guilds!");
+    }
+
+    public MemberEntity[] getKarmaLeaderboard(Session session, @Nullable Long guild){
+// Create CriteriaBuilder
+        var builder = session.getCriteriaBuilder();
+
+// Create CriteriaQuery
+        var cq = builder.createQuery(MemberEntity.class);
+        var from = cq.from(MemberEntity.class);
+        cq.orderBy(builder.desc(from.get("likes")), builder.asc(from.get("dislikes")));
+        var all = cq.select(from);
+        if(guild != null)
+            all.where(builder.equal(from.get("guildId"), guild));
+        var allQuery = session.createQuery(all);
+        allQuery.setMaxResults(10);
+        return allQuery.getResultList().toArray(new MemberEntity[0]);
     }
 
     public MemberEntity getMemberEntity(Session session, Member member){
