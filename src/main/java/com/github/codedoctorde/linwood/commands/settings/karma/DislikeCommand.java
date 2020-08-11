@@ -46,13 +46,13 @@ public class DislikeCommand implements Command {
     @Override
     public @NotNull Set<String> aliases(GuildEntity entity) {
         return new HashSet<>(Arrays.asList(
-                "like",
+                "dislike",
                 "dis-like"
         ));
     }
 
     @Override
     public @NotNull ResourceBundle getBundle(GuildEntity entity) {
-        return ResourceBundle.getBundle("locale.commands.settings.karma.Like", entity.getLocalization());
+        return ResourceBundle.getBundle("locale.commands.settings.karma.Dislike", entity.getLocalization());
     }
 }

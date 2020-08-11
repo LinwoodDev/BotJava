@@ -45,7 +45,7 @@ public class LikeCommand implements Command {
 
     @Override
     public @NotNull Set<String> aliases(GuildEntity entity) {
-        return new HashSet<>(Arrays.asList(
+        return new HashSet<>(Collections.singletonList(
                 "like"
         ));
     }
