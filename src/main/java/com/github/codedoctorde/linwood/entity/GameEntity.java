@@ -24,6 +24,9 @@ public class GameEntity {
     @OneToOne(mappedBy = "gameEntity")
     private GuildEntity guild;
 
+    public Long getId() {
+        return id;
+    }
 
     public GuildEntity getGuild() {
         return guild;

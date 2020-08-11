@@ -14,6 +14,7 @@ import org.jetbrains.annotations.NotNull;
 import java.awt.*;
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class NotificationListener {
@@ -24,8 +25,8 @@ public class NotificationListener {
         var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
         var entity = Linwood.getInstance().getDatabase().getGuildById(session, event.getGuild().getIdLong());
         var notification = entity.getNotificationEntity();
-        if(event.getChannel().getIdLong() ==
-                notification.getSupportChatId()){
+        if(Objects.equals(event.getChannel().getIdLong(),
+                notification.getSupportChatId())){
             var role = event.getGuild().getRoleById(notification.getTeamRoleId());
             var bundle = getBundle(entity);
             event.getGuild().findMembers(member -> member.getRoles().contains(role) && member.getOnlineStatus() == OnlineStatus.ONLINE).onSuccess(members -> {

@@ -16,16 +16,12 @@ public class NotificationEntity {
     @Column(name = "id")
     private Long id;
     @Column
-    @Nullable
     private Long teamRoleId = null;
     @Column
-    @Nullable
     private Long supportChatId = null;
     @Column
-    @Nullable
     private Long statusChatId = null;
     @Column
-    @Nullable
     private Long logChatId = null;
     @OneToOne(mappedBy = "notificationEntity")
     private GuildEntity guild;
@@ -60,6 +56,7 @@ public class NotificationEntity {
         this.teamRoleId = teamRoleId;
     }
 
+    @Nullable
     public Long getSupportChatId() {
         return supportChatId;
     }
