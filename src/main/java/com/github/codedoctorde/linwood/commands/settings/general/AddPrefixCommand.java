@@ -25,7 +25,10 @@ public class AddPrefixCommand implements Command {
             return false;
         else try {
             var prefix = String.join(" ", args);
-            entity.getPrefixes().add(prefix);
+            if(!entity.addPrefix(prefix)){
+                message.getChannel().sendMessage(bundle.getString("Invalid")).queue();
+                return true;
+            }
             entity.save(session);
             message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Success"), prefix)).queue();
         } catch (NullPointerException e) {
