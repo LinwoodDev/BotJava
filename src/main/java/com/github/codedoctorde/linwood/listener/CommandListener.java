@@ -6,6 +6,7 @@ import io.sentry.Sentry;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.SubscribeEvent;
+import org.apache.tools.ant.types.Commandline;
 
 import javax.annotation.Nonnull;
 import java.text.MessageFormat;
@@ -38,7 +39,7 @@ public class CommandListener {
             else if (content.startsWith(normalMention))
                 split = normalMention;
             if (split != null) {
-                var command = content.substring(split.length()).trim().split(" ");
+                var command = Commandline.translateCommandline(content.substring(split.length()));
                 var bundle = getBundle(guild);
                 var commandBundle = Linwood.getInstance().getBaseCommand().getBundle(guild);
                 try {

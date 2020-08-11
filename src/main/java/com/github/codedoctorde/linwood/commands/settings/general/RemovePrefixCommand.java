@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.entities.Message;
 import org.hibernate.Session;
 import org.jetbrains.annotations.NotNull;
 
+import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.ResourceBundle;
@@ -22,7 +23,8 @@ public class RemovePrefixCommand implements Command {
             message.getChannel().sendMessage(bundle.getString("Invalid")).queue();
             return true;
         }
-        message.getChannel().sendMessage(bundle.getString("Success")).queue();
+        entity.save(session);
+        message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Success"), args[0])).queue();
         return true;
     }
 
