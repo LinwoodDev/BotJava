@@ -1,3 +1,4 @@
+![Build Status](https://ci.codemc.io/job/CodeDoctorDE/job/Linwood/badge/icon)
 # Linwood
 Java bot with many features. Developed by @CodeDoctorDE (Discord: CodeDoctor#8719)
 
