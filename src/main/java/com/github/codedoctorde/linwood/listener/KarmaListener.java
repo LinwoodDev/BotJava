@@ -53,7 +53,7 @@ public class KarmaListener {
             return;
         maybeReset();
         event.retrieveMember().queue(donor -> {
-            var emote = event.getReactionEmote().isEmoji() ? event.getReactionEmote().getAsReactionCode() : event.getReactionEmote().getAsCodepoints();
+            var emote = event.getReactionEmote().isEmoji() ? event.getReactionEmote().getAsReactionCode() : event.getReactionEmote().getEmote().getAsMention();
             var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
             var entity = Linwood.getInstance().getDatabase().getGuildById(session, event.getGuild().getIdLong());
             var karma = entity.getKarmaEntity();

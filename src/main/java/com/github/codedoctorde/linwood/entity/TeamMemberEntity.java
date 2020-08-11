@@ -5,19 +5,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class GlobalGuildEntity {
+public class TeamMemberEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long id;
-    private final long guildId;
+    @OneToOne
+    private GuildEntity guild;
     private PermissionLevel permissionLevel;
-    private Long globalChat;
-    private final List<Long> syncRolesId = new ArrayList<>();
 
-    public GlobalGuildEntity(Long guildId, PermissionLevel level){
+    public TeamMemberEntity(GuildEntity guild, PermissionLevel level){
         permissionLevel = level;
-        this.guildId = guildId;
+        this.guild = guild;
+    }
+
+    public TeamMemberEntity() {
+
     }
 
     public PermissionLevel getPermissionLevel() {
@@ -32,19 +35,7 @@ public class GlobalGuildEntity {
         return id;
     }
 
-    public long getGuildId() {
-        return guildId;
-    }
-
-    public List<Long> getSyncRolesId() {
-        return syncRolesId;
-    }
-
-    public Long getGlobalChat() {
-        return globalChat;
-    }
-
-    public void setGlobalChat(Long globalChat) {
-        this.globalChat = globalChat;
+    public GuildEntity getGuild() {
+        return guild;
     }
 }

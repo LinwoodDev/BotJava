@@ -35,10 +35,7 @@ public class GuildEntity {
     @JoinColumn(name = "notification_id", referencedColumnName = "id")
     private final NotificationEntity notificationEntity = new NotificationEntity();
     private Long maintainerId = null;
-    public enum Plan {
-        DEFAULT, PRIVATE
-    }
-    private Plan plan = Plan.DEFAULT;
+    private GuildPlan plan = GuildPlan.COMMUNITY;
 
     public GuildEntity(){
     }
@@ -81,10 +78,7 @@ public class GuildEntity {
     }
 
     public NotificationEntity getNotificationEntity() {
-        if(notificationEntity != null)
         return notificationEntity;
-        else
-            return null;
     }
 
     public Long getMaintainerId() {
@@ -111,7 +105,16 @@ public class GuildEntity {
         return prefixes;
     }
 
-    public Plan getPlan() {
+    public GuildPlan getPlan() {
         return plan;
+    }
+
+    public void setPlan(GuildPlan plan) {
+        this.plan = plan;
+    }
+    public boolean addPrefix(String prefix){
+        if(plan.getPrefixLimit() == -1 || plan.getPrefixLimit() <= getPrefixes().size() + 1)
+            return getPrefixes().add(prefix);
+        return false;
     }
 }
