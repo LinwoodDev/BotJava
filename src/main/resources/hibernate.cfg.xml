@@ -17,5 +17,7 @@
         <mapping class="com.github.codedoctorde.linwood.entity.MemberEntity"/>
         <mapping class="com.github.codedoctorde.linwood.entity.KarmaEntity"/>
         <mapping class="com.github.codedoctorde.linwood.entity.NotificationEntity"/>
+        <mapping class="com.github.codedoctorde.linwood.entity.TeamEntity"/>
+        <mapping class="com.github.codedoctorde.linwood.entity.TeamMemberEntity"/>
     </session-factory>
 </hibernate-configuration>
