@@ -1,6 +1,8 @@
 package com.github.codedoctorde.linwood.commands;
 
 import com.github.codedoctorde.linwood.entity.GuildEntity;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import org.hibernate.Session;
 import org.jetbrains.annotations.NotNull;
@@ -27,8 +29,18 @@ public class ClearCommand implements Command {
             message.getChannel().sendMessage(bundle.getString("Invalid")).queue();
             return true;
         }
-        message.getChannel().getHistory().retrievePast(count).queue(messages -> message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Success"), messages.size())).queue());
+        if(count <= 0 || count > 100)
+            message.getChannel().sendMessage(bundle.getString("Between")).queue();
+        message.getChannel().getHistory().retrievePast(count).queue(messages -> {
+            messages.forEach(deleteMessage -> deleteMessage.delete().queue());
+            message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Success"), messages.size())).queue();
+        });
         return true;
+    }
+
+    @Override
+    public boolean hasPermission(Member member, GuildEntity entity, Session session) {
+        return member.hasPermission(Permission.MANAGE_CHANNEL);
     }
 
     @Override
