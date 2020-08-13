@@ -27,6 +27,8 @@ public class ClearCommand implements Command {
             message.getChannel().sendMessage(bundle.getString("Invalid")).queue();
             return true;
         }
+        if(count <= 0 || count > 100)
+            message.getChannel().sendMessage(bundle.getString("Between")).queue();
         message.getChannel().getHistory().retrievePast(count).queue(messages -> message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Success"), messages.size())).queue());
         return true;
     }
