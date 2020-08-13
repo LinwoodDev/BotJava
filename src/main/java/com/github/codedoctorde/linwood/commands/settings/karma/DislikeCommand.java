@@ -33,7 +33,7 @@ public class DislikeCommand implements Command {
             }
                 entity.getKarmaEntity().setDislikeEmote(emote);
                 entity.save(session);
-                message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Set"), entity.getKarmaEntity().getLikeEmote())).queue();
+                message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Set"), entity.getKarmaEntity().getDislikeEmote())).queue();
         }
         return true;
     }
