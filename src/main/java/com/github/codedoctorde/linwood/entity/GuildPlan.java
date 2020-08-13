@@ -8,8 +8,15 @@ public enum GuildPlan {
                 return 3;
             case PRO:
                 return 10;
-            case PRIVATE:
-                return -1;
+        }
+        return -1;
+    }
+    public int getTeamLimit(){
+        switch (this){
+            case COMMUNITY:
+                return 10;
+            case PRO:
+                return 50;
         }
         return -1;
     }
