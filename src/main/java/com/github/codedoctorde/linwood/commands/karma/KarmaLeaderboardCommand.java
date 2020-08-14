@@ -55,6 +55,6 @@ public class KarmaLeaderboardCommand implements Command {
 
     @Override
     public @NotNull ResourceBundle getBundle(GuildEntity entity) {
-        return ResourceBundle.getBundle("locale.commands.karma.Leaderbaord");
+        return ResourceBundle.getBundle("locale.commands.karma.Leaderboard");
     }
 }
