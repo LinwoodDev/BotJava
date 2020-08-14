@@ -31,7 +31,7 @@ public class KarmaLeaderboardCommand implements Command {
             description.append(bundle.getString("LeaderboardBodyStart"));
             for (int i = 0; i < members.size(); i++) {
                 var member = members.get(i);
-                description.append(String.format(bundle.getString("LeaderboardBody"), i, member.getUser().getAsMention(), leaderboard[i].getLikes() - leaderboard[i].getDislikes(),
+                description.append(String.format(bundle.getString("LeaderboardBody"), i + 1, member.getUser().getAsMention(), leaderboard[i].getLikes() - leaderboard[i].getDislikes(),
                         leaderboard[i].getLikes(), leaderboard[i].getDislikes()));
             }
             description.append(bundle.getString("LeaderboardBodyEnd"));
