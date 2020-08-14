@@ -24,12 +24,12 @@ public class LanguageCommand implements Command {
         if(args.length > 1)
             return false;
         if(args.length == 0)
-            message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Get"), entity.getLocalization().getDisplayName(entity.getLocalization()))).queue();
+            message.getChannel().sendMessageFormat(bundle.getString("Get"), entity.getLocalization().getDisplayName(entity.getLocalization())).queue();
         else {
             try {
                 entity.setLocale(args[0]);
                 entity.save(session);
-                message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Set"), entity.getLocalization().getDisplayName(entity.getLocalization()))).queue();
+                message.getChannel().sendMessageFormat(bundle.getString("Set"), entity.getLocalization().getDisplayName(entity.getLocalization())).queue();
             }catch(NullPointerException e){
                 message.getChannel().sendMessage(bundle.getString("NotValid")).queue();
             }

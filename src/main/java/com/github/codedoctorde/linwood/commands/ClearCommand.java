@@ -33,7 +33,7 @@ public class ClearCommand implements Command {
             message.getChannel().sendMessage(bundle.getString("Between")).queue();
         message.getChannel().getHistory().retrievePast(count).queue(messages -> {
             messages.forEach(deleteMessage -> deleteMessage.delete().queue());
-            message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Success"), messages.size())).queue();
+            message.getChannel().sendMessageFormat(bundle.getString("Success"), messages.size()).queue();
         });
         return true;
     }

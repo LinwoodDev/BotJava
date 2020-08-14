@@ -20,9 +20,9 @@ public class MainConfig {
         add(new ActivityConfig(Activity.ActivityType.LISTENING, "CodeDoctor"));
         add(new ActivityConfig(Activity.ActivityType.WATCHING, "github/CodeDoctorDE"));
         add(new ActivityConfig(Activity.ActivityType.DEFAULT, "games with players :D"));
-        add(new ActivityConfig(Activity.ActivityType.DEFAULT, "{0}"));
-        add(new ActivityConfig(Activity.ActivityType.WATCHING, "on {1} servers"));
-        add(new ActivityConfig(Activity.ActivityType.DEFAULT, "with {1} players"));
+        add(new ActivityConfig(Activity.ActivityType.DEFAULT, "%s"));
+        add(new ActivityConfig(Activity.ActivityType.WATCHING, "on %2$s servers"));
+        add(new ActivityConfig(Activity.ActivityType.DEFAULT, "with %2$s players"));
     }};
     private String supportURL = "https://discord.gg/97zFtYN";
 

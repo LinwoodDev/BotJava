@@ -46,9 +46,8 @@ public class CommandListener {
                 var commandBundle = Linwood.getInstance().getBaseCommand().getBundle(guild);
                 try {
                     if (!Linwood.getInstance().getBaseCommand().onCommand(session, event.getMessage(), guild, prefix, command))
-                        event.getChannel().sendMessage(MessageFormat.format(bundle.getString("Syntax"), commandBundle.getString("Syntax"))).queue();
-                }
-                catch(PermissionException e){
+                        event.getChannel().sendMessageFormat(bundle.getString("Syntax"), commandBundle.getString("Syntax")).queue();
+                }catch(PermissionException e){
                     event.getChannel().sendMessage(bundle.getString("InsufficientPermission")).queue();
                     e.printStackTrace();
                 }catch (Exception e) {

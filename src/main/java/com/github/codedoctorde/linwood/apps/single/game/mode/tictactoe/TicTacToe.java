@@ -57,8 +57,8 @@ public class TicTacToe extends Board implements SingleApplicationMode {
         var bundle = getBundle(session);
         Category finalCategory = category;
         ChannelAction<TextChannel> action;
-        action = finalCategory == null ?game.getGuild().createTextChannel(MessageFormat.format(bundle.getString("TextChannel"),game.getId())):
-                finalCategory.createTextChannel(MessageFormat.format(bundle.getString("TextChannel"),game.getId()));
+        action = finalCategory == null ?game.getGuild().createTextChannel(String.format(bundle.getString("TextChannel"),game.getId())):
+                finalCategory.createTextChannel(String.format(bundle.getString("TextChannel"),game.getId()));
         session.close();
         action.queue((textChannel -> {
             this.textChannelId = textChannel.getIdLong();

@@ -22,9 +22,9 @@ public class WhatIsItEvents {
     }
     @SubscribeEvent
     public void onGuess(MessageReceivedEvent event){
-        try {
+        try{
             if (event.getChannel().getIdLong() != whatIsIt.getTextChannelId() || event.getMember() == null)
-                ;
+                return;
             var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
             var message = event.getMessage();
             if (whatIsIt.getTextChannelId() == message.getTextChannel().getIdLong()){
@@ -32,7 +32,7 @@ public class WhatIsItEvents {
                 if (round != null && round.getWord() != null && message.getContentStripped().toLowerCase().contains(round.getWord().toLowerCase())) {
                     message.delete().queue();
                     if (!round.isGuesser(event.getMember()) && message.getAuthor().getIdLong() != round.getWriterId())
-                        event.getChannel().sendMessage(MessageFormat.format(whatIsIt.getBundle(session).getString("Guess"), event.getAuthor().getName(), round.guessCorrectly(event.getMember()))).queue(message1 -> {
+                        event.getChannel().sendMessageFormat(whatIsIt.getBundle(session).getString("Guess"), event.getAuthor().getName(), round.guessCorrectly(event.getMember())).queue(message1 -> {
                             var session1 = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
                             round.checkEverybody(session1);
                             session1.close();

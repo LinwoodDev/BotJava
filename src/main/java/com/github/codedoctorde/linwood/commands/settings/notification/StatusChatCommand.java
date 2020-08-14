@@ -27,7 +27,7 @@ public class StatusChatCommand implements Command {
             return false;
         if(args.length == 0)
             if(entity.getNotificationEntity().getStatusChatId() != null)
-                message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Get"), entity.getNotificationEntity().getStatusChat().getName(), entity.getNotificationEntity().getStatusChatId())).queue();
+                message.getChannel().sendMessageFormat(bundle.getString("Get"), entity.getNotificationEntity().getStatusChat().getName(), entity.getNotificationEntity().getStatusChatId()).queue();
             else
                 message.getChannel().sendMessage(bundle.getString("GetNull")).queue();
         else {
@@ -45,7 +45,7 @@ public class StatusChatCommand implements Command {
                 }
                 entity.getNotificationEntity().setStatusChat(channel);
                 entity.save(session);
-                message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Set"), entity.getNotificationEntity().getStatusChat().getAsMention(), entity.getNotificationEntity().getStatusChatId())).queue();
+                message.getChannel().sendMessageFormat(bundle.getString("Set"), entity.getNotificationEntity().getStatusChat().getAsMention(), entity.getNotificationEntity().getStatusChatId()).queue();
             }catch(NullPointerException e){
                 message.getChannel().sendMessage(bundle.getString("NotValid")).queue();
             }

@@ -21,7 +21,7 @@ public class ActivityConfig {
     public Activity build(Object... format){
         var status = name;
         if(format != null)
-            status = MessageFormat.format(status, format);
+            status = String.format(status, format);
         return Activity.of(type, status);
     }
 

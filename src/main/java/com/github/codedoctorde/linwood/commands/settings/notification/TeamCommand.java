@@ -23,7 +23,7 @@ public class TeamCommand implements Command {
             return false;
         if(args.length == 0)
             if(entity.getNotificationEntity().getTeamRoleId() != null)
-                message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Get"), entity.getNotificationEntity().getTeamRole().getName(), entity.getNotificationEntity().getTeamRoleId())).queue();
+                message.getChannel().sendMessageFormat(bundle.getString("Get"), entity.getNotificationEntity().getTeamRole().getName(), entity.getNotificationEntity().getTeamRoleId()).queue();
             else
                 message.getChannel().sendMessage(bundle.getString("GetNull")).queue();
         else {
@@ -45,7 +45,7 @@ public class TeamCommand implements Command {
                     return true;
                 entity.getNotificationEntity().setTeamRole(role);
                 entity.save(session);
-                message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Set"), entity.getNotificationEntity().getTeamRole().getName(), entity.getNotificationEntity().getTeamRoleId())).queue();
+                message.getChannel().sendMessageFormat(bundle.getString("Set"), entity.getNotificationEntity().getTeamRole().getName(), entity.getNotificationEntity().getTeamRoleId()).queue();
             }catch(NullPointerException e){
                 message.getChannel().sendMessage(bundle.getString("NotValid")).queue();
             }

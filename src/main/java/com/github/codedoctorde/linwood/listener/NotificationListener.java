@@ -60,7 +60,7 @@ public class NotificationListener {
         session.close();
     }
     public String statusFormat(String string, Member member){
-        return MessageFormat.format(string, member.getAsMention(), member.getUser().getAsTag());
+        return String.format(string, member.getAsMention(), member.getUser().getAsTag());
     }
 
     public @NotNull ResourceBundle getBundle(GuildEntity entity){
