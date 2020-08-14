@@ -129,8 +129,11 @@ public class DatabaseUtil {
             }
         logger.info("Successfully clean up " + count + " guilds!");
     }
-
     public MemberEntity[] getKarmaLeaderboard(Session session, @Nullable Long guild){
+        return getKarmaLeaderboard(session, guild, 20);
+    }
+
+    public MemberEntity[] getKarmaLeaderboard(Session session, @Nullable Long guild, int maxResults){
 // Create CriteriaBuilder
         var builder = session.getCriteriaBuilder();
 
@@ -142,7 +145,7 @@ public class DatabaseUtil {
         if(guild != null)
             all.where(builder.equal(from.get("guildId"), guild));
         var allQuery = session.createQuery(all);
-        allQuery.setMaxResults(10);
+        allQuery.setMaxResults(maxResults);
         return allQuery.getResultList().toArray(new MemberEntity[0]);
     }
 

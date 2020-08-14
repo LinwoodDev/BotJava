@@ -30,7 +30,7 @@ public class AddPrefixCommand implements Command {
                 return true;
             }
             entity.save(session);
-            message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Success"), prefix)).queue();
+            message.getChannel().sendMessageFormat(bundle.getString("Success"), prefix).queue();
         } catch (NullPointerException e) {
             message.getChannel().sendMessage(bundle.getString("NotValid")).queue();
         }

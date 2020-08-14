@@ -25,8 +25,10 @@ public class GameMasterCommand implements Command {
         if(args.length > 1)
             return false;
         if(args.length == 0)
-                message.getChannel().sendMessage((entity.getGameEntity().getGameCategoryId() != null)?MessageFormat.format(bundle.getString("Get"), entity.getGameEntity().getGameMasterRole().getName(), entity.getGameEntity().getGameMasterRoleId()):
-                        bundle.getString("GetNull")).queue();
+            if((entity.getGameEntity().getGameCategoryId() != null))
+                message.getChannel().sendMessageFormat(bundle.getString("Get"), entity.getGameEntity().getGameMasterRole().getName(), entity.getGameEntity().getGameMasterRoleId()).queue();
+        else
+            message.getChannel().sendMessage(bundle.getString("GetNull")).queue();
         else {
             try {
                 Role role = null;
@@ -48,7 +50,7 @@ public class GameMasterCommand implements Command {
                     return true;
                 entity.getGameEntity().setGameMasterRole(role);
                 entity.save(session);
-                message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Set"), entity.getGameEntity().getGameMasterRole().getName(), entity.getGameEntity().getGameMasterRoleId())).queue();
+                message.getChannel().sendMessageFormat(bundle.getString("Set"), entity.getGameEntity().getGameMasterRole().getName(), entity.getGameEntity().getGameMasterRoleId()).queue();
             }catch(NullPointerException e){
                 message.getChannel().sendMessage(bundle.getString("NotValid")).queue();
             }

@@ -28,10 +28,10 @@ public class KarmaLeaderboardCommand implements Command {
         var leaderboard = Linwood.getInstance().getDatabase().getKarmaLeaderboard(session, message.getGuild().getIdLong());
         message.getGuild().retrieveMembersByIds(Arrays.stream(leaderboard).map(MemberEntity::getMemberId).collect(Collectors.toList())).onSuccess(members -> {
             var description = new StringBuilder();
-            description.append(bundle.getString("LeaderboardBodyStart"));
+            description.append(bundle.getString("LeaderboardBodyStart") + "\n");
             for (int i = 0; i < members.size(); i++) {
                 var member = members.get(i);
-                description.append(MessageFormat.format(bundle.getString("LeaderboardBody"), i, member.getUser().getAsMention(), leaderboard[i].getLikes() - leaderboard[i].getDislikes(),
+                description.append(String.format(bundle.getString("LeaderboardBody"), i + 1, member.getUser().getAsMention(), leaderboard[i].getLikes() - leaderboard[i].getDislikes(),
                         leaderboard[i].getLikes(), leaderboard[i].getDislikes()));
             }
             description.append(bundle.getString("LeaderboardBodyEnd"));
@@ -55,6 +55,6 @@ public class KarmaLeaderboardCommand implements Command {
 
     @Override
     public @NotNull ResourceBundle getBundle(GuildEntity entity) {
-        return ResourceBundle.getBundle("locale.commands.karma.Leaderbaord");
+        return ResourceBundle.getBundle("locale.commands.karma.Leaderboard");
     }
 }

@@ -23,6 +23,19 @@ Java bot with many features. Developed by @CodeDoctorDE (Discord: CodeDoctor#871
 ### What is it?
 Guess what word the writer has chosen. This is a turn based game. Every player can join in.
 
+# Contributing
+
+To contribute, fork this repository and create a pull request. If you want you can also join my discord. If you contribute more, you can get the contributor role.
+
+## Branches
+
+Name | Description
+--- | ---
+feature/* | Every new feature will developed here
+hotfix/* | Fixing bugs will be developed here
+master | Every feature and hotfix will be merged here 
+stable | Stable changes will be merged here
+
 # Current servers
 You can visit my bot on this servers:
 * [KniffelGames](https://discord.gg/J7EUgvN)

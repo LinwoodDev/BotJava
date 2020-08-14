@@ -22,7 +22,7 @@ public class DislikeCommand implements Command {
             return false;
         if(args.length == 0)
             if(entity.getKarmaEntity().getDislikeEmote() != null)
-                message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Get"), entity.getKarmaEntity().getDislikeEmote())).queue();
+                message.getChannel().sendMessageFormat(bundle.getString("Get"), entity.getKarmaEntity().getDislikeEmote()).queue();
             else
                 message.getChannel().sendMessage(bundle.getString("GetNull")).queue();
         else {
@@ -33,7 +33,7 @@ public class DislikeCommand implements Command {
             }
                 entity.getKarmaEntity().setDislikeEmote(emote);
                 entity.save(session);
-                message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Set"), entity.getKarmaEntity().getDislikeEmote())).queue();
+                message.getChannel().sendMessageFormat(bundle.getString("Set"), entity.getKarmaEntity().getDislikeEmote()).queue();
         }
         return true;
     }

@@ -27,7 +27,7 @@ public class SupportChatCommand implements Command {
             return false;
         if(args.length == 0)
             if(entity.getNotificationEntity().getSupportChatId() != null)
-                message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Get"), entity.getNotificationEntity().getSupportChat().getName(), entity.getNotificationEntity().getSupportChatId())).queue();
+                message.getChannel().sendMessageFormat(bundle.getString("Get"), entity.getNotificationEntity().getSupportChat().getName(), entity.getNotificationEntity().getSupportChatId()).queue();
             else
                 message.getChannel().sendMessage(bundle.getString("GetNull")).queue();
         else {
@@ -44,7 +44,7 @@ public class SupportChatCommand implements Command {
             }
             entity.getNotificationEntity().setSupportChat(channel);
             entity.save(session);
-            message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Set"), entity.getNotificationEntity().getSupportChat().getAsMention(), entity.getNotificationEntity().getSupportChatId())).queue();
+            message.getChannel().sendMessageFormat(bundle.getString("Set"), entity.getNotificationEntity().getSupportChat().getAsMention(), entity.getNotificationEntity().getSupportChatId()).queue();
         }
         return true;
     }

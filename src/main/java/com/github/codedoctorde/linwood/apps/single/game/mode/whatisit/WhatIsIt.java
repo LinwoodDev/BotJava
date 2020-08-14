@@ -46,16 +46,12 @@ public class WhatIsIt implements SingleApplicationMode {
         var guild = GuildEntity.get(session, game.getGuildId());
         Category category = null;
         if(guild.getGameEntity().getGameCategoryId() != null)
-        category = guild.getGameEntity().getGameCategory();
+            category = guild.getGameEntity().getGameCategory();
         var bundle = getBundle(session);
         Category finalCategory = category;
-        ChannelAction<TextChannel> action;
-        if(finalCategory == null)
-            action = game.getGuild().createTextChannel(MessageFormat.format(bundle.getString("TextChannel"),game.getId()));
-        else
-            action = finalCategory.createTextChannel(MessageFormat.format(bundle.getString("TextChannel"),game.getId()));
         session.close();
-        action.queue((textChannel -> {
+        ((finalCategory == null)?game.getGuild().createTextChannel(String.format(bundle.getString("TextChannel"),game.getId())):
+                finalCategory.createTextChannel(String.format(bundle.getString("TextChannel"),game.getId()))).queue((textChannel -> {
             this.textChannelId = textChannel.getIdLong();
             if(finalCategory != null)
                 textChannel.getManager().setParent(finalCategory).queue();
@@ -84,10 +80,10 @@ public class WhatIsIt implements SingleApplicationMode {
         var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
         var bundle = getBundle(session);
         sendLeaderboard(session);
-        getTextChannel().sendMessage(MessageFormat.format(bundle.getString("Next"), currentRound + 1)).queue(message -> {
+        getTextChannel().sendMessageFormat(bundle.getString("Next"), currentRound + 1).queue(message -> {
             wantWriterMessageId = message.getIdLong();
             message.addReaction("\uD83D\uDD90️").queue(aVoid ->
-                message.addReaction("⛔").queue());
+                    message.addReaction("⛔").queue());
             stopTimer();
             timer.schedule(new TimerTask() {
                 @Override
@@ -117,7 +113,7 @@ public class WhatIsIt implements SingleApplicationMode {
         var bundle = getBundle(session);
         game.getGuild().retrieveMemberById(writerId).queue(member -> {
             var session1 = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
-            getTextChannel().sendMessage(MessageFormat.format(bundle.getString("Round"), member.getAsMention())).queue();
+            getTextChannel().sendMessageFormat(bundle.getString("Round"), member.getAsMention()).queue();
             sendLeaderboard(session1);
             session1.close();
             round.inputWriter();
@@ -164,7 +160,7 @@ public class WhatIsIt implements SingleApplicationMode {
             wantWriter.clear();
             if(currentRound >= maxRounds) finishGame();
             else
-            chooseNextPlayer();
+                chooseNextPlayer();
             session.close();
         });
     }
@@ -182,16 +178,16 @@ public class WhatIsIt implements SingleApplicationMode {
         var leaderboard = getLeaderboard();
         if(textChannel == null)
             return;
-            textChannel.getGuild().retrieveMembersByIds(leaderboard.stream().map(Map.Entry::getKey).collect(Collectors.toList())).onSuccess(members -> {
-                StringBuilder stringBuilder = new StringBuilder();
-                for (int i = 0; i < members.size(); i++) {
-                    var member = members.get(i);
-                    if (member != null)
-                        stringBuilder.append(MessageFormat.format(bundle.getString("Leaderboard"), i + 1,
-                                member.getAsMention(), leaderboard.get(i).getValue()));
-                }
-                textChannel.sendMessage(new EmbedBuilder().setTitle(bundle.getString("LeaderboardHeader")).setDescription(stringBuilder.toString()).setFooter(bundle.getString("LeaderboardFooter")).build()).queue();
-            });
+        textChannel.getGuild().retrieveMembersByIds(leaderboard.stream().map(Map.Entry::getKey).collect(Collectors.toList())).onSuccess(members -> {
+            StringBuilder stringBuilder = new StringBuilder();
+            for (int i = 0; i < members.size(); i++) {
+                var member = members.get(i);
+                if (member != null)
+                    stringBuilder.append(String.format(bundle.getString("Leaderboard"), i + 1,
+                            member.getAsMention(), leaderboard.get(i).getValue()));
+            }
+            textChannel.sendMessage(new EmbedBuilder().setTitle(bundle.getString("LeaderboardHeader")).setDescription(stringBuilder.toString()).setFooter(bundle.getString("LeaderboardFooter")).build()).queue();
+        });
     }
 
     private ArrayList<Map.Entry<Long, Integer>> getLeaderboard() {
@@ -251,12 +247,12 @@ public class WhatIsIt implements SingleApplicationMode {
         if(getRound() != null)
             return false;
         wantWriter.add(member.getIdLong());
-        getTextChannel().sendMessage(MessageFormat.format(getBundle(session).getString("Join"), member.getUser().getAsMention())).queue();
+        getTextChannel().sendMessageFormat(getBundle(session).getString("Join"), member.getUser().getAsMention()).queue();
         return true;
     }
 
     public void removeWriter(Session session, Member member) {
         wantWriter.remove(member.getIdLong());
-        getTextChannel().sendMessage(MessageFormat.format(getBundle(session).getString("Leave"), member.getUser().getAsMention())).queue();
+        getTextChannel().sendMessageFormat(getBundle(session).getString("Leave"), member.getUser().getAsMention()).queue();
     }
 }

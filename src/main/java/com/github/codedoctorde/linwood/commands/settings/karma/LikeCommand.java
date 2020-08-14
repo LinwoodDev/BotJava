@@ -22,7 +22,7 @@ public class LikeCommand implements Command {
             return false;
         if(args.length == 0)
             if(entity.getKarmaEntity().getLikeEmote() != null)
-                message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Get"), entity.getKarmaEntity().getLikeEmote())).queue();
+                message.getChannel().sendMessageFormat(bundle.getString("Get"), entity.getKarmaEntity().getLikeEmote()).queue();
             else
                 message.getChannel().sendMessage(bundle.getString("GetNull")).queue();
         else {
@@ -33,7 +33,7 @@ public class LikeCommand implements Command {
             }
             entity.getKarmaEntity().setLikeEmote(args[0]);
             entity.save(session);
-            message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Set"), entity.getKarmaEntity().getLikeEmote())).queue();
+            message.getChannel().sendMessageFormat(bundle.getString("Set"), entity.getKarmaEntity().getLikeEmote()).queue();
         }
         return true;
     }

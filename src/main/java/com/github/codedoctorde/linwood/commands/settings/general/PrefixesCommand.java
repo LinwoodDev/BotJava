@@ -20,7 +20,7 @@ public class PrefixesCommand implements Command {
         if(args.length != 0)
             return false;
         var bundle = getBundle(entity);
-        message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Get"), String.join("," , entity.getPrefixes()))).queue();
+        message.getChannel().sendMessageFormat(bundle.getString("Get"), String.join("," , entity.getPrefixes())).queue();
         return true;
     }
 
