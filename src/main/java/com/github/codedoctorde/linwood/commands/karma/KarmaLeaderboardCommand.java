@@ -28,7 +28,7 @@ public class KarmaLeaderboardCommand implements Command {
         var leaderboard = Linwood.getInstance().getDatabase().getKarmaLeaderboard(session, message.getGuild().getIdLong());
         message.getGuild().retrieveMembersByIds(Arrays.stream(leaderboard).map(MemberEntity::getMemberId).collect(Collectors.toList())).onSuccess(members -> {
             var description = new StringBuilder();
-            description.append(bundle.getString("LeaderboardBodyStart"));
+            description.append(bundle.getString("LeaderboardBodyStart") + "\n");
             for (int i = 0; i < members.size(); i++) {
                 var member = members.get(i);
                 description.append(String.format(bundle.getString("LeaderboardBody"), i + 1, member.getUser().getAsMention(), leaderboard[i].getLikes() - leaderboard[i].getDislikes(),
