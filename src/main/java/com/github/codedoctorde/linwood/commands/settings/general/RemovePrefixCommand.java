@@ -24,7 +24,7 @@ public class RemovePrefixCommand implements Command {
             return true;
         }
         entity.save(session);
-        message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Success"), args[0])).queue();
+        message.getChannel().sendMessageFormat(bundle.getString("Success"), args[0]).queue();
         return true;
     }
 

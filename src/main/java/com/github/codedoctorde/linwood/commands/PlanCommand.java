@@ -24,7 +24,7 @@ public class PlanCommand implements Command {
         var bundle = getBundle(entity);
         message.getChannel().sendMessage(new EmbedBuilder()
                 .addField(bundle.getString("Plan"), bundle.getString("Plan" + entity.getPlan().name()), false)
-                .addField(bundle.getString("PrefixLimitTitle"), MessageFormat.format(bundle.getString("PrefixLimitBody"), entity.getPlan().getPrefixLimit()), false)
+                .addField(bundle.getString("PrefixLimitTitle"), String.format(bundle.getString("PrefixLimitBody"), entity.getPlan().getPrefixLimit()), false)
                 .build()).queue();
         return true;
     }

@@ -20,7 +20,7 @@ public class DiceCommand implements Command {
         if(args.length > 0)
             return false;
         var bundle = getBundle(entity);
-        message.getChannel().sendMessage(MessageFormat.format(bundle.getString("Output"), random.nextInt(5) + 1)).queue();
+        message.getChannel().sendMessageFormat(bundle.getString("Output"), random.nextInt(5) + 1).queue();
         return true;
     }
 

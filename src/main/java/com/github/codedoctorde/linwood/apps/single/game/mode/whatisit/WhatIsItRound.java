@@ -72,7 +72,7 @@ public class WhatIsItRound {
                     String message = null;
                     switch (time) {
                         case 120:
-                            message = MessageFormat.format(bundle.getString("CountdownMinutes"), time / 60);
+                            message = String.format(bundle.getString("CountdownMinutes"), time / 60);
                             break;
                         case 60:
                             message = bundle.getString("CountdownMinute");
@@ -84,7 +84,7 @@ public class WhatIsItRound {
                         case 4:
                         case 3:
                         case 2:
-                            message = MessageFormat.format(bundle.getString("CountdownSeconds"), time);
+                            message = String.format(bundle.getString("CountdownSeconds"), time);
                             break;
                         case 1:
                             message = bundle.getString("CountdownSecond");
@@ -101,7 +101,7 @@ public class WhatIsItRound {
         var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
         var bundle = whatIsIt.getBundle(session);
         if(word != null)
-        whatIsIt.getTextChannel().sendMessage(MessageFormat.format(bundle.getString("Word"), word)).queue();
+        whatIsIt.getTextChannel().sendMessageFormat(bundle.getString("Word"), word).queue();
         stopTimer();
         session.close();
     }

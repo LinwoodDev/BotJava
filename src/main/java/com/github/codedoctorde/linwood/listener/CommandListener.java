@@ -44,7 +44,7 @@ public class CommandListener {
                 var commandBundle = Linwood.getInstance().getBaseCommand().getBundle(guild);
                 try {
                     if (!Linwood.getInstance().getBaseCommand().onCommand(session, event.getMessage(), guild, prefix, command))
-                        event.getChannel().sendMessage(MessageFormat.format(bundle.getString("Syntax"), commandBundle.getString("Syntax"))).queue();
+                        event.getChannel().sendMessageFormat(bundle.getString("Syntax"), commandBundle.getString("Syntax")).queue();
                 } catch (Exception e) {
                     event.getChannel().sendMessage(bundle.getString("Error")).queue();
                     e.printStackTrace();
