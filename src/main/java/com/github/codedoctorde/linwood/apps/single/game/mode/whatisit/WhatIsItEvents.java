@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.api.events.message.react.MessageReactionRemoveEvent;
+import net.dv8tion.jda.api.exceptions.PermissionException;
 import net.dv8tion.jda.api.hooks.SubscribeEvent;
 
 import java.text.MessageFormat;
@@ -40,6 +41,9 @@ public class WhatIsItEvents {
             }
             session.close();
         }
+        catch(PermissionException e){
+            e.printStackTrace();
+        }
         catch(Exception e){
             e.printStackTrace();
             Sentry.capture(e);
@@ -50,6 +54,9 @@ public class WhatIsItEvents {
         try {
             if (event.getChannelType() == ChannelType.PRIVATE && whatIsIt.getRound() != null && whatIsIt.getRound().getWriterId() == event.getAuthor().getIdLong() && whatIsIt.getRound().getWord() == null)
                 whatIsIt.getRound().startRound(event.getMessage().getContentStripped());
+        }
+        catch(PermissionException e){
+            e.printStackTrace();
         }
         catch(Exception e){
             e.printStackTrace();
@@ -83,6 +90,9 @@ public class WhatIsItEvents {
                 session.close();
             });
         }
+        catch(PermissionException e){
+            e.printStackTrace();
+        }
         catch(Exception e){
             e.printStackTrace();
             Sentry.capture(e);
@@ -98,6 +108,9 @@ public class WhatIsItEvents {
                     whatIsIt.removeWriter(session, member);
                 session.close();
             });
+        }
+        catch(PermissionException e){
+            e.printStackTrace();
         }
         catch(Exception e){
             e.printStackTrace();
