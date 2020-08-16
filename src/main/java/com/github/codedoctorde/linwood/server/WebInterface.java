@@ -8,6 +8,9 @@ import io.sentry.Sentry;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
 
 /**
  * @author CodeDoctorDE
@@ -21,12 +24,17 @@ public class WebInterface {
     }
 
     public void register(){
-        app.post("", WebInterface::info);
+        app.get("", WebInterface::info);
         app.post("login", AuthController::login);
     }
 
     public static void info(@NotNull Context context) throws IOException, InterruptedException {
-
+        context.json(new HashMap<>(){{
+            put("name", "Linwood");
+            put("version", Linwood.getInstance().getVersion());
+            put("id", Linwood.getInstance().getJda().getSelfUser().getId());
+            put("api-version", Collections.singletonList(0));
+        }});
     }
 
     public Javalin getApp() {
