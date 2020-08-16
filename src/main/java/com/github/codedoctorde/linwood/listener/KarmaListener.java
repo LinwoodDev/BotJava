@@ -3,6 +3,7 @@ package com.github.codedoctorde.linwood.listener;
 import com.github.codedoctorde.linwood.Linwood;
 import com.github.codedoctorde.linwood.entity.GuildEntity;
 import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.StatusChangeEvent;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
@@ -25,6 +26,8 @@ public class KarmaListener {
         if(disabledChannels.contains(event.getChannel().getIdLong()))
             return;
         maybeReset();
+        if(event.getChannelType() != ChannelType.TEXT)
+            return;
         event.retrieveMember().queue(donor -> {
             var emote = event.getReactionEmote().isEmoji() ? event.getReactionEmote().getAsReactionCode() : event.getReactionEmote().getEmote().getAsMention();
             var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
