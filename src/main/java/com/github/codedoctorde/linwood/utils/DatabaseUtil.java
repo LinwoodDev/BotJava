@@ -156,11 +156,11 @@ public class DatabaseUtil {
     public MemberEntity getMemberById(Session session, long guildId, long memberId){
         var cb = session.getCriteriaBuilder();
         var cq = cb.createQuery(MemberEntity.class);
-        var root = cq.from(MemberEntity.class);
+        var from = cq.from(MemberEntity.class);
 
-        cq.select(root).where(
-                cb.equal(root.get("guildId"), guildId),
-                cb.equal(root.get("memberId"), memberId)
+        cq = cq.select(from).where(
+                cb.equal(from.get("guildId"), guildId),
+                cb.equal(from.get("memberId"), memberId)
         );
         var result = session.createQuery(cq).list();
         if(result.size() < 1)

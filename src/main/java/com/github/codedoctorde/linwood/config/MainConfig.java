@@ -11,7 +11,7 @@ import java.util.*;
 public class MainConfig {
     private final Set<String> prefixes = new HashSet<>(Arrays.asList("+lw", "+linwood"));
     private String secret;
-    private int port = 9000;
+    private Integer port = 9000;
     private boolean userStats = false;
     private final Set<Long> owners = new HashSet<>(new ArrayList<>());
 
@@ -62,7 +62,7 @@ public class MainConfig {
         this.secret = secret;
     }
 
-    public int getPort() {
+    public Integer getPort() {
         return port;
     }
 

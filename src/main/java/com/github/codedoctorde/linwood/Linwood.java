@@ -95,8 +95,8 @@ public class Linwood {
         }));
         configure();
         activityChanger.start();
-        webInterface = new WebInterface();
-        new Thread(webInterface::start).start();
+            webInterface = new WebInterface();
+            new Thread(webInterface::start).start();
         System.out.println(" _     _  _      _      ____  ____  ____ \n" +
                 "/ \\   / \\/ \\  /|/ \\  /|/  _ \\/  _ \\/  _ \\\n" +
                 "| |   | || |\\ ||| |  ||| / \\|| / \\|| | \\|\n" +
