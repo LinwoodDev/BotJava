@@ -36,6 +36,14 @@ hotfix/* | Fixing bugs will be developed here
 master | Every feature and hotfix will be merged here 
 stable | Stable changes will be merged here
 
+## Languages
+
+Language | Author
+--- | ---
+English | @CodeDoctorDE
+German | @CodeDoctorDE
+
+
 # Current servers
 You can visit my bot on this servers:
 * [KniffelGames](https://discord.gg/J7EUgvN)
