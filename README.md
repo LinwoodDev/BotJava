@@ -1,5 +1,11 @@
-![Build Status](https://ci.codemc.io/job/CodeDoctorDE/job/Linwood/badge/icon)
 # Linwood
+![Jenkins](https://img.shields.io/jenkins/build?jobUrl=https%3A%2F%2Fci.codemc.io%2Fjob%2FCodeDoctorDE%2Fjob%2FLinwood&style=for-the-badge)
+![GitHub repo size](https://img.shields.io/github/repo-size/CodeDoctorDE/Linwood?style=for-the-badge)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/m/CodeDoctorDE/Linwood?style=for-the-badge)
+![GitHub commits since latest release (by date)](https://img.shields.io/github/commits-since/CodeDoctorDE/Linwood/latest?style=for-the-badge)
+![GitHub](https://img.shields.io/github/license/CodeDoctorDE/Linwood?style=for-the-badge)
+
+
 Java bot with many features. Developed by @CodeDoctorDE (Discord: CodeDoctor#8719)
 
 [![Linwood Trailer](https://img.youtube.com/vi/m1mac2d19Fo/0.jpg)](https://www.youtube.com/watch?v=m1mac2d19Fo)
