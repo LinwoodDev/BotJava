@@ -29,9 +29,11 @@ public class KarmaLeaderboardCommand implements Command {
         message.getGuild().retrieveMembersByIds(Arrays.stream(leaderboard).map(MemberEntity::getMemberId).collect(Collectors.toList())).onSuccess(members -> {
             var description = new StringBuilder();
             description.append(bundle.getString("LeaderboardBodyStart")).append("\n");
-            for (int i = 0; i < members.size(); i++) {
-                var member = members.get(i);
+            for (int i = 0; i < leaderboard.length; i++) {
+                int finalI = i;
+                var member = members.stream().filter(current -> current.getIdLong() == leaderboard[finalI].getId()).findFirst().orElse(null);
                 var me = leaderboard[i];
+                if(member != null)
                 description.append(String.format(bundle.getString("LeaderboardBody"), i + 1, member.getUser().getAsMention(), me.getKarma(), me.getLikes(), me.getDislikes()));
             }
             description.append(bundle.getString("LeaderboardBodyEnd"));
