@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.List;
 import java.util.Objects;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
@@ -139,11 +140,11 @@ public class DatabaseUtil {
 
 // Create CriteriaQuery
         var cq = builder.createQuery(MemberEntity.class);
-        var from = cq.from(MemberEntity.class);
-        cq.orderBy(builder.desc(from.get("likes")), builder.asc(from.get("dislikes")));
-        var all = cq.select(from);
+        var member = cq.from(MemberEntity.class);
+        var all = cq.select(member);
         if(guild != null)
-            all.where(builder.equal(from.get("guildId"), guild));
+            all.where(builder.equal(member.get("guildId"), guild));
+        all.orderBy(builder.desc(member.get("likes")), builder.asc(member.get("dislikes")));
         var allQuery = session.createQuery(all);
         allQuery.setMaxResults(maxResults);
         return allQuery.getResultList().toArray(new MemberEntity[0]);
