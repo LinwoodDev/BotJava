@@ -34,7 +34,7 @@ public class KarmaThanksCommand implements Command {
                    mentionedMessage.addReaction(entity.getKarmaEntity().getLikeEmote()).queue();
                    message.getChannel().sendMessage(new EmbedBuilder().setTitle(bundle.getString("Title"))
                            .setAuthor(mentionedMessage.getAuthor().getAsTag(), "https://discord.com", mentionedMessage.getAuthor().getAvatarUrl()).setDescription(mentionedMessage.getContentRaw())
-                           .addField(bundle.getString("JumpHeader"), String.format(bundle.getString("JumpBody"), entity.getKarmaEntity().getLikeEmote(), mentionedMessage.getJumpUrl()), false).build()).queue();
+                           .addField(String.format(bundle.getString("JumpHeader"), entity.getKarmaEntity().getLikeEmote()), String.format(bundle.getString("JumpBody"), mentionedMessage.getJumpUrl()), false).build()).queue();
                }});
         }
         return true;
