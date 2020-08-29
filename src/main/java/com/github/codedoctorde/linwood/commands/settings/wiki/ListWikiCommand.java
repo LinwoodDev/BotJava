@@ -1,8 +1,9 @@
-package com.github.codedoctorde.linwood.commands.settings.template;
+package com.github.codedoctorde.linwood.commands.settings.wiki;
 
 import com.github.codedoctorde.linwood.commands.Command;
-import com.github.codedoctorde.linwood.commands.CommandManager;
 import com.github.codedoctorde.linwood.entity.GuildEntity;
+import net.dv8tion.jda.api.entities.Message;
+import org.hibernate.Session;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ResourceBundle;
@@ -11,14 +12,10 @@ import java.util.Set;
 /**
  * @author CodeDoctorDE
  */
-public class TemplateCommand extends CommandManager {
+public class ListWikiCommand implements Command {
     @Override
-    public @NotNull Command[] commands() {
-        return new Command[]{
-                new CreateTemplateCommand(),
-                new ListTemplateCommand(),
-                new RemoveTemplateCommand()
-        };
+    public boolean onCommand(Session session, Message message, GuildEntity entity, String label, String[] args) {
+        return false;
     }
 
     @Override

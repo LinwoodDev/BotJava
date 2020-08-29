@@ -1,4 +1,4 @@
-package com.github.codedoctorde.linwood.commands.settings.template;
+package com.github.codedoctorde.linwood.commands.settings.wiki;
 
 import com.github.codedoctorde.linwood.commands.Command;
 import com.github.codedoctorde.linwood.entity.GuildEntity;
@@ -12,7 +12,7 @@ import java.util.Set;
 /**
  * @author CodeDoctorDE
  */
-public class ListTemplateCommand implements Command {
+public class CreateWikiCommand implements Command {
     @Override
     public boolean onCommand(Session session, Message message, GuildEntity entity, String label, String[] args) {
         return false;

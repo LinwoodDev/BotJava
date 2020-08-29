@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Table(name = "templates", uniqueConstraints = {
         @UniqueConstraint(columnNames = "ID")
 })
-public class TemplateEntity {
+public class WikiEntity {
     @Column(name="ID", unique = true, nullable = false)
     @Id
     @GeneratedValue
@@ -17,11 +17,11 @@ public class TemplateEntity {
     @ManyToOne
     @JoinColumn(name="server_id", nullable=false)
     private GuildEntity server;
-    @Column(name="templateName", nullable = false)
+    @Column(nullable = false)
     String name;
     @Column(name="content", nullable = false, columnDefinition = "TEXT")
     String content;
-    public TemplateEntity(){
+    public WikiEntity(){
 
     }
 
