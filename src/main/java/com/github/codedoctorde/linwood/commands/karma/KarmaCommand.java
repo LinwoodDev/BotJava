@@ -13,7 +13,8 @@ public class KarmaCommand extends CommandManager {
         return new Command[]{
                 new KarmaInfoCommand(),
                 new KarmaLeaderboardCommand(),
-                new KarmaThanksCommand()
+                new KarmaThanksCommand(),
+                new KarmaGuideCommand()
         };
     }
 
