@@ -1,5 +1,7 @@
 package com.github.codedoctorde.linwood.entity;
 
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 
 /**
@@ -18,9 +20,11 @@ public class WikiEntity {
     @JoinColumn(name="server_id", nullable=false)
     private GuildEntity server;
     @Column(nullable = false)
-    String name;
+    private String name;
     @Column(name="content", nullable = false, columnDefinition = "TEXT")
     String content;
+    @Column(nullable = false)
+    private Visibility visibility = Visibility.INTERNAL;
     public WikiEntity(){
 
     }
@@ -43,5 +47,13 @@ public class WikiEntity {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public Visibility getVisibility() {
+        return visibility;
+    }
+
+    public void setVisibility(Visibility visibility) {
+        this.visibility = visibility;
     }
 }

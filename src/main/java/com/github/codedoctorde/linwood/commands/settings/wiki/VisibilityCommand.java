@@ -14,13 +14,10 @@ import java.util.Set;
 /**
  * @author CodeDoctorDE
  */
-public class AddWikiContributorCommand implements Command {
-
+public class VisibilityCommand implements Command {
     @Override
     public boolean onCommand(Session session, Message message, GuildEntity entity, String label, String[] args) {
-        if(args.length == 0)
         return false;
-        return true;
     }
 
     @Override

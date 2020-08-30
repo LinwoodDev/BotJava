@@ -2,6 +2,8 @@ package com.github.codedoctorde.linwood.commands.settings.wiki;
 
 import com.github.codedoctorde.linwood.commands.Command;
 import com.github.codedoctorde.linwood.entity.GuildEntity;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import org.hibernate.Session;
 import org.jetbrains.annotations.NotNull;
@@ -15,7 +17,9 @@ import java.util.Set;
 public class CreateWikiCommand implements Command {
     @Override
     public boolean onCommand(Session session, Message message, GuildEntity entity, String label, String[] args) {
+        if(args.length != 2)
         return false;
+        return true;
     }
 
     @Override
@@ -26,5 +30,10 @@ public class CreateWikiCommand implements Command {
     @Override
     public @NotNull ResourceBundle getBundle(GuildEntity entity) {
         return null;
+    }
+
+    @Override
+    public boolean hasPermission(Member member, GuildEntity entity, Session session) {
+        return member.hasPermission(Permission.MANAGE_SERVER) || entity.getMaintainerId() != null && member.getRoles().contains(member.getGuild().getRoleById(entity.getMaintainerId()));
     }
 }
