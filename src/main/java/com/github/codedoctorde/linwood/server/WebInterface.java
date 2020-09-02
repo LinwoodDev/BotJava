@@ -3,19 +3,15 @@ package com.github.codedoctorde.linwood.server;
 
 import com.github.codedoctorde.linwood.Linwood;
 import io.javalin.Javalin;
-import io.javalin.core.JavalinServer;
 import io.javalin.http.Context;
+import io.javalin.plugin.openapi.OpenApiOptions;
+import io.javalin.plugin.openapi.OpenApiPlugin;
+import io.javalin.plugin.openapi.ui.ReDocOptions;
+import io.javalin.plugin.openapi.ui.SwaggerOptions;
 import io.sentry.Sentry;
-import org.eclipse.jetty.server.HttpConfiguration;
-import org.eclipse.jetty.server.SecureRequestCustomizer;
-import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.ServerConnector;
-import org.eclipse.jetty.util.ssl.SslContextFactory;
+import io.swagger.v3.oas.models.info.Info;
 import org.jetbrains.annotations.NotNull;
 
-import javax.crypto.Cipher;
-import java.io.IOException;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 
@@ -26,7 +22,9 @@ public class WebInterface {
     private final Javalin app;
 
     public WebInterface(){
-        app = Javalin.create();
+        app = Javalin.create(config -> {
+            config.registerPlugin(new OpenApiPlugin(getOpenApiOptions()));
+        });
         register();
     }
 
@@ -56,6 +54,14 @@ public class WebInterface {
             e.printStackTrace();
             Sentry.capture(e);
         }
+    }
+    private OpenApiOptions getOpenApiOptions() {
+        var applicationInfo = new Info()
+                .version(Linwood.getInstance().getVersion())
+                .description("RestAPI for the discord bot Linwood!");
+        return new OpenApiOptions(applicationInfo).path("/docs")
+                .swagger(new SwaggerOptions("/swagger").title("My Swagger Documentation")) // Activate the swagger ui
+                .reDoc(new ReDocOptions("/redoc").title("My ReDoc Documentation")); // Active the ReDoc UI;
     }
 
     /*//Function for creating the Http2Server
