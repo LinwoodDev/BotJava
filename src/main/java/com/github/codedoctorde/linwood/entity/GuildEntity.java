@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.entities.Role;
 import org.hibernate.Session;
 
 import javax.persistence.*;
+import java.sql.SQLException;
 import java.util.*;
 
 /**
@@ -116,5 +117,9 @@ public class GuildEntity {
         if(plan.getPrefixLimit() == -1 || plan.getPrefixLimit() <= getPrefixes().size() + 1)
             return getPrefixes().add(prefix);
         return false;
+    }
+    public static void setup() throws SQLException {
+        var connection = Linwood.getInstance().getDatabase().getConnection();
+        connection.prepareStatement("CREATE TABLE IF NOT EXISTS guilds()");
     }
 }
