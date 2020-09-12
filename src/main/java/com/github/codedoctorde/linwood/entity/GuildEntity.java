@@ -12,29 +12,13 @@ import java.util.*;
 /**
  * @author CodeDoctorDE
  */
-@Entity
-@Table(name = "guild")
 public class GuildEntity {
-    @Id
-    @Column(name="id", unique = true, nullable = false)
     private long guildId;
-    @ElementCollection
-    @CollectionTable(name="Prefixes", joinColumns=@JoinColumn(name="guild_id"))
-    @Column(name="prefix")
-    private final Set<String> prefixes = new HashSet<>(Linwood.getInstance().getConfig().getPrefixes());
+
     private String locale = Locale.ENGLISH.toLanguageTag();
-    @OneToOne(cascade={CascadeType.ALL}, optional = false)
-    @JoinColumn(name = "game_id", referencedColumnName = "id")
-    private final GameEntity gameEntity = new GameEntity();
-    @OneToMany
-    @NotNull
-    private final Set<TemplateEntity> templates = new HashSet<>();
-    @OneToOne(cascade={CascadeType.ALL}, optional = false)
-    @JoinColumn(name = "karma_id", referencedColumnName = "id")
-    private final KarmaEntity karmaEntity = new KarmaEntity();
-    @OneToOne(cascade={CascadeType.ALL}, optional = false)
-    @JoinColumn(name = "notification_id", referencedColumnName = "id")
-    private final NotificationEntity notificationEntity = new NotificationEntity();
+    private int gameEntityId;
+    private int karmaEntityId;
+    private int notificationEntityId;
     private Long maintainerId = null;
     private GuildPlan plan = GuildPlan.COMMUNITY;
 
@@ -60,10 +44,9 @@ public class GuildEntity {
         this.locale = locale;
     }
 
-    public void save(Session session){
-        var t = session.beginTransaction();
-        session.saveOrUpdate(this);
-        t.commit();
+    public void save(){
+        var connection = Linwood.getInstance().getDatabase().getConnection();
+
     }
 
     public static GuildEntity get(Session session, long guildId){
@@ -121,5 +104,9 @@ public class GuildEntity {
     public static void setup() throws SQLException {
         var connection = Linwood.getInstance().getDatabase().getConnection();
         connection.prepareStatement("CREATE TABLE IF NOT EXISTS guilds()");
+    }
+    public static void get(int guildId){
+        var connection = Linwood.getInstance().getDatabase().getConnection();
+        var entity = new GuildEntity();
     }
 }
