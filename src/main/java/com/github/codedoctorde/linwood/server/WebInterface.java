@@ -32,7 +32,7 @@ public class WebInterface {
 
     public void register(){
         app.get("", WebInterface::info);
-        app.post("login", AuthController::login);
+        app.post("login", SessionController::login);
     }
 
     public static void info(@NotNull Context context) {
