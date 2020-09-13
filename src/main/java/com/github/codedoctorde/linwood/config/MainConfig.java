@@ -26,6 +26,8 @@ public class MainConfig {
     }};
     private String supportURL = "https://discord.gg/97zFtYN";
     private String redirectURI = "https://app.linwood.tk/#/callback";
+    private String token = "";
+    private String clientSecret = "";
 
     public MainConfig(){
 
@@ -81,5 +83,25 @@ public class MainConfig {
 
     public void setRedirectURI(String redirectURI) {
         this.redirectURI = redirectURI;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public String getClientSecret() {
+        return clientSecret;
+    }
+
+    public void setClientSecret(String clientSecret) {
+        this.clientSecret = clientSecret;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public void setPort(Integer port) {
+        this.port = port;
     }
 }

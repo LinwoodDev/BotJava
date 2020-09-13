@@ -28,7 +28,8 @@ public class SessionController {
         var client = HttpClient.newHttpClient();
         var uri = new URIBuilder("https://discord.com/api/v6/oauth2/token").addParameter("grant_type", "authorization_code")
                 .addParameter("scope", "identify email connections").addParameter("client_id", Linwood.getInstance().getJda().getSelfUser().getId())
-                .addParameter("client_secret", Linwood.getInstance().getToken()).addParameter("code",code).addParameter("redirect_uri", Linwood.getInstance().getConfig().getRedirectURI()).build();
+                .addParameter("client_secret", Linwood.getInstance().getConfig().getToken()).addParameter("code",code)
+                .addParameter("redirect_uri", Linwood.getInstance().getConfig().getRedirectURI()).build();
         var request = HttpRequest.newBuilder(uri).build();
         var response = client.send(request,
                 HttpResponse.BodyHandlers.ofString());
