@@ -108,7 +108,7 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>5.4.20.Final</version>
+            <version>5.4.21.Final</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
@@ -141,14 +141,14 @@
         <dependency>
             <groupId>io.javalin</groupId>
             <artifactId>javalin</artifactId>
-            <version>3.9.1</version>
+            <version>3.10.1</version>
         </dependency>
 
 
         <dependency>
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
-            <version>4.2.0_197</version>
+            <version>4.2.0_204</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
