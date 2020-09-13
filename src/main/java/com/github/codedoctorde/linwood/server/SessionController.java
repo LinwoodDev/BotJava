@@ -16,7 +16,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Objects;
 
-public class AuthController {
+public class SessionController {
     public static void login(@NotNull Context context) throws IOException, InterruptedException, URISyntaxException {
         var code = context.formParam("code");
         if(code == null) {
