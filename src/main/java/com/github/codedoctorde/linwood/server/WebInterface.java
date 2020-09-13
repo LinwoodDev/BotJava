@@ -10,8 +10,10 @@ import io.javalin.plugin.openapi.ui.ReDocOptions;
 import io.javalin.plugin.openapi.ui.SwaggerOptions;
 import io.sentry.Sentry;
 import io.swagger.v3.oas.models.info.Info;
+import org.eclipse.jetty.server.session.*;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
 import java.util.Collections;
 import java.util.HashMap;
 
@@ -60,10 +62,46 @@ public class WebInterface {
                 .version(Linwood.getInstance().getVersion())
                 .description("RestAPI for the discord bot Linwood!");
         return new OpenApiOptions(applicationInfo).path("/docs")
-                .swagger(new SwaggerOptions("/swagger").title("My Swagger Documentation")) // Activate the swagger ui
-                .reDoc(new ReDocOptions("/redoc").title("My ReDoc Documentation")); // Active the ReDoc UI;
+                .swagger(new SwaggerOptions("/swagger").title("Swagger Documentation for the Linwood Discord Bot")) // Activate the swagger ui
+                .reDoc(new ReDocOptions("/redoc").title("ReDoc Documentation for the Linwood Discord Bot")); // Active the ReDoc UI;
+    }
+    SessionHandler fileSessionHandler() {
+        SessionHandler sessionHandler = new SessionHandler();
+        SessionCache sessionCache = new DefaultSessionCache(sessionHandler);
+        sessionCache.setSessionDataStore(fileSessionDataStore());
+        sessionHandler.setSessionCache(sessionCache);
+        sessionHandler.setHttpOnly(true);
+        // make additional changes to your SessionHandler here
+        return sessionHandler;
     }
 
+    FileSessionDataStore fileSessionDataStore() {
+        FileSessionDataStore fileSessionDataStore = new FileSessionDataStore();
+        File baseDir = new File(System.getProperty("java.io.tmpdir"));
+        File storeDir = new File(baseDir, "javalin-session-store");
+        storeDir.mkdir();
+        fileSessionDataStore.setStoreDir(storeDir);
+        return fileSessionDataStore;
+    }
+    SessionHandler sqlSessionHandler(String driver, String url) {
+        SessionHandler sessionHandler = new SessionHandler();
+        SessionCache sessionCache = new DefaultSessionCache(sessionHandler);
+        sessionCache.setSessionDataStore(
+                jdbcDataStoreFactory(driver, url).getSessionDataStore(sessionHandler)
+        );
+        sessionHandler.setSessionCache(sessionCache);
+        sessionHandler.setHttpOnly(true);
+        // make additional changes to your SessionHandler here
+        return sessionHandler;
+    }
+
+    JDBCSessionDataStoreFactory jdbcDataStoreFactory(String driver, String url) {
+        DatabaseAdaptor databaseAdaptor = new DatabaseAdaptor();
+        databaseAdaptor.setDriverInfo(driver, url);
+        JDBCSessionDataStoreFactory jdbcSessionDataStoreFactory = new JDBCSessionDataStoreFactory();
+        jdbcSessionDataStoreFactory.setDatabaseAdaptor(databaseAdaptor);
+        return jdbcSessionDataStoreFactory;
+    }
     /*//Function for creating the Http2Server
     public Server createHttp2Server() {
 

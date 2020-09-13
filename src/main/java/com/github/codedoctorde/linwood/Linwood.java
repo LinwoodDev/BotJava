@@ -30,6 +30,7 @@ import java.io.*;
 public class Linwood {
     private final Object sentry;
     private final WebInterface webInterface;
+    private final String token;
     private JDA jda;
     private final ActivityChanger activityChanger;
     private final BaseCommand baseCommand;
@@ -49,6 +50,7 @@ public class Linwood {
     }
     public Linwood(String token){
         instance = this;
+        this.token = token;
         Sentry.init();
         sentry = SentryClientFactory.sentryClient();
         var builder = JDABuilder.createDefault(token)
@@ -163,5 +165,9 @@ public class Linwood {
 
     public KarmaListener getUserListener() {
         return userListener;
+    }
+
+    public String getToken() {
+        return token;
     }
 }
