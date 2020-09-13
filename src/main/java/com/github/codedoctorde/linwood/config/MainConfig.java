@@ -25,6 +25,7 @@ public class MainConfig {
         add(new ActivityConfig(Activity.ActivityType.DEFAULT, "with %2$s players"));
     }};
     private String supportURL = "https://discord.gg/97zFtYN";
+    private String redirectURI = "https://app.linwood.tk/#/callback";
 
     public MainConfig(){
 
@@ -72,5 +73,13 @@ public class MainConfig {
 
     public Set<Long> getOwners() {
         return owners;
+    }
+
+    public String getRedirectURI() {
+        return redirectURI;
+    }
+
+    public void setRedirectURI(String redirectURI) {
+        this.redirectURI = redirectURI;
     }
 }
