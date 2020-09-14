@@ -10,24 +10,30 @@ Java bot with many features. Developed by @CodeDoctorDE (Discord: CodeDoctor#871
 
 [![Linwood Trailer](https://img.youtube.com/vi/m1mac2d19Fo/0.jpg)](https://www.youtube.com/watch?v=m1mac2d19Fo)
 
-**Table of contents**
-* [Features](#features)
-    * [Core](#core)
-    * [Games](#games)
-        * [What is it](#what-is-it)
-* [Current servers](#current-servers)
-
 # Features
-## Core
+
 * Custom prefixes (use @Linwood to use it as prefix)
 * Multi language: use german or english for your server
 * Category system for commands
 * Configurable roles/categories
 
-## Games
+## Module system
+
+### Games
 * Game master system (use a special role to start/stop games)
-### What is it?
+
+#### What is it?
 Guess what word the writer has chosen. This is a turn based game. Every player can join in.
+
+### Notifications
+* Send a message if a team member is online
+* Give a message if no supporter is online
+
+### Karma
+* An alternative level system.
+* Give points by reacting on messages
+* Give more points if you have a higher rank on the discord
+* Be on top of the leaderboard
 
 # Contributing
 
