@@ -1,9 +1,9 @@
 # Linwood
-![Jenkins](https://img.shields.io/jenkins/build?jobUrl=https%3A%2F%2Fci.codemc.io%2Fjob%2FCodeDoctorDE%2Fjob%2FLinwood&style=for-the-badge)
-![GitHub repo size](https://img.shields.io/github/repo-size/CodeDoctorDE/Linwood?style=for-the-badge)
-![GitHub commit activity](https://img.shields.io/github/commit-activity/m/CodeDoctorDE/Linwood?style=for-the-badge)
-![GitHub commits since latest release (by date)](https://img.shields.io/github/commits-since/CodeDoctorDE/Linwood/latest?style=for-the-badge)
-![GitHub](https://img.shields.io/github/license/CodeDoctorDE/Linwood?style=for-the-badge)
+[![Jenkins](https://img.shields.io/jenkins/build?jobUrl=https%3A%2F%2Fci.codemc.io%2Fjob%2FCodeDoctorDE%2Fjob%2FLinwood&style=for-the-badge)](https://ci.codemc.io/job/CodeDoctorDE/job/ItemMods)
+[![GitHub repo size](https://img.shields.io/github/repo-size/CodeDoctorDE/Linwood?style=for-the-badge)](https://github.com/CodeDoctorDE/Linwood/archive/master.zip)
+[![GitHub commit activity](https://img.shields.io/github/commit-activity/m/CodeDoctorDE/Linwood?style=for-the-badge)](https://github.com/CodeDoctorDE/Linwood/commits/master)
+[![GitHub commits since latest release (by date)](https://img.shields.io/github/commits-since/CodeDoctorDE/Linwood/latest?style=for-the-badge)](https://github.com/CodeDoctorDE/Linwood/releases/latest)
+[![GitHub](https://img.shields.io/github/license/CodeDoctorDE/Linwood?style=for-the-badge)](LICENSE)
 
 
 Java bot with many features. Developed by @CodeDoctorDE (Discord: CodeDoctor#8719)
