@@ -14,6 +14,8 @@ public class TeamEntity {
     private String name;
     @OneToMany
     private final List<TeamMemberEntity> guilds = new ArrayList<>();
+    @OneToMany
+    private final List<ChannelEntity> channels = new ArrayList<>();
 
     public TeamEntity(){}
     public TeamEntity(String name, GuildEntity ownerGuild, GuildEntity... memberGuilds){
@@ -31,6 +33,6 @@ public class TeamEntity {
     }
 
     public void delete(Session session) {
-
+        session.delete(this);
     }
 }
