@@ -1,5 +1,7 @@
 package com.github.codedoctorde.linwood.entity;
 
+import org.hibernate.Session;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,5 +28,9 @@ public class TeamEntity {
 
     public String getName() {
         return name;
+    }
+
+    public void delete(Session session) {
+
     }
 }

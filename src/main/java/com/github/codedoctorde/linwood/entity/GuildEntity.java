@@ -138,7 +138,7 @@ public class GuildEntity {
         var team = cq.from(TeamMemberEntity.class);
         var all = cq.select(team);
         all.where(builder.equal(team.get("guild"), this));
-        all.where(builder.notEqual(team.get("level"), this));
+        all.where(builder.notEqual(team.get("level"), PermissionLevel.INVITED));
         if(level != null)
             all.where(builder.equal(team.get("level"), level));
         return session.createQuery(all).getResultList().toArray(new TeamMemberEntity[0]);

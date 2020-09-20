@@ -1,5 +1,6 @@
 package com.github.codedoctorde.linwood.commands.settings.team;
 
+import com.github.codedoctorde.linwood.Linwood;
 import com.github.codedoctorde.linwood.commands.Command;
 import com.github.codedoctorde.linwood.entity.GuildEntity;
 import net.dv8tion.jda.api.Permission;
@@ -19,7 +20,12 @@ import java.util.Set;
 public class DeleteTeamCommand implements Command {
     @Override
     public boolean onCommand(Session session, Message message, GuildEntity entity, String label, String[] args) {
+        if(args.length != 1)
         return false;
+        var bundle = getBundle(entity);
+        Linwood.getInstance().getDatabase().getTeam(session, args[0]).delete(session);
+        message.getChannel().sendMessageFormat(bundle.getString("Success"), args[0]);
+        return true;
     }
 
     @Override
