@@ -35,4 +35,11 @@ public class TeamEntity {
     public void delete(Session session) {
         session.delete(this);
     }
+    public ChannelEntity getChannelByName(String name){
+        return channels.stream().filter(channel -> channel.getName().equals(name)).findFirst().orElse(null);
+    }
+
+    public List<ChannelEntity> getChannels() {
+        return channels;
+    }
 }

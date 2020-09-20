@@ -1,7 +1,9 @@
 package com.github.codedoctorde.linwood.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Entity
@@ -18,8 +20,9 @@ public class TeamMemberEntity {
     @Column(name = "guildId")
     private GuildEntity guild;
     private PermissionLevel level;
-    @ElementCollection
-    private final Map<String, Long> channels = new HashMap<>();
+    @OneToMany
+    @JoinColumn
+    private final List<ChannelEntity> channels = new ArrayList<>();
 
     public TeamMemberEntity(GuildEntity guild, TeamEntity team, PermissionLevel level){
         this.level = level;
@@ -51,7 +54,7 @@ public class TeamMemberEntity {
         return team;
     }
 
-    public Map<String, Long> getChannels() {
+    public List<ChannelEntity> getChannels() {
         return channels;
     }
 }
