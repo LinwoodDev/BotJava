@@ -28,11 +28,6 @@ public class InfoCommand implements Command {
     }
 
     @Override
-    public boolean hasPermission(Member member, GuildEntity entity, Session session) {
-       return member.hasPermission(Permission.MANAGE_SERVER) || entity.getMaintainerId() != null && member.getRoles().contains(member.getGuild().getRoleById(entity.getMaintainerId()));
-    }
-
-    @Override
     public @NotNull ResourceBundle getBundle(GuildEntity entity) {
         return null;
     }

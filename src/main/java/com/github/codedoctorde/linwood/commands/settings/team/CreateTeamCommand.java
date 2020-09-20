@@ -8,6 +8,8 @@ import net.dv8tion.jda.api.entities.Message;
 import org.hibernate.Session;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.ResourceBundle;
 import java.util.Set;
 
@@ -17,21 +19,20 @@ import java.util.Set;
 public class CreateTeamCommand implements Command {
     @Override
     public boolean onCommand(Session session, Message message, GuildEntity entity, String label, String[] args) {
-        return false;
+        if(args.length != 1)
+            return false;
+        var bundle = getBundle(entity);
+        message.getChannel().sendMessageFormat(bundle.getString(entity.createTeam(session, args[0]) ?"Success":"Error"), args[0]);
+        return true;
     }
 
     @Override
     public @NotNull Set<String> aliases(GuildEntity entity) {
-        return null;
+        return new HashSet<>(Arrays.asList("create", "c"));
     }
 
     @Override
     public @NotNull ResourceBundle getBundle(GuildEntity entity) {
-        return ResourceBundle.getBundle("locale.commands.settings.team.CreateTeam", entity.getLocalization());
-    }
-
-    @Override
-    public boolean hasPermission(Member member, GuildEntity entity, Session session) {
-        return member.hasPermission(Permission.MANAGE_SERVER) || entity.getMaintainerId() != null && member.getRoles().contains(member.getGuild().getRoleById(entity.getMaintainerId()));
+        return ResourceBundle.getBundle("locale.commands.settings.team.Create", entity.getLocalization());
     }
 }
