@@ -15,6 +15,7 @@ public class ChannelEntity {
     @OneToOne
     private TeamEntity team;
     private String name;
+    private VisibilityLevel visibility = VisibilityLevel.PUBLIC;
 
     public Long getId() {
         return id;
@@ -30,5 +31,13 @@ public class ChannelEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public VisibilityLevel getVisibility() {
+        return visibility;
+    }
+
+    public void setVisibility(VisibilityLevel visibility) {
+        this.visibility = visibility;
     }
 }
