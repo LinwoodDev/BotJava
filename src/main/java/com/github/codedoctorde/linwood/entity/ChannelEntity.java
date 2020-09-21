@@ -1,5 +1,8 @@
 package com.github.codedoctorde.linwood.entity;
 
+import com.github.codedoctorde.linwood.Linwood;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Message;
 import org.hibernate.Session;
 
 import javax.persistence.*;
@@ -22,10 +25,6 @@ public class ChannelEntity {
     private TeamEntity team;
     private String name;
     private VisibilityLevel visibility = VisibilityLevel.PUBLIC;
-    @ElementCollection
-    @CollectionTable
-    @Column
-    private final Set<Long> channels = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -54,10 +53,6 @@ public class ChannelEntity {
         return visibility == VisibilityLevel.PUBLIC && level != PermissionLevel.INVITED ||
                 visibility == VisibilityLevel.INTERNAL && level != PermissionLevel.INVITED && level != PermissionLevel.MEMBER ||
                 visibility == VisibilityLevel.PRIVATE && (level == PermissionLevel.OWNER || level == PermissionLevel.ADMIN);
-    }
-
-    public Set<Long> getChannels() {
-        return channels;
     }
 
     public void save(Session session) {
