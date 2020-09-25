@@ -1,6 +1,6 @@
 package com.github.codedoctorde.linwood.core.commands;
 
-import app.Linwood;
+import com.github.codedoctorde.linwood.core.Linwood;
 import com.github.codedoctorde.linwood.core.entity.GuildEntity;
 import net.dv8tion.jda.api.entities.Message;
 import org.hibernate.Session;
@@ -30,7 +30,7 @@ public abstract class CommandManager implements Command {
                     message.getChannel().sendMessage(baseBundle.getString("NoPermission")).queue();
                 return true;
             }
-        if(args.length <= 0)Linwood.getInstance().getBaseCommand().getHelpCommand().sendHelp(entity, this, message.getTextChannel());
+        if(args.length <= 0) Linwood.getInstance().getBaseCommand().getHelpCommand().sendHelp(entity, this, message.getTextChannel());
         else
             return false;
         return true;

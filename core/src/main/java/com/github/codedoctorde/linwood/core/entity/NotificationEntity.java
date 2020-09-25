@@ -1,6 +1,6 @@
 package com.github.codedoctorde.linwood.core.entity;
 
-import app.Linwood;
+import com.github.codedoctorde.linwood.core.Linwood;
 import com.sun.istack.Nullable;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.TextChannel;

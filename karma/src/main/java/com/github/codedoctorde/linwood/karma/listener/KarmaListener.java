@@ -1,6 +1,6 @@
 package com.github.codedoctorde.linwood.karma.listener;
 
-import app.Linwood;
+import com.github.codedoctorde.linwood.core.Linwood;
 import com.github.codedoctorde.linwood.core.entity.GuildEntity;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.ChannelType;

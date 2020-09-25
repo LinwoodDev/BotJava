@@ -1,6 +1,6 @@
 package com.github.codedoctorde.linwood.karma.commands;
 
-import app.Linwood;
+import com.github.codedoctorde.linwood.core.Linwood;
 import com.github.codedoctorde.linwood.core.commands.Command;
 import com.github.codedoctorde.linwood.core.entity.GuildEntity;
 import com.github.codedoctorde.linwood.core.utils.TagUtil;

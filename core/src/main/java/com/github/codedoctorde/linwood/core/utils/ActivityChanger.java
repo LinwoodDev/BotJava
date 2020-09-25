@@ -1,6 +1,6 @@
 package com.github.codedoctorde.linwood.core.utils;
 
-import app.Linwood;
+import com.github.codedoctorde.linwood.core.Linwood;
 import com.github.codedoctorde.linwood.core.config.ActivityConfig;
 
 import java.util.*;
