@@ -1,4 +1,4 @@
-package com.github.codedoctorde.linwood.core.single;
+package com.github.codedoctorde.linwood.core.apps.single;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;

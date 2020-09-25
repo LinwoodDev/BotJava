@@ -1,9 +1,9 @@
 package com.github.codedoctorde.linwood.game.mode.whatisit;
 
 import com.github.codedoctorde.linwood.core.Linwood;
-import com.github.codedoctorde.linwood.apps.single.SingleApplication;
+import com.github.codedoctorde.linwood.core.apps.single.SingleApplication;
+import com.github.codedoctorde.linwood.core.apps.single.SingleApplicationMode;
 import com.github.codedoctorde.linwood.core.entity.GuildEntity;
-import com.github.codedoctorde.linwood.apps.single.SingleApplicationMode;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.*;
 import org.hibernate.Session;

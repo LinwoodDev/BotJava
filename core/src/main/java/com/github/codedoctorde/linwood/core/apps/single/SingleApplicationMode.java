@@ -1,4 +1,4 @@
-package com.github.codedoctorde.linwood.core.apps;
+package com.github.codedoctorde.linwood.core.apps.single;
 
 /**
  * @author CodeDoctorDE
