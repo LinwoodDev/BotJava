@@ -44,9 +44,6 @@ public class Linwood {
     private static final Logger logger = LogManager.getLogger(Linwood.class);
 
 
-    public static void main(String[] args) {
-        new Linwood(args[0]);
-    }
     public Linwood(String token){
         instance = this;
         Sentry.init();

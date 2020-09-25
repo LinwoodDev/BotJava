@@ -6,7 +6,11 @@
 
     <groupId>com.github.codedoctorde</groupId>
     <artifactId>linwood</artifactId>
+    <packaging>pom</packaging>
     <version>1.0.4.2</version>
+    <modules>
+        <module>linwood-app</module>
+    </modules>
     <properties>
         <java.version>11</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

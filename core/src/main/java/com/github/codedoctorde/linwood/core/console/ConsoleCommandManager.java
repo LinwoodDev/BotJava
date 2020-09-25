@@ -1,6 +1,6 @@
 package com.github.codedoctorde.linwood.core.console;
 
-import com.github.codedoctorde.linwood.core.Linwood;
+import app.Linwood;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

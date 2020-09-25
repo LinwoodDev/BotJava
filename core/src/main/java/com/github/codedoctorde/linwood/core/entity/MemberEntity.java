@@ -1,6 +1,6 @@
 package com.github.codedoctorde.linwood.core.entity;
 
-import com.github.codedoctorde.linwood.core.Linwood;
+import app.Linwood;
 import org.hibernate.Session;
 
 import javax.persistence.*;

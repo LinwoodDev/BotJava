@@ -1,7 +1,7 @@
 package com.github.codedoctorde.linwood.core.server;
 
 
-import com.github.codedoctorde.linwood.core.Linwood;
+import app.Linwood;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 import io.sentry.Sentry;

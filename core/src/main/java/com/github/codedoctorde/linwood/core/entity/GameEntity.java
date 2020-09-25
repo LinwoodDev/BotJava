@@ -1,7 +1,6 @@
 package com.github.codedoctorde.linwood.core.entity;
 
-import com.github.codedoctorde.linwood.core.Linwood;
-import com.sun.istack.NotNull;
+import app.Linwood;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Category;
 import net.dv8tion.jda.api.entities.Member;

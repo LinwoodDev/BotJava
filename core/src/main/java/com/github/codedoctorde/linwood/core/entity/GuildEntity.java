@@ -1,6 +1,6 @@
 package com.github.codedoctorde.linwood.core.entity;
 
-import com.github.codedoctorde.linwood.core.Linwood;
+import app.Linwood;
 import com.sun.istack.NotNull;
 import net.dv8tion.jda.api.entities.Role;
 import org.hibernate.Session;

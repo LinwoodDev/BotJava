@@ -1,8 +1,7 @@
 package com.github.codedoctorde.linwood.core.utils;
 
-import com.github.codedoctorde.linwood.core.Linwood;
+import app.Linwood;
 import com.github.codedoctorde.linwood.core.config.ActivityConfig;
-import net.dv8tion.jda.api.entities.Activity;
 
 import java.util.*;
 

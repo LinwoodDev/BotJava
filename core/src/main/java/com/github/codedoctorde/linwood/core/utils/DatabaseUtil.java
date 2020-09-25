@@ -1,6 +1,6 @@
 package com.github.codedoctorde.linwood.core.utils;
 
-import com.github.codedoctorde.linwood.core.Linwood;
+import app.Linwood;
 import com.github.codedoctorde.linwood.core.entity.GuildEntity;
 import com.github.codedoctorde.linwood.core.entity.MemberEntity;
 import com.sun.istack.Nullable;
@@ -15,7 +15,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.List;
 import java.util.Objects;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
