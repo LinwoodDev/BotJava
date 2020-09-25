@@ -9,7 +9,8 @@
     <packaging>pom</packaging>
     <version>1.0.4.2</version>
     <modules>
-        <module>linwood-app</module>
+        <module>app</module>
+        <module>modules</module>
     </modules>
     <properties>
         <java.version>11</java.version>

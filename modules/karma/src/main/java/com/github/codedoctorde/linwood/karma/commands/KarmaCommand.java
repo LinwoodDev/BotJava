@@ -8,7 +8,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 
 public class KarmaCommand extends CommandManager {
-    @Override
     public @NotNull Command[] commands() {
         return new Command[]{
                 new KarmaInfoCommand(),
