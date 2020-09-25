@@ -8,7 +8,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 
 public class NotificationSettingsCommand extends CommandManager {
-    @Override
     public Command[] commands() {
         return new Command[]{
                 new ClearTeamCommand(),

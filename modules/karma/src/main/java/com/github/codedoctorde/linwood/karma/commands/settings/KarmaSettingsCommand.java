@@ -8,7 +8,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 
 public class KarmaSettingsCommand extends CommandManager {
-    @Override
     public Command[] commands() {
         return new Command[]{
                 new LikeCommand(),

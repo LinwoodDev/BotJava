@@ -14,7 +14,6 @@ import java.util.Set;
  * @author CodeDoctorDE
  */
 public class GameCommand extends CommandManager {
-    @Override
     public Command[] commands() {
         return new Command[]{
                 new StopGameCommand(),

@@ -11,7 +11,6 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 public class GameSettingsCommand extends CommandManager {
-    @Override
     public Command[] commands() {
         return new Command[]{
                 new ClearGameCategoryCommand(),
