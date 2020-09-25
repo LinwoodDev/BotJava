@@ -20,4 +20,12 @@
         <module>notification</module>
         <module>template</module>
     </modules>
+    <dependencies>
+        <dependency>
+            <groupId>com.github.codedoctorde</groupId>
+            <artifactId>linwood-core</artifactId>
+            <version>1.0.4.2</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
 </project>

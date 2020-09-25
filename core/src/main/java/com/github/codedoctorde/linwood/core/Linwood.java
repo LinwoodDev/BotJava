@@ -9,7 +9,6 @@ import com.github.codedoctorde.linwood.core.listener.NotificationListener;
 import com.github.codedoctorde.linwood.core.server.WebInterface;
 import com.github.codedoctorde.linwood.core.utils.ActivityChanger;
 import com.github.codedoctorde.linwood.core.utils.DatabaseUtil;
-import com.github.codedoctorde.linwood.karma.listener.KarmaListener;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.sentry.Sentry;
@@ -38,7 +37,6 @@ public class Linwood {
     private final SingleApplicationManager gameManager;
     private final SingleApplicationManager audioManager;
     private MainConfig config;
-    private final KarmaListener userListener = new KarmaListener();
     private final File configFile = new File("./config.json");
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private static final Logger logger = LogManager.getLogger(Linwood.class);
@@ -52,7 +50,6 @@ public class Linwood {
                 .enableIntents(GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_PRESENCES)
                 .setEventManager(new AnnotatedEventManager())
                 .addEventListeners(new CommandListener())
-                .addEventListeners(userListener)
                 .addEventListeners(new NotificationListener())
                 .addEventListeners(new ConnectionListener());
         activityChanger = new ActivityChanger();
@@ -158,7 +155,4 @@ public class Linwood {
         config.getActivities().forEach(activityChanger.getActivities()::add);
     }
 
-    public KarmaListener getUserListener() {
-        return userListener;
-    }
 }

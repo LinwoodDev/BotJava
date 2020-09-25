@@ -11,7 +11,6 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 public class GeneralSettingsCommand extends CommandManager {
-    @Override
     public Command[] commands() {
         return new Command[]{
                 new LanguageCommand(),
