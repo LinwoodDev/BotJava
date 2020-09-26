@@ -43,7 +43,7 @@ public class WebInterface {
     public void start(){
         try {
             if(Linwood.getInstance().getConfig().getPort() != null)
-            app.start(Linwood.getInstance().getConfig().getPort());
+                app.start(Linwood.getInstance().getConfig().getPort());
         }catch(Exception e){
             e.printStackTrace();
             Sentry.capture(e);
