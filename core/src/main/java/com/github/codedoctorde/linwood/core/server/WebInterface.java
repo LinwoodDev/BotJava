@@ -3,6 +3,7 @@ package com.github.codedoctorde.linwood.core.server;
 
 import com.github.codedoctorde.linwood.core.Linwood;
 import io.javalin.Javalin;
+import io.javalin.core.JavalinConfig;
 import io.javalin.http.Context;
 import io.sentry.Sentry;
 import org.jetbrains.annotations.NotNull;
@@ -17,7 +18,7 @@ public class WebInterface {
     private final Javalin app;
 
     public WebInterface(){
-        app = Javalin.create();
+        app = Javalin.create(JavalinConfig::enableCorsForAllOrigins);
         register();
     }
 
