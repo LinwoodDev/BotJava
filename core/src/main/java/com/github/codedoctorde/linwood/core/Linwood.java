@@ -1,10 +1,12 @@
 package com.github.codedoctorde.linwood.core;
 
+import com.github.codedoctorde.linwood.core.apps.single.SingleApplicationManager;
 import com.github.codedoctorde.linwood.core.commands.BaseCommand;
 import com.github.codedoctorde.linwood.core.config.MainConfig;
 import com.github.codedoctorde.linwood.core.listener.ConnectionListener;
 import com.github.codedoctorde.linwood.core.listener.CommandListener;
 import com.github.codedoctorde.linwood.core.listener.NotificationListener;
+import com.github.codedoctorde.linwood.core.module.LinwoodModule;
 import com.github.codedoctorde.linwood.core.server.WebInterface;
 import com.github.codedoctorde.linwood.core.utils.ActivityChanger;
 import com.github.codedoctorde.linwood.core.utils.DatabaseUtil;
@@ -21,6 +23,8 @@ import org.apache.logging.log4j.Logger;
 
 import javax.security.auth.login.LoginException;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author CodeDoctorDE
@@ -35,6 +39,7 @@ public class Linwood {
     private final DatabaseUtil database;
     private final SingleApplicationManager gameManager;
     private final SingleApplicationManager audioManager;
+    private final List<LinwoodModule> modules = new ArrayList<>();
     private MainConfig config;
     private final File configFile = new File("./config.json");
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
