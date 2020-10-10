@@ -48,9 +48,4 @@ public class LikeCommand implements Command {
                 "like"
         ));
     }
-
-    @Override
-    public @NotNull ResourceBundle getBundle(GuildEntity entity) {
-        return ResourceBundle.getBundle("locale.com.github.codedoctorde.linwood.karma.commands.settings.karma.Like", entity.getLocalization());
-    }
 }

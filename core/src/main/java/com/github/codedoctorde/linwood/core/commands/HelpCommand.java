@@ -13,20 +13,19 @@ import java.awt.*;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.ResourceBundle;
 import java.util.Set;
 
 /**
  * @author CodeDoctorDE
  */
-public class HelpCommand implements Command {
+public class HelpCommand implements CommandImplementer {
 
     @Override
     public boolean onCommand(Session session, Message message, GuildEntity entity, String label, String[] args) {
-        Command command = Linwood.getInstance().getBaseCommand().getCommand(entity, args);
-        if(command == null)
+        CommandImplementer commandImplementer = Linwood.getInstance().getBaseCommand().getCommand(entity, args);
+        if(commandImplementer == null)
             return false;
-        sendHelp(entity, command, message.getTextChannel());
+        sendHelp(entity, commandImplementer, message.getTextChannel());
         return true;
     }
 
@@ -38,13 +37,8 @@ public class HelpCommand implements Command {
         ));
     }
 
-    @Override
-    public @NotNull ResourceBundle getBundle(GuildEntity entity) {
-        return ResourceBundle.getBundle("locale.com.github.codedoctorde.linwood.karma.commands.Help", entity.getLocalization());
-    }
-
-    public void sendHelp(@NotNull GuildEntity entity, @NotNull Command command, @NotNull TextChannel channel) {
-        var commandBundle = command.getBundle(entity);
+    public void sendHelp(@NotNull GuildEntity entity, @NotNull CommandImplementer commandImplementer, @NotNull TextChannel channel) {
+        var commandBundle = commandImplementer.getBundle(entity);
         var output = new MessageBuilder()
                 .append(" ")
                 .setEmbed(new EmbedBuilder()
@@ -53,7 +47,7 @@ public class HelpCommand implements Command {
                         .setColor(new Color(0x3B863B))
                         .setTimestamp(LocalDateTime.now())
                         .setFooter(null, null)
-                        .addField("Aliases", String.join(", ", command.aliases(entity)), true)
+                        .addField("Aliases", String.join(", ", commandImplementer.aliases(entity)), true)
                         .addField("Permissions", commandBundle.containsKey("Permission")?commandBundle.getString("Permission"):"", true)
                         .addField("Syntax", commandBundle.containsKey("Syntax")?commandBundle.getString("Syntax"):"", false)
                         .build())

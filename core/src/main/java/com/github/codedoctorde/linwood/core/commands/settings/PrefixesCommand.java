@@ -1,6 +1,6 @@
 package com.github.codedoctorde.linwood.core.commands.settings;
 
-import com.github.codedoctorde.linwood.core.commands.Command;
+import com.github.codedoctorde.linwood.core.commands.CommandImplementer;
 import com.github.codedoctorde.linwood.core.entity.GuildEntity;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
@@ -10,10 +10,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.ResourceBundle;
 import java.util.Set;
 
-public class PrefixesCommand implements Command {
+public class PrefixesCommand implements CommandImplementer {
     @Override
     public boolean onCommand(Session session, Message message, GuildEntity entity, String label, String[] args) {
         if(args.length != 0)
@@ -33,11 +32,6 @@ public class PrefixesCommand implements Command {
                 "listprefixes",
                 "listpre-fixes"
         ));
-    }
-
-    @Override
-    public @NotNull ResourceBundle getBundle(GuildEntity entity) {
-        return ResourceBundle.getBundle("locale.com.github.codedoctorde.linwood.karma.commands.settings.general.Prefixes", entity.getLocalization());
     }
 
     @Override

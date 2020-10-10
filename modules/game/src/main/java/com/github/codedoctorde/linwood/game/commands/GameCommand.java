@@ -28,9 +28,4 @@ public class GameCommand extends CommandManager {
                 "game", "games", "play"
         ));
     }
-
-    @Override
-    public @NotNull ResourceBundle getBundle(GuildEntity entity) {
-        return ResourceBundle.getBundle("locale.com.github.codedoctorde.linwood.karma.commands.game.Base", entity.getLocalization());
-    }
 }

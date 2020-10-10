@@ -1,6 +1,6 @@
 package com.github.codedoctorde.linwood.core.commands.settings;
 
-import com.github.codedoctorde.linwood.core.commands.Command;
+import com.github.codedoctorde.linwood.core.commands.CommandImplementer;
 import com.github.codedoctorde.linwood.core.entity.GuildEntity;
 import net.dv8tion.jda.api.entities.Message;
 import org.hibernate.Session;
@@ -8,10 +8,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.ResourceBundle;
 import java.util.Set;
 
-public class RemovePrefixCommand implements Command {
+public class RemovePrefixCommand implements CommandImplementer {
     @Override
     public boolean onCommand(Session session, Message message, GuildEntity entity, String label, String[] args) {
         if(args.length != 1)
@@ -35,10 +34,5 @@ public class RemovePrefixCommand implements Command {
                 "remove-prefix",
                 "remove-pre-fix"
         ));
-    }
-
-    @Override
-    public @NotNull ResourceBundle getBundle(GuildEntity entity) {
-        return ResourceBundle.getBundle("locale.com.github.codedoctorde.linwood.karma.commands.settings.general.RemovePrefix", entity.getLocalization());
     }
 }

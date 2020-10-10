@@ -23,9 +23,4 @@ public class KarmaSettingsCommand extends CommandManager {
                 "karma"
         ));
     }
-
-    @Override
-    public @NotNull ResourceBundle getBundle(GuildEntity entity) {
-        return ResourceBundle.getBundle("locale.com.github.codedoctorde.linwood.karma.commands.settings.karma.Base");
-    }
 }

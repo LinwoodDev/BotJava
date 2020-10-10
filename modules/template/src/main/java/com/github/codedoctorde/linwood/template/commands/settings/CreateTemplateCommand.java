@@ -22,9 +22,4 @@ public class CreateTemplateCommand implements Command {
     public @NotNull Set<String> aliases(GuildEntity entity) {
         return null;
     }
-
-    @Override
-    public @NotNull ResourceBundle getBundle(GuildEntity entity) {
-        return null;
-    }
 }

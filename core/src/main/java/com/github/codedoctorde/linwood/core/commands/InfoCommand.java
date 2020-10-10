@@ -10,13 +10,12 @@ import org.jetbrains.annotations.NotNull;
 import java.lang.management.ManagementFactory;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.ResourceBundle;
 import java.util.Set;
 
 /**
  * @author CodeDoctorDE
  */
-public class InfoCommand implements Command {
+public class InfoCommand implements CommandImplementer {
     @Override
     public boolean onCommand(Session session, Message message, GuildEntity entity, String label, String[] args) {
         var bundle = getBundle(entity);
@@ -44,10 +43,5 @@ public class InfoCommand implements Command {
         return new HashSet<>(Arrays.asList(
                 "", "info", "i", "information"
         ));
-    }
-
-    @Override
-    public @NotNull ResourceBundle getBundle(GuildEntity entity) {
-        return ResourceBundle.getBundle("locale.com.github.codedoctorde.linwood.karma.commands.Info", entity.getLocalization());
     }
 }

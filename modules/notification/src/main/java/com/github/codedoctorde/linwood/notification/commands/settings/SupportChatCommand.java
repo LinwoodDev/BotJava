@@ -63,9 +63,4 @@ public class SupportChatCommand implements Command {
                 "sp"
         ));
     }
-
-    @Override
-    public @NotNull ResourceBundle getBundle(GuildEntity entity) {
-        return ResourceBundle.getBundle("locale.com.github.codedoctorde.linwood.karma.commands.settings.notification.SupportChat", entity.getLocalization());
-    }
 }

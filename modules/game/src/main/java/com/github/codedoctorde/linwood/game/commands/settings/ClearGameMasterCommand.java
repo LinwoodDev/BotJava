@@ -42,9 +42,4 @@ public class ClearGameMasterCommand implements Command {
                 "clear-master"
         ));
     }
-
-    @Override
-    public @NotNull ResourceBundle getBundle(GuildEntity entity) {
-        return ResourceBundle.getBundle("locale.com.github.codedoctorde.linwood.karma.commands.settings.game.ClearGameMaster", entity.getLocalization());
-    }
 }

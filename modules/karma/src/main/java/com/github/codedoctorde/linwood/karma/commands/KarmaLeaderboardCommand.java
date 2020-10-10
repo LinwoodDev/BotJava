@@ -52,9 +52,4 @@ public class KarmaLeaderboardCommand implements Command {
                 "leaderboard", "lb", "rank", "ranks", "top", "toplist", "top-list", "list"
         ));
     }
-
-    @Override
-    public @NotNull ResourceBundle getBundle(GuildEntity entity) {
-        return ResourceBundle.getBundle("locale.com.github.codedoctorde.linwood.karma.commands.karma.Leaderboard");
-    }
 }

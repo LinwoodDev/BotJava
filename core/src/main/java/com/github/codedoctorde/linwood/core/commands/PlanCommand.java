@@ -1,6 +1,5 @@
 package com.github.codedoctorde.linwood.core.commands;
 
-import com.github.codedoctorde.linwood.core.commands.Command;
 import com.github.codedoctorde.linwood.core.entity.GuildEntity;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
@@ -9,13 +8,12 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.ResourceBundle;
 import java.util.Set;
 
 /**
  * @author CodeDoctorDE
  */
-public class PlanCommand implements Command {
+public class PlanCommand implements CommandImplementer {
     @Override
     public boolean onCommand(Session session, Message message, GuildEntity entity, String label, String[] args) {
         if(args.length != 0)
@@ -36,10 +34,5 @@ public class PlanCommand implements Command {
                 "limit",
                 "limits"
         ));
-    }
-
-    @Override
-    public @NotNull ResourceBundle getBundle(GuildEntity entity) {
-        return ResourceBundle.getBundle("locale.com.github.codedoctorde.linwood.karma.commands.Plan", entity.getLocalization());
     }
 }

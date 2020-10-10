@@ -70,9 +70,4 @@ public class GameMasterCommand implements Command {
                 "master"
         ));
     }
-
-    @Override
-    public @NotNull ResourceBundle getBundle(GuildEntity entity) {
-        return ResourceBundle.getBundle("locale.com.github.codedoctorde.linwood.karma.commands.settings.game.GameMaster", entity.getLocalization());
-    }
 }

@@ -9,13 +9,12 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.ResourceBundle;
 import java.util.Set;
 
 /**
  * @author CodeDoctorDE
  */
-public class ClearCommand implements Command {
+public class ClearCommand implements CommandImplementer {
     @Override
     public boolean onCommand(Session session, Message message, GuildEntity entity, String label, String[] args) {
         if(args.length != 1)
@@ -48,10 +47,5 @@ public class ClearCommand implements Command {
         return new HashSet<>(Arrays.asList(
                 "clear", "c", "clearchat","clear-chat"
         ));
-    }
-
-    @Override
-    public @NotNull ResourceBundle getBundle(GuildEntity entity) {
-        return ResourceBundle.getBundle("locale.com.github.codedoctorde.linwood.karma.commands.Clear", entity.getLocalization());
     }
 }

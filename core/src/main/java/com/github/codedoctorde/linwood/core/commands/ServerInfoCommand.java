@@ -9,10 +9,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.ResourceBundle;
 import java.util.Set;
 
-public class ServerInfoCommand implements Command {
+public class ServerInfoCommand implements CommandImplementer {
     @Override
     public boolean onCommand(Session session, Message message, GuildEntity entity, String label, String[] args) {
         if(args.length == 0)
@@ -50,10 +49,5 @@ public class ServerInfoCommand implements Command {
                 "sinfo",
                 "s-info"
         ));
-    }
-
-    @Override
-    public @NotNull ResourceBundle getBundle(GuildEntity entity) {
-        return ResourceBundle.getBundle("locale.com.github.codedoctorde.linwood.karma.commands.ServerInfo", entity.getLocalization());
     }
 }

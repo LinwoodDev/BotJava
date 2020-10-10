@@ -52,9 +52,4 @@ public class WindowsCommand implements Command {
                 "window"
         ));
     }
-
-    @Override
-    public @NotNull ResourceBundle getBundle(GuildEntity entity) {
-        return ResourceBundle.getBundle("locale.com.github.codedoctorde.linwood.karma.commands.fun.Windows", entity.getLocalization());
-    }
 }

@@ -42,9 +42,4 @@ public class ClearGameCategoryCommand implements Command {
                 "clear-category"
         ));
     }
-
-    @Override
-    public @NotNull ResourceBundle getBundle(GuildEntity entity) {
-        return ResourceBundle.getBundle("locale.com.github.codedoctorde.linwood.karma.commands.settings.game.ClearGameCategory", entity.getLocalization());
-    }
 }

@@ -51,9 +51,4 @@ public class WhatIsItCommand implements Command {
                 "what"
         ));
     }
-
-    @Override
-    public @NotNull ResourceBundle getBundle(GuildEntity entity) {
-        return ResourceBundle.getBundle("locale.com.github.codedoctorde.linwood.karma.commands.game.WhatIsIt");
-    }
 }

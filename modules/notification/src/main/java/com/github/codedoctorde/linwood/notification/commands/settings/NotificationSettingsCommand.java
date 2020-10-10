@@ -28,9 +28,4 @@ public class NotificationSettingsCommand extends CommandManager {
                 "n"
         ));
     }
-
-    @Override
-    public @NotNull ResourceBundle getBundle(GuildEntity entity) {
-        return ResourceBundle.getBundle("locale.com.github.codedoctorde.linwood.karma.commands.settings.notification.Base");
-    }
 }

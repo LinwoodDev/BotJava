@@ -1,21 +1,22 @@
 package com.github.codedoctorde.linwood.core.commands;
 
-import com.github.codedoctorde.linwood.core.entity.GuildEntity;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Message;
-import org.hibernate.Session;
-import org.jetbrains.annotations.NotNull;
+/**
+ * @author CodeDoctorDE
+ */
+public class Command {
+    private final CommandImplementer implementer;
+    private final String[] aliases;
 
-import java.util.ResourceBundle;
-import java.util.Set;
+    public Command(CommandImplementer implementer, String... aliases){
+        this.implementer = implementer;
+        this.aliases = aliases;
+    }
 
-public interface Command {
-    boolean onCommand(final Session session, final Message message, final GuildEntity entity, final String label, final String[] args);
-    @NotNull
-    Set<String> aliases(final GuildEntity entity);
-    @NotNull
-    ResourceBundle getBundle(final GuildEntity entity);
-    default boolean hasPermission(final Member member, final GuildEntity entity, final Session session){
-        return true;
+    public CommandImplementer getImplementer() {
+        return implementer;
+    }
+
+    public String[] getAliases() {
+        return aliases;
     }
 }

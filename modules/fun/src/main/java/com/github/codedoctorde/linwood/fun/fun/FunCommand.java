@@ -27,9 +27,4 @@ public class FunCommand extends CommandManager {
                 "fun", "f", "funny"
         ));
     }
-
-    @Override
-    public @NotNull ResourceBundle getBundle(GuildEntity entity) {
-        return ResourceBundle.getBundle("locale.com.github.codedoctorde.linwood.karma.commands.fun.Base", entity.getLocalization());
-    }
 }

@@ -41,9 +41,4 @@ public class ClearDislikeCommand implements Command {
                 "clear-dis-like"
         ));
     }
-
-    @Override
-    public @NotNull ResourceBundle getBundle(GuildEntity entity) {
-        return ResourceBundle.getBundle("locale.com.github.codedoctorde.linwood.karma.commands.settings.karma.ClearDislike", entity.getLocalization());
-    }
 }

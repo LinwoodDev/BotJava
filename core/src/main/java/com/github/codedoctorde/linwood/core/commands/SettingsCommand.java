@@ -6,7 +6,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.ResourceBundle;
 import java.util.Set;
 
 /**
@@ -14,7 +13,7 @@ import java.util.Set;
  */
 public class SettingsCommand extends CommandManager {
     public SettingsCommand(){
-        commands.add(new GeneralSettingsCommand());
+        commandImplementers.add(new GeneralSettingsCommand());
     }
 
     @Override
@@ -22,10 +21,5 @@ public class SettingsCommand extends CommandManager {
         return new HashSet<>(Arrays.asList(
                 "conf", "config", "setting", "settings"
         ));
-    }
-
-    @Override
-    public @NotNull ResourceBundle getBundle(GuildEntity entity) {
-        return ResourceBundle.getBundle("locale.com.github.codedoctorde.linwood.karma.commands.settings.Base", entity.getLocalization());
     }
 }

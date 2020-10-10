@@ -49,9 +49,4 @@ public class DislikeCommand implements Command {
                 "dis-like"
         ));
     }
-
-    @Override
-    public @NotNull ResourceBundle getBundle(GuildEntity entity) {
-        return ResourceBundle.getBundle("locale.com.github.codedoctorde.linwood.karma.commands.settings.karma.Dislike", entity.getLocalization());
-    }
 }

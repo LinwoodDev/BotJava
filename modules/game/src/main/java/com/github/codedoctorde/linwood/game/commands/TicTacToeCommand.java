@@ -59,9 +59,4 @@ public class TicTacToeCommand implements Command {
                 "ttt"
         ));
     }
-
-    @Override
-    public @NotNull ResourceBundle getBundle(GuildEntity entity) {
-        return ResourceBundle.getBundle("locale.com.github.codedoctorde.linwood.karma.commands.game.TicTacToe");
-    }
 }

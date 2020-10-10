@@ -47,9 +47,4 @@ public class StopGameCommand implements Command {
                 "c"
         ));
     }
-
-    @Override
-    public @NotNull ResourceBundle getBundle(GuildEntity entity) {
-        return ResourceBundle.getBundle("locale.com.github.codedoctorde.linwood.karma.commands.game.Stop");
-    }
 }

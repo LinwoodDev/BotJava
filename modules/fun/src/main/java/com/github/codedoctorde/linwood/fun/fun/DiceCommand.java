@@ -30,9 +30,4 @@ public class DiceCommand implements Command {
                 "d"
         ));
     }
-
-    @Override
-    public @NotNull ResourceBundle getBundle(GuildEntity entity) {
-        return ResourceBundle.getBundle("locale.com.github.codedoctorde.linwood.karma.commands.fun.Dice", entity.getLocalization());
-    }
 }

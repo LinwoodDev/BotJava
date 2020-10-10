@@ -64,9 +64,4 @@ public class TeamCommand implements Command {
                 "t"
         ));
     }
-
-    @Override
-    public @NotNull ResourceBundle getBundle(GuildEntity entity) {
-        return ResourceBundle.getBundle("locale.com.github.codedoctorde.linwood.karma.commands.settings.notification.Team", entity.getLocalization());
-    }
 }
