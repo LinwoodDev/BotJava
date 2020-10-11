@@ -109,13 +109,13 @@
         <dependency>
             <groupId>io.sentry</groupId>
             <artifactId>sentry</artifactId>
-            <version>1.7.30</version>
+            <version>3.0.0</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>5.4.21.Final</version>
+            <version>5.4.22.Final</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
@@ -148,14 +148,14 @@
         <dependency>
             <groupId>io.javalin</groupId>
             <artifactId>javalin</artifactId>
-            <version>3.10.1</version>
+            <version>3.11.0</version>
         </dependency>
 
 
         <dependency>
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
-            <version>4.2.0_204</version>
+            <version>4.2.0_208</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -185,7 +185,7 @@
         <dependency>
             <groupId>org.apache.ant</groupId>
             <artifactId>ant</artifactId>
-            <version>1.10.8</version>
+            <version>1.10.9</version>
         </dependency>
     </dependencies>
     <distributionManagement>
