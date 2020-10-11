@@ -1,4 +1,4 @@
-package com.github.codedoctorde.linwood.core.commands.settings;
+package com.github.codedoctorde.linwood.main.commands.settings;
 
 import com.github.codedoctorde.linwood.core.commands.CommandImplementer;
 import com.github.codedoctorde.linwood.core.entity.GuildEntity;

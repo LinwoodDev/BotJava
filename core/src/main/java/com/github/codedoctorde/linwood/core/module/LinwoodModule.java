@@ -1,5 +1,6 @@
 package com.github.codedoctorde.linwood.core.module;
 
+import com.github.codedoctorde.linwood.core.commands.Command;
 import com.github.codedoctorde.linwood.core.commands.CommandImplementer;
 
 import java.util.*;
@@ -9,7 +10,7 @@ import java.util.*;
  */
 public abstract class LinwoodModule {
     private final Set<Object> listeners = new HashSet<>();
-    private final Set<CommandImplementer> commandImplementers = new HashSet<>();
+    private final Set<Command> commandImplementers = new HashSet<>();
 
     public Object[] getListeners() {
         return listeners.toArray(new Object[0]);
@@ -24,10 +25,10 @@ public abstract class LinwoodModule {
     protected boolean unregisterEvents(Object... eventListeners){
         return listeners.removeAll(Arrays.asList(eventListeners));
     }
-    protected boolean registerCommands(CommandImplementer... registeredCommandImplementers){
+    protected boolean registerCommands(Command... registeredCommandImplementers){
         return commandImplementers.addAll(Arrays.asList(registeredCommandImplementers));
     }
-    protected boolean unregisterCommands(CommandImplementer... registeredCommandImplementers){
+    protected boolean unregisterCommands(Command... registeredCommandImplementers){
         return commandImplementers.removeAll(Arrays.asList(registeredCommandImplementers));
     }
     public abstract void onEnable();

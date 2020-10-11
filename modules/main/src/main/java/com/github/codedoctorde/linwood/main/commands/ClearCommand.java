@@ -1,5 +1,7 @@
-package com.github.codedoctorde.linwood.core.commands;
+package com.github.codedoctorde.linwood.main.commands;
 
+import com.github.codedoctorde.linwood.core.commands.Command;
+import com.github.codedoctorde.linwood.core.commands.CommandImplementer;
 import com.github.codedoctorde.linwood.core.entity.GuildEntity;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
@@ -47,5 +49,9 @@ public class ClearCommand implements CommandImplementer {
         return new HashSet<>(Arrays.asList(
                 "clear", "c", "clearchat","clear-chat"
         ));
+    }
+
+    public Command build(){
+        return new Command(this, "clear", "c");
     }
 }

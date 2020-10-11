@@ -1,4 +1,4 @@
-package com.github.codedoctorde.linwood.core.commands.settings;
+package com.github.codedoctorde.linwood.main.commands.settings;
 
 import com.github.codedoctorde.linwood.core.commands.CommandImplementer;
 import com.github.codedoctorde.linwood.core.entity.GuildEntity;
@@ -16,15 +16,23 @@ import java.util.Set;
 /**
  * @author CodeDoctorDE
  */
-public class ClearMaintainerCommand implements CommandImplementer {
+public class AddPrefixCommand implements CommandImplementer {
     @Override
     public boolean onCommand(Session session, Message message, GuildEntity entity, String label, String[] args) {
         ResourceBundle bundle = getBundle(entity);
-        if(args.length != 0)
+        if(args.length == 0)
             return false;
-        entity.getGameEntity().setGameMasterRole(null);
-        entity.save(session);
-        message.getChannel().sendMessage(bundle.getString("Clear")).queue();
+        else try {
+            var prefix = String.join(" ", args);
+            if(!entity.addPrefix(prefix)){
+                message.getChannel().sendMessage(bundle.getString("Invalid")).queue();
+                return true;
+            }
+            entity.save(session);
+            message.getChannel().sendMessageFormat(bundle.getString("Success"), prefix).queue();
+        } catch (NullPointerException e) {
+            message.getChannel().sendMessage(bundle.getString("NotValid")).queue();
+        }
         return true;
     }
 
@@ -36,14 +44,10 @@ public class ClearMaintainerCommand implements CommandImplementer {
     @Override
     public @NotNull Set<String> aliases(GuildEntity entity) {
         return new HashSet<>(Arrays.asList(
-                "clearmaintainer",
-                "clear-maintainer",
-                "clearmaint",
-                "clear-maint",
-                "clearcontroller",
-                "clear-controller",
-                "clearcontrol",
-                "clear-control"
+                "addprefix",
+                "addpre-fix",
+                "add-prefix",
+                "add-pre-fix"
         ));
     }
 }

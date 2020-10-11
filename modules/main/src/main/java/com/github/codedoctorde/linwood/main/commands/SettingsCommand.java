@@ -1,6 +1,6 @@
-package com.github.codedoctorde.linwood.core.commands;
+package com.github.codedoctorde.linwood.main.commands;
 
-import com.github.codedoctorde.linwood.core.commands.settings.GeneralSettingsCommand;
+import com.github.codedoctorde.linwood.main.commands.settings.GeneralSettingsCommand;
 import com.github.codedoctorde.linwood.core.entity.GuildEntity;
 import org.jetbrains.annotations.NotNull;
 

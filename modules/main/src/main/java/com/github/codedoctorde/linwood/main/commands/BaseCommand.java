@@ -1,5 +1,6 @@
-package com.github.codedoctorde.linwood.core.commands;
+package com.github.codedoctorde.linwood.main.commands;
 
+import com.github.codedoctorde.linwood.core.commands.CommandManager;
 import com.github.codedoctorde.linwood.core.entity.GuildEntity;
 import net.dv8tion.jda.api.entities.Message;
 import org.hibernate.Session;
@@ -15,9 +16,6 @@ import java.util.Set;
 public class BaseCommand extends CommandManager {
     private final InfoCommand infoCommand = new InfoCommand();
     private final HelpCommand helpCommand = new HelpCommand();
-    public BaseCommand(){
-        commandImplementers.addAll(Arrays.asList(helpCommand, new SettingsCommand(), new ClearCommand(), infoCommand));
-    }
 
     @Override
     public @NotNull Set<String> aliases(GuildEntity entity) {

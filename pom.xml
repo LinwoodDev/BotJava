@@ -12,6 +12,7 @@
         <module>app</module>
         <module>modules</module>
         <module>core</module>
+        <module>modules/main</module>
     </modules>
     <properties>
         <java.version>11</java.version>

@@ -16,13 +16,15 @@ public class CommandEvent {
     private final GuildEntity entity;
     private final String label;
     private final String[] args;
+    private final Command command;
 
-    public CommandEvent(Message message, Session session, GuildEntity entity, String label, String[] args){
+    public CommandEvent(Message message, Session session, GuildEntity entity, Command command, String label, String[] args){
         this.message = message;
         this.session = session;
         this.entity = entity;
         this.label = label;
         this.args = args;
+        this.command = command;
     }
 
     public GuildEntity getEntity() {
@@ -58,5 +60,9 @@ public class CommandEvent {
     }
     public MessageAction replyFormat(String format, Object... args){
         return getTextChannel().sendMessageFormat(format, args);
+    }
+
+    public Command getCommand() {
+        return command;
     }
 }

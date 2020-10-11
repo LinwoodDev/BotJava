@@ -1,4 +1,4 @@
-package com.github.codedoctorde.linwood.core.commands;
+package com.github.codedoctorde.linwood.main.commands;
 
 import com.github.codedoctorde.linwood.core.entity.GuildEntity;
 import net.dv8tion.jda.api.EmbedBuilder;
