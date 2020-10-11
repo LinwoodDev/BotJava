@@ -1,7 +1,7 @@
 package com.github.codedoctorde.linwood.core.module;
 
 import com.github.codedoctorde.linwood.core.commands.Command;
-import com.github.codedoctorde.linwood.core.commands.CommandImplementer;
+import com.sun.istack.Nullable;
 
 import java.util.*;
 
@@ -10,14 +10,19 @@ import java.util.*;
  */
 public abstract class LinwoodModule {
     private final Set<Object> listeners = new HashSet<>();
-    private final Set<Command> commandImplementers = new HashSet<>();
+    private final Set<Command> commands = new HashSet<>();
+    private final String name;
+
+    protected LinwoodModule(String name) {
+        this.name = name;
+    }
 
     public Object[] getListeners() {
         return listeners.toArray(new Object[0]);
     }
 
     public Object[] getCommands() {
-        return commandImplementers.toArray(new Object[0]);
+        return commands.toArray(new Object[0]);
     }
     protected boolean registerEvents(Object... eventListeners){
         return listeners.addAll(Arrays.asList(eventListeners));
@@ -25,12 +30,25 @@ public abstract class LinwoodModule {
     protected boolean unregisterEvents(Object... eventListeners){
         return listeners.removeAll(Arrays.asList(eventListeners));
     }
-    protected boolean registerCommands(Command... registeredCommandImplementers){
-        return commandImplementers.addAll(Arrays.asList(registeredCommandImplementers));
+    protected boolean registerCommands(Command... registeredCommands){
+        return commands.addAll(Arrays.asList(registeredCommands));
     }
-    protected boolean unregisterCommands(Command... registeredCommandImplementers){
-        return commandImplementers.removeAll(Arrays.asList(registeredCommandImplementers));
+    protected boolean unregisterCommands(Command... registeredCommands){
+        return commands.removeAll(Arrays.asList(registeredCommands));
+    }
+    @Nullable
+    public Command getModule(String alias){
+        return commands.stream().filter(command -> Arrays.stream(command.getAliases()).anyMatch(s -> s.equalsIgnoreCase(alias))).findFirst().orElse(null);
+    }
+    protected void clearCommands(){
+        commands.clear();
     }
     public abstract void onEnable();
-    public abstract void onDisable();
+    public void onDisable(){
+        clearCommands();
+    }
+
+    public String getName() {
+        return name;
+    }
 }

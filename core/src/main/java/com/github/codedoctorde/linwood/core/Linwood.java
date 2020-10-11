@@ -1,7 +1,7 @@
 package com.github.codedoctorde.linwood.core;
 
 import com.github.codedoctorde.linwood.core.apps.single.SingleApplicationManager;
-import com.github.codedoctorde.linwood.core.commands.BaseCommand;
+import com.github.codedoctorde.linwood.core.commands.CommandImplementer;
 import com.github.codedoctorde.linwood.core.config.MainConfig;
 import com.github.codedoctorde.linwood.core.listener.ConnectionListener;
 import com.github.codedoctorde.linwood.core.listener.CommandListener;
@@ -12,6 +12,7 @@ import com.github.codedoctorde.linwood.core.utils.ActivityChanger;
 import com.github.codedoctorde.linwood.core.utils.DatabaseUtil;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.sun.istack.Nullable;
 import io.sentry.Sentry;
 import io.sentry.SentryClientFactory;
 import net.dv8tion.jda.api.JDA;
@@ -24,6 +25,7 @@ import org.apache.logging.log4j.Logger;
 import javax.security.auth.login.LoginException;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -34,7 +36,6 @@ public class Linwood {
     private final WebInterface webInterface;
     private JDA jda;
     private final ActivityChanger activityChanger;
-    private final BaseCommand baseCommand;
     private static Linwood instance;
     private final DatabaseUtil database;
     private final SingleApplicationManager gameManager;
@@ -57,7 +58,6 @@ public class Linwood {
                 .addEventListeners(new NotificationListener())
                 .addEventListeners(new ConnectionListener());
         activityChanger = new ActivityChanger();
-        baseCommand = new BaseCommand();
         gameManager = new SingleApplicationManager();
         audioManager = new SingleApplicationManager();
 
@@ -112,8 +112,18 @@ public class Linwood {
         return activityChanger;
     }
 
-    public BaseCommand getBaseCommand() {
-        return baseCommand;
+    public boolean registerModules(LinwoodModule... registeredModules){
+        return modules.addAll(Arrays.asList(registeredModules));
+    }
+    public boolean unregisterModules(LinwoodModule... registeredModules){
+        return modules.removeAll(Arrays.asList(registeredModules));
+    }
+    public LinwoodModule[] getModules(){
+        return modules.toArray(new LinwoodModule[0]);
+    }
+    @Nullable
+    public <T extends LinwoodModule> T getModule(Class<T> moduleClass){
+        return modules.stream().filter(moduleClass::isInstance).findFirst().map(moduleClass::cast).orElse(null);
     }
 
     public static Linwood getInstance() {
