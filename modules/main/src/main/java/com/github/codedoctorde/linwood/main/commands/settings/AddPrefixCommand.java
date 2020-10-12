@@ -1,6 +1,7 @@
 package com.github.codedoctorde.linwood.main.commands.settings;
 
 import com.github.codedoctorde.linwood.core.commands.Command;
+import com.github.codedoctorde.linwood.core.commands.CommandEvent;
 import com.github.codedoctorde.linwood.core.entity.GuildEntity;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
@@ -18,32 +19,33 @@ import java.util.Set;
  */
 public class AddPrefixCommand extends Command {
     @Override
-    public boolean onCommand(Session session, Message message, GuildEntity entity, String label, String[] args) {
+    public boolean onCommand(final CommandEvent event) {
+        var entity = event.getEntity();
+        var args = event.getArgs();
         ResourceBundle bundle = getBundle(entity);
-        if(args.length == 0)
+        if(event.getArgs().length != 1)
             return false;
         else try {
-            var prefix = String.join(" ", args);
-            if(!entity.addPrefix(prefix)){
-                message.getChannel().sendMessage(bundle.getString("Invalid")).queue();
+            if(!entity.addPrefix(args[0])){
+                event.reply(bundle.getString("Invalid")).queue();
                 return true;
             }
-            entity.save(session);
-            message.getChannel().sendMessageFormat(bundle.getString("Success"), prefix).queue();
+            entity.save(event.getSession());
+            event.replyFormat(bundle.getString("Success"), args[0]).queue();
         } catch (NullPointerException e) {
-            message.getChannel().sendMessage(bundle.getString("NotValid")).queue();
+            event.reply(bundle.getString("NotValid")).queue();
         }
         return true;
     }
-
     @Override
-    public boolean hasPermission(Member member, GuildEntity entity, Session session) {
+    public boolean hasPermission(final CommandEvent event) {
+       var member = event.getMember();
+       var entity = event.getEntity();
        return member.hasPermission(Permission.MANAGE_SERVER) || entity.getMaintainerId() != null && member.getRoles().contains(member.getGuild().getRoleById(entity.getMaintainerId()));
     }
 
-    @Override
-    public @NotNull Set<String> aliases(GuildEntity entity) {
-        return new HashSet<>(Arrays.asList(
+    public AddPrefixCommand() {
+        super(
                 "addprefix",
                 "addpre-fix",
                 "add-prefix",

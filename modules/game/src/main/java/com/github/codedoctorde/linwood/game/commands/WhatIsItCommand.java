@@ -16,7 +16,7 @@ import java.util.Set;
  */
 public class WhatIsItCommand extends Command {
     @Override
-    public boolean onCommand(Session session, Message message, GuildEntity entity, String label, String[] args) {
+    public boolean onCommand(final CommandEvent event) {
         if(args.length > 2)
             return false;
         int rounds = 5;
@@ -43,7 +43,7 @@ public class WhatIsItCommand extends Command {
     }
     @Override
     public @NotNull Set<String> aliases(GuildEntity entity) {
-        return new HashSet<>(Arrays.asList(
+        super(
                 "whatisit",
                 "what-is-it",
                 "what"

@@ -9,7 +9,7 @@ import java.util.Set;
 
 public class KarmaThanksCommand extends Command {
     @Override
-    public boolean onCommand(Session session, Message message, GuildEntity entity, String label, String[] args) {
+    public boolean onCommand(final CommandEvent event) {
         return false;
     }
 

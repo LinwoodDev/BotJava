@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
  */
 public class KarmaLeaderboardCommand extends Command {
     @Override
-    public boolean onCommand(Session session, Message message, GuildEntity entity, String label, String[] args) {
+    public boolean onCommand(final CommandEvent event) {
         if(args.length != 0)
         return false;
         var bundle = getBundle(entity);
@@ -47,7 +47,7 @@ public class KarmaLeaderboardCommand extends Command {
 
     @Override
     public @NotNull Set<String> aliases(GuildEntity entity) {
-        return new HashSet<>(Arrays.asList(
+        super(
                 "leaderboard", "lb", "rank", "ranks", "top", "toplist", "top-list", "list"
         ));
     }

@@ -18,10 +18,9 @@ import java.util.Set;
 /**
  * @author CodeDoctorDE
  */
-public class HelpCommand extends CommandImplementer {
-
+public class HelpCommand extends Command {
     @Override
-    public boolean onCommand(Session session, Message message, GuildEntity entity, String label, String[] args) {
+    public boolean onCommand(final CommandEvent event) {
         CommandImplementer commandImplementer = Linwood.getInstance().getBaseCommand().getCommand(entity, args);
         if(commandImplementer == null)
             return false;
@@ -31,7 +30,7 @@ public class HelpCommand extends CommandImplementer {
 
     @Override
     public @NotNull Set<String> aliases(GuildEntity entity) {
-        return new HashSet<>(Arrays.asList(
+        super(
                 "help",
                 "h"
         ));

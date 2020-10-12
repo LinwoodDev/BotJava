@@ -1,9 +1,12 @@
 package com.github.codedoctorde.linwood.main.commands;
 
+import com.github.codedoctorde.linwood.core.commands.Command;
+import com.github.codedoctorde.linwood.core.commands.CommandEvent;
 import com.github.codedoctorde.linwood.core.entity.GuildEntity;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Message;
+import org.eclipse.jetty.server.Server;
 import org.hibernate.Session;
 import org.jetbrains.annotations.NotNull;
 
@@ -11,12 +14,14 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-public class ServerInfoCommand extends CommandImplementer {
+public class ServerInfoCommand extends Command {
     @Override
-    public boolean onCommand(Session session, Message message, GuildEntity entity, String label, String[] args) {
+    public boolean onCommand(final CommandEvent event) {
+        var args = event.getArgs();
+        var message = event.getMessage();
         if(args.length == 0)
             return false;
-        var bundle = getBundle(entity);
+        var bundle = getBundle(event.getEntity());
         var guild = message.getGuild();
         guild.findMembers(member -> !member.getUser().isBot() && member.getOnlineStatus() == OnlineStatus.ONLINE).onSuccess(onlineMembers -> guild.findMembers(member -> member.getUser().isBot()).onSuccess(bots ->
                 guild.findMembers(member -> !member.getUser().isBot() && member.getOnlineStatus() != OnlineStatus.ONLINE).onSuccess(offlineMembers -> guild.retrieveBanList().queue(bans ->
@@ -36,18 +41,7 @@ public class ServerInfoCommand extends CommandImplementer {
                                 .build()).queue()))));
         return true;
     }
-
-    @Override
-    public @NotNull Set<String> aliases(GuildEntity entity) {
-        return new HashSet<>(Arrays.asList(
-                "server-info",
-                "serverinfo",
-                "si",
-                "s-i",
-                "server-i",
-                "serveri",
-                "sinfo",
-                "s-info"
-        ));
+    public ServerInfoCommand(){
+        super("s-i", "s-info", "server-i", "server-info", "serveri", "serverinfo", "si", "sinfo");
     }
 }

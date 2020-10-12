@@ -1,6 +1,7 @@
 package com.github.codedoctorde.linwood.main.commands.settings;
 
 import com.github.codedoctorde.linwood.core.commands.Command;
+import com.github.codedoctorde.linwood.core.commands.CommandEvent;
 import com.github.codedoctorde.linwood.core.entity.GuildEntity;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
@@ -18,32 +19,24 @@ import java.util.Set;
  */
 public class ClearMaintainerCommand extends Command {
     @Override
-    public boolean onCommand(Session session, Message message, GuildEntity entity, String label, String[] args) {
+    public boolean onCommand(final CommandEvent event) {
+        var entity = event.getEntity();
         ResourceBundle bundle = getBundle(entity);
-        if(args.length != 0)
+        if(event.getArgs().length != 0)
             return false;
         entity.getGameEntity().setGameMasterRole(null);
-        entity.save(session);
-        message.getChannel().sendMessage(bundle.getString("Clear")).queue();
+        entity.save(event.getSession());
+        event.reply(bundle.getString("Clear")).queue();
         return true;
     }
-
     @Override
-    public boolean hasPermission(Member member, GuildEntity entity, Session session) {
+    public boolean hasPermission(final CommandEvent event) {
+       var member = event.getMember();
+       var entity = event.getEntity();
        return member.hasPermission(Permission.MANAGE_SERVER) || entity.getMaintainerId() != null && member.getRoles().contains(member.getGuild().getRoleById(entity.getMaintainerId()));
     }
 
-    @Override
-    public @NotNull Set<String> aliases(GuildEntity entity) {
-        return new HashSet<>(Arrays.asList(
-                "clearmaintainer",
-                "clear-maintainer",
-                "clearmaint",
-                "clear-maint",
-                "clearcontroller",
-                "clear-controller",
-                "clearcontrol",
-                "clear-control"
-        ));
+    public ClearMaintainerCommand() {
+        super("clear-control", "clear-controller", "clear-maint", "clear-maintainer", "clearcontrol", "clearcontroller", "clearmaint", "clearmaintainer"));
     }
 }

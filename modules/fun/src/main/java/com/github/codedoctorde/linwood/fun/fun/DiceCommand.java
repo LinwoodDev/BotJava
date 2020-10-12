@@ -12,9 +12,8 @@ import java.util.*;
  */
 public class DiceCommand extends Command {
     private final Random random = new Random();
-
     @Override
-    public boolean onCommand(Session session, Message message, GuildEntity entity, String label, String[] args) {
+    public boolean onCommand(final CommandEvent event) {
         if(args.length > 0)
             return false;
         var bundle = getBundle(entity);
@@ -24,7 +23,7 @@ public class DiceCommand extends Command {
 
     @Override
     public @NotNull Set<String> aliases(GuildEntity entity) {
-        return new HashSet<>(Arrays.asList(
+        super(
                 "dice",
                 "d"
         ));

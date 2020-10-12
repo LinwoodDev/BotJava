@@ -18,12 +18,12 @@ public abstract class Command {
         Collections.addAll(this.aliases, aliases);
     }
 
-    abstract boolean onCommand(final CommandEvent event);
+    abstract public boolean onCommand(final CommandEvent event);
     @NotNull
-    ResourceBundle getBundle(final GuildEntity entity){
+    protected ResourceBundle getBundle(final GuildEntity entity){
         return ResourceBundle.getBundle("locale." + getClass().getCanonicalName(), entity.getLocalization());
     }
-    boolean hasPermission(final Member member, final GuildEntity entity, final Session session){
+    public boolean hasPermission(final CommandEvent event){
         return true;
     }
 

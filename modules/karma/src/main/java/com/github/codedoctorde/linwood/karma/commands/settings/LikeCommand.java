@@ -14,7 +14,7 @@ import java.util.*;
  */
 public class LikeCommand extends Command {
     @Override
-    public boolean onCommand(Session session, Message message, GuildEntity entity, String label, String[] args) {
+    public boolean onCommand(final CommandEvent event) {
         ResourceBundle bundle = getBundle(entity);
         if(args.length > 1)
             return false;
@@ -35,9 +35,10 @@ public class LikeCommand extends Command {
         }
         return true;
     }
-
     @Override
-    public boolean hasPermission(Member member, GuildEntity entity, Session session) {
+    public boolean hasPermission(final CommandEvent event) {
+       var member = event.getMember();
+       var entity = event.getEntity();
        return member.hasPermission(Permission.MANAGE_SERVER) || entity.getMaintainerId() != null && member.getRoles().contains(member.getGuild().getRoleById(entity.getMaintainerId()));
     }
 

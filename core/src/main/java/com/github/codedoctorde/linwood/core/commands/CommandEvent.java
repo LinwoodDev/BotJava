@@ -1,6 +1,7 @@
 package com.github.codedoctorde.linwood.core.commands;
 
 import com.github.codedoctorde.linwood.core.entity.GuildEntity;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -60,6 +61,9 @@ public class CommandEvent {
     }
     public MessageAction replyFormat(String format, Object... args){
         return getTextChannel().sendMessageFormat(format, args);
+    }
+    public Member getMember(){
+        return getMessage().getMember();
     }
     public CommandEvent upper(){
         return new CommandEvent(message, session, entity, (args.length > 0) ? args[0] : "",

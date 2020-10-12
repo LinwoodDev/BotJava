@@ -15,9 +15,9 @@ import java.util.Set;
 /**
  * @author CodeDoctorDE
  */
-public class InfoCommand extends CommandImplementer {
+public class InfoCommand extends Command {
     @Override
-    public boolean onCommand(Session session, Message message, GuildEntity entity, String label, String[] args) {
+    public boolean onCommand(final CommandEvent event) {
         var bundle = getBundle(entity);
         if(args.length > 0)
             return false;
@@ -40,7 +40,7 @@ public class InfoCommand extends CommandImplementer {
 
     @Override
     public @NotNull Set<String> aliases(GuildEntity entity) {
-        return new HashSet<>(Arrays.asList(
+        super(
                 "", "info", "i", "information"
         ));
     }

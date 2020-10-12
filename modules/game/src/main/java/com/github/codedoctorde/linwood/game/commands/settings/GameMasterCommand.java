@@ -18,7 +18,7 @@ import java.util.Set;
  */
 public class GameMasterCommand extends Command {
     @Override
-    public boolean onCommand(Session session, Message message, GuildEntity entity, String label, String[] args) {
+    public boolean onCommand(final CommandEvent event) {
         ResourceBundle bundle = getBundle(entity);
         if(args.length > 1)
             return false;
@@ -55,15 +55,16 @@ public class GameMasterCommand extends Command {
         }
         return true;
     }
-
     @Override
-    public boolean hasPermission(Member member, GuildEntity entity, Session session) {
+    public boolean hasPermission(final CommandEvent event) {
+       var member = event.getMember();
+       var entity = event.getEntity();
        return member.hasPermission(Permission.MANAGE_SERVER) || entity.getMaintainerId() != null && member.getRoles().contains(member.getGuild().getRoleById(entity.getMaintainerId()));
     }
 
     @Override
     public @NotNull Set<String> aliases(GuildEntity entity) {
-        return new HashSet<>(Arrays.asList(
+        super(
                 "gamemaster",
                 "game-master",
                 "master"

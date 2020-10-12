@@ -21,7 +21,7 @@ public class GeneralSettingsCommand extends CommandManager {
 
     @Override
     public @NotNull Set<String> aliases(GuildEntity entity) {
-        return new HashSet<>(Arrays.asList(
+        super(
                 "general",
                 "gen",
                 "g"
