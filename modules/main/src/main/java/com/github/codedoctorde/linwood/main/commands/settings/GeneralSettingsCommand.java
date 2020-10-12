@@ -1,6 +1,6 @@
 package com.github.codedoctorde.linwood.main.commands.settings;
 
-import com.github.codedoctorde.linwood.core.commands.CommandImplementer;
+import com.github.codedoctorde.linwood.core.commands.Command;
 import com.github.codedoctorde.linwood.core.commands.CommandManager;
 import com.github.codedoctorde.linwood.core.entity.GuildEntity;
 import org.jetbrains.annotations.NotNull;
@@ -10,8 +10,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class GeneralSettingsCommand extends CommandManager {
-    public CommandImplementer[] commands() {
-        return new CommandImplementer[]{
+    public Command[] commands() {
+        return new Command[]{
                 new LanguageCommand(),
                 new PrefixesCommand(),
                 new AddPrefixCommand(),

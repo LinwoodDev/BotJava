@@ -15,7 +15,7 @@ import java.util.Set;
 /**
  * @author CodeDoctorDE
  */
-public class InfoCommand implements CommandImplementer {
+public class InfoCommand extends CommandImplementer {
     @Override
     public boolean onCommand(Session session, Message message, GuildEntity entity, String label, String[] args) {
         var bundle = getBundle(entity);

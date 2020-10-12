@@ -1,7 +1,6 @@
 package com.github.codedoctorde.linwood.game.commands;
 
 import com.github.codedoctorde.linwood.core.Linwood;
-import com.github.codedoctorde.linwood.core.commands.Command;
 import com.github.codedoctorde.linwood.core.entity.GuildEntity;
 import net.dv8tion.jda.api.entities.Message;
 import org.hibernate.Session;
@@ -9,13 +8,12 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.ResourceBundle;
 import java.util.Set;
 
 /**
  * @author CodeDoctorDE
  */
-public class StopGameCommand implements Command {
+public class StopGameCommand extends Command {
     @Override
     public boolean onCommand(Session session, Message message, GuildEntity entity, String label, String[] args) {
         if(args.length > 0)

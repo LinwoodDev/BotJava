@@ -1,7 +1,6 @@
 package com.github.codedoctorde.linwood.core;
 
 import com.github.codedoctorde.linwood.core.apps.single.SingleApplicationManager;
-import com.github.codedoctorde.linwood.core.commands.CommandImplementer;
 import com.github.codedoctorde.linwood.core.config.MainConfig;
 import com.github.codedoctorde.linwood.core.listener.ConnectionListener;
 import com.github.codedoctorde.linwood.core.listener.CommandListener;

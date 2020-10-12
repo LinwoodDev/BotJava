@@ -37,8 +37,8 @@ public abstract class LinwoodModule {
         return commands.removeAll(Arrays.asList(registeredCommands));
     }
     @Nullable
-    public Command getModule(String alias){
-        return commands.stream().filter(command -> Arrays.stream(command.getAliases()).anyMatch(s -> s.equalsIgnoreCase(alias))).findFirst().orElse(null);
+    public Command getCommand(String alias){
+        return commands.stream().filter(command -> command.hasAlias(alias)).findFirst().orElse(null);
     }
     protected void clearCommands(){
         commands.clear();

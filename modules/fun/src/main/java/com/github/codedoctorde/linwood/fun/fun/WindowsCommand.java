@@ -1,6 +1,5 @@
 package com.github.codedoctorde.linwood.fun.fun;
 
-import com.github.codedoctorde.linwood.core.commands.Command;
 import com.github.codedoctorde.linwood.core.entity.GuildEntity;
 import net.dv8tion.jda.api.entities.Message;
 import org.hibernate.Session;
@@ -12,7 +11,7 @@ import java.util.*;
 /**
  * @author CodeDoctorDE
  */
-public class WindowsCommand implements Command {
+public class WindowsCommand extends Command {
     private final Random random = new Random();
 
     @Override

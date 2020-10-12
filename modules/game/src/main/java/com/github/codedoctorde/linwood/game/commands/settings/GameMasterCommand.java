@@ -1,6 +1,5 @@
 package com.github.codedoctorde.linwood.game.commands.settings;
 
-import com.github.codedoctorde.linwood.core.commands.Command;
 import com.github.codedoctorde.linwood.core.entity.GuildEntity;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
@@ -17,7 +16,7 @@ import java.util.Set;
 /**
  * @author CodeDoctorDE
  */
-public class GameMasterCommand implements Command {
+public class GameMasterCommand extends Command {
     @Override
     public boolean onCommand(Session session, Message message, GuildEntity entity, String label, String[] args) {
         ResourceBundle bundle = getBundle(entity);

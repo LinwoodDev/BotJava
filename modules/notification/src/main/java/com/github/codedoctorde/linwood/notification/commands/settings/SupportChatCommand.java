@@ -1,6 +1,5 @@
 package com.github.codedoctorde.linwood.notification.commands.settings;
 
-import com.github.codedoctorde.linwood.core.commands.Command;
 import com.github.codedoctorde.linwood.core.entity.GuildEntity;
 import com.github.codedoctorde.linwood.core.utils.TagUtil;
 import net.dv8tion.jda.api.Permission;
@@ -18,7 +17,7 @@ import java.util.Set;
 /**
  * @author CodeDoctorDE
  */
-public class SupportChatCommand implements Command {
+public class SupportChatCommand extends Command {
     @Override
     public boolean onCommand(Session session, Message message, GuildEntity entity, String label, String[] args) {
         ResourceBundle bundle = getBundle(entity);

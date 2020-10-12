@@ -1,6 +1,5 @@
 package com.github.codedoctorde.linwood.karma.commands.settings;
 
-import com.github.codedoctorde.linwood.core.commands.Command;
 import com.github.codedoctorde.linwood.core.commands.CommandManager;
 import com.github.codedoctorde.linwood.core.entity.GuildEntity;
 import org.jetbrains.annotations.NotNull;

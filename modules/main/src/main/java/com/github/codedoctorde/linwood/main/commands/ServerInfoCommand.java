@@ -11,7 +11,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-public class ServerInfoCommand implements CommandImplementer {
+public class ServerInfoCommand extends CommandImplementer {
     @Override
     public boolean onCommand(Session session, Message message, GuildEntity entity, String label, String[] args) {
         if(args.length == 0)

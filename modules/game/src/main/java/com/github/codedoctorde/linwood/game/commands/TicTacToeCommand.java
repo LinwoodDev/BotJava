@@ -1,6 +1,5 @@
 package com.github.codedoctorde.linwood.game.commands;
 
-import com.github.codedoctorde.linwood.core.commands.Command;
 import com.github.codedoctorde.linwood.core.entity.GuildEntity;
 import com.github.codedoctorde.linwood.game.mode.tictactoe.TicTacToeWorld;
 import net.dv8tion.jda.api.entities.Message;
@@ -12,13 +11,12 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.ResourceBundle;
 import java.util.Set;
 
 /**
  * @author CodeDoctorDE
  */
-public class TicTacToeCommand implements Command {
+public class TicTacToeCommand extends Command {
     @Override
     public boolean onCommand(Session session, Message message, GuildEntity entity, String label, String[] args) {
         if(args.length > 2)

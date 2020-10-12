@@ -13,7 +13,7 @@ import java.util.Set;
 /**
  * @author CodeDoctorDE
  */
-public class SendCommand implements Command {
+public class SendCommand extends Command {
     @Override
     public boolean onCommand(Session session, Message message, GuildEntity entity, String label, String[] args) {
         return false;

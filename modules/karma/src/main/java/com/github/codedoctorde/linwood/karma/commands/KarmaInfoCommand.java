@@ -1,7 +1,6 @@
 package com.github.codedoctorde.linwood.karma.commands;
 
 import com.github.codedoctorde.linwood.core.Linwood;
-import com.github.codedoctorde.linwood.core.commands.Command;
 import com.github.codedoctorde.linwood.core.entity.GuildEntity;
 import com.github.codedoctorde.linwood.core.utils.TagUtil;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -15,7 +14,7 @@ import java.awt.*;
 import java.time.LocalDateTime;
 import java.util.*;
 
-public class KarmaInfoCommand implements Command {
+public class KarmaInfoCommand extends Command {
     @Override
     public boolean onCommand(Session session, Message message, GuildEntity entity, String label, String[] args) {
         if(args.length > 1)

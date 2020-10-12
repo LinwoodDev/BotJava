@@ -1,7 +1,6 @@
 package com.github.codedoctorde.linwood.karma.commands;
 
 import com.github.codedoctorde.linwood.core.Linwood;
-import com.github.codedoctorde.linwood.core.commands.Command;
 import com.github.codedoctorde.linwood.core.entity.GuildEntity;
 import com.github.codedoctorde.linwood.core.entity.MemberEntity;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -17,7 +16,7 @@ import java.util.stream.Collectors;
 /**
  * @author CodeDoctorDE
  */
-public class KarmaLeaderboardCommand implements Command {
+public class KarmaLeaderboardCommand extends Command {
     @Override
     public boolean onCommand(Session session, Message message, GuildEntity entity, String label, String[] args) {
         if(args.length != 0)

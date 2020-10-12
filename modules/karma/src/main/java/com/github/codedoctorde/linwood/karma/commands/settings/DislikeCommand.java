@@ -13,7 +13,7 @@ import java.util.*;
 /**
  * @author CodeDoctorDE
  */
-public class DislikeCommand implements Command {
+public class DislikeCommand extends Command {
     @Override
     public boolean onCommand(Session session, Message message, GuildEntity entity, String label, String[] args) {
         ResourceBundle bundle = getBundle(entity);

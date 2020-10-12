@@ -13,7 +13,7 @@ import java.util.Set;
 /**
  * @author CodeDoctorDE
  */
-public class PlanCommand implements CommandImplementer {
+public class PlanCommand extends CommandImplementer {
     @Override
     public boolean onCommand(Session session, Message message, GuildEntity entity, String label, String[] args) {
         if(args.length != 0)
