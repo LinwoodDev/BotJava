@@ -3,9 +3,9 @@ name: MKDocs Build
 
 on:
   push:
-    branches: [ master ]
+    branches: [ stable ]
   pull_request:
-    branches: [ master ]
+    branches: [ stable ]
 jobs:
   build:
     runs-on: ubuntu-latest
