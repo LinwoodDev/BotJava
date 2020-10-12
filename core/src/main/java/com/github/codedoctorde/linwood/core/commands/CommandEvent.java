@@ -7,6 +7,8 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.requests.restaction.MessageAction;
 import org.hibernate.Session;
 
+import java.util.Arrays;
+
 /**
  * @author CodeDoctorDE
  */
@@ -16,15 +18,13 @@ public class CommandEvent {
     private final GuildEntity entity;
     private final String label;
     private final String[] args;
-    private final Command command;
 
-    public CommandEvent(Message message, Session session, GuildEntity entity, Command command, String label, String[] args){
+    public CommandEvent(Message message, Session session, GuildEntity entity, String label, String[] args){
         this.message = message;
         this.session = session;
         this.entity = entity;
         this.label = label;
         this.args = args;
-        this.command = command;
     }
 
     public GuildEntity getEntity() {
@@ -61,8 +61,8 @@ public class CommandEvent {
     public MessageAction replyFormat(String format, Object... args){
         return getTextChannel().sendMessageFormat(format, args);
     }
-
-    public Command getCommand() {
-        return command;
+    public CommandEvent upper(){
+        return new CommandEvent(message, session, entity, (args.length > 0) ? args[0] : "",
+                (args.length > 0) ? Arrays.copyOfRange(args, 1, args.length) : new String[0]);
     }
 }

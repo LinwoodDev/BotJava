@@ -18,7 +18,7 @@ public abstract class Command {
         Collections.addAll(this.aliases, aliases);
     }
 
-    abstract boolean onCommand(final Session session, final Message message, final GuildEntity entity, final String label, final String[] args);
+    abstract boolean onCommand(final CommandEvent event);
     @NotNull
     ResourceBundle getBundle(final GuildEntity entity){
         return ResourceBundle.getBundle("locale." + getClass().getCanonicalName(), entity.getLocalization());
