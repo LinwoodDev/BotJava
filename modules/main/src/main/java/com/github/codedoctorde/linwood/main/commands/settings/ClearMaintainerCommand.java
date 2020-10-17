@@ -37,6 +37,6 @@ public class ClearMaintainerCommand extends Command {
     }
 
     public ClearMaintainerCommand() {
-        super("clear-control", "clear-controller", "clear-maint", "clear-maintainer", "clearcontrol", "clearcontroller", "clearmaint", "clearmaintainer"));
+        super("clear-control", "clear-controller", "clear-maint", "clear-maintainer", "clearcontrol", "clearcontroller", "clearmaint", "clearmaintainer");
     }
 }

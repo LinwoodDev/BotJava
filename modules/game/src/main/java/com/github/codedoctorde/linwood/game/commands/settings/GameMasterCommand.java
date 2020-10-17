@@ -68,6 +68,6 @@ public class GameMasterCommand extends Command {
                 "gamemaster",
                 "game-master",
                 "master"
-        ));
+        );
     }
 }

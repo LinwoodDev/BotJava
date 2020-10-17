@@ -39,6 +39,6 @@ public class ClearDislikeCommand extends Command {
                 "cleardislike",
                 "clear-dislike",
                 "clear-dis-like"
-        ));
+        );
     }
 }

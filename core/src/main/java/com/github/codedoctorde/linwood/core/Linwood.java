@@ -12,6 +12,7 @@ import com.github.codedoctorde.linwood.core.utils.DatabaseUtil;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sun.istack.Nullable;
+import io.sentry.HubAdapter;
 import io.sentry.Sentry;
 import io.sentry.SentryClientFactory;
 import net.dv8tion.jda.api.JDA;
@@ -31,8 +32,8 @@ import java.util.List;
  * @author CodeDoctorDE
  */
 public class Linwood {
-    private final Object sentry;
     private final WebInterface webInterface;
+    private final CommandListener commandListener;
     private JDA jda;
     private final ActivityChanger activityChanger;
     private static Linwood instance;
@@ -49,11 +50,11 @@ public class Linwood {
     public Linwood(String token){
         instance = this;
         Sentry.init();
-        sentry = SentryClientFactory.sentryClient();
+        commandListener = new CommandListener();
         var builder = JDABuilder.createDefault(token)
                 .enableIntents(GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_PRESENCES)
                 .setEventManager(new AnnotatedEventManager())
-                .addEventListeners(new CommandListener())
+                .addEventListeners(commandListener)
                 .addEventListeners(new NotificationListener())
                 .addEventListeners(new ConnectionListener());
         activityChanger = new ActivityChanger();
@@ -124,6 +125,14 @@ public class Linwood {
     public <T extends LinwoodModule> T getModule(Class<T> moduleClass){
         return modules.stream().filter(moduleClass::isInstance).findFirst().map(moduleClass::cast).orElse(null);
     }
+    public LinwoodModule getModule(String module){
+        return getModule(module, LinwoodModule.class);
+    }
+
+    @Nullable
+    public <T extends LinwoodModule> T getModule(String module, Class<T> moduleClass){
+        return modules.stream().filter(current -> current.getName().equalsIgnoreCase(module)).findFirst().map(moduleClass::cast).orElse(null);
+    }
 
     public static Linwood getInstance() {
         return instance;
@@ -168,4 +177,7 @@ public class Linwood {
         config.getActivities().forEach(activityChanger.getActivities()::add);
     }
 
+    public CommandListener getCommandListener() {
+        return commandListener;
+    }
 }

@@ -48,6 +48,6 @@ public class WindowsCommand extends Command {
                 "windows",
                 "win",
                 "window"
-        ));
+        );
     }
 }

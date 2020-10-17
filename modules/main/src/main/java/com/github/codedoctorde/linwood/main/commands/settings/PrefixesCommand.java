@@ -16,15 +16,15 @@ import java.util.Set;
 public class PrefixesCommand extends Command {
     @Override
     public boolean onCommand(final CommandEvent event) {
-        if(args.length != 0)
+        if(event.getArgs().length != 0)
             return false;
+        var entity = event.getEntity();
         var bundle = getBundle(entity);
-        message.getChannel().sendMessageFormat(bundle.getString("Get"), String.join("," , entity.getPrefixes())).queue();
+        event.replyFormat(bundle.getString("Get"), String.join("," , entity.getPrefixes())).queue();
         return true;
     }
 
-    @Override
-    public @NotNull Set<String> aliases(GuildEntity entity) {
+    public PrefixesCommand() {
         super(
                 "prefixes",
                 "pre-fixes",
@@ -32,7 +32,7 @@ public class PrefixesCommand extends Command {
                 "list-pre-fixes",
                 "listprefixes",
                 "listpre-fixes"
-        ));
+        );
     }
     @Override
     public boolean hasPermission(final CommandEvent event) {

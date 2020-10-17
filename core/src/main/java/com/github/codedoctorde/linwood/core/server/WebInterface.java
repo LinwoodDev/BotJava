@@ -46,7 +46,7 @@ public class WebInterface {
                 app.start(Linwood.getInstance().getConfig().getPort());
         }catch(Exception e){
             e.printStackTrace();
-            Sentry.capture(e);
+            Sentry.captureException(e);
         }
     }
     public void stop() {
@@ -54,7 +54,7 @@ public class WebInterface {
             app.stop();
         }catch(Exception e){
             e.printStackTrace();
-            Sentry.capture(e);
+            Sentry.captureException(e);
         }
     }
 }

@@ -48,6 +48,6 @@ public class DislikeCommand extends Command {
         super(
                 "dislike",
                 "dis-like"
-        ));
+        );
     }
 }

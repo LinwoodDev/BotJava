@@ -68,6 +68,6 @@ public class GameCategoryCommand extends Command {
                 "gamecategory",
                 "game-category",
                 "category"
-        ));
+        );
     }
 }

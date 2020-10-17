@@ -61,6 +61,6 @@ public class SupportChatCommand extends Command {
                 "support",
                 "spc",
                 "sp"
-        ));
+        );
     }
 }

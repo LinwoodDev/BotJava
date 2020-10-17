@@ -20,6 +20,6 @@ public class SettingsCommand extends CommandManager {
     public @NotNull Set<String> aliases(GuildEntity entity) {
         super(
                 "conf", "config", "setting", "settings"
-        ));
+        );
     }
 }

@@ -44,7 +44,7 @@ public class WhatIsItEvents {
         }
         catch(Exception e){
             e.printStackTrace();
-            Sentry.capture(e);
+            Sentry.captureException(e);
         }
     }
     @SubscribeEvent
@@ -58,7 +58,7 @@ public class WhatIsItEvents {
         }
         catch(Exception e){
             e.printStackTrace();
-            Sentry.capture(e);
+            Sentry.captureException(e);
         }
     }
     @SubscribeEvent
@@ -93,7 +93,7 @@ public class WhatIsItEvents {
         }
         catch(Exception e){
             e.printStackTrace();
-            Sentry.capture(e);
+            Sentry.captureException(e);
         }
     }
     @SubscribeEvent
@@ -112,7 +112,7 @@ public class WhatIsItEvents {
         }
         catch(Exception e){
             e.printStackTrace();
-            Sentry.capture(e);
+            Sentry.captureException(e);
         }
     }
 

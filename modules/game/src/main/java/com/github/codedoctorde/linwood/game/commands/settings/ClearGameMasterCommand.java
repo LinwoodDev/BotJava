@@ -40,6 +40,6 @@ public class ClearGameMasterCommand extends Command {
                 "clear-game-master",
                 "clearmaster",
                 "clear-master"
-        ));
+        );
     }
 }

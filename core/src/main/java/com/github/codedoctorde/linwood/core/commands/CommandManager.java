@@ -15,6 +15,10 @@ import java.util.*;
 public abstract class CommandManager extends Command {
     protected Set<Command> commands = new HashSet<>();
 
+    protected CommandManager(String... aliases){
+        super(aliases);
+    }
+
     @Override
     public boolean onCommand(final CommandEvent event) {
         var entity = event.getEntity();
@@ -25,7 +29,7 @@ public abstract class CommandManager extends Command {
         for (Command command : commands)
             if (command.hasAlias(
                     (args.length > 0) ? args[0].toLowerCase() : "")) {
-                if(command.hasPermission(message.getMember(), entity, session) || Linwood.getInstance().getConfig().getOwners().contains(message.getAuthor().getIdLong())) {
+                if(command.hasPermission(event.upper()) || Linwood.getInstance().getConfig().getOwners().contains(message.getAuthor().getIdLong())) {
                     if (!command.onCommand(event.upper()))
                         message.getChannel().sendMessageFormat(ResourceBundle.getBundle("locale.Command").getString("Syntax"), Objects.requireNonNull(command.getBundle(entity)).getString("Syntax")).queue();
                 }
@@ -52,9 +56,6 @@ public abstract class CommandManager extends Command {
     public Command getCommand(Class<? extends Command> commandClass){
         return commands.stream().filter(command -> command.getClass().equals(commandClass)).findFirst().orElse(null);
     }
-    private ResourceBundle getBaseBundle(GuildEntity entity){
-        return ResourceBundle.getBundle("locale.Command", entity.getLocalization());
-    }
 
     public Set<Command> getCommands() {
         return commands;
@@ -73,7 +74,7 @@ public abstract class CommandManager extends Command {
                         .setFooter(null, null)
                         .addField("Aliases", String.join(", ", getAliases()), true)
                         .addField("Permissions", commandBundle.containsKey("Permission")?commandBundle.getString("Permission"):"", true)
-                        .addField("Syntax", commandBundle.containsKey("Syntax")?commandBundle.getString("Syntax"):"", false)
+                        .addField(bundle.getString("Syntax"), commandBundle.containsKey("Syntax")?commandBundle.getString("Syntax"):"", false)
                         .build())
                 .build();
         event.reply(output).queue();

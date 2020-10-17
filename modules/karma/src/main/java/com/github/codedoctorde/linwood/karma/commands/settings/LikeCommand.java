@@ -46,6 +46,6 @@ public class LikeCommand extends Command {
     public @NotNull Set<String> aliases(GuildEntity entity) {
         return new HashSet<>(Collections.singletonList(
                 "like"
-        ));
+        );
     }
 }

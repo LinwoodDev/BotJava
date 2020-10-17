@@ -23,6 +23,6 @@ public class FunCommand extends CommandManager {
     public @NotNull Set<String> aliases(GuildEntity entity) {
         super(
                 "fun", "f", "funny"
-        ));
+        );
     }
 }

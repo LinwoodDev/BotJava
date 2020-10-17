@@ -24,7 +24,7 @@ public class ConnectionListener {
         }
         catch(Exception e){
             e.printStackTrace();
-            Sentry.capture(e);
+            Sentry.captureException(e);
         }
     }
     @SubscribeEvent

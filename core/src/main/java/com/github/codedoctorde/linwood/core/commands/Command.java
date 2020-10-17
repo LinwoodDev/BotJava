@@ -23,6 +23,9 @@ public abstract class Command {
     protected ResourceBundle getBundle(final GuildEntity entity){
         return ResourceBundle.getBundle("locale." + getClass().getCanonicalName(), entity.getLocalization());
     }
+    protected ResourceBundle getBaseBundle(GuildEntity entity){
+        return ResourceBundle.getBundle("locale.Command", entity.getLocalization());
+    }
     public boolean hasPermission(final CommandEvent event){
         return true;
     }
@@ -32,5 +35,8 @@ public abstract class Command {
     }
     public boolean hasAlias(String alias){
         return aliases.stream().anyMatch(current -> current.equalsIgnoreCase(alias));
+    }
+    public void sendHelp(final CommandEvent event){
+        event.reply(getBundle(event.getEntity()).getString("Syntax"));
     }
 }

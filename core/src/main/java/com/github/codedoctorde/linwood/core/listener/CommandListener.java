@@ -1,8 +1,12 @@
 package com.github.codedoctorde.linwood.core.listener;
 
 import com.github.codedoctorde.linwood.core.Linwood;
+import com.github.codedoctorde.linwood.core.commands.Command;
+import com.github.codedoctorde.linwood.core.commands.CommandEvent;
 import com.github.codedoctorde.linwood.core.entity.GuildEntity;
+import com.github.codedoctorde.linwood.core.module.LinwoodModule;
 import io.sentry.Sentry;
+import io.sentry.Session;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.exceptions.PermissionException;
@@ -11,11 +15,15 @@ import org.apache.tools.ant.types.Commandline;
 
 import javax.annotation.Nonnull;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
 /**
  * @author CodeDoctorDE
  */
 public class CommandListener {
+    public static final Pattern pattern = Pattern.compile("(?<module>^[A-Z]+/)?(?<command>[A-Z]+$)");
+
+
     @SubscribeEvent
     public void onCommand(@Nonnull MessageReceivedEvent event) {
         var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
@@ -42,7 +50,7 @@ public class CommandListener {
                 var bundle = getBundle(guild);
                 var commandBundle = Linwood.getInstance().getBaseCommand().getBundle(guild);
                 try {
-                    if (!Linwood.getInstance().getBaseCommand().onCommand(session, event.getMessage(), guild, prefix, command))
+                    if (!execute(session, event.getMessage(), guild, prefix, command);)
                         event.getChannel().sendMessageFormat(bundle.getString("Syntax"), commandBundle.getString("Syntax")).queue();
                 }catch(PermissionException e){
                     event.getChannel().sendMessage(bundle.getString("InsufficientPermission")).queue();
@@ -50,7 +58,7 @@ public class CommandListener {
                 }catch (Exception e) {
                     event.getChannel().sendMessage(bundle.getString("Error")).queue();
                     e.printStackTrace();
-                    Sentry.capture(e);
+                    Sentry.captureException(e);
                 }
             }
         }
@@ -59,5 +67,32 @@ public class CommandListener {
 
     public ResourceBundle getBundle(GuildEntity entity) {
         return ResourceBundle.getBundle("locale.Command", entity.getLocalization());
+    }
+
+    public boolean sendHelp(CommandEvent event) {
+        var matcher = pattern.matcher(String.join(event.getArgs(), " "));
+        if (!matcher.find())
+            return false;
+        var commandString = matcher.group("command");
+        var moduleString = matcher.group("module");
+        Command command = null;
+        if(moduleString != null){
+            var module = Linwood.getInstance().getModule(moduleString);
+            if(module != null)
+            command = module.getCommand(commandString);
+        }
+        for (var current:
+                Linwood.getInstance().getModules()) {
+            var currentCommand = current.getCommand(commandString);
+            if(currentCommand != null)
+                command = currentCommand;
+        }
+        if(command == null)
+            return false;
+        command.sendHelp();
+        return true;
+    }
+    public void execute(CommandEvent event){
+
     }
 }

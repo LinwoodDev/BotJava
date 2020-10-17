@@ -24,6 +24,6 @@ public class GameSettingsCommand extends CommandManager {
                 "game",
                 "games",
                 "gm"
-        ));
+        );
     }
 }

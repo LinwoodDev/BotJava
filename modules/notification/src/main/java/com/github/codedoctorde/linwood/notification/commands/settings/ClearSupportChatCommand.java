@@ -46,6 +46,6 @@ public class ClearSupportChatCommand extends Command {
                 "clear-sp",
                 "clearspc",
                 "clear-spc"
-        ));
+        );
     }
 }

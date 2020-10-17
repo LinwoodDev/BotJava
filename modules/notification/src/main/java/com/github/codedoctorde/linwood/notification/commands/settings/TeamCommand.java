@@ -62,6 +62,6 @@ public class TeamCommand extends Command {
         super(
                 "team",
                 "t"
-        ));
+        );
     }
 }

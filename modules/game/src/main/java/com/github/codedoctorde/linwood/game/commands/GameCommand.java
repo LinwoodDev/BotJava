@@ -24,6 +24,6 @@ public class GameCommand extends CommandManager {
     public @NotNull Set<String> aliases(GuildEntity entity) {
         super(
                 "game", "games", "play"
-        ));
+        );
     }
 }

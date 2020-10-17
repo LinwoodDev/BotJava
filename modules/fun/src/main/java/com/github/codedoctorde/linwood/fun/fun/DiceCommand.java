@@ -26,6 +26,6 @@ public class DiceCommand extends Command {
         super(
                 "dice",
                 "d"
-        ));
+        );
     }
 }

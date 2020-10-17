@@ -77,6 +77,6 @@ public class KarmaInfoCommand extends Command {
                 "info",
                 "information",
                 "i"
-        ));
+        );
     }
 }

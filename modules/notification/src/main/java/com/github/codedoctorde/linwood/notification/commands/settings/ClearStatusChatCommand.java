@@ -46,6 +46,6 @@ public class ClearStatusChatCommand extends Command {
                 "clear-s",
                 "clearsc",
                 "clear-sc"
-        ));
+        );
     }
 }

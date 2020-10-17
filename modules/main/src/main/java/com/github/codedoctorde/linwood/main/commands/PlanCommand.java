@@ -33,6 +33,6 @@ public class PlanCommand extends Command {
                 "plans",
                 "limit",
                 "limits"
-        ));
+        );
     }
 }

@@ -19,12 +19,11 @@ public class GeneralSettingsCommand extends CommandManager {
         };
     }
 
-    @Override
-    public @NotNull Set<String> aliases(GuildEntity entity) {
+    public GeneralSettingsCommand() {
         super(
                 "general",
                 "gen",
                 "g"
-        ));
+        );
     }
 }

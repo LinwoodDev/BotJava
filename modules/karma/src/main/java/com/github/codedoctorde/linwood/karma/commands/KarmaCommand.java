@@ -18,6 +18,6 @@ public class KarmaCommand extends CommandManager {
     public @NotNull Set<String> aliases(GuildEntity entity) {
         return new HashSet<>(Collections.singletonList(
                 "karma"
-        ));
+        );
     }
 }

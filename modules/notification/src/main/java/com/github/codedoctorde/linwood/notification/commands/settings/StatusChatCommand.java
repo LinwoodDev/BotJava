@@ -65,6 +65,6 @@ public class StatusChatCommand extends Command {
                 "status",
                 "sc",
                 "s"
-        ));
+        );
     }
 }

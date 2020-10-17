@@ -38,6 +38,6 @@ public class ClearLikeCommand extends Command {
         super(
                 "clearlike",
                 "clear-like"
-        ));
+        );
     }
 }

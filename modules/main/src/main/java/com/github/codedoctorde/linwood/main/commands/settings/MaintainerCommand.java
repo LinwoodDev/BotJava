@@ -18,36 +18,38 @@ import java.util.Set;
 public class MaintainerCommand extends Command {
     @Override
     public boolean onCommand(final CommandEvent event) {
+        var entity = event.getEntity();
+        var args = event.getArgs();
         ResourceBundle bundle = getBundle(entity);
         if(args.length > 1)
             return false;
         if(args.length == 0)
             if(entity.getMaintainerId() != null)
-                message.getChannel().sendMessageFormat(bundle.getString("Get"), entity.getMaintainer().getName(), entity.getMaintainerId()).queue();
+                event.replyFormat(bundle.getString("Get"), entity.getMaintainer().getName(), entity.getMaintainerId()).queue();
             else
-                message.getChannel().sendMessage(bundle.getString("GetNull")).queue();
+                event.reply(bundle.getString("GetNull")).queue();
         else {
             try {
                 Role role = null;
                 try{
-                    role = message.getGuild().getRoleById(args[0]);
+                    role = event.getGuild().getRoleById(args[0]);
                 }catch(Exception ignored){ }
                 if(role == null){
-                    var roles = message.getGuild().getRolesByName(args[0], true);
+                    var roles = event.getGuild().getRolesByName(args[0], true);
                     if(roles.size() < 1)
-                        message.getChannel().sendMessage(bundle.getString("SetNothing")).queue();
+                        event.reply(bundle.getString("SetNothing")).queue();
                     else if(roles.size() > 1)
-                        message.getChannel().sendMessage(bundle.getString("SetMultiple")).queue();
+                        event.reply(bundle.getString("SetMultiple")).queue();
                     else
                         role = roles.get(0);
                 }
                 if(role == null)
                     return true;
                 entity.setMaintainer(role);
-                entity.save(session);
-                message.getChannel().sendMessageFormat(bundle.getString("Set"), entity.getMaintainer().getName(), entity.getMaintainerId()).queue();
+                entity.save(event.getSession());
+                event.replyFormat(bundle.getString("Set"), entity.getMaintainer().getName(), entity.getMaintainerId()).queue();
             }catch(NullPointerException e){
-                message.getChannel().sendMessage(bundle.getString("NotValid")).queue();
+                event.reply(bundle.getString("NotValid")).queue();
             }
         }
         return true;
@@ -58,13 +60,12 @@ public class MaintainerCommand extends Command {
         return member.hasPermission(Permission.MANAGE_SERVER);
     }
 
-    @Override
-    public @NotNull Set<String> aliases(GuildEntity entity) {
+    public MaintainerCommand() {
         super(
                 "maintainer",
                 "maint",
                 "controller",
                 "control"
-        ));
+        );
     }
 }

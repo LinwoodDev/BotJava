@@ -47,6 +47,6 @@ public class WhatIsItCommand extends Command {
                 "whatisit",
                 "what-is-it",
                 "what"
-        ));
+        );
     }
 }

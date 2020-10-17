@@ -25,6 +25,6 @@ public class NotificationSettingsCommand extends CommandManager {
                 "notifications",
                 "notif",
                 "n"
-        ));
+        );
     }
 }

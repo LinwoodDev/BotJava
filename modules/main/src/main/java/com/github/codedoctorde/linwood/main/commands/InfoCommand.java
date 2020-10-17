@@ -42,6 +42,6 @@ public class InfoCommand extends Command {
     public @NotNull Set<String> aliases(GuildEntity entity) {
         super(
                 "", "info", "i", "information"
-        ));
+        );
     }
 }

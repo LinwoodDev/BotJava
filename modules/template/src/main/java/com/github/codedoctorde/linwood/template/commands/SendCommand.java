@@ -24,6 +24,6 @@ public class SendCommand extends Command {
         super(
                 "write",
                 "w"
-        ));
+        );
     }
 }

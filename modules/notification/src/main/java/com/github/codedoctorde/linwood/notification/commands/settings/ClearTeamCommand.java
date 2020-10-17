@@ -40,6 +40,6 @@ public class ClearTeamCommand extends Command {
                 "clear-team",
                 "cleart",
                 "clear-t"
-        ));
+        );
     }
 }

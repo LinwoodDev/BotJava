@@ -1,6 +1,8 @@
 package com.github.codedoctorde.linwood.main.commands;
 
 import com.github.codedoctorde.linwood.core.Linwood;
+import com.github.codedoctorde.linwood.core.commands.Command;
+import com.github.codedoctorde.linwood.core.commands.CommandEvent;
 import com.github.codedoctorde.linwood.core.entity.GuildEntity;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
@@ -21,36 +23,17 @@ import java.util.Set;
 public class HelpCommand extends Command {
     @Override
     public boolean onCommand(final CommandEvent event) {
-        CommandImplementer commandImplementer = Linwood.getInstance().getBaseCommand().getCommand(entity, args);
-        if(commandImplementer == null)
+        Command command = Linwood.getInstance().getBaseCommand().getCommand(entity, args);
+        if(command == null)
             return false;
-        sendHelp(entity, commandImplementer, message.getTextChannel());
+        command.sendHelp(entity, commandImplementer, message.getTextChannel());
         return true;
     }
 
-    @Override
-    public @NotNull Set<String> aliases(GuildEntity entity) {
+    public HelpCommand() {
         super(
                 "help",
                 "h"
-        ));
-    }
-
-    public void sendHelp(@NotNull GuildEntity entity, @NotNull CommandImplementer commandImplementer, @NotNull TextChannel channel) {
-        var commandBundle = commandImplementer.getBundle(entity);
-        var output = new MessageBuilder()
-                .append(" ")
-                .setEmbed(new EmbedBuilder()
-                        .setTitle("Help")
-                        .setDescription(commandBundle.containsKey("Description")?commandBundle.getString("Description"):"")
-                        .setColor(new Color(0x3B863B))
-                        .setTimestamp(LocalDateTime.now())
-                        .setFooter(null, null)
-                        .addField("Aliases", String.join(", ", commandImplementer.aliases(entity)), true)
-                        .addField("Permissions", commandBundle.containsKey("Permission")?commandBundle.getString("Permission"):"", true)
-                        .addField("Syntax", commandBundle.containsKey("Syntax")?commandBundle.getString("Syntax"):"", false)
-                        .build())
-                .build();
-        channel.sendMessage(output).queue();
+        );
     }
 }

@@ -1,10 +1,7 @@
 package com.github.codedoctorde.linwood.core.commands;
 
 import com.github.codedoctorde.linwood.core.entity.GuildEntity;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.requests.restaction.MessageAction;
 import org.hibernate.Session;
 
@@ -64,6 +61,9 @@ public class CommandEvent {
     }
     public Member getMember(){
         return getMessage().getMember();
+    }
+    public Guild getGuild(){
+        return getMessage().getGuild();
     }
     public CommandEvent upper(){
         return new CommandEvent(message, session, entity, (args.length > 0) ? args[0] : "",

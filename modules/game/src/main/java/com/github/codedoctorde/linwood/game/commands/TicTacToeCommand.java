@@ -55,6 +55,6 @@ public class TicTacToeCommand extends Command {
                 "tictactoe",
                 "tic-tac-toe",
                 "ttt"
-        ));
+        );
     }
 }

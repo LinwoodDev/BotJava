@@ -43,6 +43,6 @@ public class StopGameCommand extends Command {
                 "stop-game",
                 "s",
                 "c"
-        ));
+        );
     }
 }

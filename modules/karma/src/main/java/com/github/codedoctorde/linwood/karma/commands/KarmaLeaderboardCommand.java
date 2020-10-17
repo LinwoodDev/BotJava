@@ -49,6 +49,6 @@ public class KarmaLeaderboardCommand extends Command {
     public @NotNull Set<String> aliases(GuildEntity entity) {
         super(
                 "leaderboard", "lb", "rank", "ranks", "top", "toplist", "top-list", "list"
-        ));
+        );
     }
 }

@@ -50,6 +50,6 @@ public class AddPrefixCommand extends Command {
                 "addpre-fix",
                 "add-prefix",
                 "add-pre-fix"
-        ));
+        );
     }
 }

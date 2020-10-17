@@ -40,6 +40,6 @@ public class ClearGameCategoryCommand extends Command {
                 "clear-game-category",
                 "clearcategory",
                 "clear-category"
-        ));
+        );
     }
 }
