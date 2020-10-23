@@ -13,7 +13,7 @@ public class MainAddon extends LinwoodModule {
 
     @Override
     public void onEnable() {
-        registerCommands(new ClearCommand().build());
+        registerCommands(new ClearCommand());
     }
 
     @Override
