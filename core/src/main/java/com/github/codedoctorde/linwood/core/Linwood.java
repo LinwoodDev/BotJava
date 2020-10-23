@@ -2,19 +2,16 @@ package com.github.codedoctorde.linwood.core;
 
 import com.github.codedoctorde.linwood.core.apps.single.SingleApplicationManager;
 import com.github.codedoctorde.linwood.core.config.MainConfig;
-import com.github.codedoctorde.linwood.core.listener.ConnectionListener;
 import com.github.codedoctorde.linwood.core.listener.CommandListener;
+import com.github.codedoctorde.linwood.core.listener.ConnectionListener;
 import com.github.codedoctorde.linwood.core.listener.NotificationListener;
 import com.github.codedoctorde.linwood.core.module.LinwoodModule;
-import com.github.codedoctorde.linwood.core.server.WebInterface;
 import com.github.codedoctorde.linwood.core.utils.ActivityChanger;
 import com.github.codedoctorde.linwood.core.utils.DatabaseUtil;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sun.istack.Nullable;
-import io.sentry.HubAdapter;
 import io.sentry.Sentry;
-import io.sentry.SentryClientFactory;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.hooks.AnnotatedEventManager;
@@ -23,7 +20,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.security.auth.login.LoginException;
-import java.io.*;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -32,7 +32,6 @@ import java.util.List;
  * @author CodeDoctorDE
  */
 public class Linwood {
-    private final WebInterface webInterface;
     private final CommandListener commandListener;
     private JDA jda;
     private final ActivityChanger activityChanger;
@@ -93,8 +92,6 @@ public class Linwood {
         }));
         configure();
         activityChanger.start();
-            webInterface = new WebInterface();
-            new Thread(webInterface::start).start();
         System.out.println(" _     _  _      _      ____  ____  ____ \n" +
                 "/ \\   / \\/ \\  /|/ \\  /|/  _ \\/  _ \\/  _ \\\n" +
                 "| |   | || |\\ ||| |  ||| / \\|| / \\|| | \\|\n" +
@@ -156,10 +153,6 @@ public class Linwood {
 
     public SingleApplicationManager getAudioManager() {
         return audioManager;
-    }
-
-    public WebInterface getWebInterface() {
-        return webInterface;
     }
 
     public void saveConfig(){
