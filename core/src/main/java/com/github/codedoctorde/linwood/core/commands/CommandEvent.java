@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.requests.restaction.MessageAction;
 import org.hibernate.Session;
 
 import java.util.Arrays;
+import java.util.ResourceBundle;
 
 /**
  * @author CodeDoctorDE
@@ -68,5 +69,14 @@ public class CommandEvent {
     public CommandEvent upper(){
         return new CommandEvent(message, session, entity, (args.length > 0) ? args[0] : "",
                 (args.length > 0) ? Arrays.copyOfRange(args, 1, args.length) : new String[0]);
+    }
+
+    public void sendSyntaxError(){
+        var bundle = getBundle();
+        reply(bundle.getString("Syntax")).queue();
+    }
+
+    public ResourceBundle getBundle() {
+        return ResourceBundle.getBundle("locale.Command", entity.getLocalization());
     }
 }

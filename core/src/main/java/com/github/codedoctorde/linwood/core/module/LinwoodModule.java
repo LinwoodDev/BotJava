@@ -11,18 +11,19 @@ import java.util.*;
 public abstract class LinwoodModule {
     private final Set<Object> listeners = new HashSet<>();
     private final Set<Command> commands = new HashSet<>();
+    private final Set<String> status = new HashSet<>();
     private final String name;
 
     protected LinwoodModule(String name) {
         this.name = name;
     }
 
-    public Object[] getListeners() {
-        return listeners.toArray(new Object[0]);
+    public Set<Object> getListeners() {
+        return Set.copyOf(listeners);
     }
 
-    public Object[] getCommands() {
-        return commands.toArray(new Object[0]);
+    public Set<Command> getCommands() {
+        return Set.copyOf(commands);
     }
     protected boolean registerEvents(Object... eventListeners){
         return listeners.addAll(Arrays.asList(eventListeners));
@@ -43,7 +44,7 @@ public abstract class LinwoodModule {
     protected void clearCommands(){
         commands.clear();
     }
-    public abstract void onEnable();
+    public void onEnable(){}
     public void onDisable(){
         clearCommands();
     }

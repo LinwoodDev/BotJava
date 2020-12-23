@@ -7,9 +7,9 @@ import com.github.codedoctorde.linwood.main.MainAddon;
 /**
  * @author CodeDoctorDE
  */
-public class LinwoodApp {
+public class LinwoodBot {
     public static void main(String[] args) {
-        var bot = new Linwood(args[0]);
+        var bot = new Linwood(System.getenv("DISCORD_TOKEN"));
         bot.registerModules(new MainAddon());
     }
 }
