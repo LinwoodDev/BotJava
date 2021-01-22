@@ -50,7 +50,7 @@ public class Linwood {
 
     public Linwood(String token){
         instance = this;
-        Sentry.init();
+        //Sentry.init();
         commandListener = new CommandListener();
         var builder = DefaultShardManagerBuilder.createDefault(token)
                 .enableIntents(GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_PRESENCES)
