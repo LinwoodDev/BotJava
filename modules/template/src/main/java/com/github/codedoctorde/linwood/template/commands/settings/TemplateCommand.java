@@ -12,11 +12,11 @@ import java.util.Set;
  */
 public class TemplateCommand extends CommandManager {
     public TemplateCommand() {
-        registerCommands(Arrays.asList(
+        registerCommands(
                 new CreateTemplateCommand(),
                 new ListTemplateCommand(),
                 new RemoveTemplateCommand()
-        ));
+        );
     }
 
 }

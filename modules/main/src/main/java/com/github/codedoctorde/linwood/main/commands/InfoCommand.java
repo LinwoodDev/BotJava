@@ -41,7 +41,7 @@ public class InfoCommand extends Command {
         long hour = (uptime / (1000 * 60 * 60)) % 24;
         long days = uptime / (1000 * 60 * 60 * 24);
         var prefixes = String.join(", ", entity.getPrefixes());
-        return String.format(text, Linwood.getInstance().getVersion(), event.getMessage().getAuthor().getAsMention(), prefixes.isBlank()? " ": prefixes,
+        return String.format(text, Linwood.getInstance().getVersion(), message.getAuthor().getAsMention(), prefixes.isBlank()? " ": prefixes,
                 days, hour, minute, second, millis, Linwood.getInstance().getConfig().getSupportURL());
     }
 }

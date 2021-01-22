@@ -27,7 +27,7 @@ public class WhatIsIt implements SingleApplicationMode {
     private WhatIsItEvents events;
     private final long rootChannel;
     private final HashMap<Long, Integer> points = new HashMap<>();
-    private boolean hasChannelDisabled = false;
+    //private boolean hasChannelDisabled = false;
 
     public WhatIsIt(int maxRounds, long rootChannel){
         this.maxRounds = maxRounds;
@@ -39,7 +39,7 @@ public class WhatIsIt implements SingleApplicationMode {
         this.game = app;
 
         events = new WhatIsItEvents(this);
-        Linwood.getInstance().getJda().getEventManager().register(events);
+        Linwood.getInstance().getJda().addEventListener(events);
         var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
         var guild = GuildEntity.get(session, game.getGuildId());
         Category category = null;
@@ -55,14 +55,14 @@ public class WhatIsIt implements SingleApplicationMode {
                 textChannel.getManager().setParent(finalCategory).queue();
             chooseNextPlayer();
         }));
-        hasChannelDisabled = Linwood.getInstance().getUserListener().getDisabledChannels().add(textChannelId);
+        //hasChannelDisabled = Linwood.getInstance().getUserListener().getDisabledChannels().add(textChannelId);
     }
 
     @Override
     public void stop() {
         stopTimer();
         var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
-        Linwood.getInstance().getJda().getEventManager().unregister(events);
+        Linwood.getInstance().getJda().removeEventListener(events);
         if(round != null)
             round.stopTimer();
         sendLeaderboard(session, Linwood.getInstance().getJda().getTextChannelById(rootChannel));
@@ -70,8 +70,8 @@ public class WhatIsIt implements SingleApplicationMode {
         var textChannel = getTextChannel();
         if(textChannel != null)
             textChannel.delete().queue();
-        if(hasChannelDisabled)
-            Linwood.getInstance().getUserListener().getDisabledChannels().remove(textChannelId);
+        /*if(hasChannelDisabled)
+            Linwood.getInstance().getUserListener().getDisabledChannels().remove(textChannelId);*/
     }
 
     public void chooseNextPlayer(){

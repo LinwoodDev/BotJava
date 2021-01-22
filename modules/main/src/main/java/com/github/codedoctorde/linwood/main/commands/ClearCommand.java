@@ -26,7 +26,7 @@ public class ClearCommand extends Command {
             event.reply(bundle.getString("Between")).queue();
         else
             event.getTextChannel().getHistory().retrievePast(count).queue(messages -> {
-                messages.forEach(deleteMessage -> deleteevent.getMessage().delete().queue());
+                messages.forEach(deleteMessage -> deleteMessage.delete().queue());
                 event.replyFormat(bundle.getString("Success"), messages.size()).queue();
             });
         return true;

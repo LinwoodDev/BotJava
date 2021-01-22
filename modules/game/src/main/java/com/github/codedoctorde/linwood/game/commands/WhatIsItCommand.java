@@ -40,7 +40,7 @@ public class WhatIsItCommand extends Command {
             event.reply(bundle.getString("Invalid")).queue();
             return true;
         }
-        Linwood.getInstance().getGameManager().startGame(entity.getGuildId(), new WhatIsIt(rounds, event.getMessage().getChannel().getIdLong()));
+        Linwood.getInstance().getGameManager().startGame(event.getEntity().getGuildId(), new WhatIsIt(rounds, event.getMessage().getChannel().getIdLong()));
         event.reply(bundle.getString("Success")).queue();
         return true;
     }

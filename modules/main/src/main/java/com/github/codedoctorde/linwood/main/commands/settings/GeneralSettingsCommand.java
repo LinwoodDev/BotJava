@@ -10,20 +10,18 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class GeneralSettingsCommand extends CommandManager {
-    public Command[] commands() {
-        registerCommands(
-                new LanguageCommand(),
-                new PrefixesCommand(),
-                new AddPrefixCommand(),
-                new RemovePrefixCommand()
-        };
-    }
 
     public GeneralSettingsCommand() {
         super(
                 "general",
                 "gen",
                 "g"
+        );
+        registerCommands(
+                new LanguageCommand(),
+                new PrefixesCommand(),
+                new AddPrefixCommand(),
+                new RemovePrefixCommand()
         );
     }
 }

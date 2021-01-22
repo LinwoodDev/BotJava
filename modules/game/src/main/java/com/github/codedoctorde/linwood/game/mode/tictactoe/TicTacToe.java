@@ -47,7 +47,7 @@ public class TicTacToe extends Board implements SingleApplicationMode {
     public void start(SingleApplication app) {
         game = app;
         events = new TicTacToeEvents(this);
-        Linwood.getInstance().getJda().getEventManager().register(events);
+        Linwood.getInstance().getJda().addEventListener(events);
         var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
         var guild = GuildEntity.get(session, game.getGuildId());
         Category category = null;

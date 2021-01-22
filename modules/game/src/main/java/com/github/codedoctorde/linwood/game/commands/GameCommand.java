@@ -13,13 +13,13 @@ import java.util.Set;
  */
 public class GameCommand extends CommandManager {
     public GameCommand() {
+        super(
+                "game", "games", "play"
+        );
         registerCommands(
                 new StopGameCommand(),
                 new WhatIsItCommand(),
                 new TicTacToeCommand()
-        );
-        super(
-                "game", "games", "play"
         );
     }
 }
