@@ -1,5 +1,7 @@
 package com.github.codedoctorde.linwood.fun.fun;
 
+import com.github.codedoctorde.linwood.core.commands.Command;
+import com.github.codedoctorde.linwood.core.commands.CommandEvent;
 import com.github.codedoctorde.linwood.core.entity.GuildEntity;
 import net.dv8tion.jda.api.entities.Message;
 import org.hibernate.Session;
@@ -15,11 +17,11 @@ public class WindowsCommand extends Command {
     private final Random random = new Random();
     @Override
     public boolean onCommand(final CommandEvent event) {
-        if(args.length > 0)
+        if(event.getArguments().length != 0)
             return false;
         String response;
         InputStream file = null;
-        var bundle = getBundle(entity);
+        var bundle = getBundle(event.getEntity());
         switch (random.nextInt(3)){
             case 0:
                 response = bundle.getString("Crash");
@@ -35,15 +37,14 @@ public class WindowsCommand extends Command {
                 response = bundle.getString("Loading");
                 break;
         }
-        var action = message.getChannel().sendMessage(response);
+        var action = event.reply(response);
         if(file != null)
             action = action.addFile(file, "windows.png");
         action.queue();
         return true;
     }
 
-    @Override
-    public @NotNull Set<String> aliases(GuildEntity entity) {
+    public WindowsCommand() {
         super(
                 "windows",
                 "win",

@@ -1,5 +1,7 @@
 package com.github.codedoctorde.linwood.notification.commands.settings;
 
+import com.github.codedoctorde.linwood.core.commands.Command;
+import com.github.codedoctorde.linwood.core.commands.CommandEvent;
 import com.github.codedoctorde.linwood.core.entity.GuildEntity;
 import com.github.codedoctorde.linwood.core.utils.TagUtil;
 import net.dv8tion.jda.api.Permission;
@@ -20,32 +22,34 @@ import java.util.Set;
 public class StatusChatCommand extends Command {
     @Override
     public boolean onCommand(final CommandEvent event) {
+        var entity = event.getEntity();
+        var args = event.getArguments();
         ResourceBundle bundle = getBundle(entity);
         if(args.length > 1)
             return false;
         if(args.length == 0)
             if(entity.getNotificationEntity().getStatusChatId() != null)
-                message.getChannel().sendMessageFormat(bundle.getString("Get"), entity.getNotificationEntity().getStatusChat().getName(), entity.getNotificationEntity().getStatusChatId()).queue();
+                event.replyFormat(bundle.getString("Get"), entity.getNotificationEntity().getStatusChat().getName(), entity.getNotificationEntity().getStatusChatId()).queue();
             else
-                message.getChannel().sendMessage(bundle.getString("GetNull")).queue();
+                event.reply(bundle.getString("GetNull")).queue();
         else {
             try {
                 TextChannel channel;
                 try {
-                    channel = TagUtil.convertToTextChannel(message.getGuild(), args[0]);
+                    channel = TagUtil.convertToTextChannel(event.getMessage().getGuild(), args[0]);
                 }catch(UnsupportedOperationException ignored) {
-                    message.getChannel().sendMessage(bundle.getString("SetMultiple")).queue();
+                    event.reply(bundle.getString("SetMultiple")).queue();
                     return true;
                 }
                 if(channel == null) {
-                    message.getChannel().sendMessage(bundle.getString("SetNothing")).queue();
+                    event.reply(bundle.getString("SetNothing")).queue();
                     return true;
                 }
                 entity.getNotificationEntity().setStatusChat(channel);
-                entity.save(session);
-                message.getChannel().sendMessageFormat(bundle.getString("Set"), entity.getNotificationEntity().getStatusChat().getAsMention(), entity.getNotificationEntity().getStatusChatId()).queue();
+                entity.save(event.getSession());
+                event.replyFormat(bundle.getString("Set"), entity.getNotificationEntity().getStatusChat().getAsMention(), entity.getNotificationEntity().getStatusChatId()).queue();
             }catch(NullPointerException e){
-                message.getChannel().sendMessage(bundle.getString("NotValid")).queue();
+                event.reply(bundle.getString("NotValid")).queue();
             }
         }
         return true;
@@ -57,8 +61,7 @@ public class StatusChatCommand extends Command {
        return member.hasPermission(Permission.MANAGE_SERVER) || entity.getMaintainerId() != null && member.getRoles().contains(member.getGuild().getRoleById(entity.getMaintainerId()));
     }
 
-    @Override
-    public @NotNull Set<String> aliases(GuildEntity entity) {
+    public StatusChatCommand() {
         super(
                 "statuschat",
                 "status-chat",

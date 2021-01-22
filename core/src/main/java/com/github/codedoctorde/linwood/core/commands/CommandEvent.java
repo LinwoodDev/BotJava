@@ -16,14 +16,14 @@ public class CommandEvent {
     private final Session session;
     private final GuildEntity entity;
     private final String label;
-    private final String[] args;
+    private final String[] arguments;
 
-    public CommandEvent(Message message, Session session, GuildEntity entity, String label, String[] args){
+    public CommandEvent(Message message, Session session, GuildEntity entity, String label, String[] arguments){
         this.message = message;
         this.session = session;
         this.entity = entity;
         this.label = label;
-        this.args = args;
+        this.arguments = arguments;
     }
 
     public GuildEntity getEntity() {
@@ -42,9 +42,13 @@ public class CommandEvent {
         return label;
     }
 
-    public String[] getArgs() {
-        return args;
+    public String[] getArguments() {
+        return arguments;
     }
+    public String getArgumentsString() {
+        return String.join(" ", arguments);
+    }
+
     public TextChannel getTextChannel(){
         return message.getTextChannel();
     }
@@ -67,8 +71,8 @@ public class CommandEvent {
         return getMessage().getGuild();
     }
     public CommandEvent upper(){
-        return new CommandEvent(message, session, entity, (args.length > 0) ? args[0] : "",
-                (args.length > 0) ? Arrays.copyOfRange(args, 1, args.length) : new String[0]);
+        return new CommandEvent(message, session, entity, (arguments.length > 0) ? arguments[0] : "",
+                (arguments.length > 0) ? Arrays.copyOfRange(arguments, 1, arguments.length) : new String[0]);
     }
 
     public void sendSyntaxError(){

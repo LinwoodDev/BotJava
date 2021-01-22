@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>linwood-app</artifactId>
+    <artifactId>linwood-bot</artifactId>
     <dependencies>
         <dependency>
             <groupId>com.github.codedoctorde</groupId>

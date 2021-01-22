@@ -8,6 +8,7 @@ import net.dv8tion.jda.api.MessageBuilder;
 import java.awt.*;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.List;
 
 /**
  * @author CodeDoctorDE
@@ -23,18 +24,18 @@ public abstract class CommandManager extends Command {
     public boolean onCommand(final CommandEvent event) {
         var entity = event.getEntity();
         var message = event.getMessage();
-        var args = event.getArgs();
+        var args = event.getArguments();
         var session = event.getSession();
         var baseBundle = getBaseBundle(entity);
         for (Command command : commands)
             if (command.hasAlias(
-                    (args.length > 0) ? args[0].toLowerCase() : "")) {
+                    (event.getArguments().length != 0) ? args[0].toLowerCase() : "")) {
                 if(command.hasPermission(event.upper()) || Linwood.getInstance().getConfig().getOwners().contains(message.getAuthor().getIdLong())) {
                     if (!command.onCommand(event.upper()))
-                        message.getChannel().sendMessageFormat(ResourceBundle.getBundle("locale.Command").getString("Syntax"), Objects.requireNonNull(command.getBundle(entity)).getString("Syntax")).queue();
+                        event.replyFormat(ResourceBundle.getBundle("locale.Command").getString("Syntax"), Objects.requireNonNull(command.getBundle(entity)).getString("Syntax")).queue();
                 }
                 else
-                    message.getChannel().sendMessage(baseBundle.getString("NoPermission")).queue();
+                    event.reply(baseBundle.getString("NoPermission")).queue();
                 return true;
             }
         if(args.length <= 0) sendHelp(event);
@@ -58,7 +59,18 @@ public abstract class CommandManager extends Command {
     }
 
     public Set<Command> getCommands() {
-        return commands;
+        return new HashSet<>(commands);
+    }
+
+    public void registerCommands(Command... current){
+        commands.addAll(Arrays.asList(current));
+    }
+
+    public void registerCommand(Command command){
+        commands.add(command);
+    }
+    public void unregisterCommand(Command command){
+        commands.remove(command);
     }
 
     public void sendHelp(CommandEvent event){

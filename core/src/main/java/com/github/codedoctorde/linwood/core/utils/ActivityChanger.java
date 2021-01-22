@@ -2,6 +2,7 @@ package com.github.codedoctorde.linwood.core.utils;
 
 import com.github.codedoctorde.linwood.core.Linwood;
 import com.github.codedoctorde.linwood.core.config.ActivityConfig;
+import net.dv8tion.jda.api.OnlineStatus;
 
 import java.util.*;
 
@@ -23,7 +24,7 @@ public class ActivityChanger {
                 if(Linwood.getInstance().getJda() != null) {
                     if (index < 0 || index >= activities.size()) index = 0;
                     if(activities.size() <= 0) return;
-                    Linwood.getInstance().getJda().getPresence().setActivity(activities.get(index).build(Linwood.getInstance().getVersion(), Linwood.getInstance().getJda().getGuilds().size(),
+                    Linwood.getInstance().getJda().setPresence(OnlineStatus.ONLINE, activities.get(index).build(Linwood.getInstance().getVersion(), Linwood.getInstance().getJda().getGuilds().size(),
                             Linwood.getInstance().getJda().getUsers().size()));
                     index++;
                 }

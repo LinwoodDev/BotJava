@@ -16,6 +16,8 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.hooks.AnnotatedEventManager;
 import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
+import net.dv8tion.jda.api.sharding.ShardManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -33,7 +35,7 @@ import java.util.List;
  */
 public class Linwood {
     private final CommandListener commandListener;
-    private JDA jda;
+    private ShardManager jda;
     private final ActivityChanger activityChanger;
     private static Linwood instance;
     private final DatabaseUtil database;
@@ -50,9 +52,9 @@ public class Linwood {
         instance = this;
         Sentry.init();
         commandListener = new CommandListener();
-        var builder = JDABuilder.createDefault(token)
+        var builder = DefaultShardManagerBuilder.createDefault(token)
                 .enableIntents(GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_PRESENCES)
-                .setEventManager(new AnnotatedEventManager())
+                .setEventManagerProvider((id) -> new AnnotatedEventManager())
                 .addEventListeners(commandListener)
                 .addEventListeners(new NotificationListener())
                 .addEventListeners(new ConnectionListener());
@@ -101,7 +103,7 @@ public class Linwood {
         logger.info("Successfully started the bot!");
     }
 
-    public JDA getJda() {
+    public ShardManager getJda() {
         return jda;
     }
 

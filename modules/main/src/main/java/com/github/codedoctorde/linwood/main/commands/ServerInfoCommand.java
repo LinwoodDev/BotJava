@@ -2,30 +2,21 @@ package com.github.codedoctorde.linwood.main.commands;
 
 import com.github.codedoctorde.linwood.core.commands.Command;
 import com.github.codedoctorde.linwood.core.commands.CommandEvent;
-import com.github.codedoctorde.linwood.core.entity.GuildEntity;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.OnlineStatus;
-import net.dv8tion.jda.api.entities.Message;
-import org.eclipse.jetty.server.Server;
-import org.hibernate.Session;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 
 public class ServerInfoCommand extends Command {
     @Override
     public boolean onCommand(final CommandEvent event) {
-        var args = event.getArgs();
+        var args = event.getArguments();
         var message = event.getMessage();
         if(args.length == 0)
             return false;
         var bundle = getBundle(event.getEntity());
-        var guild = message.getGuild();
+        var guild = event.getMessage().getGuild();
         guild.findMembers(member -> !member.getUser().isBot() && member.getOnlineStatus() == OnlineStatus.ONLINE).onSuccess(onlineMembers -> guild.findMembers(member -> member.getUser().isBot()).onSuccess(bots ->
                 guild.findMembers(member -> !member.getUser().isBot() && member.getOnlineStatus() != OnlineStatus.ONLINE).onSuccess(offlineMembers -> guild.retrieveBanList().queue(bans ->
-                        message.getChannel().sendMessage(" ").embed(new EmbedBuilder()
+                        event.reply(" ").embed(new EmbedBuilder()
                                 .addField(bundle.getString("TextChannels"), String.valueOf(guild.getTextChannels().size()), true)
                                 .addField(bundle.getString("VoiceChannels"), String.valueOf(guild.getVoiceChannels().size()), true)
 

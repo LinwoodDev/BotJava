@@ -12,16 +12,12 @@ import java.util.Set;
  * @author CodeDoctorDE
  */
 public class GameCommand extends CommandManager {
-    public Command[] commands() {
-        return new Command[]{
+    public GameCommand() {
+        registerCommands(
                 new StopGameCommand(),
                 new WhatIsItCommand(),
                 new TicTacToeCommand()
-        };
-    }
-
-    @Override
-    public @NotNull Set<String> aliases(GuildEntity entity) {
+        );
         super(
                 "game", "games", "play"
         );

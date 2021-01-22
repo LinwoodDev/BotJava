@@ -1,6 +1,8 @@
 package com.github.codedoctorde.linwood.karma.commands;
 
 import com.github.codedoctorde.linwood.core.Linwood;
+import com.github.codedoctorde.linwood.core.commands.Command;
+import com.github.codedoctorde.linwood.core.commands.CommandEvent;
 import com.github.codedoctorde.linwood.core.entity.GuildEntity;
 import com.github.codedoctorde.linwood.core.utils.TagUtil;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -17,27 +19,29 @@ import java.util.*;
 public class KarmaInfoCommand extends Command {
     @Override
     public boolean onCommand(final CommandEvent event) {
+        var args = event.getArguments();
+        var entity = event.getEntity();
         if(args.length > 1)
         return false;
         var bundle = getBundle(entity);
         if(args.length == 0)
-            karmaCommand(entity, Objects.requireNonNull(message.getMember()), message.getTextChannel());
+            karmaCommand(entity, Objects.requireNonNull(event.getMember()), event.getMessage().getTextChannel());
         else{
             var action =
-                    TagUtil.convertIdToMember(message.getGuild(), args[0]);
+                    TagUtil.convertIdToMember(event.getMessage().getGuild(), args[0]);
             if(action == null){
-                message.getChannel().sendMessage(bundle.getString("SetMultiple")).queue();
+                event.reply(bundle.getString("SetMultiple")).queue();
                 return true;
             }
             action.queue(member -> {
                 if(member == null) {
-                    member = TagUtil.convertNameToMember(message.getGuild(), args[0]);
+                    member = TagUtil.convertNameToMember(event.getMessage().getGuild(), args[0]);
                     if (member == null) {
-                        message.getChannel().sendMessage(bundle.getString("SetMultiple")).queue();
+                        event.reply(bundle.getString("SetMultiple")).queue();
                         return;
                     }
                 }
-                karmaCommand(entity, member, message.getTextChannel());
+                karmaCommand(entity, member, event.getMessage().getTextChannel());
             });
         }
         return true;
@@ -66,8 +70,7 @@ public class KarmaInfoCommand extends Command {
         session.close();
     }
 
-    @Override
-    public @NotNull Set<String> aliases(GuildEntity entity) {
+    public KarmaInfoCommand(){
         super(
                 "karma",
                 "likes",

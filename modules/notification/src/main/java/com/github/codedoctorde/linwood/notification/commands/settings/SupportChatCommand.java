@@ -1,5 +1,7 @@
 package com.github.codedoctorde.linwood.notification.commands.settings;
 
+import com.github.codedoctorde.linwood.core.commands.Command;
+import com.github.codedoctorde.linwood.core.commands.CommandEvent;
 import com.github.codedoctorde.linwood.core.entity.GuildEntity;
 import com.github.codedoctorde.linwood.core.utils.TagUtil;
 import net.dv8tion.jda.api.Permission;
@@ -20,29 +22,31 @@ import java.util.Set;
 public class SupportChatCommand extends Command {
     @Override
     public boolean onCommand(final CommandEvent event) {
+        var entity = event.getEntity();
+        var args = event.getArguments();
         ResourceBundle bundle = getBundle(entity);
         if(args.length > 1)
             return false;
         if(args.length == 0)
             if(entity.getNotificationEntity().getSupportChatId() != null)
-                message.getChannel().sendMessageFormat(bundle.getString("Get"), entity.getNotificationEntity().getSupportChat().getName(), entity.getNotificationEntity().getSupportChatId()).queue();
+                event.replyFormat(bundle.getString("Get"), entity.getNotificationEntity().getSupportChat().getName(), entity.getNotificationEntity().getSupportChatId()).queue();
             else
-                message.getChannel().sendMessage(bundle.getString("GetNull")).queue();
+                event.reply(bundle.getString("GetNull")).queue();
         else {
             TextChannel channel;
             try {
-                channel = TagUtil.convertToTextChannel(message.getGuild(), args[0]);
+                channel = TagUtil.convertToTextChannel(event.getMessage().getGuild(), args[0]);
             }catch(UnsupportedOperationException ignored) {
-                message.getChannel().sendMessage(bundle.getString("SetMultiple")).queue();
+                event.reply(bundle.getString("SetMultiple")).queue();
                 return true;
             }
             if(channel == null) {
-                message.getChannel().sendMessage(bundle.getString("SetNothing")).queue();
+                event.reply(bundle.getString("SetNothing")).queue();
                 return true;
             }
             entity.getNotificationEntity().setSupportChat(channel);
-            entity.save(session);
-            message.getChannel().sendMessageFormat(bundle.getString("Set"), entity.getNotificationEntity().getSupportChat().getAsMention(), entity.getNotificationEntity().getSupportChatId()).queue();
+            entity.save(event.getSession());
+            event.replyFormat(bundle.getString("Set"), entity.getNotificationEntity().getSupportChat().getAsMention(), entity.getNotificationEntity().getSupportChatId()).queue();
         }
         return true;
     }
@@ -53,8 +57,7 @@ public class SupportChatCommand extends Command {
        return member.hasPermission(Permission.MANAGE_SERVER) || entity.getMaintainerId() != null && member.getRoles().contains(member.getGuild().getRoleById(entity.getMaintainerId()));
     }
 
-    @Override
-    public @NotNull Set<String> aliases(GuildEntity entity) {
+    public SupportChatCommand(){
         super(
                 "supportchat",
                 "support-chat",

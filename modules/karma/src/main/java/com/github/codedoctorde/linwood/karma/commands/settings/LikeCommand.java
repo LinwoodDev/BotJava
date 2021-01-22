@@ -1,5 +1,7 @@
 package com.github.codedoctorde.linwood.karma.commands.settings;
 
+import com.github.codedoctorde.linwood.core.commands.Command;
+import com.github.codedoctorde.linwood.core.commands.CommandEvent;
 import com.github.codedoctorde.linwood.core.entity.GuildEntity;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
@@ -15,23 +17,25 @@ import java.util.*;
 public class LikeCommand extends Command {
     @Override
     public boolean onCommand(final CommandEvent event) {
+        var entity = event.getEntity();
+        var args = event.getArguments();
         ResourceBundle bundle = getBundle(entity);
         if(args.length > 1)
             return false;
         if(args.length == 0)
             if(entity.getKarmaEntity().getLikeEmote() != null)
-                message.getChannel().sendMessageFormat(bundle.getString("Get"), entity.getKarmaEntity().getLikeEmote()).queue();
+                event.replyFormat(bundle.getString("Get"), entity.getKarmaEntity().getLikeEmote()).queue();
             else
-                message.getChannel().sendMessage(bundle.getString("GetNull")).queue();
+                event.reply(bundle.getString("GetNull")).queue();
         else {
             var emote = args[0];
             if(Objects.equals(emote, entity.getKarmaEntity().getDislikeEmote())){
-                message.getChannel().sendMessage(bundle.getString("Same")).queue();
+                event.reply(bundle.getString("Same")).queue();
                 return true;
             }
             entity.getKarmaEntity().setLikeEmote(args[0]);
-            entity.save(session);
-            message.getChannel().sendMessageFormat(bundle.getString("Set"), entity.getKarmaEntity().getLikeEmote()).queue();
+            entity.save(event.getSession());
+            event.replyFormat(bundle.getString("Set"), entity.getKarmaEntity().getLikeEmote()).queue();
         }
         return true;
     }
@@ -42,9 +46,8 @@ public class LikeCommand extends Command {
        return member.hasPermission(Permission.MANAGE_SERVER) || entity.getMaintainerId() != null && member.getRoles().contains(member.getGuild().getRoleById(entity.getMaintainerId()));
     }
 
-    @Override
-    public @NotNull Set<String> aliases(GuildEntity entity) {
-        return new HashSet<>(Collections.singletonList(
+    public LikeCommand(){
+        super(
                 "like"
         );
     }

@@ -1,6 +1,8 @@
 package com.github.codedoctorde.linwood.karma.commands;
 
 import com.github.codedoctorde.linwood.core.Linwood;
+import com.github.codedoctorde.linwood.core.commands.Command;
+import com.github.codedoctorde.linwood.core.commands.CommandEvent;
 import com.github.codedoctorde.linwood.core.entity.GuildEntity;
 import com.github.codedoctorde.linwood.core.entity.MemberEntity;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -19,11 +21,11 @@ import java.util.stream.Collectors;
 public class KarmaLeaderboardCommand extends Command {
     @Override
     public boolean onCommand(final CommandEvent event) {
-        if(args.length != 0)
+        if(event.getArguments().length != 0)
         return false;
-        var bundle = getBundle(entity);
-        var leaderboard = Linwood.getInstance().getDatabase().getKarmaLeaderboard(session, message.getGuild().getIdLong());
-        message.getGuild().retrieveMembersByIds(Arrays.stream(leaderboard).map(MemberEntity::getMemberId).collect(Collectors.toList())).onSuccess(members -> {
+        var bundle = getBundle(event.getEntity());
+        var leaderboard = Linwood.getInstance().getDatabase().getKarmaLeaderboard(event.getSession(), event.getMessage().getGuild().getIdLong());
+        event.getMessage().getGuild().retrieveMembersByIds(Arrays.stream(leaderboard).map(MemberEntity::getMemberId).collect(Collectors.toList())).onSuccess(members -> {
             var description = new StringBuilder();
             description.append(bundle.getString("LeaderboardBodyStart")).append("\n");
             for (int i = 0; i < leaderboard.length; i++) {
@@ -34,7 +36,7 @@ public class KarmaLeaderboardCommand extends Command {
                 description.append(String.format(bundle.getString("LeaderboardBody"), i + 1, member.getUser().getAsMention(), me.getKarma(), me.getLikes(), me.getDislikes()));
             }
             description.append(bundle.getString("LeaderboardBodyEnd"));
-            message.getChannel().sendMessage(new EmbedBuilder()
+            event.reply(new EmbedBuilder()
                     .setTitle(bundle.getString("LeaderboardHeader"))
                     .setFooter(bundle.getString("LeaderboardFooter"))
                     .setDescription(description)
@@ -45,8 +47,7 @@ public class KarmaLeaderboardCommand extends Command {
         return true;
     }
 
-    @Override
-    public @NotNull Set<String> aliases(GuildEntity entity) {
+    public KarmaLeaderboardCommand() {
         super(
                 "leaderboard", "lb", "rank", "ranks", "top", "toplist", "top-list", "list"
         );

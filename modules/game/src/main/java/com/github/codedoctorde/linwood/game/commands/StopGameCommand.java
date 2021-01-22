@@ -1,6 +1,8 @@
 package com.github.codedoctorde.linwood.game.commands;
 
 import com.github.codedoctorde.linwood.core.Linwood;
+import com.github.codedoctorde.linwood.core.commands.Command;
+import com.github.codedoctorde.linwood.core.commands.CommandEvent;
 import com.github.codedoctorde.linwood.core.entity.GuildEntity;
 import net.dv8tion.jda.api.entities.Message;
 import org.hibernate.Session;
@@ -16,26 +18,26 @@ import java.util.Set;
 public class StopGameCommand extends Command {
     @Override
     public boolean onCommand(final CommandEvent event) {
-        if(args.length > 0)
+        var entity = event.getEntity();
+        if(event.getArguments().length != 0)
         return false;
         var bundle = getBundle(entity);
-        if(message.getMember() == null)
+        if(event.getMember() == null)
             return false;
-        if(!entity.getGameEntity().isGameMaster(message.getMember())){
-            message.getChannel().sendMessage(bundle.getString("NoPermission")).queue();
+        if(!entity.getGameEntity().isGameMaster(event.getMember())){
+            event.reply(bundle.getString("NoPermission")).queue();
             return true;
         }
         if(Linwood.getInstance().getGameManager().getGame(entity.getGuildId()) == null)
-            message.getTextChannel().sendMessage(bundle.getString("NoGameRunning")).queue();
+            event.reply(bundle.getString("NoGameRunning")).queue();
         else {
             Linwood.getInstance().getGameManager().stopGame(entity.getGuildId());
-            message.getTextChannel().sendMessage(bundle.getString("Success")).queue();
+            event.reply(bundle.getString("Success")).queue();
         }
         return true;
     }
 
-    @Override
-    public @NotNull Set<String> aliases(GuildEntity entity) {
+    public StopGameCommand(){
         super(
                 "stop",
                 "stopgame",

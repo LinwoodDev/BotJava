@@ -9,21 +9,17 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class GameSettingsCommand extends CommandManager {
-    public Command[] commands() {
-        return new Command[]{
-                new ClearGameCategoryCommand(),
-                new GameCategoryCommand(),
-                new ClearGameMasterCommand(),
-                new GameMasterCommand()
-        };
-    }
-
-    @Override
-    public @NotNull Set<String> aliases(GuildEntity entity) {
+    public GameSettingsCommand(){
         super(
                 "game",
                 "games",
                 "gm"
+        );
+        registerCommands(
+                new ClearGameCategoryCommand(),
+                new GameCategoryCommand(),
+                new ClearGameMasterCommand(),
+                new GameMasterCommand()
         );
     }
 }

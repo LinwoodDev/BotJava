@@ -7,24 +7,20 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 
 public class NotificationSettingsCommand extends CommandManager {
-    public Command[] commands() {
-        return new Command[]{
+    public NotificationSettingsCommand() {
+        super(
+                "notification",
+                "notifications",
+                "notif",
+                "n"
+        );
+        registerCommands(
                 new ClearTeamCommand(),
                 new TeamCommand(),
                 new ClearSupportChatCommand(),
                 new SupportChatCommand(),
                 new ClearStatusChatCommand(),
                 new StatusChatCommand()
-        };
-    }
-
-    @Override
-    public @NotNull Set<String> aliases(GuildEntity entity) {
-        super(
-                "notification",
-                "notifications",
-                "notif",
-                "n"
         );
     }
 }

@@ -1,5 +1,7 @@
 package com.github.codedoctorde.linwood.main.commands;
 
+import com.github.codedoctorde.linwood.core.commands.Command;
+import com.github.codedoctorde.linwood.core.commands.CommandEvent;
 import com.github.codedoctorde.linwood.core.entity.GuildEntity;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
@@ -16,18 +18,18 @@ import java.util.Set;
 public class PlanCommand extends Command {
     @Override
     public boolean onCommand(final CommandEvent event) {
-        if(args.length != 0)
+        if(event.getArguments().length != 0)
         return false;
+        var entity = event.getEntity();
         var bundle = getBundle(entity);
-        message.getChannel().sendMessage(new EmbedBuilder()
+        event.getMessage().getChannel().sendMessage(new EmbedBuilder()
                 .addField(bundle.getString("Plan"), bundle.getString("Plan" + entity.getPlan().name()), false)
                 .addField(bundle.getString("PrefixLimitTitle"), String.format(bundle.getString("PrefixLimitBody"), entity.getPlan().getPrefixLimit()), false)
                 .build()).queue();
         return true;
     }
 
-    @Override
-    public @NotNull Set<String> aliases(GuildEntity entity) {
+    public PlanCommand() {
         super(
                 "plan",
                 "plans",

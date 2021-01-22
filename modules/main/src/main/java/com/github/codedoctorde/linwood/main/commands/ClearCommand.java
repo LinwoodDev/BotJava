@@ -2,16 +2,7 @@ package com.github.codedoctorde.linwood.main.commands;
 
 import com.github.codedoctorde.linwood.core.commands.Command;
 import com.github.codedoctorde.linwood.core.commands.CommandEvent;
-import com.github.codedoctorde.linwood.core.entity.GuildEntity;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Message;
-import org.hibernate.Session;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * @author CodeDoctorDE
@@ -19,7 +10,7 @@ import java.util.Set;
 public class ClearCommand extends Command {
     @Override
     public boolean onCommand(final CommandEvent event) {
-        var args = event.getArgs();
+        var args = event.getArguments();
         var entity = event.getEntity();
         if(args.length != 1)
             return false;
@@ -35,7 +26,7 @@ public class ClearCommand extends Command {
             event.reply(bundle.getString("Between")).queue();
         else
             event.getTextChannel().getHistory().retrievePast(count).queue(messages -> {
-                messages.forEach(deleteMessage -> deleteMessage.delete().queue());
+                messages.forEach(deleteMessage -> deleteevent.getMessage().delete().queue());
                 event.replyFormat(bundle.getString("Success"), messages.size()).queue();
             });
         return true;

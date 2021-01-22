@@ -1,5 +1,7 @@
 package com.github.codedoctorde.linwood.fun.fun;
 
+import com.github.codedoctorde.linwood.core.commands.Command;
+import com.github.codedoctorde.linwood.core.commands.CommandEvent;
 import com.github.codedoctorde.linwood.core.entity.GuildEntity;
 import net.dv8tion.jda.api.entities.Message;
 import org.hibernate.Session;
@@ -14,15 +16,14 @@ public class DiceCommand extends Command {
     private final Random random = new Random();
     @Override
     public boolean onCommand(final CommandEvent event) {
-        if(args.length > 0)
+        if(event.getArguments().length != 0)
             return false;
-        var bundle = getBundle(entity);
-        message.getChannel().sendMessageFormat(bundle.getString("Output"), random.nextInt(5) + 1).queue();
+        var bundle = getBundle(event.getEntity());
+        event.getMessage().getChannel().sendMessageFormat(bundle.getString("Output"), random.nextInt(5) + 1).queue();
         return true;
     }
 
-    @Override
-    public @NotNull Set<String> aliases(GuildEntity entity) {
+    public DiceCommand() {
         super(
                 "dice",
                 "d"

@@ -16,8 +16,4 @@ public class RemoveTemplateCommand extends Command {
         return false;
     }
 
-    @Override
-    public @NotNull Set<String> aliases(GuildEntity entity) {
-        return null;
-    }
 }

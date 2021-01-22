@@ -23,10 +23,7 @@ import java.util.Set;
 public class HelpCommand extends Command {
     @Override
     public boolean onCommand(final CommandEvent event) {
-        Command command = Linwood.getInstance().getBaseCommand().getCommand(entity, args);
-        if(command == null)
-            return false;
-        command.sendHelp(entity, commandImplementer, message.getTextChannel());
+        Linwood.getInstance().getCommandListener().sendHelp(event.upper());
         return true;
     }
 

@@ -12,17 +12,13 @@ import java.util.Set;
  * @author CodeDoctorDE
  */
 public class FunCommand extends CommandManager {
-    public Command[] commands() {
-        return new Command[]{
-                new WindowsCommand(),
-                new DiceCommand()
-        };
-    }
-
-    @Override
-    public @NotNull Set<String> aliases(GuildEntity entity) {
+    public FunCommand() {
         super(
                 "fun", "f", "funny"
+        );
+        registerCommands(
+                new WindowsCommand(),
+                new DiceCommand()
         );
     }
 }

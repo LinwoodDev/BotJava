@@ -11,7 +11,7 @@ import java.util.Set;
 
 public class GeneralSettingsCommand extends CommandManager {
     public Command[] commands() {
-        return new Command[]{
+        registerCommands(
                 new LanguageCommand(),
                 new PrefixesCommand(),
                 new AddPrefixCommand(),

@@ -36,11 +36,11 @@ public class SingleApplication {
         return Linwood.getInstance().getDatabase().getGuildById(session, guildId);
     }
     public void stop(){
-        Linwood.getInstance().getJda().getEventManager().unregister(this);
+        Linwood.getInstance().getJda().removeEventListener(this);
         mode.stop();
     }
     public void start(){
-        Linwood.getInstance().getJda().getEventManager().register(this);
+        Linwood.getInstance().getJda().removeEventListener(this);
         mode.start(this);
     }
 

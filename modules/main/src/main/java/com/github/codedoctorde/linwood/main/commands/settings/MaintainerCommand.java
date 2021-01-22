@@ -2,24 +2,16 @@ package com.github.codedoctorde.linwood.main.commands.settings;
 
 import com.github.codedoctorde.linwood.core.commands.Command;
 import com.github.codedoctorde.linwood.core.commands.CommandEvent;
-import com.github.codedoctorde.linwood.core.entity.GuildEntity;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.Role;
-import org.hibernate.Session;
-import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.ResourceBundle;
-import java.util.Set;
 
 public class MaintainerCommand extends Command {
     @Override
     public boolean onCommand(final CommandEvent event) {
         var entity = event.getEntity();
-        var args = event.getArgs();
+        var args = event.getArguments();
         ResourceBundle bundle = getBundle(entity);
         if(args.length > 1)
             return false;

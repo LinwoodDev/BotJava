@@ -1,5 +1,7 @@
 package com.github.codedoctorde.linwood.karma.commands.settings;
 
+import com.github.codedoctorde.linwood.core.commands.Command;
+import com.github.codedoctorde.linwood.core.commands.CommandEvent;
 import com.github.codedoctorde.linwood.core.entity.GuildEntity;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
@@ -18,12 +20,13 @@ import java.util.Set;
 public class ClearLikeCommand extends Command {
     @Override
     public boolean onCommand(final CommandEvent event) {
+        var entity = event.getEntity();
         ResourceBundle bundle = getBundle(entity);
-        if(args.length != 0)
+        if(event.getArguments().length != 0)
             return false;
         entity.getKarmaEntity().setLikeEmote(null);
-        entity.save(session);
-        message.getChannel().sendMessage(bundle.getString("Clear")).queue();
+        entity.save(event.getSession());
+        event.reply(bundle.getString("Clear")).queue();
         return true;
     }
     @Override
@@ -33,8 +36,7 @@ public class ClearLikeCommand extends Command {
        return member.hasPermission(Permission.MANAGE_SERVER) || entity.getMaintainerId() != null && member.getRoles().contains(member.getGuild().getRoleById(entity.getMaintainerId()));
     }
 
-    @Override
-    public @NotNull Set<String> aliases(GuildEntity entity) {
+    public ClearLikeCommand(){
         super(
                 "clearlike",
                 "clear-like"

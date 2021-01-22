@@ -1,5 +1,7 @@
 package com.github.codedoctorde.linwood.karma.commands;
 
+import com.github.codedoctorde.linwood.core.commands.Command;
+import com.github.codedoctorde.linwood.core.commands.CommandEvent;
 import com.github.codedoctorde.linwood.core.entity.GuildEntity;
 import net.dv8tion.jda.api.entities.Message;
 import org.hibernate.Session;
@@ -13,8 +15,4 @@ public class KarmaThanksCommand extends Command {
         return false;
     }
 
-    @Override
-    public @NotNull Set<String> aliases(GuildEntity entity) {
-        return null;
-    }
 }

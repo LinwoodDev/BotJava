@@ -7,17 +7,13 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 
 public class KarmaCommand extends CommandManager {
-    public @NotNull Command[] commands() {
-        return new Command[]{
+    public KarmaCommand(){
+        super(
+                "karma"
+        );
+        registerCommands(
                 new KarmaInfoCommand(),
                 new KarmaLeaderboardCommand()
-        };
-    }
-
-    @Override
-    public @NotNull Set<String> aliases(GuildEntity entity) {
-        return new HashSet<>(Collections.singletonList(
-                "karma"
         );
     }
 }

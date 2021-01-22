@@ -4,9 +4,8 @@ import com.github.codedoctorde.linwood.core.Linwood;
 import com.github.codedoctorde.linwood.core.commands.Command;
 import com.github.codedoctorde.linwood.core.commands.CommandEvent;
 import com.github.codedoctorde.linwood.core.entity.GuildEntity;
-import com.github.codedoctorde.linwood.core.module.LinwoodModule;
+import com.github.codedoctorde.linwood.core.exceptions.CommandSyntaxException;
 import io.sentry.Sentry;
-import io.sentry.Session;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.exceptions.PermissionException;
@@ -46,11 +45,12 @@ public class CommandListener {
             else if (content.startsWith(normalMention))
                 split = normalMention;
             if (split != null) {
+                var bundle = getBundle(guild);
                 var command = Commandline.translateCommandline(content.substring(split.length()));
                 try {
-                    if (!execute(new CommandEvent(event.getMessage(), session, guild, prefix, command)))
+                    execute(new CommandEvent(event.getMessage(), session, guild, prefix, command));
                 }catch(CommandSyntaxException e){
-
+                    event.getChannel().sendMessage(bundle.getString("Syntax")).append(e.getMessage()).queue();
                 } catch(PermissionException e){
                     event.getChannel().sendMessage(bundle.getString("InsufficientPermission")).append(e.getMessage()).queue();
                 }catch (Exception e) {
@@ -67,29 +67,32 @@ public class CommandListener {
     }
 
     public boolean sendHelp(CommandEvent event) {
-        var matcher = pattern.matcher(String.join(event.getArgs(), " "));
+        var matcher = pattern.matcher(String.join(" ", event.getArguments()));
         if (!matcher.find())
             return false;
         var commandString = matcher.group("command");
         var moduleString = matcher.group("module");
-        Command command = null;
+        Command command = findCommand(commandString, moduleString);
+        if (command == null)
+            return false;
+        command.sendHelp(event);
+        return true;
+    }
+    public Command findCommand(String commandString, String moduleString){
         if (moduleString != null) {
             var module = Linwood.getInstance().getModule(moduleString);
             if (module != null)
-                command = module.getCommand(commandString);
+                return module.getCommand(commandString);
         }
         for (var current :
                 Linwood.getInstance().getModules()) {
             var currentCommand = current.getCommand(commandString);
             if (currentCommand != null)
-                command = currentCommand;
+                return currentCommand;
         }
-        if (command == null)
-            return false;
-        command.sendHelp();
-        return true;
+        return null;
     }
-    public void execute(){
+    public void execute(CommandEvent commandEvent){
 
     }
 }

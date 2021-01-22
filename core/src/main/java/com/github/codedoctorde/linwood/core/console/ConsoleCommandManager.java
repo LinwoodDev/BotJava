@@ -17,10 +17,10 @@ public abstract class ConsoleCommandManager implements ConsoleCommand {
     public boolean onCommand(String label, String[] args) {
         for (ConsoleCommand command : commands())
             if (Arrays.asList(command.aliases()).contains(
-                    (args.length > 0) ? args[0].toLowerCase() : "")) {
+                    (event.getArguments().length != 0) ? args[0].toLowerCase() : "")) {
                 if(!command.onCommand(
-                        (args.length > 0) ? args[0] : "",
-                        (args.length > 0) ? Arrays.copyOfRange(args, 1, args.length) : new String[0]))
+                        (event.getArguments().length != 0) ? args[0] : "",
+                        (event.getArguments().length != 0) ? Arrays.copyOfRange(args, 1, args.length) : new String[0]))
                     logger.error(command.syntax());
                 return true;
             }
