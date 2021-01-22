@@ -18,11 +18,11 @@ public abstract class World {
 
     public World(Vector2 cellSize){
         this.cellSize = cellSize;
-        try {
+        /*try {
             backgroundImage = ImageIO.read(getClass().getResourceAsStream("/assets/tictactoe/background.png"));
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     public Vector2 getCellSize() {
