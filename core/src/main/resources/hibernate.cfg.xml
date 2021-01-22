@@ -11,13 +11,13 @@
         <property name="javax.persistence.create-database-schemas">true</property>
         <property name="hibernate.default_schema">linwood</property>
         <!-- Entity mapping -->
-        <mapping class="com.github.codedoctorde.linwood.entity.GuildEntity"/>
-        <mapping class="com.github.codedoctorde.linwood.entity.TemplateEntity"/>
-        <mapping class="com.github.codedoctorde.linwood.entity.GameEntity"/>
-        <mapping class="com.github.codedoctorde.linwood.entity.MemberEntity"/>
-        <mapping class="com.github.codedoctorde.linwood.entity.KarmaEntity"/>
-        <mapping class="com.github.codedoctorde.linwood.entity.NotificationEntity"/>
-        <mapping class="com.github.codedoctorde.linwood.entity.TeamEntity"/>
-        <mapping class="com.github.codedoctorde.linwood.entity.TeamMemberEntity"/>
+        <mapping class="com.github.codedoctorde.linwood.core.entity.GuildEntity"/>
+        <mapping class="com.github.codedoctorde.linwood.core.entity.TemplateEntity"/>
+        <mapping class="com.github.codedoctorde.linwood.core.entity.GameEntity"/>
+        <mapping class="com.github.codedoctorde.linwood.core.entity.MemberEntity"/>
+        <mapping class="com.github.codedoctorde.linwood.core.entity.KarmaEntity"/>
+        <mapping class="com.github.codedoctorde.linwood.core.entity.NotificationEntity"/>
+        <mapping class="com.github.codedoctorde.linwood.core.entity.TeamEntity"/>
+        <mapping class="com.github.codedoctorde.linwood.core.entity.TeamMemberEntity"/>
     </session-factory>
 </hibernate-configuration>
