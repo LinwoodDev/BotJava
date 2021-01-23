@@ -65,7 +65,7 @@ public class MemberEntity {
         return memberId;
     }
 
-    public int getLevel(Session session) {
+    /*public int getLevel(Session session) {
         var guild = getGuild(session);
         return (int) (guild.getKarmaEntity().getConstant() * Math.sqrt(getKarma()));
     }
@@ -73,11 +73,11 @@ public class MemberEntity {
     public double getRemainingKarma(Session session) {
         var guild = getGuild(session);
         return guild.getKarmaEntity().getConstant() * Math.sqrt(getKarma()) - getLevel(session);
-    }
+    }*/
 
-    public long getKarma() {
+    /*public long getKarma() {
         return likes - dislikes;
-    }
+    }*/
 
     public void save(Session session) {
         var t = session.beginTransaction();

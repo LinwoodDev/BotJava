@@ -1,6 +1,7 @@
-package com.github.codedoctorde.linwood.core.entity;
+package com.github.codedoctorde.linwood.notification.entity;
 
 import com.github.codedoctorde.linwood.core.Linwood;
+import com.github.codedoctorde.linwood.core.entity.GuildEntity;
 import com.sun.istack.Nullable;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -22,17 +23,17 @@ public class NotificationEntity {
     private Long statusChatId = null;
     @Column
     private Long logChatId = null;
-    @OneToOne(mappedBy = "notificationEntity")
-    private GuildEntity guild;
+    @Column(name="guildID", unique = true, nullable = false)
+    @Id
+    private int guildId;
 
     public Long getId() {
         return id;
     }
 
-    public GuildEntity getGuild() {
-        return guild;
+    public int getGuildId() {
+        return guildId;
     }
-
 
     public Role getTeamRole(){
         if(teamRoleId == null)

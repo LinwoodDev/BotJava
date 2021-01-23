@@ -1,6 +1,7 @@
 package com.github.codedoctorde.linwood.core.utils;
 
 import com.github.codedoctorde.linwood.core.Linwood;
+import com.github.codedoctorde.linwood.core.entity.DatabaseEntity;
 import com.github.codedoctorde.linwood.core.entity.GuildEntity;
 import com.github.codedoctorde.linwood.core.entity.MemberEntity;
 import com.github.codedoctorde.linwood.core.module.LinwoodModule;
@@ -15,6 +16,7 @@ import org.hibernate.cfg.Configuration;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.Objects;
@@ -95,19 +97,31 @@ public class DatabaseUtil {
         getSessionFactory().close();
     }
 
-    public GuildEntity getGuildById(Session session, long guildId){
-        GuildEntity entity = session.get(GuildEntity.class, guildId);
+    public <T extends DatabaseEntity> T getClassById(Class<T> aClass, Session session, long id){
+        T entity = session.get(aClass, id);
         if ( entity != null ) return entity;
         else try {
-            return createGuild(session, guildId);
+            return createClass(aClass, session, id);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
-    public GuildEntity createGuild(Session session, long guildId){
-        var guild = new GuildEntity(guildId);
+    public GuildEntity getGuildById(Session session, long guildId){
+        return getClassById(GuildEntity.class, session, guildId);
+    }
+    public <T extends DatabaseEntity> T createClass(Class<T> aClass, Session session, long id) {
+        T guild = null;
+        try {
+            guild = aClass.getDeclaredConstructor(Long.class).newInstance(id);
+        } catch (InstantiationException | InvocationTargetException | NoSuchMethodException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        assert guild != null;
         guild.save(session);
         return guild;
+    }
+    public GuildEntity createGuild(Session session, long guildId){
+        return createClass(GuildEntity.class, session, guildId);
     }
     public void updateEntity(Session session, GuildEntity entity){
         session.update(entity);

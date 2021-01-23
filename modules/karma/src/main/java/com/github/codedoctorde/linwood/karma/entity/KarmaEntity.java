@@ -1,5 +1,6 @@
-package com.github.codedoctorde.linwood.core.entity;
+package com.github.codedoctorde.linwood.karma.entity;
 
+import com.github.codedoctorde.linwood.core.entity.GuildEntity;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
@@ -15,12 +16,12 @@ public class KarmaEntity {
     private String likeEmote = null;
     private String dislikeEmote = null;
     private int constant = 1;
-    @OneToOne(mappedBy = "karmaEntity")
-    private GuildEntity guild;
+    @Column(name="guildID", unique = true, nullable = false)
+    @Id
+    private int guildId;
 
-
-    public GuildEntity getGuild() {
-        return guild;
+    public int getGuildId() {
+        return guildId;
     }
 
     public String getLikeEmote() {

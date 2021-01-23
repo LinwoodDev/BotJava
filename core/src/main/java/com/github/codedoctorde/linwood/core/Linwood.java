@@ -4,16 +4,12 @@ import com.github.codedoctorde.linwood.core.apps.single.SingleApplicationManager
 import com.github.codedoctorde.linwood.core.config.MainConfig;
 import com.github.codedoctorde.linwood.core.listener.CommandListener;
 import com.github.codedoctorde.linwood.core.listener.ConnectionListener;
-import com.github.codedoctorde.linwood.core.listener.NotificationListener;
 import com.github.codedoctorde.linwood.core.module.LinwoodModule;
 import com.github.codedoctorde.linwood.core.utils.ActivityChanger;
 import com.github.codedoctorde.linwood.core.utils.DatabaseUtil;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sun.istack.Nullable;
-import io.sentry.Sentry;
-import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.hooks.AnnotatedEventManager;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
@@ -29,7 +25,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author CodeDoctorDE
@@ -57,7 +52,6 @@ public class Linwood {
                 .enableIntents(GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_PRESENCES)
                 .setEventManagerProvider((id) -> new AnnotatedEventManager())
                 .addEventListeners(commandListener)
-                .addEventListeners(new NotificationListener())
                 .addEventListeners(new ConnectionListener());
         activityChanger = new ActivityChanger();
         gameManager = new SingleApplicationManager();
@@ -98,7 +92,8 @@ public class Linwood {
                 "| |   | || |\\ ||| |  ||| / \\|| / \\|| | \\|\n" +
                 "| |_/\\| || | \\||| |/\\||| \\_/|| \\_/|| |_/|\n" +
                 "\\____/\\_/\\_/  \\|\\_/  \\|\\____/\\____/\\____/\n" +
-                "                                         \n");
+                "                                         \n" +
+                "Version " + getVersion() + "\n");
         configure();
         activityChanger.start();
         logger.info("Successfully started the bot!");
@@ -129,7 +124,7 @@ public class Linwood {
         return modules.stream().map(LinwoodModule::getName).toArray(String[]::new);
     }
     public String getModulesString(){
-        return String.join(" ", getModulesString());
+        return String.join(" ", getModulesStrings());
     }
     @Nullable
     public <T extends LinwoodModule> T getModule(Class<T> moduleClass){

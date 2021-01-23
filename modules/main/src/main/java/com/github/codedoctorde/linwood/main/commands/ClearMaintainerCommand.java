@@ -16,7 +16,7 @@ public class ClearMaintainerCommand extends Command {
         ResourceBundle bundle = getBundle(entity);
         if(event.getArguments().length != 0)
             return false;
-        entity.getGameEntity().setGameMasterRole(null);
+        entity.setMaintainer(null);
         entity.save(event.getSession());
         event.reply(bundle.getString("Clear")).queue();
         return true;

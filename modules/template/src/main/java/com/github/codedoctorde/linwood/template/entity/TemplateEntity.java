@@ -1,4 +1,6 @@
-package com.github.codedoctorde.linwood.core.entity;
+package com.github.codedoctorde.linwood.template.entity;
+
+import com.github.codedoctorde.linwood.core.entity.GuildEntity;
 
 import javax.persistence.*;
 
@@ -10,13 +12,12 @@ import javax.persistence.*;
         @UniqueConstraint(columnNames = "ID")
 })
 public class TemplateEntity {
-    @Column(name="ID", unique = true, nullable = false)
-    @Id
+    @Column
     @GeneratedValue
     private int id;
-    @ManyToOne
-    @JoinColumn(name="server_id", nullable=false)
-    private GuildEntity server;
+    @Column(name="guildID", unique = true, nullable = false)
+    @Id
+    private int guildId;
     @Column(name="templateName", nullable = false)
     String name;
     @Column(name="content", nullable = false, columnDefinition = "TEXT")
