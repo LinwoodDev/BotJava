@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author CodeDoctorDE
@@ -124,6 +125,12 @@ public class Linwood {
     public LinwoodModule[] getModules(){
         return modules.toArray(new LinwoodModule[0]);
     }
+    public String[] getModulesStrings(){
+        return modules.stream().map(LinwoodModule::getName).toArray(String[]::new);
+    }
+    public String getModulesString(){
+        return String.join(" ", getModulesString());
+    }
     @Nullable
     public <T extends LinwoodModule> T getModule(Class<T> moduleClass){
         return modules.stream().filter(moduleClass::isInstance).findFirst().map(moduleClass::cast).orElse(null);
@@ -142,7 +149,8 @@ public class Linwood {
     }
 
     public String getVersion(){
-        return getClass().getPackage().getImplementationVersion();
+        var implementation = getClass().getPackage().getImplementationVersion();
+        return implementation == null ? "Snapshot" : implementation;
     }
 
     public DatabaseUtil getDatabase() {

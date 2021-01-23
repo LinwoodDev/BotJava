@@ -15,6 +15,7 @@ import java.util.List;
  */
 public abstract class CommandManager extends Command {
     protected Set<Command> commands = new HashSet<>();
+    protected Set<Command> settingsCommands = new HashSet<>();
 
     protected CommandManager(String... aliases){
         super(aliases);
@@ -59,11 +60,14 @@ public abstract class CommandManager extends Command {
     }
 
     public Set<Command> getCommands() {
-        return new HashSet<>(commands);
+        return Set.copyOf(commands);
     }
 
     public void registerCommands(Command... current){
-        commands.addAll(Arrays.asList(current));
+        Arrays.stream(current).forEach(this::registerCommand);
+    }
+    public void unregisterCommands(Command... current){
+        Arrays.stream(current).forEach(this::unregisterCommand);
     }
 
     public void registerCommand(Command command){
@@ -71,6 +75,24 @@ public abstract class CommandManager extends Command {
     }
     public void unregisterCommand(Command command){
         commands.remove(command);
+    }
+
+    public Set<Command> getSettingsCommands() {
+        return Set.copyOf(settingsCommands);
+    }
+
+    public void registerSettingsCommands(Command... current){
+        Arrays.stream(current).forEach(this::registerSettingsCommand);
+    }
+    public void unregisterSettingsCommands(Command... current){
+        Arrays.stream(current).forEach(this::unregisterSettingsCommand);
+    }
+
+    public void registerSettingsCommand(Command command){
+        settingsCommands.add(command);
+    }
+    public void unregisterSettingsCommand(Command command){
+        settingsCommands.remove(command);
     }
 
     public void sendHelp(CommandEvent event){

@@ -82,6 +82,7 @@ public class CommandListener {
         return findCommand(commandString, moduleString);
     }
     public Command findCommand(String commandString, String moduleString){
+        commandString = commandString == null ? "" : commandString;
         if (moduleString != null) {
             var module = Linwood.getInstance().getModule(moduleString);
             if (module != null)

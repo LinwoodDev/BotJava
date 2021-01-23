@@ -34,6 +34,10 @@ public class GuildEntity {
     @OneToOne(cascade={CascadeType.ALL}, optional = false)
     @JoinColumn(name = "notification_id", referencedColumnName = "id")
     private final NotificationEntity notificationEntity = new NotificationEntity();
+    @ElementCollection
+    @CollectionTable(name="Prefixes", joinColumns=@JoinColumn(name="guild_id"))
+    @Column(name="modules")
+    private final Set<String> enabledModules = Set.of(Linwood.getInstance().getModulesStrings());
     private Long maintainerId = null;
     private GuildPlan plan = GuildPlan.COMMUNITY;
 
@@ -113,7 +117,7 @@ public class GuildEntity {
         this.plan = plan;
     }
     public boolean addPrefix(String prefix){
-        if(plan.getPrefixLimit() == -1 || plan.getPrefixLimit() <= getPrefixes().size() + 1)
+        if(plan.getPrefixLimit() < 0 || plan.getPrefixLimit() > getPrefixes().size())
             return getPrefixes().add(prefix);
         return false;
     }

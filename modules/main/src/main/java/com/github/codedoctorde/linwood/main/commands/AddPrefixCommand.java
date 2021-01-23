@@ -1,4 +1,4 @@
-package com.github.codedoctorde.linwood.main.commands.settings;
+package com.github.codedoctorde.linwood.main.commands;
 
 import com.github.codedoctorde.linwood.core.commands.Command;
 import com.github.codedoctorde.linwood.core.commands.CommandEvent;
@@ -9,16 +9,24 @@ import java.util.ResourceBundle;
 /**
  * @author CodeDoctorDE
  */
-public class ClearMaintainerCommand extends Command {
+public class AddPrefixCommand extends Command {
     @Override
     public boolean onCommand(final CommandEvent event) {
         var entity = event.getEntity();
+        var args = event.getArguments();
         ResourceBundle bundle = getBundle(entity);
-        if(event.getArguments().length != 0)
+        if(event.getArguments().length != 1)
             return false;
-        entity.getGameEntity().setGameMasterRole(null);
-        entity.save(event.getSession());
-        event.reply(bundle.getString("Clear")).queue();
+        else try {
+            if(!entity.addPrefix(args[0])){
+                event.reply(bundle.getString("Invalid")).queue();
+                return true;
+            }
+            entity.save(event.getSession());
+            event.replyFormat(bundle.getString("Success"), args[0]).queue();
+        } catch (NullPointerException e) {
+            event.reply(bundle.getString("NotValid")).queue();
+        }
         return true;
     }
     @Override
@@ -28,7 +36,12 @@ public class ClearMaintainerCommand extends Command {
        return member.hasPermission(Permission.MANAGE_SERVER) || entity.getMaintainerId() != null && member.getRoles().contains(member.getGuild().getRoleById(entity.getMaintainerId()));
     }
 
-    public ClearMaintainerCommand() {
-        super("clear-control", "clear-controller", "clear-maint", "clear-maintainer", "clearcontrol", "clearcontroller", "clearmaint", "clearmaintainer");
+    public AddPrefixCommand() {
+        super(
+                "addprefix",
+                "addpre-fix",
+                "add-prefix",
+                "add-pre-fix"
+        );
     }
 }

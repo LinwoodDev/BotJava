@@ -3,6 +3,7 @@ package com.github.codedoctorde.linwood.core.utils;
 import com.github.codedoctorde.linwood.core.Linwood;
 import com.github.codedoctorde.linwood.core.entity.GuildEntity;
 import com.github.codedoctorde.linwood.core.entity.MemberEntity;
+import com.github.codedoctorde.linwood.core.module.LinwoodModule;
 import com.sun.istack.Nullable;
 import net.dv8tion.jda.api.entities.Member;
 import org.apache.logging.log4j.LogManager;
@@ -15,6 +16,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
@@ -24,7 +26,7 @@ import java.util.ResourceBundle;
  */
 public class DatabaseUtil {
     private static final Logger logger = LogManager.getLogger(DatabaseUtil.class);
-    private final SessionFactory sessionFactory;
+    private SessionFactory sessionFactory;
 
     public DatabaseUtil() {
         try {
@@ -32,6 +34,10 @@ public class DatabaseUtil {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        rebuildSessionFactory();
+    }
+    protected void rebuildSessionFactory(){
+
         var configuration = new Configuration();
         configuration.configure();
 
@@ -69,6 +75,7 @@ public class DatabaseUtil {
         configuration.setProperty("hibernate.c3p0.max_statements", prop.getString("hibernate.c3p0.max_statements"));
         configuration.setProperty("hibernate.c3p0.idle_test_period", prop.getString("hibernate.c3p0.idle_test_period"));
         configuration.setProperty("hibernate.c3p0.preferredTestQuery", prop.getString("hibernate.c3p0.preferredTestQuery"));
+        Arrays.stream(Linwood.getInstance().getModules()).forEach(module -> module.getEntities().forEach(configuration::addClass));
         sessionFactory = configuration.buildSessionFactory();
     }
 
