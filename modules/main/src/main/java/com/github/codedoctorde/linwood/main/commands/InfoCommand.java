@@ -26,6 +26,7 @@ public class InfoCommand extends Command {
     @Override
     public boolean onCommand(final CommandEvent event) {
         var bundle = getBundle(event.getEntity());
+        System.out.println(event.getArgumentsString());
         if(event.getArguments().length != 0)
             return false;
         event.getTextChannel().sendMessage(new EmbedBuilder().setTitle(infoFormat(event.getMessage(), event.getEntity(), bundle.getString("title")))

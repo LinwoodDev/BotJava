@@ -92,14 +92,14 @@ public class Linwood {
             getGameManager().clearGames();
             logger.info("Shutting down...");
         }));
-        configure();
-        activityChanger.start();
         System.out.println(" _     _  _      _      ____  ____  ____ \n" +
                 "/ \\   / \\/ \\  /|/ \\  /|/  _ \\/  _ \\/  _ \\\n" +
                 "| |   | || |\\ ||| |  ||| / \\|| / \\|| | \\|\n" +
                 "| |_/\\| || | \\||| |/\\||| \\_/|| \\_/|| |_/|\n" +
                 "\\____/\\_/\\_/  \\|\\_/  \\|\\____/\\____/\\____/\n" +
                 "                                         \n");
+        configure();
+        activityChanger.start();
         logger.info("Successfully started the bot!");
     }
 
@@ -112,10 +112,14 @@ public class Linwood {
     }
 
     public boolean registerModules(LinwoodModule... registeredModules){
-        return modules.addAll(Arrays.asList(registeredModules));
+        var array = Arrays.asList(registeredModules);
+        array.forEach(LinwoodModule::onEnable);
+        return modules.addAll(array);
     }
     public boolean unregisterModules(LinwoodModule... registeredModules){
-        return modules.removeAll(Arrays.asList(registeredModules));
+        var array = Arrays.asList(registeredModules);
+        array.forEach(LinwoodModule::onDisable);
+        return modules.removeAll(array);
     }
     public LinwoodModule[] getModules(){
         return modules.toArray(new LinwoodModule[0]);
@@ -170,6 +174,7 @@ public class Linwood {
     public void configure(){
         activityChanger.getActivities().clear();
         config.getActivities().forEach(activityChanger.getActivities()::add);
+        modules.forEach(LinwoodModule::onEnable);
     }
 
     public CommandListener getCommandListener() {

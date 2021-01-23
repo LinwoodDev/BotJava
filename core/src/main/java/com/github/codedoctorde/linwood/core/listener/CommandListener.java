@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
  * @author CodeDoctorDE
  */
 public class CommandListener {
-    public static final Pattern pattern = Pattern.compile("(?<module>^[A-Z]+/)?(?<command>[A-Z]+$)");
+    public static final Pattern pattern = Pattern.compile("(?:^(?<module>[A-z]+):)?(?<command>[A-z]+)?(?<args> [A-z]+$)?");
 
 
     @SubscribeEvent
@@ -50,11 +50,11 @@ public class CommandListener {
                 try {
                     execute(new CommandEvent(event.getMessage(), session, guild, prefix, command));
                 }catch(CommandSyntaxException e){
-                    event.getChannel().sendMessage(bundle.getString("Syntax")).append(e.getMessage()).queue();
+                    event.getChannel().sendMessageFormat(bundle.getString("Syntax"), e.getMessage()).queue();
                 } catch(PermissionException e){
-                    event.getChannel().sendMessage(bundle.getString("InsufficientPermission")).append(e.getMessage()).queue();
+                    event.getChannel().sendMessageFormat(bundle.getString("InsufficientPermission"), e.getMessage()).queue();
                 }catch (Exception e) {
-                    event.getChannel().sendMessage(bundle.getString("Error")).append(e.getMessage()).queue();
+                    event.getChannel().sendMessageFormat(bundle.getString("Error"), e.getMessage()).queue();
                     Sentry.captureException(e);
                 }
             }
@@ -67,16 +67,19 @@ public class CommandListener {
     }
 
     public boolean sendHelp(CommandEvent event) {
-        var matcher = pattern.matcher(String.join(" ", event.getArguments()));
-        if (!matcher.find())
-            return false;
-        var commandString = matcher.group("command");
-        var moduleString = matcher.group("module");
-        Command command = findCommand(commandString, moduleString);
+        Command command = findCommand(event.getArgumentsString());
         if (command == null)
             return false;
         command.sendHelp(event);
         return true;
+    }
+    public Command findCommand(String command){
+        var matcher = pattern.matcher(command);
+        if (!matcher.find())
+            return null;
+        var commandString = matcher.group("command");
+        var moduleString = matcher.group("module");
+        return findCommand(commandString, moduleString);
     }
     public Command findCommand(String commandString, String moduleString){
         if (moduleString != null) {
@@ -93,6 +96,9 @@ public class CommandListener {
         return null;
     }
     public void execute(CommandEvent commandEvent){
-
+        var command =
+                findCommand(commandEvent.getArgumentsString());
+        if(command != null)
+            command.onCommand(commandEvent.upper());
     }
 }
