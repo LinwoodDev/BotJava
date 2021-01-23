@@ -25,22 +25,21 @@ public class TicTacToeCommand extends Command {
         if(args.length > 2)
             return false;
         int rounds = 5;
-        var bundle = getBundle(event.getEntity());
         var member = event.getMember();
         assert member != null;
         if(!event.getEntity().getGameEntity().isGameMaster(member)){
-            event.reply(bundle.getString("NoPermission")).queue();
+            event.reply(getTranslationString(entity, "NoPermission")).queue();
             return true;
         }
         if(event.getArguments().length != 0)
             try {
                 rounds = Integer.parseInt(args[0]);
             }catch(Exception e){
-                event.reply(bundle.getString("NoNumber")).queue();
+                event.reply(getTranslationString(entity, "NoNumber")).queue();
                 return true;
             }
         if(rounds > 50 || rounds < 1){
-            event.reply(bundle.getString("Invalid")).queue();
+            event.reply(getTranslationString(entity, "Invalid")).queue();
             return true;
         }
         // Main.getInstance().getGameManager().startGame(entity.getGuildId(), new WhatIsIt(rounds, event.getMessage().getChannel().getIdLong()));
@@ -50,7 +49,7 @@ public class TicTacToeCommand extends Command {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        event.reply(bundle.getString("Success")).addFile(stream.toByteArray(), "TicTacToe.png").queue();
+        event.reply(getTranslationString(entity, "Success")).addFile(stream.toByteArray(), "TicTacToe.png").queue();
         return true;
     }
     public TicTacToeCommand() {

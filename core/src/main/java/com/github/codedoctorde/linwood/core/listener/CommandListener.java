@@ -65,14 +65,6 @@ public class CommandListener {
     public ResourceBundle getBundle(GuildEntity entity) {
         return ResourceBundle.getBundle("locale.Command", entity.getLocalization());
     }
-
-    public boolean sendHelp(CommandEvent event) {
-        Command command = findCommand(event.getArgumentsString());
-        if (command == null)
-            return false;
-        command.sendHelp(event);
-        return true;
-    }
     public Command findCommand(String command){
         var matcher = pattern.matcher(command);
         if (!matcher.find())

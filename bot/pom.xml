@@ -19,7 +19,7 @@
         </dependency>
         <dependency>
             <groupId>com.github.codedoctorde</groupId>
-            <artifactId>linwood-main</artifactId>
+            <artifactId>linwood-modules</artifactId>
             <version>1.1</version>
             <scope>compile</scope>
         </dependency>

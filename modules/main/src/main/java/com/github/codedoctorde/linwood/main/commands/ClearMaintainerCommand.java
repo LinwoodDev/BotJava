@@ -13,12 +13,11 @@ public class ClearMaintainerCommand extends Command {
     @Override
     public boolean onCommand(final CommandEvent event) {
         var entity = event.getEntity();
-        ResourceBundle bundle = getBundle(entity);
         if(event.getArguments().length != 0)
             return false;
         entity.setMaintainer(null);
         entity.save(event.getSession());
-        event.reply(bundle.getString("Clear")).queue();
+        event.reply(getTranslationString(entity, "Clear")).queue();
         return true;
     }
     @Override

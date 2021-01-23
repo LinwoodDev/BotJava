@@ -24,32 +24,31 @@ public class StatusChatCommand extends Command {
     public boolean onCommand(final CommandEvent event) {
         var entity = event.getEntity();
         var args = event.getArguments();
-        ResourceBundle bundle = getBundle(entity);
         if(args.length > 1)
             return false;
         if(args.length == 0)
             if(entity.getNotificationEntity().getStatusChatId() != null)
-                event.replyFormat(bundle.getString("Get"), entity.getNotificationEntity().getStatusChat().getName(), entity.getNotificationEntity().getStatusChatId()).queue();
+                event.replyFormat(getTranslationString(entity, "Get"), entity.getNotificationEntity().getStatusChat().getName(), entity.getNotificationEntity().getStatusChatId()).queue();
             else
-                event.reply(bundle.getString("GetNull")).queue();
+                event.reply(getTranslationString(entity, "GetNull")).queue();
         else {
             try {
                 TextChannel channel;
                 try {
                     channel = TagUtil.convertToTextChannel(event.getMessage().getGuild(), args[0]);
                 }catch(UnsupportedOperationException ignored) {
-                    event.reply(bundle.getString("SetMultiple")).queue();
+                    event.reply(getTranslationString(entity, "SetMultiple")).queue();
                     return true;
                 }
                 if(channel == null) {
-                    event.reply(bundle.getString("SetNothing")).queue();
+                    event.reply(getTranslationString(entity, "SetNothing")).queue();
                     return true;
                 }
                 entity.getNotificationEntity().setStatusChat(channel);
                 entity.save(event.getSession());
-                event.replyFormat(bundle.getString("Set"), entity.getNotificationEntity().getStatusChat().getAsMention(), entity.getNotificationEntity().getStatusChatId()).queue();
+                event.replyFormat(getTranslationString(entity, "Set"), entity.getNotificationEntity().getStatusChat().getAsMention(), entity.getNotificationEntity().getStatusChatId()).queue();
             }catch(NullPointerException e){
-                event.reply(bundle.getString("NotValid")).queue();
+                event.reply(getTranslationString(entity, "NotValid")).queue();
             }
         }
         return true;

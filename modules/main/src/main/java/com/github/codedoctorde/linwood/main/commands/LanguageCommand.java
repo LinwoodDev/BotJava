@@ -14,18 +14,17 @@ public class LanguageCommand extends Command {
     public boolean onCommand(final CommandEvent event) {
         var args = event.getArguments();
         var entity = event.getEntity();
-        ResourceBundle bundle = getBundle(entity);
         if(args.length > 1)
             return false;
         if(args.length == 0)
-            event.replyFormat(bundle.getString("Get"), entity.getLocalization().getDisplayName(entity.getLocalization())).queue();
+            event.replyFormat(getTranslationString(entity, "Get"), entity.getLocalization().getDisplayName(entity.getLocalization())).queue();
         else {
             try {
                 entity.setLocale(args[0]);
                 entity.save(event.getSession());
-                event.replyFormat(bundle.getString("Set"), entity.getLocalization().getDisplayName(entity.getLocalization())).queue();
+                event.replyFormat(getTranslationString(entity, "Set"), entity.getLocalization().getDisplayName(entity.getLocalization())).queue();
             }catch(NullPointerException e){
-                event.reply(bundle.getString("NotValid")).queue();
+                event.reply(getTranslationString(entity, "NotValid")).queue();
             }
         }
         return true;

@@ -10,25 +10,25 @@ public class ServerInfoCommand extends Command {
     public boolean onCommand(final CommandEvent event) {
         var args = event.getArguments();
         var message = event.getMessage();
+        var entity = event.getEntity();
         if(args.length == 0)
             return false;
-        var bundle = getBundle(event.getEntity());
         var guild = event.getMessage().getGuild();
         guild.findMembers(member -> !member.getUser().isBot() && member.getOnlineStatus() == OnlineStatus.ONLINE).onSuccess(onlineMembers -> guild.findMembers(member -> member.getUser().isBot()).onSuccess(bots ->
                 guild.findMembers(member -> !member.getUser().isBot() && member.getOnlineStatus() != OnlineStatus.ONLINE).onSuccess(offlineMembers -> guild.retrieveBanList().queue(bans ->
                         event.reply(" ").embed(new EmbedBuilder()
-                                .addField(bundle.getString("TextChannels"), String.valueOf(guild.getTextChannels().size()), true)
-                                .addField(bundle.getString("VoiceChannels"), String.valueOf(guild.getVoiceChannels().size()), true)
+                                .addField(getTranslationString(entity, "TextChannels"), String.valueOf(guild.getTextChannels().size()), true)
+                                .addField(getTranslationString(entity, "VoiceChannels"), String.valueOf(guild.getVoiceChannels().size()), true)
 
-                                .addField(bundle.getString("Roles"), String.valueOf(guild.getRoles().size()), false)
-                                .addField(bundle.getString("Emotes"), String.valueOf(guild.getEmotes().size()), true)
+                                .addField(getTranslationString(entity, "Roles"), String.valueOf(guild.getRoles().size()), false)
+                                .addField(getTranslationString(entity, "Emotes"), String.valueOf(guild.getEmotes().size()), true)
 
-                                .addField(bundle.getString("OnlineMembers"), String.valueOf(onlineMembers.size()), false)
-                                .addField(bundle.getString("OfflineMembers"), String.valueOf(offlineMembers.size()), true)
-                                .addField(bundle.getString("Bots"), String.valueOf(bots.size()), true)
+                                .addField(getTranslationString(entity, "OnlineMembers"), String.valueOf(onlineMembers.size()), false)
+                                .addField(getTranslationString(entity, "OfflineMembers"), String.valueOf(offlineMembers.size()), true)
+                                .addField(getTranslationString(entity, "Bots"), String.valueOf(bots.size()), true)
 
-                                .addField(bundle.getString("Bans"), String.valueOf(bots.size()), false)
-                                .addField(bundle.getString("Boosts"), String.valueOf(guild.getBoostCount()), true)
+                                .addField(getTranslationString(entity, "Bans"), String.valueOf(bots.size()), false)
+                                .addField(getTranslationString(entity, "Boosts"), String.valueOf(guild.getBoostCount()), true)
                                 .build()).queue()))));
         return true;
     }

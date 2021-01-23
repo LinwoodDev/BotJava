@@ -23,25 +23,24 @@ public class WhatIsItCommand extends Command {
         if(args.length > 2)
             return false;
         int rounds = 5;
-        var bundle = getBundle(event.getEntity());
         assert event.getMember() != null;
         if(!event.getEntity().getGameEntity().isGameMaster(event.getMember())){
-            event.reply(bundle.getString("NoPermission")).queue();
+            event.reply(getTranslationString(entity, "NoPermission")).queue();
             return true;
         }
         if(event.getArguments().length != 0)
             try {
                 rounds = Integer.parseInt(args[0]);
             }catch(Exception e){
-                event.reply(bundle.getString("NoNumber")).queue();
+                event.reply(getTranslationString(entity, "NoNumber")).queue();
                 return true;
             }
         if(rounds > 50 || rounds < 1){
-            event.reply(bundle.getString("Invalid")).queue();
+            event.reply(getTranslationString(entity, "Invalid")).queue();
             return true;
         }
         Linwood.getInstance().getGameManager().startGame(event.getEntity().getGuildId(), new WhatIsIt(rounds, event.getMessage().getChannel().getIdLong()));
-        event.reply(bundle.getString("Success")).queue();
+        event.reply(getTranslationString(entity, "Success")).queue();
         return true;
     }
     public WhatIsItCommand(){

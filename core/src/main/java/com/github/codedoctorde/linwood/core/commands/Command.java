@@ -20,8 +20,8 @@ public abstract class Command {
 
     abstract public boolean onCommand(final CommandEvent event);
     @NotNull
-    protected ResourceBundle getBundle(final GuildEntity entity){
-        return ResourceBundle.getBundle("locale." + getClass().getCanonicalName(), entity.getLocalization());
+    public String getTranslationString(final GuildEntity entity, final String key){
+        return ResourceBundle.getBundle("locale." + getClass().getCanonicalName(), entity.getLocalization()).getString(key);
     }
     protected ResourceBundle getBaseBundle(GuildEntity entity){
         return ResourceBundle.getBundle("locale.Command", entity.getLocalization());
@@ -35,8 +35,5 @@ public abstract class Command {
     }
     public boolean hasAlias(String alias){
         return aliases.stream().anyMatch(current -> current.equalsIgnoreCase(alias));
-    }
-    public void sendHelp(final CommandEvent event){
-        event.reply(getBundle(event.getEntity()).getString("Syntax"));
     }
 }

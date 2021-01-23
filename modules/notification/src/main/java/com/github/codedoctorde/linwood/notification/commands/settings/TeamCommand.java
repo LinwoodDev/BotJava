@@ -20,14 +20,13 @@ public class TeamCommand extends Command {
     public boolean onCommand(final CommandEvent event) {
         var args = event.getArguments();
         var entity = event.getEntity();
-        ResourceBundle bundle = getBundle(entity);
         if(args.length > 1)
             return false;
         if(args.length == 0)
             if(entity.getNotificationEntity().getTeamRoleId() != null)
-                event.replyFormat(bundle.getString("Get"), entity.getNotificationEntity().getTeamRole().getName(), entity.getNotificationEntity().getTeamRoleId()).queue();
+                event.replyFormat(getTranslationString(entity, "Get"), entity.getNotificationEntity().getTeamRole().getName(), entity.getNotificationEntity().getTeamRoleId()).queue();
             else
-                event.reply(bundle.getString("GetNull")).queue();
+                event.reply(getTranslationString(entity, "GetNull")).queue();
         else {
             try {
                 Role role = null;
@@ -37,9 +36,9 @@ public class TeamCommand extends Command {
                 if(role == null){
                     var roles = event.getMessage().getGuild().getRolesByName(args[0], true);
                     if(roles.size() < 1)
-                        event.reply(bundle.getString("SetNothing")).queue();
+                        event.reply(getTranslationString(entity, "SetNothing")).queue();
                     else if(roles.size() > 1)
-                        event.reply(bundle.getString("SetMultiple")).queue();
+                        event.reply(getTranslationString(entity, "SetMultiple")).queue();
                     else
                         role = roles.get(0);
                 }
@@ -47,9 +46,9 @@ public class TeamCommand extends Command {
                     return true;
                 entity.getNotificationEntity().setTeamRole(role);
                 entity.save(event.getSession());
-                event.replyFormat(bundle.getString("Set"), entity.getNotificationEntity().getTeamRole().getName(), entity.getNotificationEntity().getTeamRoleId()).queue();
+                event.replyFormat(getTranslationString(entity, "Set"), entity.getNotificationEntity().getTeamRole().getName(), entity.getNotificationEntity().getTeamRoleId()).queue();
             }catch(NullPointerException e){
-                event.reply(bundle.getString("NotValid")).queue();
+                event.reply(getTranslationString(entity, "NotValid")).queue();
             }
         }
         return true;

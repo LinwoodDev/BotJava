@@ -15,19 +15,18 @@ public class ClearCommand extends Command {
         if(args.length != 1)
             return false;
         int count;
-        var bundle = getBundle(entity);
         try{
             count = Integer.parseInt(args[0]);
         }catch(Exception ignored){
-            event.reply(bundle.getString("Invalid")).queue();
+            event.reply(getTranslationString(entity, "Invalid")).queue();
             return true;
         }
         if(count <= 0 || count > 100)
-            event.reply(bundle.getString("Between")).queue();
+            event.reply(getTranslationString(entity, "Between")).queue();
         else
             event.getTextChannel().getHistory().retrievePast(count).queue(messages -> {
                 messages.forEach(deleteMessage -> deleteMessage.delete().queue());
-                event.replyFormat(bundle.getString("Success"), messages.size()).queue();
+                event.replyFormat(getTranslationString(entity, "Success"), messages.size()).queue();
             });
         return true;
     }

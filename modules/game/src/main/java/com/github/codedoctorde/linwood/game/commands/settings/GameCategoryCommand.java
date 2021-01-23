@@ -23,14 +23,13 @@ public class GameCategoryCommand extends Command {
     public boolean onCommand(final CommandEvent event) {
         var entity = event.getEntity();
         var args = event.getArguments();
-        ResourceBundle bundle = getBundle(entity);
         if(args.length > 1)
             return false;
         if(args.length == 0)
             if(entity.getGameEntity().getGameCategoryId() != null)
-                event.replyFormat(bundle.getString("Get"), entity.getGameEntity().getGameCategory().getName(), entity.getGameEntity().getGameCategoryId()).queue();
+                event.replyFormat(getTranslationString(entity, "Get"), entity.getGameEntity().getGameCategory().getName(), entity.getGameEntity().getGameCategoryId()).queue();
             else
-                event.reply(bundle.getString("GetNull")).queue();
+                event.reply(getTranslationString(entity, "GetNull")).queue();
         else {
             try {
                 Category category = null;
@@ -42,9 +41,9 @@ public class GameCategoryCommand extends Command {
                 if(category == null){
                     var categories = event.getMessage().getGuild().getCategoriesByName(args[0], true);
                     if(categories.size() < 1)
-                        event.reply(bundle.getString("SetNothing")).queue();
+                        event.reply(getTranslationString(entity, "SetNothing")).queue();
                     else if(categories.size() > 1)
-                        event.reply(bundle.getString("SetMultiple")).queue();
+                        event.reply(getTranslationString(entity, "SetMultiple")).queue();
                     else
                         category = categories.get(0);
                     if(category == null)
@@ -52,9 +51,9 @@ public class GameCategoryCommand extends Command {
                 }
                 entity.getGameEntity().setGameCategory(category);
                 entity.save(event.getSession());
-                event.replyFormat(bundle.getString("Set"), entity.getGameEntity().getGameCategory().getName(), entity.getGameEntity().getGameCategoryId()).queue();
+                event.replyFormat(getTranslationString(entity, "Set"), entity.getGameEntity().getGameCategory().getName(), entity.getGameEntity().getGameCategoryId()).queue();
             }catch(NullPointerException e){
-                event.reply(bundle.getString("NotValid")).queue();
+                event.reply(getTranslationString(entity, "NotValid")).queue();
             }
         }
         return true;

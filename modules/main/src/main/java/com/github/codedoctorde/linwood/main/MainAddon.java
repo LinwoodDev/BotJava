@@ -13,7 +13,7 @@ public class MainAddon extends LinwoodModule {
 
     @Override
     public void onEnable() {
-        registerCommands(new ClearCommand(), new InfoCommand(), new AddPrefixCommand(), new PrefixesCommand(), new RemovePrefixCommand(), new ServerInfoCommand(), new ClearCommand(), new ClearMaintainerCommand());
+        registerCommands(new AddPrefixCommand(), new ClearCommand(), new ClearMaintainerCommand(), new HelpCommand(), new InfoCommand(), new LanguageCommand(), new MaintainerCommand(), new PlanCommand(), new PrefixesCommand(), new RemovePrefixCommand(), new ServerInfoCommand(), new SettingsCommand());
         super.onEnable();
     }
 

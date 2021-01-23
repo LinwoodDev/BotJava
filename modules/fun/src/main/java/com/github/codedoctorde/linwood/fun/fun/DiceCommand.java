@@ -18,8 +18,7 @@ public class DiceCommand extends Command {
     public boolean onCommand(final CommandEvent event) {
         if(event.getArguments().length != 0)
             return false;
-        var bundle = getBundle(event.getEntity());
-        event.getMessage().getChannel().sendMessageFormat(bundle.getString("Output"), random.nextInt(5) + 1).queue();
+        event.getMessage().getChannel().sendMessageFormat(getTranslationString(entity, "Output"), random.nextInt(5) + 1).queue();
         return true;
     }
 

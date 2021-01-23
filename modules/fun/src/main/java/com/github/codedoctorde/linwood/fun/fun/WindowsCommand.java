@@ -21,20 +21,19 @@ public class WindowsCommand extends Command {
             return false;
         String response;
         InputStream file = null;
-        var bundle = getBundle(event.getEntity());
         switch (random.nextInt(3)){
             case 0:
-                response = bundle.getString("Crash");
+                response = getTranslationString(entity, "Crash");
 
                 file = getClass().getClassLoader().getResourceAsStream("assets/crash.png");
                 break;
             case 1:
-                response = bundle.getString("Update");
+                response = getTranslationString(entity, "Update");
 
                 file = getClass().getClassLoader().getResourceAsStream(("assets/update.png"));
                 break;
             default:
-                response = bundle.getString("Loading");
+                response = getTranslationString(entity, "Loading");
                 break;
         }
         var action = event.reply(response);

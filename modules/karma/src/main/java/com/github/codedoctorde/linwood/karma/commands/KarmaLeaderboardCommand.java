@@ -23,22 +23,21 @@ public class KarmaLeaderboardCommand extends Command {
     public boolean onCommand(final CommandEvent event) {
         if(event.getArguments().length != 0)
         return false;
-        var bundle = getBundle(event.getEntity());
         var leaderboard = Linwood.getInstance().getDatabase().getKarmaLeaderboard(event.getSession(), event.getMessage().getGuild().getIdLong());
         event.getMessage().getGuild().retrieveMembersByIds(Arrays.stream(leaderboard).map(MemberEntity::getMemberId).collect(Collectors.toList())).onSuccess(members -> {
             var description = new StringBuilder();
-            description.append(bundle.getString("LeaderboardBodyStart")).append("\n");
+            description.append(getTranslationString(entity, "LeaderboardBodyStart")).append("\n");
             for (int i = 0; i < leaderboard.length; i++) {
                 int finalI = i;
                 var member = members.stream().filter(current -> current.getIdLong() == leaderboard[finalI].getMemberId()).findFirst().orElse(null);
                 var me = leaderboard[i];
                 if(member != null)
-                description.append(String.format(bundle.getString("LeaderboardBody"), i + 1, member.getUser().getAsMention(), me.getKarma(), me.getLikes(), me.getDislikes()));
+                description.append(String.format(getTranslationString(entity, "LeaderboardBody"), i + 1, member.getUser().getAsMention(), me.getKarma(), me.getLikes(), me.getDislikes()));
             }
-            description.append(bundle.getString("LeaderboardBodyEnd"));
+            description.append(getTranslationString(entity, "LeaderboardBodyEnd"));
             event.reply(new EmbedBuilder()
-                    .setTitle(bundle.getString("LeaderboardHeader"))
-                    .setFooter(bundle.getString("LeaderboardFooter"))
+                    .setTitle(getTranslationString(entity, "LeaderboardHeader"))
+                    .setFooter(getTranslationString(entity, "LeaderboardFooter"))
                     .setDescription(description)
                     .setColor(new Color(0x3B863B))
                     .setTimestamp(LocalDateTime.now())

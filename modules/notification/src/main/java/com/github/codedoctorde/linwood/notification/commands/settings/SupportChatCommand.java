@@ -24,29 +24,28 @@ public class SupportChatCommand extends Command {
     public boolean onCommand(final CommandEvent event) {
         var entity = event.getEntity();
         var args = event.getArguments();
-        ResourceBundle bundle = getBundle(entity);
         if(args.length > 1)
             return false;
         if(args.length == 0)
             if(entity.getNotificationEntity().getSupportChatId() != null)
-                event.replyFormat(bundle.getString("Get"), entity.getNotificationEntity().getSupportChat().getName(), entity.getNotificationEntity().getSupportChatId()).queue();
+                event.replyFormat(getTranslationString(entity, "Get"), entity.getNotificationEntity().getSupportChat().getName(), entity.getNotificationEntity().getSupportChatId()).queue();
             else
-                event.reply(bundle.getString("GetNull")).queue();
+                event.reply(getTranslationString(entity, "GetNull")).queue();
         else {
             TextChannel channel;
             try {
                 channel = TagUtil.convertToTextChannel(event.getMessage().getGuild(), args[0]);
             }catch(UnsupportedOperationException ignored) {
-                event.reply(bundle.getString("SetMultiple")).queue();
+                event.reply(getTranslationString(entity, "SetMultiple")).queue();
                 return true;
             }
             if(channel == null) {
-                event.reply(bundle.getString("SetNothing")).queue();
+                event.reply(getTranslationString(entity, "SetNothing")).queue();
                 return true;
             }
             entity.getNotificationEntity().setSupportChat(channel);
             entity.save(event.getSession());
-            event.replyFormat(bundle.getString("Set"), entity.getNotificationEntity().getSupportChat().getAsMention(), entity.getNotificationEntity().getSupportChatId()).queue();
+            event.replyFormat(getTranslationString(entity, "Set"), entity.getNotificationEntity().getSupportChat().getAsMention(), entity.getNotificationEntity().getSupportChatId()).queue();
         }
         return true;
     }

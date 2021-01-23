@@ -25,12 +25,11 @@ public class InfoCommand extends Command {
     }
     @Override
     public boolean onCommand(final CommandEvent event) {
-        var bundle = getBundle(event.getEntity());
         System.out.println(event.getArgumentsString());
         if(event.getArguments().length != 0)
             return false;
-        event.getTextChannel().sendMessage(new EmbedBuilder().setTitle(infoFormat(event.getMessage(), event.getEntity(), bundle.getString("title")))
-                .setDescription(infoFormat(event.getMessage(), event.getEntity(), bundle.getString("Body.regexp"))).build()).queue();
+        event.getTextChannel().sendMessage(new EmbedBuilder().setTitle(infoFormat(event.getMessage(), event.getEntity(), getTranslationString(entity, "title")))
+                .setDescription(infoFormat(event.getMessage(), event.getEntity(), getTranslationString(entity, "Body.regexp"))).build()).queue();
         return true;
     }
 

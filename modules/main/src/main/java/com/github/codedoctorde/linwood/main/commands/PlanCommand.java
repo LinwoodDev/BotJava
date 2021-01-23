@@ -21,10 +21,9 @@ public class PlanCommand extends Command {
         if(event.getArguments().length != 0)
         return false;
         var entity = event.getEntity();
-        var bundle = getBundle(entity);
         event.getMessage().getChannel().sendMessage(new EmbedBuilder()
-                .addField(bundle.getString("Plan"), bundle.getString("Plan" + entity.getPlan().name()), false)
-                .addField(bundle.getString("PrefixLimitTitle"), String.format(bundle.getString("PrefixLimitBody"), entity.getPlan().getPrefixLimit()), false)
+                .addField(getTranslationString(entity, "Plan"), getTranslationString(entity, "Plan" + entity.getPlan().name()), false)
+                .addField(getTranslationString(entity, "PrefixLimitTitle"), String.format(getTranslationString(entity, "PrefixLimitBody"), entity.getPlan().getPrefixLimit()), false)
                 .build()).queue();
         return true;
     }

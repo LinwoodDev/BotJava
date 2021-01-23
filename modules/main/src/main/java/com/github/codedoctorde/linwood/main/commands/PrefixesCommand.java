@@ -10,8 +10,7 @@ public class PrefixesCommand extends Command {
         if(event.getArguments().length != 0)
             return false;
         var entity = event.getEntity();
-        var bundle = getBundle(entity);
-        event.replyFormat(bundle.getString("Get"), String.join("," , entity.getPrefixes())).queue();
+        event.replyFormat(getTranslationString(entity, "Get"), String.join("," , entity.getPrefixes())).queue();
         return true;
     }
 

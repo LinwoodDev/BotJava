@@ -12,14 +12,13 @@ public class MaintainerCommand extends Command {
     public boolean onCommand(final CommandEvent event) {
         var entity = event.getEntity();
         var args = event.getArguments();
-        ResourceBundle bundle = getBundle(entity);
         if(args.length > 1)
             return false;
         if(args.length == 0)
             if(entity.getMaintainerId() != null)
-                event.replyFormat(bundle.getString("Get"), entity.getMaintainer().getName(), entity.getMaintainerId()).queue();
+                event.replyFormat(getTranslationString(entity, "Get"), entity.getMaintainer().getName(), entity.getMaintainerId()).queue();
             else
-                event.reply(bundle.getString("GetNull")).queue();
+                event.reply(getTranslationString(entity, "GetNull")).queue();
         else {
             try {
                 Role role = null;
@@ -29,9 +28,9 @@ public class MaintainerCommand extends Command {
                 if(role == null){
                     var roles = event.getGuild().getRolesByName(args[0], true);
                     if(roles.size() < 1)
-                        event.reply(bundle.getString("SetNothing")).queue();
+                        event.reply(getTranslationString(entity, "SetNothing")).queue();
                     else if(roles.size() > 1)
-                        event.reply(bundle.getString("SetMultiple")).queue();
+                        event.reply(getTranslationString(entity, "SetMultiple")).queue();
                     else
                         role = roles.get(0);
                 }
@@ -39,9 +38,9 @@ public class MaintainerCommand extends Command {
                     return true;
                 entity.setMaintainer(role);
                 entity.save(event.getSession());
-                event.replyFormat(bundle.getString("Set"), entity.getMaintainer().getName(), entity.getMaintainerId()).queue();
+                event.replyFormat(getTranslationString(entity, "Set"), entity.getMaintainer().getName(), entity.getMaintainerId()).queue();
             }catch(NullPointerException e){
-                event.reply(bundle.getString("NotValid")).queue();
+                event.reply(getTranslationString(entity, "NotValid")).queue();
             }
         }
         return true;

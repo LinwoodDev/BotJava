@@ -21,18 +21,17 @@ public class StopGameCommand extends Command {
         var entity = event.getEntity();
         if(event.getArguments().length != 0)
         return false;
-        var bundle = getBundle(entity);
         if(event.getMember() == null)
             return false;
         if(!entity.getGameEntity().isGameMaster(event.getMember())){
-            event.reply(bundle.getString("NoPermission")).queue();
+            event.reply(getTranslationString(entity, "NoPermission")).queue();
             return true;
         }
         if(Linwood.getInstance().getGameManager().getGame(entity.getGuildId()) == null)
-            event.reply(bundle.getString("NoGameRunning")).queue();
+            event.reply(getTranslationString(entity, "NoGameRunning")).queue();
         else {
             Linwood.getInstance().getGameManager().stopGame(entity.getGuildId());
-            event.reply(bundle.getString("Success")).queue();
+            event.reply(getTranslationString(entity, "Success")).queue();
         }
         return true;
     }

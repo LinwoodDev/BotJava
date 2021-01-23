@@ -23,14 +23,13 @@ public class GameMasterCommand extends Command {
     public boolean onCommand(final CommandEvent event) {
         var args = event.getArguments();
         var entity = event.getEntity();
-        ResourceBundle bundle = getBundle(entity);
         if(args.length > 1)
             return false;
         if(args.length == 0)
             if((entity.getGameEntity().getGameCategoryId() != null))
-                event.replyFormat(bundle.getString("Get"), entity.getGameEntity().getGameMasterRole().getName(), entity.getGameEntity().getGameMasterRoleId()).queue();
+                event.replyFormat(getTranslationString(entity, "Get"), entity.getGameEntity().getGameMasterRole().getName(), entity.getGameEntity().getGameMasterRoleId()).queue();
         else
-            event.reply(bundle.getString("GetNull")).queue();
+            event.reply(getTranslationString(entity, "GetNull")).queue();
         else {
             try {
                 Role role = null;
@@ -42,9 +41,9 @@ public class GameMasterCommand extends Command {
                 if(role == null){
                     var roles = event.getMessage().getGuild().getRolesByName(args[0], true);
                     if(roles.size() < 1)
-                        event.reply(bundle.getString("SetNothing")).queue();
+                        event.reply(getTranslationString(entity, "SetNothing")).queue();
                     else if(roles.size() > 1)
-                        event.reply(bundle.getString("SetMultiple")).queue();
+                        event.reply(getTranslationString(entity, "SetMultiple")).queue();
                     else
                         role = roles.get(0);
                 }
@@ -52,9 +51,9 @@ public class GameMasterCommand extends Command {
                     return true;
                 entity.getGameEntity().setGameMasterRole(role);
                 entity.save(event.getSession());
-                event.replyFormat(bundle.getString("Set"), entity.getGameEntity().getGameMasterRole().getName(), entity.getGameEntity().getGameMasterRoleId()).queue();
+                event.replyFormat(getTranslationString(entity, "Set"), entity.getGameEntity().getGameMasterRole().getName(), entity.getGameEntity().getGameMasterRoleId()).queue();
             }catch(NullPointerException e){
-                event.reply(bundle.getString("NotValid")).queue();
+                event.reply(getTranslationString(entity, "NotValid")).queue();
             }
         }
         return true;

@@ -19,23 +19,22 @@ public class DislikeCommand extends Command {
     public boolean onCommand(final CommandEvent event) {
         var entity = event.getEntity();
         var args = event.getArguments();
-        ResourceBundle bundle = getBundle(entity);
         if(args.length > 1)
             return false;
         if(args.length == 0)
             if(entity.getKarmaEntity().getDislikeEmote() != null)
-                event.replyFormat(bundle.getString("Get"), entity.getKarmaEntity().getDislikeEmote()).queue();
+                event.replyFormat(getTranslationString(entity, "Get"), entity.getKarmaEntity().getDislikeEmote()).queue();
             else
-                event.reply(bundle.getString("GetNull")).queue();
+                event.reply(getTranslationString(entity, "GetNull")).queue();
         else {
             var emote = args[0];
             if(Objects.equals(emote, entity.getKarmaEntity().getDislikeEmote())){
-                event.reply(bundle.getString("Same")).queue();
+                event.reply(getTranslationString(entity, "Same")).queue();
                 return true;
             }
                 entity.getKarmaEntity().setDislikeEmote(emote);
                 entity.save(event.getSession());
-                event.replyFormat(bundle.getString("Set"), entity.getKarmaEntity().getDislikeEmote()).queue();
+                event.replyFormat(getTranslationString(entity, "Set"), entity.getKarmaEntity().getDislikeEmote()).queue();
         }
         return true;
     }
