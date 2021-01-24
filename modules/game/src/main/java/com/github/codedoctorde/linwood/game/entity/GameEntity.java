@@ -2,6 +2,7 @@ package com.github.codedoctorde.linwood.game.entity;
 
 import com.github.codedoctorde.linwood.core.Linwood;
 import com.github.codedoctorde.linwood.core.entity.DatabaseEntity;
+import com.github.codedoctorde.linwood.core.entity.GuildEntity;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Category;
 import net.dv8tion.jda.api.entities.Member;
@@ -12,7 +13,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "game")
-public class GameEntity extends  DatabaseEntity {
+public class GameEntity extends GuildEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -23,13 +24,13 @@ public class GameEntity extends  DatabaseEntity {
     private Long gameCategoryId;
     @Column(name="guildID", unique = true, nullable = false)
     @Id
-    private int guildId;
+    private long guildId;
 
     public Long getId() {
         return id;
     }
 
-    public int getGuildId() {
+    public long getGuildId() {
         return guildId;
     }
 
