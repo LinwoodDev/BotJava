@@ -2,29 +2,21 @@ package com.github.codedoctorde.linwood.notification.commands.settings;
 
 import com.github.codedoctorde.linwood.core.commands.Command;
 import com.github.codedoctorde.linwood.core.commands.CommandEvent;
-import com.github.codedoctorde.linwood.core.entity.GuildEntity;
+import com.github.codedoctorde.linwood.notification.entity.NotificationEntity;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.Role;
-import org.hibernate.Session;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.ResourceBundle;
-import java.util.Set;
 
 public class TeamCommand extends Command {
     @Override
     public boolean onCommand(final CommandEvent event) {
         var args = event.getArguments();
         var entity = event.getEntity();
+        var notificationEntity = event.getClassEntity(NotificationEntity.class);
         if(args.length > 1)
             return false;
         if(args.length == 0)
-            if(entity.getNotificationEntity().getTeamRoleId() != null)
-                event.replyFormat(getTranslationString(entity, "Get"), entity.getNotificationEntity().getTeamRole().getName(), entity.getNotificationEntity().getTeamRoleId()).queue();
+            if(notificationEntity.getTeamRoleId() != null)
+                event.replyFormat(getTranslationString(entity, "Get"), notificationEntity.getTeamRole().getName(), notificationEntity.getTeamRoleId()).queue();
             else
                 event.reply(getTranslationString(entity, "GetNull")).queue();
         else {
@@ -44,9 +36,9 @@ public class TeamCommand extends Command {
                 }
                 if(role == null)
                     return true;
-                entity.getNotificationEntity().setTeamRole(role);
+                notificationEntity.setTeamRole(role);
                 entity.save(event.getSession());
-                event.replyFormat(getTranslationString(entity, "Set"), entity.getNotificationEntity().getTeamRole().getName(), entity.getNotificationEntity().getTeamRoleId()).queue();
+                event.replyFormat(getTranslationString(entity, "Set"), notificationEntity.getTeamRole().getName(), notificationEntity.getTeamRoleId()).queue();
             }catch(NullPointerException e){
                 event.reply(getTranslationString(entity, "NotValid")).queue();
             }

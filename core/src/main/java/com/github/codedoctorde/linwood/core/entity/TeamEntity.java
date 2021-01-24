@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Entity
-public class TeamEntity {
+public class TeamEntity extends DatabaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -15,7 +15,7 @@ public class TeamEntity {
     private final List<TeamMemberEntity> guilds = new ArrayList<>();
 
     public TeamEntity(){}
-    public TeamEntity(GuildEntity ownerGuild, GuildEntity... memberGuilds){
+    public TeamEntity(GeneralGuildEntity ownerGuild, GeneralGuildEntity... memberGuilds){
         guilds.add(new TeamMemberEntity(ownerGuild, PermissionLevel.OWNER));
         Arrays.stream(memberGuilds).forEach(guild -> guilds.add(new TeamMemberEntity(guild, PermissionLevel.MEMBER)));
     }

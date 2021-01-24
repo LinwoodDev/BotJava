@@ -1,13 +1,12 @@
 package com.github.codedoctorde.linwood.karma.entity;
 
-import com.github.codedoctorde.linwood.core.entity.GuildEntity;
-import com.sun.istack.NotNull;
+import com.github.codedoctorde.linwood.core.entity.DatabaseEntity;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "karma")
-public class KarmaEntity {
+public class KarmaEntity extends  DatabaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")

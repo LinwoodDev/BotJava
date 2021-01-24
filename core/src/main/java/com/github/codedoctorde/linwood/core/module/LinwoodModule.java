@@ -2,6 +2,7 @@ package com.github.codedoctorde.linwood.core.module;
 
 import com.github.codedoctorde.linwood.core.Linwood;
 import com.github.codedoctorde.linwood.core.commands.Command;
+import com.github.codedoctorde.linwood.core.entity.DatabaseEntity;
 import com.sun.istack.Nullable;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,7 +15,7 @@ import java.util.*;
 public abstract class LinwoodModule {
     private final Set<Object> listeners = new HashSet<>();
     private final Set<Command> commands = new HashSet<>();
-    private final Set<Class<Object>> entities = new HashSet<>();
+    private final Set<Class<? extends DatabaseEntity>> entities = new HashSet<>();
     private final Set<String> status = new HashSet<>();
     private final String name;
     private final Logger logger;
@@ -31,20 +32,20 @@ public abstract class LinwoodModule {
     public Set<Command> getCommands() {
         return Set.copyOf(commands);
     }
-    public Set<Class<Object>> getEntities() {
+    public Set<Class<? extends DatabaseEntity>> getEntities() {
         return Set.copyOf(entities);
     }
 
-    protected void registerEntity(Class<Object> entity){
+    protected void registerEntity(Class<? extends DatabaseEntity> entity){
         entities.add(entity);
     }
-    protected void unregisterEntity(Class<Object> entity){
+    protected void unregisterEntity(Class<? extends DatabaseEntity> entity){
         entities.remove(entity);
     }
-    protected void registerEntities(Class<Object>... current){
+    protected void registerEntities(Class<? extends DatabaseEntity>... current){
         Arrays.stream(current).forEach(this::registerEntity);
     }
-    protected void unregisterEntities(Class<Object>... current){
+    protected void unregisterEntities(Class<? extends DatabaseEntity>... current){
         Arrays.stream(current).forEach(this::unregisterEntity);
     }
     protected void registerEvents(Object... eventListeners){

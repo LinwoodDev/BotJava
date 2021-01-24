@@ -3,7 +3,7 @@ package com.github.codedoctorde.linwood.core.listener;
 import com.github.codedoctorde.linwood.core.Linwood;
 import com.github.codedoctorde.linwood.core.commands.Command;
 import com.github.codedoctorde.linwood.core.commands.CommandEvent;
-import com.github.codedoctorde.linwood.core.entity.GuildEntity;
+import com.github.codedoctorde.linwood.core.entity.GeneralGuildEntity;
 import com.github.codedoctorde.linwood.core.exceptions.CommandSyntaxException;
 import io.sentry.Sentry;
 import net.dv8tion.jda.api.entities.ChannelType;
@@ -26,7 +26,7 @@ public class CommandListener {
     @SubscribeEvent
     public void onCommand(@Nonnull MessageReceivedEvent event) {
         var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
-        var guild = GuildEntity.get(session, event.getGuild().getIdLong());
+        var guild = Linwood.getInstance().getDatabase().getGuildById(session, event.getGuild().getIdLong());
         if (event.getChannelType() == ChannelType.TEXT && !event.getAuthor().isBot()) {
             var content = event.getMessage().getContentRaw();
             var prefixes = guild.getPrefixes();
@@ -62,7 +62,7 @@ public class CommandListener {
         session.close();
     }
 
-    public ResourceBundle getBundle(GuildEntity entity) {
+    public ResourceBundle getBundle(GeneralGuildEntity entity) {
         return ResourceBundle.getBundle("locale.Command", entity.getLocalization());
     }
     public Command findCommand(String command){

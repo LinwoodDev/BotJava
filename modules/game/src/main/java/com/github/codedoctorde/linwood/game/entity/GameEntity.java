@@ -1,7 +1,7 @@
 package com.github.codedoctorde.linwood.game.entity;
 
 import com.github.codedoctorde.linwood.core.Linwood;
-import com.github.codedoctorde.linwood.core.entity.GuildEntity;
+import com.github.codedoctorde.linwood.core.entity.DatabaseEntity;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Category;
 import net.dv8tion.jda.api.entities.Member;
@@ -12,7 +12,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "game")
-public class GameEntity {
+public class GameEntity extends  DatabaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")

@@ -2,7 +2,7 @@ package com.github.codedoctorde.linwood.game.mode.tictactoe;
 
 import com.github.codedoctorde.linwood.core.Linwood;
 import com.github.codedoctorde.linwood.core.apps.single.SingleApplication;
-import com.github.codedoctorde.linwood.core.entity.GuildEntity;
+import com.github.codedoctorde.linwood.core.entity.GeneralGuildEntity;
 import com.github.codedoctorde.linwood.core.apps.single.SingleApplicationMode;
 import com.github.codedoctorde.linwood.game.engine.Board;
 import net.dv8tion.jda.api.entities.Category;
@@ -49,7 +49,7 @@ public class TicTacToe extends Board implements SingleApplicationMode {
         events = new TicTacToeEvents(this);
         Linwood.getInstance().getJda().addEventListener(events);
         var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
-        var guild = GuildEntity.get(session, game.getGuildId());
+        var guild = GeneralGuildEntity.get(session, game.getGuildId());
         Category category = null;
         if(guild.getGameEntity().getGameCategoryId() != null)
             category = guild.getGameEntity().getGameCategory();

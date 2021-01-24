@@ -1,7 +1,7 @@
 package com.github.codedoctorde.linwood.core.apps.single;
 
 import com.github.codedoctorde.linwood.core.Linwood;
-import com.github.codedoctorde.linwood.core.entity.GuildEntity;
+import com.github.codedoctorde.linwood.core.entity.GeneralGuildEntity;
 import net.dv8tion.jda.api.entities.Guild;
 import org.hibernate.Session;
 
@@ -32,7 +32,7 @@ public class SingleApplication {
         return Linwood.getInstance().getJda().getGuildById(guildId);
     }
 
-    public GuildEntity getGuildEntity(Session session){
+    public GeneralGuildEntity getGuildEntity(Session session){
         return Linwood.getInstance().getDatabase().getGuildById(session, guildId);
     }
     public void stop(){

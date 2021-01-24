@@ -3,12 +3,8 @@ package com.github.codedoctorde.linwood.karma.commands;
 import com.github.codedoctorde.linwood.core.Linwood;
 import com.github.codedoctorde.linwood.core.commands.Command;
 import com.github.codedoctorde.linwood.core.commands.CommandEvent;
-import com.github.codedoctorde.linwood.core.entity.GuildEntity;
-import com.github.codedoctorde.linwood.core.entity.MemberEntity;
+import com.github.codedoctorde.linwood.core.entity.GeneralMemberEntity;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.Message;
-import org.hibernate.Session;
-import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.time.LocalDateTime;
@@ -24,7 +20,7 @@ public class KarmaLeaderboardCommand extends Command {
         if(event.getArguments().length != 0)
         return false;
         var leaderboard = Linwood.getInstance().getDatabase().getKarmaLeaderboard(event.getSession(), event.getMessage().getGuild().getIdLong());
-        event.getMessage().getGuild().retrieveMembersByIds(Arrays.stream(leaderboard).map(MemberEntity::getMemberId).collect(Collectors.toList())).onSuccess(members -> {
+        event.getMessage().getGuild().retrieveMembersByIds(Arrays.stream(leaderboard).map(GeneralMemberEntity::getMemberId).collect(Collectors.toList())).onSuccess(members -> {
             var description = new StringBuilder();
             description.append(getTranslationString(entity, "LeaderboardBodyStart")).append("\n");
             for (int i = 0; i < leaderboard.length; i++) {

@@ -1,9 +1,6 @@
 package com.github.codedoctorde.linwood.core.commands;
 
-import com.github.codedoctorde.linwood.core.entity.GuildEntity;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Message;
-import org.hibernate.Session;
+import com.github.codedoctorde.linwood.core.entity.GeneralGuildEntity;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
@@ -20,10 +17,10 @@ public abstract class Command {
 
     abstract public boolean onCommand(final CommandEvent event);
     @NotNull
-    public String getTranslationString(final GuildEntity entity, final String key){
+    public String getTranslationString(final GeneralGuildEntity entity, final String key){
         return ResourceBundle.getBundle("locale." + getClass().getCanonicalName(), entity.getLocalization()).getString(key);
     }
-    protected ResourceBundle getBaseBundle(GuildEntity entity){
+    protected ResourceBundle getBaseBundle(GeneralGuildEntity entity){
         return ResourceBundle.getBundle("locale.Command", entity.getLocalization());
     }
     public boolean hasPermission(final CommandEvent event){

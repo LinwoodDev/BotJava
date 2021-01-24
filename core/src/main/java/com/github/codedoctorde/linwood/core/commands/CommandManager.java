@@ -1,14 +1,9 @@
 package com.github.codedoctorde.linwood.core.commands;
 
 import com.github.codedoctorde.linwood.core.Linwood;
-import com.github.codedoctorde.linwood.core.entity.GuildEntity;
-import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.MessageBuilder;
+import com.github.codedoctorde.linwood.core.entity.GeneralGuildEntity;
 
-import java.awt.*;
-import java.time.LocalDateTime;
 import java.util.*;
-import java.util.List;
 
 /**
  * @author CodeDoctorDE
@@ -33,19 +28,17 @@ public abstract class CommandManager extends Command {
                     (event.getArguments().length != 0) ? args[0].toLowerCase() : "")) {
                 if(command.hasPermission(event.upper()) || Linwood.getInstance().getConfig().getOwners().contains(message.getAuthor().getIdLong())) {
                     if (!command.onCommand(event.upper()))
-                        event.replyFormat(ResourceBundle.getBundle("locale.Command").getString("Syntax"), Objects.requireNonNull(command.getBundle(entity)).getString("Syntax")).queue();
+                        event.replyFormat(ResourceBundle.getBundle("locale.Command").getString("Syntax"), Objects.requireNonNull(command.getTranslationString(entity, "Syntax"))).queue();
                 }
                 else
                     event.reply(baseBundle.getString("NoPermission")).queue();
                 return true;
-            }
-        if(args.length <= 0) sendHelp(event);
-        else
-            return false;
+            }else
+                return false;
         return true;
     }
 
-    public Command getCommand(GuildEntity entity, String... args){
+    public Command getCommand(GeneralGuildEntity entity, String... args){
         Command command = this;
         for (String arg:
                 args)
@@ -95,7 +88,7 @@ public abstract class CommandManager extends Command {
         settingsCommands.remove(command);
     }
 
-    public void sendHelp(CommandEvent event){
+    /*public void sendHelp(CommandEvent event){
         var commandBundle = getBundle(event.getEntity());
         var bundle = getBaseBundle(event.getEntity());
         var output = new MessageBuilder()
@@ -112,5 +105,5 @@ public abstract class CommandManager extends Command {
                         .build())
                 .build();
         event.reply(output).queue();
-    }
+    }*/
 }

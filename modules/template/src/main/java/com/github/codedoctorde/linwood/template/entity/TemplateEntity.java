@@ -1,7 +1,5 @@
 package com.github.codedoctorde.linwood.template.entity;
 
-import com.github.codedoctorde.linwood.core.entity.GuildEntity;
-
 import javax.persistence.*;
 
 /**

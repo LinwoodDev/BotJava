@@ -3,16 +3,16 @@ package com.github.codedoctorde.linwood.core.entity;
 import javax.persistence.*;
 
 @Entity
-public class TeamMemberEntity {
+public class TeamMemberEntity extends DatabaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long id;
     @OneToOne
-    private GuildEntity guild;
+    private GeneralGuildEntity guild;
     private PermissionLevel permissionLevel;
 
-    public TeamMemberEntity(GuildEntity guild, PermissionLevel level){
+    public TeamMemberEntity(GeneralGuildEntity guild, PermissionLevel level){
         permissionLevel = level;
         this.guild = guild;
     }
@@ -33,7 +33,7 @@ public class TeamMemberEntity {
         return id;
     }
 
-    public GuildEntity getGuild() {
+    public GeneralGuildEntity getGuild() {
         return guild;
     }
 }

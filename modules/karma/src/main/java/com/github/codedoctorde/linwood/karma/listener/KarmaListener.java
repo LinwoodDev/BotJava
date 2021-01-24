@@ -1,7 +1,7 @@
 package com.github.codedoctorde.linwood.karma.listener;
 
 import com.github.codedoctorde.linwood.core.Linwood;
-import com.github.codedoctorde.linwood.core.entity.GuildEntity;
+import com.github.codedoctorde.linwood.core.entity.GeneralGuildEntity;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Member;
@@ -72,14 +72,14 @@ public class KarmaListener {
             }));
         });
     }
-    public boolean givingAction(GuildEntity entity, Member member){
+    public boolean givingAction(GeneralGuildEntity entity, Member member){
         if(entity.getKarmaEntity().getMaxGiving() <= memberGivingHashMap.getOrDefault(member.getIdLong(), 0) && !member.hasPermission(Permission.MANAGE_SERVER))
             return false;
         memberGivingHashMap.put(member.getIdLong(), memberGivingHashMap.getOrDefault(member.getIdLong(), 0) + 1);
         return true;
     }
 
-    public boolean giveLike(GuildEntity entity, Member donor, Member taker, Session session){
+    public boolean giveLike(GeneralGuildEntity entity, Member donor, Member taker, Session session){
         if(!givingAction(entity, donor))
             return false;
         var donorEntity = Linwood.getInstance().getDatabase().getMemberEntity(session, donor);
@@ -95,7 +95,7 @@ public class KarmaListener {
         memberGivingHashMap.put(donor.getIdLong(), memberGivingHashMap.getOrDefault(donor.getIdLong(), 0) - 1);
         takerEntity.save(session);
     }
-    public boolean giveDislike(GuildEntity entity, Member donor, Member taker, Session session){
+    public boolean giveDislike(GeneralGuildEntity entity, Member donor, Member taker, Session session){
         if(!givingAction(entity, donor))
             return false;
         var donorEntity = Linwood.getInstance().getDatabase().getMemberEntity(session, donor);

@@ -3,16 +3,11 @@ package com.github.codedoctorde.linwood.main.commands;
 import com.github.codedoctorde.linwood.core.Linwood;
 import com.github.codedoctorde.linwood.core.commands.Command;
 import com.github.codedoctorde.linwood.core.commands.CommandEvent;
-import com.github.codedoctorde.linwood.core.entity.GuildEntity;
+import com.github.codedoctorde.linwood.core.entity.GeneralGuildEntity;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
-import org.hibernate.Session;
-import org.jetbrains.annotations.NotNull;
 
 import java.lang.management.ManagementFactory;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * @author CodeDoctorDE
@@ -26,6 +21,7 @@ public class InfoCommand extends Command {
     @Override
     public boolean onCommand(final CommandEvent event) {
         System.out.println(event.getArgumentsString());
+        var entity = event.getEntity();
         if(event.getArguments().length != 0)
             return false;
         event.getTextChannel().sendMessage(new EmbedBuilder().setTitle(infoFormat(event.getMessage(), event.getEntity(), getTranslationString(entity, "title")))
@@ -33,7 +29,7 @@ public class InfoCommand extends Command {
         return true;
     }
 
-    public String infoFormat(Message message, GuildEntity entity, String text){
+    public String infoFormat(Message message, GeneralGuildEntity entity, String text){
         var uptime = ManagementFactory.getRuntimeMXBean().getUptime();
         long millis = uptime % 1000;
         long second = (uptime / 1000) % 60;

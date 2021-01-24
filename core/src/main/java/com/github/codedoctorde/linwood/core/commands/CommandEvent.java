@@ -1,6 +1,8 @@
 package com.github.codedoctorde.linwood.core.commands;
 
-import com.github.codedoctorde.linwood.core.entity.GuildEntity;
+import com.github.codedoctorde.linwood.core.Linwood;
+import com.github.codedoctorde.linwood.core.entity.DatabaseEntity;
+import com.github.codedoctorde.linwood.core.entity.GeneralGuildEntity;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.requests.restaction.MessageAction;
 import org.hibernate.Session;
@@ -14,11 +16,11 @@ import java.util.ResourceBundle;
 public class CommandEvent {
     private final Message message;
     private final Session session;
-    private final GuildEntity entity;
+    private final GeneralGuildEntity entity;
     private final String label;
     private final String[] arguments;
 
-    public CommandEvent(Message message, Session session, GuildEntity entity, String label, String[] arguments) {
+    public CommandEvent(Message message, Session session, GeneralGuildEntity entity, String label, String[] arguments) {
         this.message = message;
         this.session = session;
         this.entity = entity;
@@ -26,8 +28,12 @@ public class CommandEvent {
         this.arguments = arguments;
     }
 
-    public GuildEntity getEntity() {
+    public GeneralGuildEntity getEntity() {
         return entity;
+    }
+
+    public <T extends DatabaseEntity> T getClassEntity(Class<T> aClass) {
+        return Linwood.getInstance().getDatabase().getEntityById(aClass, session, message.getGuild().getIdLong());
     }
 
     public Message getMessage() {

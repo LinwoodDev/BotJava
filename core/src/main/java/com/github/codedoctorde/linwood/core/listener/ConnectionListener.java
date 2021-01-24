@@ -1,7 +1,6 @@
 package com.github.codedoctorde.linwood.core.listener;
 
 import com.github.codedoctorde.linwood.core.Linwood;
-import com.github.codedoctorde.linwood.core.entity.GuildEntity;
 import io.sentry.Sentry;
 import net.dv8tion.jda.api.events.ShutdownEvent;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
@@ -18,7 +17,7 @@ public class ConnectionListener {
     public void onGuildJoin(GuildJoinEvent event){
         try {
             var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
-            var guild = GuildEntity.get(session, event.getGuild().getIdLong());
+            var guild = Linwood.getInstance().getDatabase().getGuildById(session, event.getGuild().getIdLong());
             guild.save(session);
             session.close();
         }

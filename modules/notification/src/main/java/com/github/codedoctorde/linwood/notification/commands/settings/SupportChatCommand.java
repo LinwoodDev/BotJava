@@ -2,19 +2,10 @@ package com.github.codedoctorde.linwood.notification.commands.settings;
 
 import com.github.codedoctorde.linwood.core.commands.Command;
 import com.github.codedoctorde.linwood.core.commands.CommandEvent;
-import com.github.codedoctorde.linwood.core.entity.GuildEntity;
 import com.github.codedoctorde.linwood.core.utils.TagUtil;
+import com.github.codedoctorde.linwood.notification.entity.NotificationEntity;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
-import org.hibernate.Session;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.ResourceBundle;
-import java.util.Set;
 
 /**
  * @author CodeDoctorDE
@@ -24,11 +15,12 @@ public class SupportChatCommand extends Command {
     public boolean onCommand(final CommandEvent event) {
         var entity = event.getEntity();
         var args = event.getArguments();
+        var notificationEntity = event.getClassEntity(NotificationEntity.class);
         if(args.length > 1)
             return false;
         if(args.length == 0)
-            if(entity.getNotificationEntity().getSupportChatId() != null)
-                event.replyFormat(getTranslationString(entity, "Get"), entity.getNotificationEntity().getSupportChat().getName(), entity.getNotificationEntity().getSupportChatId()).queue();
+            if(notificationEntity.getSupportChatId() != null)
+                event.replyFormat(getTranslationString(entity, "Get"), notificationEntity.getSupportChat().getName(), notificationEntity.getSupportChatId()).queue();
             else
                 event.reply(getTranslationString(entity, "GetNull")).queue();
         else {
@@ -43,9 +35,9 @@ public class SupportChatCommand extends Command {
                 event.reply(getTranslationString(entity, "SetNothing")).queue();
                 return true;
             }
-            entity.getNotificationEntity().setSupportChat(channel);
+            notificationEntity.setSupportChat(channel);
             entity.save(event.getSession());
-            event.replyFormat(getTranslationString(entity, "Set"), entity.getNotificationEntity().getSupportChat().getAsMention(), entity.getNotificationEntity().getSupportChatId()).queue();
+            event.replyFormat(getTranslationString(entity, "Set"), notificationEntity.getSupportChat().getAsMention(), notificationEntity.getSupportChatId()).queue();
         }
         return true;
     }

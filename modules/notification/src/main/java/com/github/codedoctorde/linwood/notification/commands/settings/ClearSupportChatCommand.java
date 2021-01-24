@@ -2,17 +2,8 @@ package com.github.codedoctorde.linwood.notification.commands.settings;
 
 import com.github.codedoctorde.linwood.core.commands.Command;
 import com.github.codedoctorde.linwood.core.commands.CommandEvent;
-import com.github.codedoctorde.linwood.core.entity.GuildEntity;
+import com.github.codedoctorde.linwood.notification.entity.NotificationEntity;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Message;
-import org.hibernate.Session;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.ResourceBundle;
-import java.util.Set;
 
 /**
  * @author CodeDoctorDE
@@ -23,7 +14,7 @@ public class ClearSupportChatCommand extends Command {
         var entity = event.getEntity();
         if(event.getArguments().length != 0)
             return false;
-        entity.getNotificationEntity().setSupportChat(null);
+        event.getClassEntity(NotificationEntity.class).setSupportChat(null);
         entity.save(event.getSession());
         event.reply(getTranslationString(entity, "Clear")).queue();
         return true;

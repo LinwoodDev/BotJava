@@ -2,17 +2,8 @@ package com.github.codedoctorde.linwood.game.commands.settings;
 
 import com.github.codedoctorde.linwood.core.commands.Command;
 import com.github.codedoctorde.linwood.core.commands.CommandEvent;
-import com.github.codedoctorde.linwood.core.entity.GuildEntity;
+import com.github.codedoctorde.linwood.game.entity.GameEntity;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Message;
-import org.hibernate.Session;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.ResourceBundle;
-import java.util.Set;
 
 /**
  * @author CodeDoctorDE
@@ -20,12 +11,12 @@ import java.util.Set;
 public class ClearGameCategoryCommand extends Command {
     @Override
     public boolean onCommand(final CommandEvent event) {
-        var entity = event.getEntity();
+        var entity = event.getClassEntity(GameEntity.class);
         if(event.getArguments().length != 0)
             return false;
-        entity.getGameEntity().setGameCategory(null);
+        entity.setGameCategory(null);
         entity.save(event.getSession());
-        event.reply(getTranslationString(entity, "Clear")).queue();
+        event.reply(getTranslationString(event.getEntity(), "Clear")).queue();
         return true;
     }
     @Override

@@ -1,7 +1,7 @@
 package com.github.codedoctorde.linwood.notification.entity;
 
 import com.github.codedoctorde.linwood.core.Linwood;
-import com.github.codedoctorde.linwood.core.entity.GuildEntity;
+import com.github.codedoctorde.linwood.core.entity.DatabaseEntity;
 import com.sun.istack.Nullable;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -10,7 +10,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "notification")
-public class NotificationEntity {
+public class NotificationEntity extends DatabaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
