@@ -2,6 +2,7 @@ package com.github.codedoctorde.linwood.karma.commands.settings;
 
 import com.github.codedoctorde.linwood.core.commands.Command;
 import com.github.codedoctorde.linwood.core.commands.CommandEvent;
+import com.github.codedoctorde.linwood.karma.entity.KarmaEntity;
 import net.dv8tion.jda.api.Permission;
 
 import java.util.*;
@@ -16,20 +17,21 @@ public class LikeCommand extends Command {
         var args = event.getArguments();
         if(args.length > 1)
             return false;
+        var karma = event.getGuildEntity(KarmaEntity.class);
         if(args.length == 0)
-            if(entity.getKarmaEntity().getLikeEmote() != null)
-                event.replyFormat(getTranslationString(entity, "Get"), entity.getKarmaEntity().getLikeEmote()).queue();
+            if(karma.getLikeEmote() != null)
+                event.replyFormat(getTranslationString(entity, "Get"), karma.getLikeEmote()).queue();
             else
                 event.reply(getTranslationString(entity, "GetNull")).queue();
         else {
             var emote = args[0];
-            if(Objects.equals(emote, entity.getKarmaEntity().getDislikeEmote())){
+            if(Objects.equals(emote, karma.getDislikeEmote())){
                 event.reply(getTranslationString(entity, "Same")).queue();
                 return true;
             }
-            entity.getKarmaEntity().setLikeEmote(args[0]);
+            karma.setLikeEmote(args[0]);
             entity.save(event.getSession());
-            event.replyFormat(getTranslationString(entity, "Set"), entity.getKarmaEntity().getLikeEmote()).queue();
+            event.replyFormat(getTranslationString(entity, "Set"), karma.getLikeEmote()).queue();
         }
         return true;
     }

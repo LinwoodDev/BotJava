@@ -2,6 +2,8 @@ package com.github.codedoctorde.linwood.karma.listener;
 
 import com.github.codedoctorde.linwood.core.Linwood;
 import com.github.codedoctorde.linwood.core.entity.GeneralGuildEntity;
+import com.github.codedoctorde.linwood.karma.entity.KarmaEntity;
+import com.github.codedoctorde.linwood.karma.entity.KarmaMemberEntity;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Member;
@@ -32,7 +34,7 @@ public class KarmaListener {
             var emote = event.getReactionEmote().isEmoji() ? event.getReactionEmote().getAsReactionCode() : event.getReactionEmote().getEmote().getAsMention();
             var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
             var entity = Linwood.getInstance().getDatabase().getGuildById(session, event.getGuild().getIdLong());
-            var karma = entity.getKarmaEntity();
+            var karma = Linwood.getInstance().getDatabase().getGuildEntityById(KarmaEntity.class, session, event.getGuild().getIdLong());
             session.close();
             event.getChannel().retrieveMessageById(event.getMessageIdLong()).queue(message -> event.getGuild().retrieveMember(message.getAuthor()).queue(taker -> {
                 var session1 = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
@@ -40,9 +42,9 @@ public class KarmaListener {
                     boolean works = true;
                     if (taker == null || taker.getUser().isBot() || donor.getUser().isBot()) return;
                     if (!donor.equals(taker)) if (emote.equals(karma.getLikeEmote()))
-                        works = giveLike(entity, donor, taker, session1);
+                        works = giveLike(karma, donor, taker, session1);
                     else if (emote.equals(karma.getDislikeEmote()))
-                        works = giveDislike(entity, donor, taker, session1);
+                        works = giveDislike(karma, donor, taker, session1);
                     if (!works)
                         event.getReaction().removeReaction(donor.getUser()).queue();
                 }
@@ -59,7 +61,7 @@ public class KarmaListener {
             var emote = event.getReactionEmote().isEmoji() ? event.getReactionEmote().getAsReactionCode() : event.getReactionEmote().getEmote().getAsMention();
             var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
             var entity = Linwood.getInstance().getDatabase().getGuildById(session, event.getGuild().getIdLong());
-            var karma = entity.getKarmaEntity();
+            var karma = Linwood.getInstance().getDatabase().getGuildEntityById(KarmaEntity.class, session, event.getGuild().getIdLong());
             session.close();
             event.getChannel().retrieveMessageById(event.getMessageIdLong()).queue(message -> event.getGuild().retrieveMember(message.getAuthor()).queue(taker -> {
                 var session1 = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
@@ -72,41 +74,41 @@ public class KarmaListener {
             }));
         });
     }
-    public boolean givingAction(GeneralGuildEntity entity, Member member){
-        if(entity.getKarmaEntity().getMaxGiving() <= memberGivingHashMap.getOrDefault(member.getIdLong(), 0) && !member.hasPermission(Permission.MANAGE_SERVER))
+    public boolean givingAction(KarmaEntity entity, Member member){
+        if(entity.getMaxGiving() <= memberGivingHashMap.getOrDefault(member.getIdLong(), 0) && !member.hasPermission(Permission.MANAGE_SERVER))
             return false;
         memberGivingHashMap.put(member.getIdLong(), memberGivingHashMap.getOrDefault(member.getIdLong(), 0) + 1);
         return true;
     }
 
-    public boolean giveLike(GeneralGuildEntity entity, Member donor, Member taker, Session session){
+    public boolean giveLike(KarmaEntity entity, Member donor, Member taker, Session session){
         if(!givingAction(entity, donor))
             return false;
-        var donorEntity = Linwood.getInstance().getDatabase().getMemberEntity(session, donor);
-        var takerEntity = Linwood.getInstance().getDatabase().getMemberEntity(session, taker);
+        var donorEntity = Linwood.getInstance().getDatabase().getMember(KarmaMemberEntity.class, session, donor);
+        var takerEntity = Linwood.getInstance().getDatabase().getMember(KarmaMemberEntity.class, session, taker);
         takerEntity.setLikes(takerEntity.getLikes() + donorEntity.getLevel(session) + 1);
         takerEntity.save(session);
         return true;
     }
     public void removeLike(Member donor, Member taker, Session session){
-        var donorEntity = Linwood.getInstance().getDatabase().getMemberEntity(session, donor);
-        var takerEntity = Linwood.getInstance().getDatabase().getMemberEntity(session, taker);
+        var donorEntity = Linwood.getInstance().getDatabase().getMember(KarmaMemberEntity.class, session, donor);
+        var takerEntity = Linwood.getInstance().getDatabase().getMember(KarmaMemberEntity.class, session, taker);
         takerEntity.setLikes(takerEntity.getLikes() - donorEntity.getLevel(session) - 1);
         memberGivingHashMap.put(donor.getIdLong(), memberGivingHashMap.getOrDefault(donor.getIdLong(), 0) - 1);
         takerEntity.save(session);
     }
-    public boolean giveDislike(GeneralGuildEntity entity, Member donor, Member taker, Session session){
+    public boolean giveDislike(KarmaEntity entity, Member donor, Member taker, Session session){
         if(!givingAction(entity, donor))
             return false;
-        var donorEntity = Linwood.getInstance().getDatabase().getMemberEntity(session, donor);
-        var takerEntity = Linwood.getInstance().getDatabase().getMemberEntity(session, taker);
+        var donorEntity = Linwood.getInstance().getDatabase().getMember(KarmaMemberEntity.class, session, donor);
+        var takerEntity = Linwood.getInstance().getDatabase().getMember(KarmaMemberEntity.class, session, taker);
         takerEntity.setDislikes(takerEntity.getDislikes() + donorEntity.getLevel(session) + 1);
         takerEntity.save(session);
         return true;
     }
     public void removeDislike(Member donor, Member taker, Session session){
-        var donorEntity = Linwood.getInstance().getDatabase().getMemberEntity(session, donor);
-        var takerEntity = Linwood.getInstance().getDatabase().getMemberEntity(session, taker);
+        var donorEntity = Linwood.getInstance().getDatabase().getMember(KarmaMemberEntity.class, session, donor);
+        var takerEntity = Linwood.getInstance().getDatabase().getMember(KarmaMemberEntity.class,session, taker);
         takerEntity.setDislikes(takerEntity.getDislikes() - donorEntity.getLevel(session) - 1);
         memberGivingHashMap.put(donor.getIdLong(), memberGivingHashMap.getOrDefault(donor.getIdLong(), 0) - 1);
         takerEntity.save(session);

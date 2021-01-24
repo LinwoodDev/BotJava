@@ -15,7 +15,7 @@ public class SupportChatCommand extends Command {
     public boolean onCommand(final CommandEvent event) {
         var entity = event.getEntity();
         var args = event.getArguments();
-        var notificationEntity = event.getClassEntity(NotificationEntity.class);
+        var notificationEntity = event.getGuildEntity(NotificationEntity.class);
         if(args.length > 1)
             return false;
         if(args.length == 0)

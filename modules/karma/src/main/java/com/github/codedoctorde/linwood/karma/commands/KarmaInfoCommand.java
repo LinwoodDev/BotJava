@@ -48,7 +48,7 @@ public class KarmaInfoCommand extends Command {
             return;
         }
         var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
-        var karmaMemberEntity = Linwood.getInstance().getDatabase().getMemberEntity(KarmaMemberEntity.class, session, member);
+        var karmaMemberEntity = Linwood.getInstance().getDatabase().getMember(KarmaMemberEntity.class, session, member);
         event.reply(" ").embed(new EmbedBuilder()
                 .setTitle(getTranslationString(entity, "Title"))
                 .setDescription(getTranslationString(entity, "Body"))

@@ -1,12 +1,16 @@
 package com.github.codedoctorde.linwood.karma.entity;
 
 import com.github.codedoctorde.linwood.core.entity.DatabaseEntity;
+import com.github.codedoctorde.linwood.core.entity.GeneralMemberEntity;
+import com.github.codedoctorde.linwood.core.entity.GuildEntity;
+import com.sun.istack.Nullable;
+import org.hibernate.Session;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "karma")
-public class KarmaEntity extends  DatabaseEntity {
+public class KarmaEntity extends GuildEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -17,9 +21,17 @@ public class KarmaEntity extends  DatabaseEntity {
     private int constant = 1;
     @Column(name="guildID", unique = true, nullable = false)
     @Id
-    private int guildId;
+    private long guildId;
 
-    public int getGuildId() {
+    public KarmaEntity(int guildId){
+        this.guildId = guildId;
+    }
+
+    public KarmaEntity() {
+
+    }
+
+    public long getGuildId() {
         return guildId;
     }
 
@@ -54,4 +66,5 @@ public class KarmaEntity extends  DatabaseEntity {
     public void setMaxGiving(int maxGiving) {
         this.maxGiving = maxGiving;
     }
+
 }

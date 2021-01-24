@@ -14,7 +14,7 @@ public class ClearStatusChatCommand extends Command {
         var entity = event.getEntity();
         if(event.getArguments().length != 0)
             return false;
-        event.getClassEntity(NotificationEntity.class).setStatusChat(null);
+        event.getGuildEntity(NotificationEntity.class).setStatusChat(null);
         entity.save(event.getSession());
         event.reply(getTranslationString(entity, "Clear")).queue();
         return true;

@@ -1,14 +1,22 @@
 package com.github.codedoctorde.linwood.main;
 
+import com.github.codedoctorde.linwood.core.entity.GeneralMemberEntity;
 import com.github.codedoctorde.linwood.core.module.LinwoodModule;
 import com.github.codedoctorde.linwood.main.commands.*;
+import org.hibernate.Session;
 
 /**
  * @author CodeDoctorDE
  */
 public class MainAddon extends LinwoodModule {
+    private static MainAddon instance;
     public MainAddon() {
         super("main");
+        instance = this;
+    }
+
+    public static MainAddon getInstance() {
+        return instance;
     }
 
     @Override

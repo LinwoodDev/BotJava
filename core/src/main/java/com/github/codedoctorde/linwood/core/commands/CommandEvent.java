@@ -3,6 +3,8 @@ package com.github.codedoctorde.linwood.core.commands;
 import com.github.codedoctorde.linwood.core.Linwood;
 import com.github.codedoctorde.linwood.core.entity.DatabaseEntity;
 import com.github.codedoctorde.linwood.core.entity.GeneralGuildEntity;
+import com.github.codedoctorde.linwood.core.entity.GuildEntity;
+import com.github.codedoctorde.linwood.core.entity.MemberEntity;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.requests.restaction.MessageAction;
 import org.hibernate.Session;
@@ -32,8 +34,12 @@ public class CommandEvent {
         return entity;
     }
 
-    public <T extends DatabaseEntity> T getClassEntity(Class<T> aClass) {
-        return Linwood.getInstance().getDatabase().getEntityById(aClass, session, message.getGuild().getIdLong());
+    public <T extends GuildEntity> T getGuildEntity(Class<T> aClass) {
+        return Linwood.getInstance().getDatabase().getGuildEntityById(aClass, session, message.getGuild().getIdLong());
+    }
+
+    public <T extends MemberEntity> T getMemberEntity(Class<T> aClass) {
+        return Linwood.getInstance().getDatabase().getMemberById(aClass, session, message.getGuild().getIdLong(), message.getAuthor().getIdLong());
     }
 
     public Message getMessage() {

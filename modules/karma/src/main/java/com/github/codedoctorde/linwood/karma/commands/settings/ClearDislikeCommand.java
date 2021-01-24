@@ -2,6 +2,7 @@ package com.github.codedoctorde.linwood.karma.commands.settings;
 
 import com.github.codedoctorde.linwood.core.commands.Command;
 import com.github.codedoctorde.linwood.core.commands.CommandEvent;
+import com.github.codedoctorde.linwood.karma.entity.KarmaEntity;
 import net.dv8tion.jda.api.Permission;
 
 /**
@@ -13,7 +14,7 @@ public class ClearDislikeCommand extends Command {
         var entity = event.getEntity();
         if(event.getArguments().length != 0)
             return false;
-        entity.getKarmaEntity().setLikeEmote(null);
+        event.getGuildEntity(KarmaEntity.class).setLikeEmote(null);
         entity.save(event.getSession());
         event.reply(getTranslationString(entity, "Clear")).queue();
         return true;

@@ -11,7 +11,7 @@ public class TeamCommand extends Command {
     public boolean onCommand(final CommandEvent event) {
         var args = event.getArguments();
         var entity = event.getEntity();
-        var notificationEntity = event.getClassEntity(NotificationEntity.class);
+        var notificationEntity = event.getGuildEntity(NotificationEntity.class);
         if(args.length > 1)
             return false;
         if(args.length == 0)

@@ -11,7 +11,7 @@ import net.dv8tion.jda.api.Permission;
 public class ClearGameCategoryCommand extends Command {
     @Override
     public boolean onCommand(final CommandEvent event) {
-        var entity = event.getClassEntity(GameEntity.class);
+        var entity = event.getGuildEntity(GameEntity.class);
         if(event.getArguments().length != 0)
             return false;
         entity.setGameCategory(null);

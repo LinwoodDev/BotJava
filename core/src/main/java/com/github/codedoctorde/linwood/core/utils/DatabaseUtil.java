@@ -1,9 +1,7 @@
 package com.github.codedoctorde.linwood.core.utils;
 
 import com.github.codedoctorde.linwood.core.Linwood;
-import com.github.codedoctorde.linwood.core.entity.DatabaseEntity;
-import com.github.codedoctorde.linwood.core.entity.GeneralGuildEntity;
-import com.github.codedoctorde.linwood.core.entity.GeneralMemberEntity;
+import com.github.codedoctorde.linwood.core.entity.*;
 import com.sun.istack.Nullable;
 import net.dv8tion.jda.api.entities.Member;
 import org.apache.logging.log4j.LogManager;
@@ -96,19 +94,19 @@ public class DatabaseUtil {
         getSessionFactory().close();
     }
 
-    public <T extends DatabaseEntity> T getEntityById(Class<T> aClass, Session session, long id){
+    public <T extends GuildEntity> T getGuildEntityById(Class<T> aClass, Session session, long id){
         T entity = session.get(aClass, id);
         if ( entity != null ) return entity;
         else try {
-            return createEntity(aClass, session, id);
+            return createGuildEntity(aClass, session, id);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
     public GeneralGuildEntity getGuildById(Session session, long guildId){
-        return getEntityById(GeneralGuildEntity.class, session, guildId);
+        return getGuildEntityById(GeneralGuildEntity.class, session, guildId);
     }
-    public <T extends DatabaseEntity> T createEntity(Class<T> aClass, Session session, long id) {
+    public <T extends GuildEntity> T createGuildEntity(Class<T> aClass, Session session, long id) {
         T guild = null;
         try {
             guild = aClass.getDeclaredConstructor(Long.class).newInstance(id);
@@ -119,8 +117,8 @@ public class DatabaseUtil {
         guild.save(session);
         return guild;
     }
-    public GeneralGuildEntity createGuild(Session session, long guildId){
-        return createEntity(GeneralGuildEntity.class, session, guildId);
+    public GeneralGuildEntity createGeneralGuildEntity(Session session, long guildId){
+        return createGuildEntity(GeneralGuildEntity.class, session, guildId);
     }
     public void updateEntity(Session session, GeneralGuildEntity entity){
         session.update(entity);
@@ -149,35 +147,19 @@ public class DatabaseUtil {
             }
         logger.info("Successfully clean up " + count + " guilds!");
     }
-    public GeneralMemberEntity[] getKarmaLeaderboard(Session session, @Nullable Long guild){
-        return getKarmaLeaderboard(session, guild, 20);
+
+    public <T extends MemberEntity> T getMember(Class<T> aClass, Session session, Member member){
+        return getMemberById(aClass, session, member.getGuild().getIdLong(), member.getIdLong());
     }
-
-    public GeneralMemberEntity[] getKarmaLeaderboard(Session session, @Nullable Long guild, int maxResults){
-// Create CriteriaBuilder
-        var builder = session.getCriteriaBuilder();
-
-// Create CriteriaQuery
-        var cq = builder.createQuery(GeneralMemberEntity.class);
-        var member = cq.from(GeneralMemberEntity.class);
-        var all = cq.select(member);
-        if(guild != null)
-            all.where(builder.equal(member.get("guildId"), guild));
-        all.orderBy(builder.desc(member.get("likes")), builder.asc(member.get("dislikes")));
-        var allQuery = session.createQuery(all);
-        allQuery.setMaxResults(maxResults);
-        return allQuery.getResultList().toArray(new GeneralMemberEntity[0]);
-    }
-
 
     public GeneralMemberEntity getGeneralMember(Session session, Member member){
-        return getGeneralMemberById(session, member.getGuild().getIdLong(), member.getIdLong());
+        return getMember(GeneralMemberEntity.class, session, member);
     }
 
-    public GeneralMemberEntity getGeneralMemberById(Session session, long guildId, long memberId){
+    public <T extends MemberEntity> T getMemberById(Class<T> aClass, Session session, long guildId, long memberId){
         var cb = session.getCriteriaBuilder();
-        var cq = cb.createQuery(GeneralMemberEntity.class);
-        var from = cq.from(GeneralMemberEntity.class);
+        var cq = cb.createQuery(aClass);
+        var from = cq.from(aClass);
 
         cq = cq.select(from).where(
                 cb.equal(from.get("guildId"), guildId),
@@ -185,13 +167,27 @@ public class DatabaseUtil {
         );
         var result = session.createQuery(cq).list();
         if(result.size() < 1)
-            return createGeneralMember(session, guildId, memberId);
+            return createMember(aClass, session, guildId, memberId);
         return result.get(0);
     }
 
-    private GeneralMemberEntity createGeneralMember(Session session, long guildId, long memberId) {
-        var member = new GeneralMemberEntity(guildId, memberId);
+    public GeneralMemberEntity getGeneralMemberById(Session session, long guildId, long memberId){
+        return getMemberById(GeneralMemberEntity.class, session, guildId, memberId);
+    }
+
+    public <T extends MemberEntity> T createMember(Class<T> aClass, Session session, long guildId, long memberId){
+        T member = null;
+        try {
+            member = aClass.getDeclaredConstructor(Long.class, Long.class).newInstance(guildId, memberId);
+        } catch (InstantiationException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        assert member != null;
         member.save(session);
         return member;
+    }
+
+    private GeneralMemberEntity createGeneralMember(Session session, long guildId, long memberId) {
+        return createMember(GeneralMemberEntity.class, session, guildId, memberId);
     }
 }

@@ -12,7 +12,7 @@ import java.util.*;
  */
 @Entity
 @Table(name = "guild")
-public class GeneralGuildEntity extends DatabaseEntity {
+public class GeneralGuildEntity extends GuildEntity {
     @Id
     @Column(name="id", unique = true, nullable = false)
     private long guildId;
@@ -34,7 +34,7 @@ public class GeneralGuildEntity extends DatabaseEntity {
         this.guildId = id;
     }
 
-    public Long getGuildId() {
+    public long getGuildId() {
         return guildId;
     }
 
