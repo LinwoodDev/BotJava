@@ -2,6 +2,7 @@ package com.github.codedoctorde.linwood.core.commands;
 
 import com.github.codedoctorde.linwood.core.Linwood;
 import com.github.codedoctorde.linwood.core.entity.GeneralGuildEntity;
+import com.github.codedoctorde.linwood.core.exceptions.CommandPermissionException;
 
 import java.util.*;
 
@@ -26,12 +27,10 @@ public abstract class CommandManager extends Command {
         for (Command command : commands)
             if (command.hasAlias(
                     (event.getArguments().length != 0) ? args[0].toLowerCase() : "")) {
-                if(command.hasPermission(event.upper()) || Linwood.getInstance().getConfig().getOwners().contains(message.getAuthor().getIdLong())) {
+                if(Linwood.getInstance().getConfig().getOwners().contains(message.getAuthor().getIdLong())) {
                     if (!command.onCommand(event.upper()))
                         event.replyFormat(ResourceBundle.getBundle("locale.Command").getString("Syntax"), Objects.requireNonNull(command.translate(entity, "Syntax"))).queue();
                 }
-                else
-                    event.reply(baseBundle.getString("NoPermission")).queue();
                 return true;
             }else
                 return false;

@@ -8,12 +8,12 @@ public class GameAddon extends LinwoodModule {
     }
 
     @Override
-    public void onEnable() {
-        super.onEnable();
+    public void onRegister() {
+        super.onRegister();
     }
 
     @Override
-    public void onDisable() {
-        super.onDisable();
+    public void onUnregister() {
+        super.onUnregister();
     }
 }

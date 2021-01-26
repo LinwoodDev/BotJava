@@ -6,6 +6,7 @@ import com.github.codedoctorde.linwood.core.commands.CommandEvent;
 import com.github.codedoctorde.linwood.core.entity.GeneralGuildEntity;
 import com.github.codedoctorde.linwood.core.exceptions.CommandPermissionException;
 import com.github.codedoctorde.linwood.core.exceptions.CommandSyntaxException;
+import com.github.codedoctorde.linwood.core.module.GuildOperation;
 import io.sentry.Sentry;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -21,7 +22,7 @@ import java.util.regex.Pattern;
 /**
  * @author CodeDoctorDE
  */
-public class CommandListener {
+public class CommandListener implements GuildOperation {
     public static final Pattern pattern = Pattern.compile("(?:^(?<module>[A-z]+):)?(?<command>[A-z]+)?(?<args> [A-z]+$)?");
 
 
@@ -63,10 +64,6 @@ public class CommandListener {
             }
         }
         session.close();
-    }
-
-    public String translate(GeneralGuildEntity entity, String key) {
-        return ResourceBundle.getBundle("locale.Command", entity.getLocalization()).getString(key);
     }
     public Command findCommand(String command){
         var matcher = pattern.matcher(command);

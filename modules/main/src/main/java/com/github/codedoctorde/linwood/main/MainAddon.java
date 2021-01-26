@@ -1,9 +1,7 @@
 package com.github.codedoctorde.linwood.main;
 
-import com.github.codedoctorde.linwood.core.entity.GeneralMemberEntity;
 import com.github.codedoctorde.linwood.core.module.LinwoodModule;
 import com.github.codedoctorde.linwood.main.commands.*;
-import org.hibernate.Session;
 
 /**
  * @author CodeDoctorDE
@@ -20,14 +18,14 @@ public class MainAddon extends LinwoodModule {
     }
 
     @Override
-    public void onEnable() {
+    public void onRegister() {
         registerCommands(new AddPrefixCommand(), new ClearCommand(), new ClearMaintainerCommand(), new HelpCommand(), new InfoCommand(), new LanguageCommand(),
                 new MaintainerCommand(), new PlanCommand(), new PrefixesCommand(), new RemovePrefixCommand(), new ServerInfoCommand());
-        super.onEnable();
+        super.onRegister();
     }
 
     @Override
-    public void onDisable() {
-        super.onDisable();
+    public void onUnregister() {
+        super.onUnregister();
     }
 }

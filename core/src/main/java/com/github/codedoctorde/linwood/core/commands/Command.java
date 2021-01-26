@@ -1,6 +1,7 @@
 package com.github.codedoctorde.linwood.core.commands;
 
 import com.github.codedoctorde.linwood.core.entity.GeneralGuildEntity;
+import com.github.codedoctorde.linwood.core.module.GuildOperation;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
@@ -8,7 +9,7 @@ import java.util.HashSet;
 import java.util.ResourceBundle;
 import java.util.Set;
 
-public abstract class Command {
+public abstract class Command implements GuildOperation {
     private final Set<String> aliases = new HashSet<>();
 
     protected Command(String... aliases){
@@ -16,15 +17,8 @@ public abstract class Command {
     }
 
     abstract public boolean onCommand(final CommandEvent event);
-    @NotNull
-    public String translate(final GeneralGuildEntity entity, final String key){
-        return ResourceBundle.getBundle("locale." + getClass().getCanonicalName(), entity.getLocalization()).getString(key);
-    }
     protected ResourceBundle getBaseBundle(GeneralGuildEntity entity){
         return ResourceBundle.getBundle("locale.Command", entity.getLocalization());
-    }
-    public boolean hasPermission(final CommandEvent event){
-        return true;
     }
 
     public Set<String> getAliases() {

@@ -109,12 +109,12 @@ public class Linwood {
 
     public boolean registerModules(LinwoodModule... registeredModules){
         var array = Arrays.asList(registeredModules);
-        array.forEach(LinwoodModule::onEnable);
+        array.forEach(LinwoodModule::onRegister);
         return modules.addAll(array);
     }
     public boolean unregisterModules(LinwoodModule... registeredModules){
         var array = Arrays.asList(registeredModules);
-        array.forEach(LinwoodModule::onDisable);
+        array.forEach(LinwoodModule::onUnregister);
         return modules.removeAll(array);
     }
     public LinwoodModule[] getModules(){
@@ -177,7 +177,7 @@ public class Linwood {
     public void configure(){
         activityChanger.getActivities().clear();
         config.getActivities().forEach(activityChanger.getActivities()::add);
-        modules.forEach(LinwoodModule::onEnable);
+        modules.forEach(LinwoodModule::onRegister);
     }
 
     public CommandListener getCommandListener() {

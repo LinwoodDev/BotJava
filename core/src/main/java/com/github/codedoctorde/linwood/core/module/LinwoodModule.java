@@ -4,7 +4,10 @@ import com.github.codedoctorde.linwood.core.Linwood;
 import com.github.codedoctorde.linwood.core.commands.Command;
 import com.github.codedoctorde.linwood.core.config.ActivityConfig;
 import com.github.codedoctorde.linwood.core.entity.DatabaseEntity;
+import com.github.codedoctorde.linwood.core.entity.GeneralGuildEntity;
+import com.github.codedoctorde.linwood.core.utils.GuildLogLevel;
 import com.sun.istack.Nullable;
+import net.dv8tion.jda.api.entities.Guild;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -122,13 +125,23 @@ public abstract class LinwoodModule {
     protected void clearCommands(){
         commands.clear();
     }
-    public void onEnable(){
-        logger.info(name + " module was enabled!");
+    public void onRegister(){
+        logger.info(name + " module was registered!");
     }
-    public void onDisable(){
+    public void onUnregister(){
         clearCommands();
-        logger.info(name + " module was disabled!");
+        logger.info(name + " module was unregistered!");
     }
+    public void log(GeneralGuildEntity entity, GuildLogLevel level, String message){
+        entity.log(level, this, message);
+    }
+    public void onEnable(GeneralGuildEntity entity, Guild guild){
+        log(entity, GuildLogLevel.INFO, entity.translate("Module", "Enabled"));
+    }
+    public void onDisable(GeneralGuildEntity entity, Guild guild){
+        log(entity, GuildLogLevel.INFO, entity.translate("Module", "Disabled"));
+    }
+
 
     public String getName() {
         return name;

@@ -1,6 +1,9 @@
 package com.github.codedoctorde.linwood.core.entity;
 
 import com.github.codedoctorde.linwood.core.Linwood;
+import com.github.codedoctorde.linwood.core.module.LinwoodModule;
+import com.github.codedoctorde.linwood.core.utils.GuildLogLevel;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Role;
 import org.hibernate.Session;
 
@@ -24,14 +27,15 @@ public class GeneralGuildEntity extends GuildEntity {
     @ElementCollection
     @CollectionTable(name="Prefixes", joinColumns=@JoinColumn(name="guild_id"))
     @Column(name="modules")
-    private final Set<String> enabledModules = Set.of(Linwood.getInstance().getModulesStrings());
+    private final Set<String> enabledModules = new HashSet<>(Arrays.asList(Linwood.getInstance().getModulesStrings()));
     @Column()
     private Long maintainerId = null;
     @Column()
+    private Long logChannel;
+    @Column()
     private GuildPlan plan = GuildPlan.COMMUNITY;
 
-    public GeneralGuildEntity(){
-    }
+    public GeneralGuildEntity(){ }
     public GeneralGuildEntity(long id) {
         this.guildId = id;
     }
@@ -65,6 +69,28 @@ public class GeneralGuildEntity extends GuildEntity {
         if(maintainerId == null)
             return null;
         return Linwood.getInstance().getJda().getRoleById(maintainerId);
+    }
+    public String translate(String namespace, String key){
+        return ResourceBundle.getBundle("locale." + namespace, getLocalization()).getString(key);
+    }
+    public void log(GuildLogLevel level, LinwoodModule module, String message){
+        try {
+            if (logChannel != null) {
+                if (Arrays.asList(Linwood.getInstance().getModules()).contains(module))
+                Objects.requireNonNull(Objects.requireNonNull(Linwood.getInstance().getJda().getGuildById(guildId)).getTextChannelById(logChannel))
+                        .sendMessage(new EmbedBuilder().setTitle(module.getName()).setColor(level.getColor()).setDescription(message).build()).queue();
+            }
+        }catch(Exception ignored){}
+    }
+    public void enableModule(LinwoodModule module){
+        enabledModules.add(module.getName());
+    }
+    public void disableModule(LinwoodModule module){
+        enabledModules.remove(module.getName());
+    }
+
+    public Set<String> getEnabledModules() {
+        return Set.copyOf(enabledModules);
     }
 
     public void setMaintainerId(Long maintainer) {
