@@ -17,14 +17,14 @@ public class StopGameCommand extends Command {
         if(event.getMember() == null)
             return false;
         if(!event.getGuildEntity(GameEntity.class).isGameMaster(event.getMember())){
-            event.reply(getTranslationString(entity, "NoPermission")).queue();
+            event.reply(translate(entity, "NoPermission")).queue();
             return true;
         }
         if(Linwood.getInstance().getGameManager().getGame(entity.getGuildId()) == null)
-            event.reply(getTranslationString(entity, "NoGameRunning")).queue();
+            event.reply(translate(entity, "NoGameRunning")).queue();
         else {
             Linwood.getInstance().getGameManager().stopGame(entity.getGuildId());
-            event.reply(getTranslationString(entity, "Success")).queue();
+            event.reply(translate(entity, "Success")).queue();
         }
         return true;
     }

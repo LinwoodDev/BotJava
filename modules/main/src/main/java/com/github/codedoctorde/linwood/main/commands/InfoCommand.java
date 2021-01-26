@@ -24,8 +24,8 @@ public class InfoCommand extends Command {
         var entity = event.getEntity();
         if(event.getArguments().length != 0)
             return false;
-        event.getTextChannel().sendMessage(new EmbedBuilder().setTitle(infoFormat(event.getMessage(), event.getEntity(), getTranslationString(entity, "title")))
-                .setDescription(infoFormat(event.getMessage(), event.getEntity(), getTranslationString(entity, "Body.regexp"))).build()).queue();
+        event.getTextChannel().sendMessage(new EmbedBuilder().setTitle(infoFormat(event.getMessage(), event.getEntity(), translate(entity, "title")))
+                .setDescription(infoFormat(event.getMessage(), event.getEntity(), translate(entity, "Body.regexp"))).build()).queue();
         return true;
     }
 

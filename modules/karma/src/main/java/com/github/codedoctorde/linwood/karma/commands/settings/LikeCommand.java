@@ -20,18 +20,18 @@ public class LikeCommand extends Command {
         var karma = event.getGuildEntity(KarmaEntity.class);
         if(args.length == 0)
             if(karma.getLikeEmote() != null)
-                event.replyFormat(getTranslationString(entity, "Get"), karma.getLikeEmote()).queue();
+                event.replyFormat(translate(entity, "Get"), karma.getLikeEmote()).queue();
             else
-                event.reply(getTranslationString(entity, "GetNull")).queue();
+                event.reply(translate(entity, "GetNull")).queue();
         else {
             var emote = args[0];
             if(Objects.equals(emote, karma.getDislikeEmote())){
-                event.reply(getTranslationString(entity, "Same")).queue();
+                event.reply(translate(entity, "Same")).queue();
                 return true;
             }
             karma.setLikeEmote(args[0]);
             entity.save(event.getSession());
-            event.replyFormat(getTranslationString(entity, "Set"), karma.getLikeEmote()).queue();
+            event.replyFormat(translate(entity, "Set"), karma.getLikeEmote()).queue();
         }
         return true;
     }

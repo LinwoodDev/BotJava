@@ -28,7 +28,7 @@ public abstract class CommandManager extends Command {
                     (event.getArguments().length != 0) ? args[0].toLowerCase() : "")) {
                 if(command.hasPermission(event.upper()) || Linwood.getInstance().getConfig().getOwners().contains(message.getAuthor().getIdLong())) {
                     if (!command.onCommand(event.upper()))
-                        event.replyFormat(ResourceBundle.getBundle("locale.Command").getString("Syntax"), Objects.requireNonNull(command.getTranslationString(entity, "Syntax"))).queue();
+                        event.replyFormat(ResourceBundle.getBundle("locale.Command").getString("Syntax"), Objects.requireNonNull(command.translate(entity, "Syntax"))).queue();
                 }
                 else
                     event.reply(baseBundle.getString("NoPermission")).queue();

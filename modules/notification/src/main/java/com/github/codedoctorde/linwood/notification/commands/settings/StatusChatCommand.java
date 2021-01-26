@@ -20,27 +20,27 @@ public class StatusChatCommand extends Command {
             return false;
         if(args.length == 0)
             if(notificationEntity.getStatusChatId() != null)
-                event.replyFormat(getTranslationString(entity, "Get"), notificationEntity.getStatusChat().getName(), notificationEntity.getStatusChatId()).queue();
+                event.replyFormat(translate(entity, "Get"), notificationEntity.getStatusChat().getName(), notificationEntity.getStatusChatId()).queue();
             else
-                event.reply(getTranslationString(entity, "GetNull")).queue();
+                event.reply(translate(entity, "GetNull")).queue();
         else {
             try {
                 TextChannel channel;
                 try {
                     channel = TagUtil.convertToTextChannel(event.getMessage().getGuild(), args[0]);
                 }catch(UnsupportedOperationException ignored) {
-                    event.reply(getTranslationString(entity, "SetMultiple")).queue();
+                    event.reply(translate(entity, "SetMultiple")).queue();
                     return true;
                 }
                 if(channel == null) {
-                    event.reply(getTranslationString(entity, "SetNothing")).queue();
+                    event.reply(translate(entity, "SetNothing")).queue();
                     return true;
                 }
                 notificationEntity.setStatusChat(channel);
                 entity.save(event.getSession());
-                event.replyFormat(getTranslationString(entity, "Set"), notificationEntity.getStatusChat().getAsMention(), notificationEntity.getStatusChatId()).queue();
+                event.replyFormat(translate(entity, "Set"), notificationEntity.getStatusChat().getAsMention(), notificationEntity.getStatusChatId()).queue();
             }catch(NullPointerException e){
-                event.reply(getTranslationString(entity, "NotValid")).queue();
+                event.reply(translate(entity, "NotValid")).queue();
             }
         }
         return true;

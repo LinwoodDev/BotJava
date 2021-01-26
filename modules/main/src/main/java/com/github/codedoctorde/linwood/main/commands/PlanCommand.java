@@ -14,8 +14,8 @@ public class PlanCommand extends Command {
         return false;
         var entity = event.getEntity();
         event.getMessage().getChannel().sendMessage(new EmbedBuilder()
-                .addField(getTranslationString(entity, "Plan"), getTranslationString(entity, "Plan" + entity.getPlan().name()), false)
-                .addField(getTranslationString(entity, "PrefixLimitTitle"), String.format(getTranslationString(entity, "PrefixLimitBody"), entity.getPlan().getPrefixLimit()), false)
+                .addField(translate(entity, "Plan"), translate(entity, "Plan" + entity.getPlan().name()), false)
+                .addField(translate(entity, "PrefixLimitTitle"), String.format(translate(entity, "PrefixLimitBody"), entity.getPlan().getPrefixLimit()), false)
                 .build()).queue();
         return true;
     }

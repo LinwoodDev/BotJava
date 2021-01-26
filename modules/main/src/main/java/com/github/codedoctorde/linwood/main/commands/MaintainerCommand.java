@@ -5,8 +5,6 @@ import com.github.codedoctorde.linwood.core.commands.CommandEvent;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Role;
 
-import java.util.ResourceBundle;
-
 public class MaintainerCommand extends Command {
     @Override
     public boolean onCommand(final CommandEvent event) {
@@ -16,9 +14,9 @@ public class MaintainerCommand extends Command {
             return false;
         if(args.length == 0)
             if(entity.getMaintainerId() != null)
-                event.replyFormat(getTranslationString(entity, "Get"), entity.getMaintainer().getName(), entity.getMaintainerId()).queue();
+                event.replyFormat(translate(entity, "Get"), entity.getMaintainer().getName(), entity.getMaintainerId()).queue();
             else
-                event.reply(getTranslationString(entity, "GetNull")).queue();
+                event.reply(translate(entity, "GetNull")).queue();
         else {
             try {
                 Role role = null;
@@ -28,9 +26,9 @@ public class MaintainerCommand extends Command {
                 if(role == null){
                     var roles = event.getGuild().getRolesByName(args[0], true);
                     if(roles.size() < 1)
-                        event.reply(getTranslationString(entity, "SetNothing")).queue();
+                        event.reply(translate(entity, "SetNothing")).queue();
                     else if(roles.size() > 1)
-                        event.reply(getTranslationString(entity, "SetMultiple")).queue();
+                        event.reply(translate(entity, "SetMultiple")).queue();
                     else
                         role = roles.get(0);
                 }
@@ -38,9 +36,9 @@ public class MaintainerCommand extends Command {
                     return true;
                 entity.setMaintainer(role);
                 entity.save(event.getSession());
-                event.replyFormat(getTranslationString(entity, "Set"), entity.getMaintainer().getName(), entity.getMaintainerId()).queue();
+                event.replyFormat(translate(entity, "Set"), entity.getMaintainer().getName(), entity.getMaintainerId()).queue();
             }catch(NullPointerException e){
-                event.reply(getTranslationString(entity, "NotValid")).queue();
+                event.reply(translate(entity, "NotValid")).queue();
             }
         }
         return true;

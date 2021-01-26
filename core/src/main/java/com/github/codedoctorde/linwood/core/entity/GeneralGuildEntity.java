@@ -25,7 +25,9 @@ public class GeneralGuildEntity extends GuildEntity {
     @CollectionTable(name="Prefixes", joinColumns=@JoinColumn(name="guild_id"))
     @Column(name="modules")
     private final Set<String> enabledModules = Set.of(Linwood.getInstance().getModulesStrings());
+    @Column()
     private Long maintainerId = null;
+    @Column()
     private GuildPlan plan = GuildPlan.COMMUNITY;
 
     public GeneralGuildEntity(){

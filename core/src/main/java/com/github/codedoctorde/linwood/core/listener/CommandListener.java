@@ -4,10 +4,12 @@ import com.github.codedoctorde.linwood.core.Linwood;
 import com.github.codedoctorde.linwood.core.commands.Command;
 import com.github.codedoctorde.linwood.core.commands.CommandEvent;
 import com.github.codedoctorde.linwood.core.entity.GeneralGuildEntity;
+import com.github.codedoctorde.linwood.core.exceptions.CommandPermissionException;
 import com.github.codedoctorde.linwood.core.exceptions.CommandSyntaxException;
 import io.sentry.Sentry;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
 import net.dv8tion.jda.api.exceptions.PermissionException;
 import net.dv8tion.jda.api.hooks.SubscribeEvent;
 import org.apache.tools.ant.types.Commandline;
@@ -45,16 +47,17 @@ public class CommandListener {
             else if (content.startsWith(normalMention))
                 split = normalMention;
             if (split != null) {
-                var bundle = getBundle(guild);
                 var command = Commandline.translateCommandline(content.substring(split.length()));
                 try {
                     execute(new CommandEvent(event.getMessage(), session, guild, prefix, command));
-                }catch(CommandSyntaxException e){
-                    event.getChannel().sendMessageFormat(bundle.getString("Syntax"), e.getMessage()).queue();
-                } catch(PermissionException e){
-                    event.getChannel().sendMessageFormat(bundle.getString("InsufficientPermission"), e.getMessage()).queue();
-                }catch (Exception e) {
-                    event.getChannel().sendMessageFormat(bundle.getString("Error"), e.getMessage()).queue();
+                } catch(CommandSyntaxException e){
+                    event.getChannel().sendMessageFormat(translate(guild, "Syntax"), e.getMessage()).queue();
+                } catch(InsufficientPermissionException e){
+                    event.getChannel().sendMessageFormat(translate(guild, "InsufficientPermission"), e.getMessage()).queue();
+                } catch(CommandPermissionException e){
+                    event.getChannel().sendMessageFormat(translate(guild, "NoPermission"), e.getMessage()).queue();
+                } catch (Exception e) {
+                    event.getChannel().sendMessageFormat(translate(guild, "Error"), e.getMessage()).queue();
                     Sentry.captureException(e);
                 }
             }
@@ -62,8 +65,8 @@ public class CommandListener {
         session.close();
     }
 
-    public ResourceBundle getBundle(GeneralGuildEntity entity) {
-        return ResourceBundle.getBundle("locale.Command", entity.getLocalization());
+    public String translate(GeneralGuildEntity entity, String key) {
+        return ResourceBundle.getBundle("locale.Command", entity.getLocalization()).getString(key);
     }
     public Command findCommand(String command){
         var matcher = pattern.matcher(command);

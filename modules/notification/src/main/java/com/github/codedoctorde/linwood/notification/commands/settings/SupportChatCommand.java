@@ -20,24 +20,24 @@ public class SupportChatCommand extends Command {
             return false;
         if(args.length == 0)
             if(notificationEntity.getSupportChatId() != null)
-                event.replyFormat(getTranslationString(entity, "Get"), notificationEntity.getSupportChat().getName(), notificationEntity.getSupportChatId()).queue();
+                event.replyFormat(translate(entity, "Get"), notificationEntity.getSupportChat().getName(), notificationEntity.getSupportChatId()).queue();
             else
-                event.reply(getTranslationString(entity, "GetNull")).queue();
+                event.reply(translate(entity, "GetNull")).queue();
         else {
             TextChannel channel;
             try {
                 channel = TagUtil.convertToTextChannel(event.getMessage().getGuild(), args[0]);
             }catch(UnsupportedOperationException ignored) {
-                event.reply(getTranslationString(entity, "SetMultiple")).queue();
+                event.reply(translate(entity, "SetMultiple")).queue();
                 return true;
             }
             if(channel == null) {
-                event.reply(getTranslationString(entity, "SetNothing")).queue();
+                event.reply(translate(entity, "SetNothing")).queue();
                 return true;
             }
             notificationEntity.setSupportChat(channel);
             entity.save(event.getSession());
-            event.replyFormat(getTranslationString(entity, "Set"), notificationEntity.getSupportChat().getAsMention(), notificationEntity.getSupportChatId()).queue();
+            event.replyFormat(translate(entity, "Set"), notificationEntity.getSupportChat().getAsMention(), notificationEntity.getSupportChatId()).queue();
         }
         return true;
     }

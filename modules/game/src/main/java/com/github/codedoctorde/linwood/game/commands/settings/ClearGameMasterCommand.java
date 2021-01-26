@@ -16,7 +16,7 @@ public class ClearGameMasterCommand extends Command {
             return false;
         event.getGuildEntity(GameEntity.class).setGameMasterRole(null);
         entity.save(event.getSession());
-        event.reply(getTranslationString(entity, "Clear")).queue();
+        event.reply(translate(entity, "Clear")).queue();
         return true;
     }
     @Override

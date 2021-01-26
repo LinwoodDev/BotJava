@@ -4,8 +4,6 @@ import com.github.codedoctorde.linwood.core.commands.Command;
 import com.github.codedoctorde.linwood.core.commands.CommandEvent;
 import net.dv8tion.jda.api.Permission;
 
-import java.util.ResourceBundle;
-
 /**
  * @author CodeDoctorDE
  */
@@ -18,13 +16,13 @@ public class AddPrefixCommand extends Command {
             return false;
         else try {
             if(!entity.addPrefix(args[0])){
-                event.reply(getTranslationString(entity, "Invalid")).queue();
+                event.reply(translate(entity, "Invalid")).queue();
                 return true;
             }
             entity.save(event.getSession());
-            event.replyFormat(getTranslationString(entity, "Success"), args[0]).queue();
+            event.replyFormat(translate(entity, "Success"), args[0]).queue();
         } catch (NullPointerException e) {
-            event.reply(getTranslationString(entity, "NotValid")).queue();
+            event.reply(translate(entity, "NotValid")).queue();
         }
         return true;
     }

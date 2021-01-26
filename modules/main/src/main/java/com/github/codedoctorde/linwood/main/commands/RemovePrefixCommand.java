@@ -11,11 +11,11 @@ public class RemovePrefixCommand extends Command {
         if(args.length != 1)
         return false;
         if(!entity.getPrefixes().remove(args[0])){
-            event.reply(getTranslationString(entity, "Invalid")).queue();
+            event.reply(translate(entity, "Invalid")).queue();
             return true;
         }
         entity.save(event.getSession());
-        event.replyFormat(getTranslationString(entity, "Success"), args[0]).queue();
+        event.replyFormat(translate(entity, "Success"), args[0]).queue();
         return true;
     }
 

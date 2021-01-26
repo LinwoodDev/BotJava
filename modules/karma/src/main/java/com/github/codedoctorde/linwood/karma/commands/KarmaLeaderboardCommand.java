@@ -1,9 +1,7 @@
 package com.github.codedoctorde.linwood.karma.commands;
 
-import com.github.codedoctorde.linwood.core.Linwood;
 import com.github.codedoctorde.linwood.core.commands.Command;
 import com.github.codedoctorde.linwood.core.commands.CommandEvent;
-import com.github.codedoctorde.linwood.core.entity.GeneralMemberEntity;
 import com.github.codedoctorde.linwood.karma.KarmaAddon;
 import com.github.codedoctorde.linwood.karma.entity.KarmaMemberEntity;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -25,18 +23,18 @@ public class KarmaLeaderboardCommand extends Command {
         var leaderboard = KarmaAddon.getInstance().getKarmaLeaderboard(event.getSession(), event.getMessage().getGuild().getIdLong());
         event.getMessage().getGuild().retrieveMembersByIds(Arrays.stream(leaderboard).map(KarmaMemberEntity::getMemberId).collect(Collectors.toList())).onSuccess(members -> {
             var description = new StringBuilder();
-            description.append(getTranslationString(entity, "LeaderboardBodyStart")).append("\n");
+            description.append(translate(entity, "LeaderboardBodyStart")).append("\n");
             for (int i = 0; i < leaderboard.length; i++) {
                 int finalI = i;
                 var member = members.stream().filter(current -> current.getIdLong() == leaderboard[finalI].getMemberId()).findFirst().orElse(null);
                 var me = leaderboard[i];
                 if(member != null)
-                description.append(String.format(getTranslationString(entity, "LeaderboardBody"), i + 1, member.getUser().getAsMention(), me.getKarma(), me.getLikes(), me.getDislikes()));
+                description.append(String.format(translate(entity, "LeaderboardBody"), i + 1, member.getUser().getAsMention(), me.getKarma(), me.getLikes(), me.getDislikes()));
             }
-            description.append(getTranslationString(entity, "LeaderboardBodyEnd"));
+            description.append(translate(entity, "LeaderboardBodyEnd"));
             event.reply(new EmbedBuilder()
-                    .setTitle(getTranslationString(entity, "LeaderboardHeader"))
-                    .setFooter(getTranslationString(entity, "LeaderboardFooter"))
+                    .setTitle(translate(entity, "LeaderboardHeader"))
+                    .setFooter(translate(entity, "LeaderboardFooter"))
                     .setDescription(description)
                     .setColor(new Color(0x3B863B))
                     .setTimestamp(LocalDateTime.now())

@@ -4,8 +4,6 @@ import com.github.codedoctorde.linwood.core.commands.Command;
 import com.github.codedoctorde.linwood.core.commands.CommandEvent;
 import net.dv8tion.jda.api.Permission;
 
-import java.util.ResourceBundle;
-
 /**
  * @author CodeDoctorDE
  */
@@ -17,7 +15,7 @@ public class ClearMaintainerCommand extends Command {
             return false;
         entity.setMaintainer(null);
         entity.save(event.getSession());
-        event.reply(getTranslationString(entity, "Clear")).queue();
+        event.reply(translate(entity, "Clear")).queue();
         return true;
     }
     @Override

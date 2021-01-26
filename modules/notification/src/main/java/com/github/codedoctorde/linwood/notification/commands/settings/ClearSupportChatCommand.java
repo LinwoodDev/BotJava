@@ -16,7 +16,7 @@ public class ClearSupportChatCommand extends Command {
             return false;
         event.getGuildEntity(NotificationEntity.class).setSupportChat(null);
         entity.save(event.getSession());
-        event.reply(getTranslationString(entity, "Clear")).queue();
+        event.reply(translate(entity, "Clear")).queue();
         return true;
     }
     @Override

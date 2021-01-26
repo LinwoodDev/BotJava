@@ -17,7 +17,7 @@ public abstract class Command {
 
     abstract public boolean onCommand(final CommandEvent event);
     @NotNull
-    public String getTranslationString(final GeneralGuildEntity entity, final String key){
+    public String translate(final GeneralGuildEntity entity, final String key){
         return ResourceBundle.getBundle("locale." + getClass().getCanonicalName(), entity.getLocalization()).getString(key);
     }
     protected ResourceBundle getBaseBundle(GeneralGuildEntity entity){

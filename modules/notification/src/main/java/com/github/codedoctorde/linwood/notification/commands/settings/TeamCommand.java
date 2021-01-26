@@ -16,9 +16,9 @@ public class TeamCommand extends Command {
             return false;
         if(args.length == 0)
             if(notificationEntity.getTeamRoleId() != null)
-                event.replyFormat(getTranslationString(entity, "Get"), notificationEntity.getTeamRole().getName(), notificationEntity.getTeamRoleId()).queue();
+                event.replyFormat(translate(entity, "Get"), notificationEntity.getTeamRole().getName(), notificationEntity.getTeamRoleId()).queue();
             else
-                event.reply(getTranslationString(entity, "GetNull")).queue();
+                event.reply(translate(entity, "GetNull")).queue();
         else {
             try {
                 Role role = null;
@@ -28,9 +28,9 @@ public class TeamCommand extends Command {
                 if(role == null){
                     var roles = event.getMessage().getGuild().getRolesByName(args[0], true);
                     if(roles.size() < 1)
-                        event.reply(getTranslationString(entity, "SetNothing")).queue();
+                        event.reply(translate(entity, "SetNothing")).queue();
                     else if(roles.size() > 1)
-                        event.reply(getTranslationString(entity, "SetMultiple")).queue();
+                        event.reply(translate(entity, "SetMultiple")).queue();
                     else
                         role = roles.get(0);
                 }
@@ -38,9 +38,9 @@ public class TeamCommand extends Command {
                     return true;
                 notificationEntity.setTeamRole(role);
                 entity.save(event.getSession());
-                event.replyFormat(getTranslationString(entity, "Set"), notificationEntity.getTeamRole().getName(), notificationEntity.getTeamRoleId()).queue();
+                event.replyFormat(translate(entity, "Set"), notificationEntity.getTeamRole().getName(), notificationEntity.getTeamRoleId()).queue();
             }catch(NullPointerException e){
-                event.reply(getTranslationString(entity, "NotValid")).queue();
+                event.reply(translate(entity, "NotValid")).queue();
             }
         }
         return true;

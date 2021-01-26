@@ -16,7 +16,7 @@ public class ClearGameCategoryCommand extends Command {
             return false;
         entity.setGameCategory(null);
         entity.save(event.getSession());
-        event.reply(getTranslationString(event.getEntity(), "Clear")).queue();
+        event.reply(translate(event.getEntity(), "Clear")).queue();
         return true;
     }
     @Override

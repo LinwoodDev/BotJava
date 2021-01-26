@@ -23,18 +23,18 @@ public class TicTacToeCommand extends Command {
         var member = event.getMember();
         assert member != null;
         if(!event.getGuildEntity(GameEntity.class).isGameMaster(member)){
-            event.reply(getTranslationString(entity, "NoPermission")).queue();
+            event.reply(translate(entity, "NoPermission")).queue();
             return true;
         }
         if(event.getArguments().length != 0)
             try {
                 rounds = Integer.parseInt(args[0]);
             }catch(Exception e){
-                event.reply(getTranslationString(entity, "NoNumber")).queue();
+                event.reply(translate(entity, "NoNumber")).queue();
                 return true;
             }
         if(rounds > 50 || rounds < 1){
-            event.reply(getTranslationString(entity, "Invalid")).queue();
+            event.reply(translate(entity, "Invalid")).queue();
             return true;
         }
         // Main.getInstance().getGameManager().startGame(entity.getGuildId(), new WhatIsIt(rounds, event.getMessage().getChannel().getIdLong()));
@@ -44,7 +44,7 @@ public class TicTacToeCommand extends Command {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        event.reply(getTranslationString(entity, "Success")).addFile(stream.toByteArray(), "TicTacToe.png").queue();
+        event.reply(translate(entity, "Success")).addFile(stream.toByteArray(), "TicTacToe.png").queue();
         return true;
     }
     public TicTacToeCommand() {

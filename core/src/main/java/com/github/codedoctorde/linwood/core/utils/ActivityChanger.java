@@ -5,6 +5,7 @@ import com.github.codedoctorde.linwood.core.config.ActivityConfig;
 import net.dv8tion.jda.api.OnlineStatus;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author CodeDoctorDE
@@ -12,27 +13,37 @@ import java.util.*;
 public class ActivityChanger {
     private Timer timer;
     private int index;
-    private final List<ActivityConfig> activities;
-    public ActivityChanger(ActivityConfig... activities){
-        this.activities =new ArrayList<>(Arrays.asList(activities));
+    private OnlineStatus status;
+    private final List<ActivityConfig> activities = new ArrayList<>();
+    private int period = 1000 * 10;
+    public ActivityChanger(){
     }
 
     public void start(){
-        new Timer().schedule(new TimerTask() {
-            @Override
-            public void run() {
-                if(Linwood.getInstance().getJda() != null) {
-                    if (index < 0 || index >= activities.size()) index = 0;
-                    if(activities.size() <= 0) return;
-                    Linwood.getInstance().getJda().setPresence(OnlineStatus.ONLINE, activities.get(index).build(Linwood.getInstance().getVersion(), Linwood.getInstance().getJda().getGuilds().size(),
-                            Linwood.getInstance().getJda().getUsers().size()));
-                    index++;
+        timer = new Timer();
+        if(activities.isEmpty())
+            Linwood.getInstance().getJda().setPresence(status, activities.get(index).build(Linwood.getInstance().getVersion(), Linwood.getInstance().getJda().getGuilds().size(),
+                    Linwood.getInstance().getJda().getUsers().size()));
+        else
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    if(Linwood.getInstance().getJda() != null) {
+                        if (index < 0 || index >= activities.size()) index = 0;
+                        if(activities.size() <= 0) return;
+                        Linwood.getInstance().getJda().setPresence(status, activities.get(index).build(Linwood.getInstance().getVersion(), Linwood.getInstance().getJda().getGuilds().size(),
+                                Linwood.getInstance().getJda().getUsers().size()));
+                        index++;
+                    }
                 }
-            }
-        }, 0, 1000 * 10);
+            }, 0, period);
     }
     public void cancel(){
         timer.cancel();
+    }
+    public void restart(){
+        cancel();
+        start();
     }
     public boolean isRunning(){
         return timer != null;
@@ -46,8 +57,30 @@ public class ActivityChanger {
         this.index = index;
     }
 
+    public int getPeriod() {
+        return period;
+    }
+
+    public void setPeriod(int period) {
+        if(period > 1000)
+            this.period = period;
+    }
+
     public List<ActivityConfig> getActivities() {
         return activities;
+    }
+
+    public OnlineStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(OnlineStatus status) {
+        this.status = status;
+    }
+
+    public void reload(){
+        activities.clear();
+        activities.addAll(Arrays.stream(Linwood.getInstance().getModules()).flatMap(module -> module.getActivities().stream()).collect(Collectors.toList()));
     }
 
 }

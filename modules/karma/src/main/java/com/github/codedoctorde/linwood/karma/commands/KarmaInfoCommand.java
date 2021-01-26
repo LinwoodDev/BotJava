@@ -25,14 +25,14 @@ public class KarmaInfoCommand extends Command {
             var action =
                     TagUtil.convertIdToMember(event.getMessage().getGuild(), args[0]);
             if(action == null){
-                event.reply(getTranslationString(entity, "SetMultiple")).queue();
+                event.reply(translate(entity, "SetMultiple")).queue();
                 return true;
             }
             action.queue(member -> {
                 if(member == null) {
                     member = TagUtil.convertNameToMember(event.getMessage().getGuild(), args[0]);
                     if (member == null) {
-                        event.reply(getTranslationString(entity, "SetMultiple")).queue();
+                        event.reply(translate(entity, "SetMultiple")).queue();
                         return;
                     }
                 }
@@ -44,23 +44,23 @@ public class KarmaInfoCommand extends Command {
     public void karmaCommand(CommandEvent event, Member member){
         var entity = event.getEntity();
         if(member.getUser().isBot()) {
-            event.reply(getTranslationString(entity, "Invalid")).queue();
+            event.reply(translate(entity, "Invalid")).queue();
             return;
         }
         var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
         var karmaMemberEntity = Linwood.getInstance().getDatabase().getMember(KarmaMemberEntity.class, session, member);
         event.reply(" ").embed(new EmbedBuilder()
-                .setTitle(getTranslationString(entity, "Title"))
-                .setDescription(getTranslationString(entity, "Body"))
+                .setTitle(translate(entity, "Title"))
+                .setDescription(translate(entity, "Body"))
                 .setColor(new Color(0x3B863B))
                 .setTimestamp(LocalDateTime.now())
                 .setAuthor(member.getUser().getAsTag(), "https://discord.com", member.getUser().getAvatarUrl())
-                .addField(getTranslationString(entity, "KarmaPoints"), String.valueOf(karmaMemberEntity.getKarma()), true)
-                .addField(getTranslationString(entity, "Likes"), String.valueOf(karmaMemberEntity.getLikes()), true)
-                .addField(getTranslationString(entity, "Dislikes"), String.valueOf(karmaMemberEntity.getDislikes()), true)
-                .addField(getTranslationString(entity, "Level"), String.valueOf(karmaMemberEntity.getLevel(session)), false)
-                .addField(getTranslationString(entity, "Experience"), Math.round(karmaMemberEntity.getRemainingKarma(session) * 100 * 100) / 100  + "%", true)
-                .addField(getTranslationString(entity, "Rank"), "invalid", true)
+                .addField(translate(entity, "KarmaPoints"), String.valueOf(karmaMemberEntity.getKarma()), true)
+                .addField(translate(entity, "Likes"), String.valueOf(karmaMemberEntity.getLikes()), true)
+                .addField(translate(entity, "Dislikes"), String.valueOf(karmaMemberEntity.getDislikes()), true)
+                .addField(translate(entity, "Level"), String.valueOf(karmaMemberEntity.getLevel(session)), false)
+                .addField(translate(entity, "Experience"), Math.round(karmaMemberEntity.getRemainingKarma(session) * 100 * 100) / 100  + "%", true)
+                .addField(translate(entity, "Rank"), "invalid", true)
                 .build()).queue();
         session.close();
     }

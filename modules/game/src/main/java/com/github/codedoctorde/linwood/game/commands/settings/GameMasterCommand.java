@@ -19,9 +19,9 @@ public class GameMasterCommand extends Command {
         var gameEntity = event.getGuildEntity(GameEntity.class);
         if(args.length == 0)
             if((gameEntity.getGameCategoryId() != null))
-                event.replyFormat(getTranslationString(entity, "Get"), gameEntity.getGameMasterRole().getName(), gameEntity.getGameMasterRoleId()).queue();
+                event.replyFormat(translate(entity, "Get"), gameEntity.getGameMasterRole().getName(), gameEntity.getGameMasterRoleId()).queue();
         else
-            event.reply(getTranslationString(entity, "GetNull")).queue();
+            event.reply(translate(entity, "GetNull")).queue();
         else {
             try {
                 Role role = null;
@@ -33,9 +33,9 @@ public class GameMasterCommand extends Command {
                 if(role == null){
                     var roles = event.getMessage().getGuild().getRolesByName(args[0], true);
                     if(roles.size() < 1)
-                        event.reply(getTranslationString(entity, "SetNothing")).queue();
+                        event.reply(translate(entity, "SetNothing")).queue();
                     else if(roles.size() > 1)
-                        event.reply(getTranslationString(entity, "SetMultiple")).queue();
+                        event.reply(translate(entity, "SetMultiple")).queue();
                     else
                         role = roles.get(0);
                 }
@@ -43,9 +43,9 @@ public class GameMasterCommand extends Command {
                     return true;
                 gameEntity.setGameMasterRole(role);
                 entity.save(event.getSession());
-                event.replyFormat(getTranslationString(entity, "Set"), gameEntity.getGameMasterRole().getName(), gameEntity.getGameMasterRoleId()).queue();
+                event.replyFormat(translate(entity, "Set"), gameEntity.getGameMasterRole().getName(), gameEntity.getGameMasterRoleId()).queue();
             }catch(NullPointerException e){
-                event.reply(getTranslationString(entity, "NotValid")).queue();
+                event.reply(translate(entity, "NotValid")).queue();
             }
         }
         return true;

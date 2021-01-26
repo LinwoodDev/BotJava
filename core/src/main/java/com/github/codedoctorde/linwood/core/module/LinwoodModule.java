@@ -2,6 +2,7 @@ package com.github.codedoctorde.linwood.core.module;
 
 import com.github.codedoctorde.linwood.core.Linwood;
 import com.github.codedoctorde.linwood.core.commands.Command;
+import com.github.codedoctorde.linwood.core.config.ActivityConfig;
 import com.github.codedoctorde.linwood.core.entity.DatabaseEntity;
 import com.sun.istack.Nullable;
 import org.apache.logging.log4j.LogManager;
@@ -18,7 +19,7 @@ public abstract class LinwoodModule {
     private final Set<Command> commands = new HashSet<>();
     private final Set<Class<? extends DatabaseEntity>> entities = new HashSet<>();
     private final Set<Command> settingsCommands = new HashSet<>();
-    private final Set<String> status = new HashSet<>();
+    private final Set<ActivityConfig> activities = new HashSet<>();
     private final String name;
     private final Logger logger;
 
@@ -101,6 +102,23 @@ public abstract class LinwoodModule {
     public Command getSettingsCommand(String alias){
         return settingsCommands.stream().filter(command -> command.hasAlias(alias)).findFirst().orElse(null);
     }
+
+    public Set<ActivityConfig> getActivities() {
+        return Set.copyOf(activities);
+    }
+    public void registerActivities(ActivityConfig... activities){
+        Arrays.stream(activities).forEach(this::registerActivity);
+    }
+    public void registerActivity(ActivityConfig activity){
+        activities.add(activity);
+    }
+    public void unregisterActivities(ActivityConfig... activities){
+        Arrays.stream(activities).forEach(this::unregisterActivity);
+    }
+    public void unregisterActivity(ActivityConfig activity){
+        activities.remove(activity);
+    }
+
     protected void clearCommands(){
         commands.clear();
     }

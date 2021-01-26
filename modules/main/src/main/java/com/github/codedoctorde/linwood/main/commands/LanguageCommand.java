@@ -4,8 +4,6 @@ import com.github.codedoctorde.linwood.core.commands.Command;
 import com.github.codedoctorde.linwood.core.commands.CommandEvent;
 import net.dv8tion.jda.api.Permission;
 
-import java.util.ResourceBundle;
-
 /**
  * @author CodeDoctorDE
  */
@@ -17,14 +15,14 @@ public class LanguageCommand extends Command {
         if(args.length > 1)
             return false;
         if(args.length == 0)
-            event.replyFormat(getTranslationString(entity, "Get"), entity.getLocalization().getDisplayName(entity.getLocalization())).queue();
+            event.replyFormat(translate(entity, "Get"), entity.getLocalization().getDisplayName(entity.getLocalization())).queue();
         else {
             try {
                 entity.setLocale(args[0]);
                 entity.save(event.getSession());
-                event.replyFormat(getTranslationString(entity, "Set"), entity.getLocalization().getDisplayName(entity.getLocalization())).queue();
+                event.replyFormat(translate(entity, "Set"), entity.getLocalization().getDisplayName(entity.getLocalization())).queue();
             }catch(NullPointerException e){
-                event.reply(getTranslationString(entity, "NotValid")).queue();
+                event.reply(translate(entity, "NotValid")).queue();
             }
         }
         return true;

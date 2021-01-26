@@ -16,7 +16,7 @@ public class ClearLikeCommand extends Command {
             return false;
         event.getGuildEntity(KarmaEntity.class).setLikeEmote(null);
         entity.save(event.getSession());
-        event.reply(getTranslationString(entity, "Clear")).queue();
+        event.reply(translate(entity, "Clear")).queue();
         return true;
     }
     @Override
