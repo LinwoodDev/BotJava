@@ -2,6 +2,7 @@ package com.github.codedoctorde.linwood.game.commands;
 
 import com.github.codedoctorde.linwood.core.commands.Command;
 import com.github.codedoctorde.linwood.core.commands.CommandEvent;
+import com.github.codedoctorde.linwood.game.entity.GameEntity;
 import com.github.codedoctorde.linwood.game.mode.tictactoe.TicTacToeWorld;
 
 import javax.imageio.ImageIO;
@@ -18,9 +19,10 @@ public class TicTacToeCommand extends Command {
         if(args.length > 2)
             return false;
         int rounds = 5;
+        var entity = event.getEntity();
         var member = event.getMember();
         assert member != null;
-        if(!event.getEntity().getGameEntity().isGameMaster(member)){
+        if(!event.getGuildEntity(GameEntity.class).isGameMaster(member)){
             event.reply(getTranslationString(entity, "NoPermission")).queue();
             return true;
         }

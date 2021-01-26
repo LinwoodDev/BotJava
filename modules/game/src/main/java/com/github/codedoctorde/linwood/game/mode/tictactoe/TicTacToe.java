@@ -5,6 +5,7 @@ import com.github.codedoctorde.linwood.core.apps.single.SingleApplication;
 import com.github.codedoctorde.linwood.core.entity.GeneralGuildEntity;
 import com.github.codedoctorde.linwood.core.apps.single.SingleApplicationMode;
 import com.github.codedoctorde.linwood.game.engine.Board;
+import com.github.codedoctorde.linwood.game.entity.GameEntity;
 import net.dv8tion.jda.api.entities.Category;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.requests.restaction.ChannelAction;
@@ -49,10 +50,11 @@ public class TicTacToe extends Board implements SingleApplicationMode {
         events = new TicTacToeEvents(this);
         Linwood.getInstance().getJda().addEventListener(events);
         var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
-        var guild = GeneralGuildEntity.get(session, game.getGuildId());
+        var guild = Linwood.getInstance().getDatabase().getGuildById(session, game.getGuildId());
+        var entity = Linwood.getInstance().getDatabase().getGuildEntityById(GameEntity.class, session, game.getGuildId());
         Category category = null;
-        if(guild.getGameEntity().getGameCategoryId() != null)
-            category = guild.getGameEntity().getGameCategory();
+        if(entity.getGameCategoryId() != null)
+            category = entity.getGameCategory();
         var bundle = getBundle(session);
         Category finalCategory = category;
         ChannelAction<TextChannel> action;

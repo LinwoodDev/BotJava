@@ -1,6 +1,7 @@
 package com.github.codedoctorde.linwood.game.mode.whatisit;
 
 import com.github.codedoctorde.linwood.core.Linwood;
+import com.github.codedoctorde.linwood.game.entity.GameEntity;
 import io.sentry.Sentry;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -67,6 +68,7 @@ public class WhatIsItEvents {
             event.retrieveMember().queue(member -> {
                 var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
                 var entity = Linwood.getInstance().getDatabase().getGuildById(session, event.getGuild().getIdLong());
+                var gameEntity = Linwood.getInstance().getDatabase().getGuildEntityById(GameEntity.class, session, event.getGuild().getIdLong());
                 var bundle = whatIsIt.getBundle(session);
                 if (event.getChannel().getIdLong() == whatIsIt.getTextChannelId() && event.getMember() != null &&
                         event.getMessageIdLong() == whatIsIt.getWantWriterMessageId() && !event.getMember().getUser().isBot() && event.getReactionEmote().isEmoji())
@@ -76,7 +78,7 @@ public class WhatIsItEvents {
                                 event.getReaction().removeReaction(event.getMember().getUser()).queue();
                             break;
                         case "U+26d4":
-                            if (entity.getGameEntity().isGameMaster(event.getMember())) {
+                            if (gameEntity.isGameMaster(event.getMember())) {
                                 whatIsIt.finishGame();
                                 break;
                             }

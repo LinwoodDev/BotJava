@@ -3,6 +3,7 @@ package com.github.codedoctorde.linwood.game.commands;
 import com.github.codedoctorde.linwood.core.Linwood;
 import com.github.codedoctorde.linwood.core.commands.Command;
 import com.github.codedoctorde.linwood.core.commands.CommandEvent;
+import com.github.codedoctorde.linwood.game.entity.GameEntity;
 
 /**
  * @author CodeDoctorDE
@@ -15,7 +16,7 @@ public class StopGameCommand extends Command {
         return false;
         if(event.getMember() == null)
             return false;
-        if(!entity.getGameEntity().isGameMaster(event.getMember())){
+        if(!event.getGuildEntity(GameEntity.class).isGameMaster(event.getMember())){
             event.reply(getTranslationString(entity, "NoPermission")).queue();
             return true;
         }

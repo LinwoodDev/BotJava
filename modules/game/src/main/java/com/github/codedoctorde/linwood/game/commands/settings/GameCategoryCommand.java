@@ -2,6 +2,7 @@ package com.github.codedoctorde.linwood.game.commands.settings;
 
 import com.github.codedoctorde.linwood.core.commands.Command;
 import com.github.codedoctorde.linwood.core.commands.CommandEvent;
+import com.github.codedoctorde.linwood.game.entity.GameEntity;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Category;
 
@@ -13,11 +14,12 @@ public class GameCategoryCommand extends Command {
     public boolean onCommand(final CommandEvent event) {
         var entity = event.getEntity();
         var args = event.getArguments();
+        var gameEntity = event.getGuildEntity(GameEntity.class);
         if(args.length > 1)
             return false;
         if(args.length == 0)
-            if(entity.getGameEntity().getGameCategoryId() != null)
-                event.replyFormat(getTranslationString(entity, "Get"), entity.getGameEntity().getGameCategory().getName(), entity.getGameEntity().getGameCategoryId()).queue();
+            if(gameEntity.getGameCategoryId() != null)
+                event.replyFormat(getTranslationString(entity, "Get"), gameEntity.getGameCategory().getName(), gameEntity.getGameCategoryId()).queue();
             else
                 event.reply(getTranslationString(entity, "GetNull")).queue();
         else {
@@ -39,9 +41,9 @@ public class GameCategoryCommand extends Command {
                     if(category == null)
                         return true;
                 }
-                entity.getGameEntity().setGameCategory(category);
+                gameEntity.setGameCategory(category);
                 entity.save(event.getSession());
-                event.replyFormat(getTranslationString(entity, "Set"), entity.getGameEntity().getGameCategory().getName(), entity.getGameEntity().getGameCategoryId()).queue();
+                event.replyFormat(getTranslationString(entity, "Set"), gameEntity.getGameCategory().getName(), gameEntity.getGameCategoryId()).queue();
             }catch(NullPointerException e){
                 event.reply(getTranslationString(entity, "NotValid")).queue();
             }

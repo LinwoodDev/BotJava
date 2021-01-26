@@ -3,6 +3,7 @@ package com.github.codedoctorde.linwood.game.commands;
 import com.github.codedoctorde.linwood.core.Linwood;
 import com.github.codedoctorde.linwood.core.commands.Command;
 import com.github.codedoctorde.linwood.core.commands.CommandEvent;
+import com.github.codedoctorde.linwood.game.entity.GameEntity;
 import com.github.codedoctorde.linwood.game.mode.whatisit.WhatIsIt;
 
 /**
@@ -12,11 +13,12 @@ public class WhatIsItCommand extends Command {
     @Override
     public boolean onCommand(final CommandEvent event) {
         var args = event.getArguments();
+        var entity = event.getEntity();
         if(args.length > 2)
             return false;
         int rounds = 5;
         assert event.getMember() != null;
-        if(!event.getEntity().getGameEntity().isGameMaster(event.getMember())){
+        if(!event.getGuildEntity(GameEntity.class).isGameMaster(event.getMember())){
             event.reply(getTranslationString(entity, "NoPermission")).queue();
             return true;
         }

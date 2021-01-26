@@ -4,6 +4,7 @@ import com.github.codedoctorde.linwood.core.Linwood;
 import com.github.codedoctorde.linwood.core.apps.single.SingleApplication;
 import com.github.codedoctorde.linwood.core.apps.single.SingleApplicationMode;
 import com.github.codedoctorde.linwood.core.entity.GeneralGuildEntity;
+import com.github.codedoctorde.linwood.game.entity.GameEntity;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.*;
 import org.hibernate.Session;
@@ -42,9 +43,10 @@ public class WhatIsIt implements SingleApplicationMode {
         Linwood.getInstance().getJda().addEventListener(events);
         var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
         var guild = GeneralGuildEntity.get(session, game.getGuildId());
+        var entity = Linwood.getInstance().getDatabase().getGuildEntityById(GameEntity.class, session, game.getGuildId());
         Category category = null;
-        if(guild.getGameEntity().getGameCategoryId() != null)
-            category = guild.getGameEntity().getGameCategory();
+        if(entity.getGameCategoryId() != null)
+            category = entity.getGameCategory();
         var bundle = getBundle(session);
         Category finalCategory = category;
         session.close();

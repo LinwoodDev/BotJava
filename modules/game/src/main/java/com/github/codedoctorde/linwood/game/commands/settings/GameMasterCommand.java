@@ -2,6 +2,7 @@ package com.github.codedoctorde.linwood.game.commands.settings;
 
 import com.github.codedoctorde.linwood.core.commands.Command;
 import com.github.codedoctorde.linwood.core.commands.CommandEvent;
+import com.github.codedoctorde.linwood.game.entity.GameEntity;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Role;
 
@@ -15,9 +16,10 @@ public class GameMasterCommand extends Command {
         var entity = event.getEntity();
         if(args.length > 1)
             return false;
+        var gameEntity = event.getGuildEntity(GameEntity.class);
         if(args.length == 0)
-            if((entity.getGameEntity().getGameCategoryId() != null))
-                event.replyFormat(getTranslationString(entity, "Get"), entity.getGameEntity().getGameMasterRole().getName(), entity.getGameEntity().getGameMasterRoleId()).queue();
+            if((gameEntity.getGameCategoryId() != null))
+                event.replyFormat(getTranslationString(entity, "Get"), gameEntity.getGameMasterRole().getName(), gameEntity.getGameMasterRoleId()).queue();
         else
             event.reply(getTranslationString(entity, "GetNull")).queue();
         else {
@@ -39,9 +41,9 @@ public class GameMasterCommand extends Command {
                 }
                 if(role == null)
                     return true;
-                entity.getGameEntity().setGameMasterRole(role);
+                gameEntity.setGameMasterRole(role);
                 entity.save(event.getSession());
-                event.replyFormat(getTranslationString(entity, "Set"), entity.getGameEntity().getGameMasterRole().getName(), entity.getGameEntity().getGameMasterRoleId()).queue();
+                event.replyFormat(getTranslationString(entity, "Set"), gameEntity.getGameMasterRole().getName(), gameEntity.getGameMasterRoleId()).queue();
             }catch(NullPointerException e){
                 event.reply(getTranslationString(entity, "NotValid")).queue();
             }

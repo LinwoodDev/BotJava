@@ -2,6 +2,7 @@ package com.github.codedoctorde.linwood.game.commands.settings;
 
 import com.github.codedoctorde.linwood.core.commands.Command;
 import com.github.codedoctorde.linwood.core.commands.CommandEvent;
+import com.github.codedoctorde.linwood.game.entity.GameEntity;
 import net.dv8tion.jda.api.Permission;
 
 /**
@@ -13,7 +14,7 @@ public class ClearGameMasterCommand extends Command {
         var entity = event.getEntity();
         if(event.getArguments().length != 0)
             return false;
-        entity.getGameEntity().setGameMasterRole(null);
+        event.getGuildEntity(GameEntity.class).setGameMasterRole(null);
         entity.save(event.getSession());
         event.reply(getTranslationString(entity, "Clear")).queue();
         return true;
