@@ -71,7 +71,8 @@ public class GeneralGuildEntity extends GuildEntity {
         return Linwood.getInstance().getJda().getRoleById(maintainerId);
     }
     public String translate(String namespace, String key){
-        return ResourceBundle.getBundle("locale." + namespace, getLocalization()).getString(key);
+        var bundle = ResourceBundle.getBundle("locale." + namespace, getLocalization());
+        return bundle.containsKey(key) ? bundle.getString(key) : key;
     }
     public void log(GuildLogLevel level, LinwoodModule module, String message){
         try {

@@ -146,4 +146,8 @@ public abstract class LinwoodModule {
     public String getName() {
         return name;
     }
+
+    public String translate(GeneralGuildEntity entity, String key){
+        return entity.translate(getClass().getCanonicalName(), key);
+    }
 }
