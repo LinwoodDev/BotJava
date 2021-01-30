@@ -3,6 +3,7 @@ package com.github.codedoctorde.linwood.core.commands;
 import com.github.codedoctorde.linwood.core.Linwood;
 import com.github.codedoctorde.linwood.core.entity.GeneralGuildEntity;
 import com.github.codedoctorde.linwood.core.exceptions.CommandPermissionException;
+import com.github.codedoctorde.linwood.core.exceptions.CommandSyntaxException;
 
 import java.util.*;
 
@@ -18,7 +19,7 @@ public abstract class CommandManager extends Command {
     }
 
     @Override
-    public boolean onCommand(final CommandEvent event) {
+    public void onCommand(final CommandEvent event) {
         var entity = event.getEntity();
         var message = event.getMessage();
         var args = event.getArguments();
@@ -27,14 +28,10 @@ public abstract class CommandManager extends Command {
         for (Command command : commands)
             if (command.hasAlias(
                     (event.getArguments().length != 0) ? args[0].toLowerCase() : "")) {
-                if(Linwood.getInstance().getConfig().getOwners().contains(message.getAuthor().getIdLong())) {
-                    if (!command.onCommand(event.upper()))
-                        event.replyFormat(ResourceBundle.getBundle("locale.Command").getString("Syntax"), Objects.requireNonNull(command.translate(entity, "Syntax"))).queue();
-                }
-                return true;
+                if(Linwood.getInstance().getConfig().getOwners().contains(message.getAuthor().getIdLong()))
+                    command.onCommand(event.upper());
             }else
-                return false;
-        return true;
+                throw new CommandSyntaxException(this);
     }
 
     public Command getCommand(GeneralGuildEntity entity, String... args){

@@ -2,18 +2,19 @@ package com.github.codedoctorde.linwood.notification.commands.settings;
 
 import com.github.codedoctorde.linwood.core.commands.Command;
 import com.github.codedoctorde.linwood.core.commands.CommandEvent;
+import com.github.codedoctorde.linwood.core.exceptions.CommandSyntaxException;
 import com.github.codedoctorde.linwood.notification.entity.NotificationEntity;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Role;
 
 public class TeamCommand extends Command {
     @Override
-    public boolean onCommand(final CommandEvent event) {
+    public void onCommand(final CommandEvent event) {
         var args = event.getArguments();
         var entity = event.getEntity();
         var notificationEntity = event.getGuildEntity(NotificationEntity.class);
         if(args.length > 1)
-            return false;
+            throw new CommandSyntaxException(this);
         if(args.length == 0)
             if(notificationEntity.getTeamRoleId() != null)
                 event.replyFormat(translate(entity, "Get"), notificationEntity.getTeamRole().getName(), notificationEntity.getTeamRoleId()).queue();
@@ -35,7 +36,7 @@ public class TeamCommand extends Command {
                         role = roles.get(0);
                 }
                 if(role == null)
-                    return true;
+                    return;
                 notificationEntity.setTeamRole(role);
                 entity.save(event.getSession());
                 event.replyFormat(translate(entity, "Set"), notificationEntity.getTeamRole().getName(), notificationEntity.getTeamRoleId()).queue();
@@ -43,14 +44,8 @@ public class TeamCommand extends Command {
                 event.reply(translate(entity, "NotValid")).queue();
             }
         }
-        return true;
     }
-    @Override
-    public boolean hasPermission(final CommandEvent event) {
-       var member = event.getMember();
-       var entity = event.getEntity();
-       return member.hasPermission(Permission.MANAGE_SERVER) || entity.getMaintainerId() != null && member.getRoles().contains(member.getGuild().getRoleById(entity.getMaintainerId()));
-    }
+
 
     public TeamCommand() {
         super(

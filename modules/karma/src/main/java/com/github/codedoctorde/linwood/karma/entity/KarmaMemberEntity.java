@@ -14,9 +14,9 @@ public class KarmaMemberEntity extends MemberEntity {
     @Column
     private long id;
     @Column
-    private long guildId;
+    private final long guildId;
     @Column
-    private long memberId;
+    private final long memberId;
     @Column
     private int points;
     @Column

@@ -10,13 +10,11 @@ import net.dv8tion.jda.api.EmbedBuilder;
  */
 public class CommandHelpCommand extends Command {
     @Override
-    public boolean onCommand(final CommandEvent event) {
+    public void onCommand(final CommandEvent event) {
         if(event.getArguments().length == 0)
-            return false;
+            return;
         var command = Linwood.getInstance().getCommandListener().findCommand(event.getArgumentsString());
         event.reply(new EmbedBuilder().setTitle(command.translate(event.getEntity(), "Syntax")).setDescription(command.translate(event.getEntity(), "Description")).build());
-
-        return true;
     }
 
     public CommandHelpCommand() {

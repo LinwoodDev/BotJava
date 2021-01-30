@@ -2,6 +2,7 @@ package com.github.codedoctorde.linwood.game.commands.settings;
 
 import com.github.codedoctorde.linwood.core.commands.Command;
 import com.github.codedoctorde.linwood.core.commands.CommandEvent;
+import com.github.codedoctorde.linwood.core.exceptions.CommandSyntaxException;
 import com.github.codedoctorde.linwood.game.entity.GameEntity;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Role;
@@ -11,11 +12,11 @@ import net.dv8tion.jda.api.entities.Role;
  */
 public class GameMasterCommand extends Command {
     @Override
-    public boolean onCommand(final CommandEvent event) {
+    public void onCommand(final CommandEvent event) {
         var args = event.getArguments();
         var entity = event.getEntity();
         if(args.length > 1)
-            return false;
+            throw new CommandSyntaxException(this);
         var gameEntity = event.getGuildEntity(GameEntity.class);
         if(args.length == 0)
             if((gameEntity.getGameCategoryId() != null))
@@ -40,7 +41,7 @@ public class GameMasterCommand extends Command {
                         role = roles.get(0);
                 }
                 if(role == null)
-                    return true;
+                    return;
                 gameEntity.setGameMasterRole(role);
                 entity.save(event.getSession());
                 event.replyFormat(translate(entity, "Set"), gameEntity.getGameMasterRole().getName(), gameEntity.getGameMasterRoleId()).queue();
@@ -48,14 +49,8 @@ public class GameMasterCommand extends Command {
                 event.reply(translate(entity, "NotValid")).queue();
             }
         }
-        return true;
     }
-    @Override
-    public boolean hasPermission(final CommandEvent event) {
-       var member = event.getMember();
-       var entity = event.getEntity();
-       return member.hasPermission(Permission.MANAGE_SERVER) || entity.getMaintainerId() != null && member.getRoles().contains(member.getGuild().getRoleById(entity.getMaintainerId()));
-    }
+
 
     public GameMasterCommand(){
         super(

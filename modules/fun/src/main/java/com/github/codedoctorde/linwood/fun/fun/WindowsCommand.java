@@ -2,6 +2,7 @@ package com.github.codedoctorde.linwood.fun.fun;
 
 import com.github.codedoctorde.linwood.core.commands.Command;
 import com.github.codedoctorde.linwood.core.commands.CommandEvent;
+import com.github.codedoctorde.linwood.core.exceptions.CommandSyntaxException;
 
 import java.io.InputStream;
 import java.util.*;
@@ -12,9 +13,9 @@ import java.util.*;
 public class WindowsCommand extends Command {
     private final Random random = new Random();
     @Override
-    public boolean onCommand(final CommandEvent event) {
+    public void onCommand(final CommandEvent event) {
         if(event.getArguments().length != 0)
-            return false;
+            throw new CommandSyntaxException(this);
         String response;
         InputStream file = null;
         var entity = event.getEntity();
@@ -37,7 +38,6 @@ public class WindowsCommand extends Command {
         if(file != null)
             action = action.addFile(file, "windows.png");
         action.queue();
-        return true;
     }
 
     public WindowsCommand() {

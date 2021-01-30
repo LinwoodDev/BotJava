@@ -2,6 +2,7 @@ package com.github.codedoctorde.linwood.main.commands;
 
 import com.github.codedoctorde.linwood.core.commands.Command;
 import com.github.codedoctorde.linwood.core.commands.CommandEvent;
+import com.github.codedoctorde.linwood.core.exceptions.CommandSyntaxException;
 import net.dv8tion.jda.api.Permission;
 
 /**
@@ -9,17 +10,17 @@ import net.dv8tion.jda.api.Permission;
  */
 public class ClearCommand extends Command {
     @Override
-    public boolean onCommand(final CommandEvent event) {
+    public void onCommand(final CommandEvent event) {
         var args = event.getArguments();
         var entity = event.getEntity();
         if(args.length != 1)
-            return false;
+            throw new CommandSyntaxException(this);
         int count;
         try{
             count = Integer.parseInt(args[0]);
         }catch(Exception ignored){
             event.reply(translate(entity, "Invalid")).queue();
-            return true;
+            return;
         }
         if(count <= 0 || count > 100)
             event.reply(translate(entity, "Between")).queue();
@@ -28,12 +29,6 @@ public class ClearCommand extends Command {
                 messages.forEach(deleteMessage -> deleteMessage.delete().queue());
                 event.replyFormat(translate(entity, "Success"), messages.size()).queue();
             });
-        return true;
-    }
-    @Override
-    public boolean hasPermission(final CommandEvent event) {
-        var member = event.getMember();
-        return member.hasPermission(Permission.MANAGE_CHANNEL);
     }
 
     public ClearCommand(){

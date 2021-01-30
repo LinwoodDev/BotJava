@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
 /**
  * @author CodeDoctorDE
  */
-public class CommandListener implements GuildOperation {
+public class CommandListener {
     public static final Pattern pattern = Pattern.compile("(?:^(?<module>[A-z]+):)?(?<command>[A-z]+)?(?<args> [A-z]+$)?");
 
 
@@ -59,11 +59,15 @@ public class CommandListener implements GuildOperation {
                     event.getChannel().sendMessageFormat(translate(guild, "NoPermission"), e.getMessage()).queue();
                 } catch (Exception e) {
                     event.getChannel().sendMessageFormat(translate(guild, "Error"), e.getMessage()).queue();
+                    e.printStackTrace();
                     Sentry.captureException(e);
                 }
             }
         }
         session.close();
+    }
+    public String translate(GeneralGuildEntity entity, String key){
+        return entity.translate("Command", key);
     }
     public Command findCommand(String command){
         var matcher = pattern.matcher(command);
@@ -91,7 +95,10 @@ public class CommandListener implements GuildOperation {
     public void execute(CommandEvent commandEvent){
         var command =
                 findCommand(commandEvent.getArgumentsString());
+
         if(command != null)
             command.onCommand(commandEvent.upper());
+        else
+            commandEvent.reply(translate(commandEvent.getEntity(), "CommandNotFound")).queue();
     }
 }

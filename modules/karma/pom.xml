@@ -10,14 +10,6 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>linwood-karma</artifactId>
-    <dependencies>
-        <dependency>
-            <groupId>com.github.codedoctorde</groupId>
-            <artifactId>linwood-core</artifactId>
-            <version>2.0</version>
-            <scope>compile</scope>
-        </dependency>
-    </dependencies>
 
 
 </project>

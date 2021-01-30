@@ -3,6 +3,7 @@ package com.github.codedoctorde.linwood.main.commands;
 import com.github.codedoctorde.linwood.core.Linwood;
 import com.github.codedoctorde.linwood.core.commands.Command;
 import com.github.codedoctorde.linwood.core.commands.CommandEvent;
+import com.github.codedoctorde.linwood.core.exceptions.CommandSyntaxException;
 import com.github.codedoctorde.linwood.core.module.LinwoodModule;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -12,9 +13,9 @@ import net.dv8tion.jda.api.entities.TextChannel;
  */
 public class ModuleHelpCommand extends Command {
     @Override
-    public boolean onCommand(final CommandEvent event) {
+    public void onCommand(final CommandEvent event) {
         if(event.getArguments().length == 0)
-            return false;
+            throw new CommandSyntaxException(this);
         var entity = event.getEntity();
         var module = Linwood.getInstance().getModule(event.getArgumentsString());
         if(module != null) {
@@ -27,7 +28,6 @@ public class ModuleHelpCommand extends Command {
         }
         else
             event.reply(translate(entity, "HelpNotFound")).queue();
-        return true;
     }
 
     public ModuleHelpCommand() {

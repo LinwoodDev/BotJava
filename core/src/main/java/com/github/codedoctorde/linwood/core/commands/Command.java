@@ -16,7 +16,7 @@ public abstract class Command implements GuildOperation {
         Collections.addAll(this.aliases, aliases);
     }
 
-    abstract public boolean onCommand(final CommandEvent event);
+    abstract public void onCommand(final CommandEvent event);
     protected ResourceBundle getBaseBundle(GeneralGuildEntity entity){
         return ResourceBundle.getBundle("locale.Command", entity.getLocalization());
     }

@@ -9,6 +9,7 @@ import javax.persistence.*;
  * @author CodeDoctorDE
  */
 @Entity
+@Table(name = "member")
 public class GeneralMemberEntity extends MemberEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

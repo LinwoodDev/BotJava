@@ -42,7 +42,7 @@ public class WhatIsIt implements SingleApplicationMode {
         events = new WhatIsItEvents(this);
         Linwood.getInstance().getJda().addEventListener(events);
         var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
-        var guild = GeneralGuildEntity.get(session, game.getGuildId());
+        var guild = Linwood.getInstance().getDatabase().getGuildById(session, game.getGuildId());
         var entity = Linwood.getInstance().getDatabase().getGuildEntityById(GameEntity.class, session, game.getGuildId());
         Category category = null;
         if(entity.getGameCategoryId() != null)

@@ -1,4 +1,4 @@
-package com.github.codedoctorde.linwood.listener;
+package com.github.codedoctorde.linwood.core.listener;
 
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.events.guild.invite.GenericGuildInviteEvent;

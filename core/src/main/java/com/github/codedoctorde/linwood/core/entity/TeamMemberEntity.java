@@ -3,6 +3,7 @@ package com.github.codedoctorde.linwood.core.entity;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "team_member")
 public class TeamMemberEntity extends DatabaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

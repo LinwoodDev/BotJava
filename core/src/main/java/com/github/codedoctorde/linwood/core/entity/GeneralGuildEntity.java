@@ -36,7 +36,7 @@ public class GeneralGuildEntity extends GuildEntity {
     private GuildPlan plan = GuildPlan.COMMUNITY;
 
     public GeneralGuildEntity(){ }
-    public GeneralGuildEntity(long id) {
+    public GeneralGuildEntity(Long id) {
         this.guildId = id;
     }
 

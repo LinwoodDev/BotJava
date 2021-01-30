@@ -2,16 +2,16 @@ package com.github.codedoctorde.linwood.main.commands;
 
 import com.github.codedoctorde.linwood.core.commands.Command;
 import com.github.codedoctorde.linwood.core.commands.CommandEvent;
+import com.github.codedoctorde.linwood.core.exceptions.CommandSyntaxException;
 import net.dv8tion.jda.api.Permission;
 
 public class PrefixesCommand extends Command {
     @Override
-    public boolean onCommand(final CommandEvent event) {
+    public void onCommand(final CommandEvent event) {
         if(event.getArguments().length != 0)
-            return false;
+            throw new CommandSyntaxException(this);
         var entity = event.getEntity();
         event.replyFormat(translate(entity, "Get"), String.join("," , entity.getPrefixes())).queue();
-        return true;
     }
 
     public PrefixesCommand() {
@@ -24,10 +24,5 @@ public class PrefixesCommand extends Command {
                 "listpre-fixes"
         );
     }
-    @Override
-    public boolean hasPermission(final CommandEvent event) {
-       var member = event.getMember();
-       var entity = event.getEntity();
-       return member.hasPermission(Permission.MANAGE_SERVER) || entity.getMaintainerId() != null && member.getRoles().contains(member.getGuild().getRoleById(entity.getMaintainerId()));
-    }
+
 }

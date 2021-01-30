@@ -1,6 +1,7 @@
 package com.github.codedoctorde.linwood.core.console;
 
 import com.github.codedoctorde.linwood.core.Linwood;
+import com.github.codedoctorde.linwood.core.exceptions.CommandSyntaxException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -14,17 +15,15 @@ public abstract class ConsoleCommandManager implements ConsoleCommand {
     private static final Logger logger = LogManager.getLogger(Linwood.class);
 
     @Override
-    public boolean onCommand(String label, String[] args) {
+    public void onCommand(String label, String[] args) {
         for (ConsoleCommand command : commands())
             if (Arrays.asList(command.aliases()).contains(
                     (args.length != 0) ? args[0].toLowerCase() : "")) {
-                if(!command.onCommand(
+                command.onCommand(
                         (args.length != 0) ? args[0] : "",
-                        (args.length != 0) ? Arrays.copyOfRange(args, 1, args.length) : new String[0]))
-                    logger.error(command.syntax());
-                return true;
+                        (args.length != 0) ? Arrays.copyOfRange(args, 1, args.length) : new String[0]);
+                return;
             }
-        return false;
     }
 
     public ConsoleCommand getCommand(String... args){

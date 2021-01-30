@@ -2,6 +2,7 @@ package com.github.codedoctorde.linwood.karma.commands;
 
 import com.github.codedoctorde.linwood.core.commands.Command;
 import com.github.codedoctorde.linwood.core.commands.CommandEvent;
+import com.github.codedoctorde.linwood.core.exceptions.CommandSyntaxException;
 import com.github.codedoctorde.linwood.karma.KarmaAddon;
 import com.github.codedoctorde.linwood.karma.entity.KarmaMemberEntity;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -16,9 +17,9 @@ import java.util.stream.Collectors;
  */
 public class KarmaLeaderboardCommand extends Command {
     @Override
-    public boolean onCommand(final CommandEvent event) {
+    public void onCommand(final CommandEvent event) {
         if(event.getArguments().length != 0)
-        return false;
+            throw new CommandSyntaxException(this);
         var entity = event.getEntity();
         var leaderboard = KarmaAddon.getInstance().getKarmaLeaderboard(event.getSession(), event.getMessage().getGuild().getIdLong());
         event.getMessage().getGuild().retrieveMembersByIds(Arrays.stream(leaderboard).map(KarmaMemberEntity::getMemberId).collect(Collectors.toList())).onSuccess(members -> {
@@ -29,7 +30,7 @@ public class KarmaLeaderboardCommand extends Command {
                 var member = members.stream().filter(current -> current.getIdLong() == leaderboard[finalI].getMemberId()).findFirst().orElse(null);
                 var me = leaderboard[i];
                 if(member != null)
-                description.append(String.format(translate(entity, "LeaderboardBody"), i + 1, member.getUser().getAsMention(), me.getKarma(), me.getLikes(), me.getDislikes()));
+                    description.append(String.format(translate(entity, "LeaderboardBody"), i + 1, member.getUser().getAsMention(), me.getKarma(), me.getLikes(), me.getDislikes()));
             }
             description.append(translate(entity, "LeaderboardBodyEnd"));
             event.reply(new EmbedBuilder()
@@ -40,7 +41,6 @@ public class KarmaLeaderboardCommand extends Command {
                     .setTimestamp(LocalDateTime.now())
                     .build()).queue();
         });
-        return true;
     }
 
     public KarmaLeaderboardCommand() {

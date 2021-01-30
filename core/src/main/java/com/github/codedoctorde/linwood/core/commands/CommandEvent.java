@@ -5,11 +5,13 @@ import com.github.codedoctorde.linwood.core.entity.DatabaseEntity;
 import com.github.codedoctorde.linwood.core.entity.GeneralGuildEntity;
 import com.github.codedoctorde.linwood.core.entity.GuildEntity;
 import com.github.codedoctorde.linwood.core.entity.MemberEntity;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.requests.restaction.MessageAction;
 import org.hibernate.Session;
 
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 /**
@@ -68,6 +70,11 @@ public class CommandEvent {
             return arguments[index];
         else
             return null;
+    }
+
+    public boolean isMaintainer() {
+        var member = getMember();
+        return member.hasPermission(Permission.MANAGE_SERVER) || entity.getMaintainerId() != null && member.getRoles().contains(member.getGuild().getRoleById(entity.getMaintainerId()));
     }
 
     public String getArgumentsString() {

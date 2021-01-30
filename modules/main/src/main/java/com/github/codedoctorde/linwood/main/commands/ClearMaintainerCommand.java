@@ -2,6 +2,7 @@ package com.github.codedoctorde.linwood.main.commands;
 
 import com.github.codedoctorde.linwood.core.commands.Command;
 import com.github.codedoctorde.linwood.core.commands.CommandEvent;
+import com.github.codedoctorde.linwood.core.exceptions.CommandSyntaxException;
 import net.dv8tion.jda.api.Permission;
 
 /**
@@ -9,21 +10,15 @@ import net.dv8tion.jda.api.Permission;
  */
 public class ClearMaintainerCommand extends Command {
     @Override
-    public boolean onCommand(final CommandEvent event) {
+    public void onCommand(final CommandEvent event) {
         var entity = event.getEntity();
         if(event.getArguments().length != 0)
-            return false;
+            throw new CommandSyntaxException(this);
         entity.setMaintainer(null);
         entity.save(event.getSession());
         event.reply(translate(entity, "Clear")).queue();
-        return true;
     }
-    @Override
-    public boolean hasPermission(final CommandEvent event) {
-       var member = event.getMember();
-       var entity = event.getEntity();
-       return member.hasPermission(Permission.MANAGE_SERVER) || entity.getMaintainerId() != null && member.getRoles().contains(member.getGuild().getRoleById(entity.getMaintainerId()));
-    }
+
 
     public ClearMaintainerCommand() {
         super("clear-control", "clear-controller", "clear-maint", "clear-maintainer", "clearcontrol", "clearcontroller", "clearmaint", "clearmaintainer");

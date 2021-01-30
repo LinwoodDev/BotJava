@@ -3,6 +3,7 @@ package com.github.codedoctorde.linwood.karma.commands;
 import com.github.codedoctorde.linwood.core.Linwood;
 import com.github.codedoctorde.linwood.core.commands.Command;
 import com.github.codedoctorde.linwood.core.commands.CommandEvent;
+import com.github.codedoctorde.linwood.core.exceptions.CommandSyntaxException;
 import com.github.codedoctorde.linwood.core.utils.TagUtil;
 import com.github.codedoctorde.linwood.karma.entity.KarmaMemberEntity;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -14,11 +15,11 @@ import java.util.*;
 
 public class KarmaInfoCommand extends Command {
     @Override
-    public boolean onCommand(final CommandEvent event) {
+    public void onCommand(final CommandEvent event) {
         var args = event.getArguments();
         var entity = event.getEntity();
         if(args.length > 1)
-        return false;
+        throw new CommandSyntaxException(this);
         if(args.length == 0)
             karmaCommand(event, Objects.requireNonNull(event.getMember()));
         else{
@@ -26,7 +27,7 @@ public class KarmaInfoCommand extends Command {
                     TagUtil.convertIdToMember(event.getMessage().getGuild(), args[0]);
             if(action == null){
                 event.reply(translate(entity, "SetMultiple")).queue();
-                return true;
+                return;
             }
             action.queue(member -> {
                 if(member == null) {
@@ -39,7 +40,6 @@ public class KarmaInfoCommand extends Command {
                 karmaCommand(event, member);
             });
         }
-        return true;
     }
     public void karmaCommand(CommandEvent event, Member member){
         var entity = event.getEntity();

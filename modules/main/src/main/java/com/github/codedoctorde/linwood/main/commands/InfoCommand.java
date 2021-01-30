@@ -4,6 +4,7 @@ import com.github.codedoctorde.linwood.core.Linwood;
 import com.github.codedoctorde.linwood.core.commands.Command;
 import com.github.codedoctorde.linwood.core.commands.CommandEvent;
 import com.github.codedoctorde.linwood.core.entity.GeneralGuildEntity;
+import com.github.codedoctorde.linwood.core.exceptions.CommandSyntaxException;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 
@@ -19,14 +20,13 @@ public class InfoCommand extends Command {
         );
     }
     @Override
-    public boolean onCommand(final CommandEvent event) {
+    public void onCommand(final CommandEvent event) {
         System.out.println(event.getArgumentsString());
         var entity = event.getEntity();
         if(event.getArguments().length != 0)
-            return false;
+            throw new CommandSyntaxException(this);
         event.getTextChannel().sendMessage(new EmbedBuilder().setTitle(infoFormat(event.getMessage(), event.getEntity(), translate(entity, "title")))
                 .setDescription(infoFormat(event.getMessage(), event.getEntity(), translate(entity, "Body.regexp"))).build()).queue();
-        return true;
     }
 
     public String infoFormat(Message message, GeneralGuildEntity entity, String text){

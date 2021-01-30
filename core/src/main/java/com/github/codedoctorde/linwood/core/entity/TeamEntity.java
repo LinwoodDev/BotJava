@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Entity
+@Table(name = "team")
 public class TeamEntity extends DatabaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

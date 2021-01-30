@@ -99,7 +99,7 @@ public abstract class LinwoodModule {
     }
     @Nullable
     public Command getCommand(String alias, boolean includeSettings){
-        return ((Stream<Command>)(includeSettings ? Stream.of(commands, settingsCommands) : commands.stream())).filter(command -> command.hasAlias(alias)).findFirst().orElse(null);
+        return (includeSettings ? Stream.concat(commands.stream(), settingsCommands.stream()) : commands.stream()).filter(command -> command.hasAlias(alias)).findFirst().orElse(null);
     }
     @Nullable
     public Command getSettingsCommand(String alias){
@@ -149,5 +149,9 @@ public abstract class LinwoodModule {
 
     public String translate(GeneralGuildEntity entity, String key){
         return entity.translate(getClass().getCanonicalName(), key);
+    }
+
+    public boolean isEnabled(GeneralGuildEntity entity){
+        return entity.getEnabledModules().contains(name);
     }
 }
