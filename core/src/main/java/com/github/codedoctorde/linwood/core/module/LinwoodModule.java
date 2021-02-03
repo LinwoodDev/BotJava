@@ -1,8 +1,7 @@
 package com.github.codedoctorde.linwood.core.module;
 
-import com.github.codedoctorde.linwood.core.Linwood;
 import com.github.codedoctorde.linwood.core.commands.Command;
-import com.github.codedoctorde.linwood.core.config.ActivityConfig;
+import com.github.codedoctorde.linwood.core.commands.CommandEvent;
 import com.github.codedoctorde.linwood.core.entity.DatabaseEntity;
 import com.github.codedoctorde.linwood.core.entity.GeneralGuildEntity;
 import com.github.codedoctorde.linwood.core.utils.GuildLogLevel;
@@ -22,13 +21,23 @@ public abstract class LinwoodModule {
     private final Set<Command> commands = new HashSet<>();
     private final Set<Class<? extends DatabaseEntity>> entities = new HashSet<>();
     private final Set<Command> settingsCommands = new HashSet<>();
-    private final Set<ActivityConfig> activities = new HashSet<>();
+    private final Set<String> activities = new HashSet<>();
     private final String name;
+    private final String supportURL;
     private final Logger logger;
 
-    protected LinwoodModule(String name) {
+    protected LinwoodModule(String name){
+        this(name, null);
+    }
+
+    protected LinwoodModule(String name, String supportURL) {
         this.name = name;
+        this.supportURL = supportURL;
         logger = LogManager.getLogger(getClass());
+    }
+
+    public String getSupportURL() {
+        return supportURL;
     }
 
     public Set<Object> getListeners() {
@@ -106,19 +115,19 @@ public abstract class LinwoodModule {
         return settingsCommands.stream().filter(command -> command.hasAlias(alias)).findFirst().orElse(null);
     }
 
-    public Set<ActivityConfig> getActivities() {
+    public Set<String> getActivities() {
         return Set.copyOf(activities);
     }
-    public void registerActivities(ActivityConfig... activities){
+    public void registerActivities(String... activities){
         Arrays.stream(activities).forEach(this::registerActivity);
     }
-    public void registerActivity(ActivityConfig activity){
+    public void registerActivity(String activity){
         activities.add(activity);
     }
-    public void unregisterActivities(ActivityConfig... activities){
+    public void unregisterActivities(String... activities){
         Arrays.stream(activities).forEach(this::unregisterActivity);
     }
-    public void unregisterActivity(ActivityConfig activity){
+    public void unregisterActivity(String activity){
         activities.remove(activity);
     }
 
@@ -145,6 +154,10 @@ public abstract class LinwoodModule {
 
     public String getName() {
         return name;
+    }
+
+    public String translate(CommandEvent event, String key){
+        return translate(event.getEntity(), key);
     }
 
     public String translate(GeneralGuildEntity entity, String key){

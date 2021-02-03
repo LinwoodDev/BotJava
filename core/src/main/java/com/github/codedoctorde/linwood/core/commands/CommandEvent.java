@@ -116,7 +116,7 @@ public class CommandEvent {
 
     public void sendSyntaxError() {
         var bundle = getBundle();
-        reply(bundle.getString("Syntax")).queue();
+        reply(bundle.getString("sSyntax")).queue();
     }
 
     public ResourceBundle getBundle() {

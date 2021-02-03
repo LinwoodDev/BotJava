@@ -52,11 +52,11 @@ public class CommandListener {
                 try {
                     execute(new CommandEvent(event.getMessage(), session, guild, prefix, command));
                 } catch(CommandSyntaxException e){
-                    event.getChannel().sendMessageFormat(translate(guild, "Syntax"), e.getMessage()).queue();
+                    event.getChannel().sendMessageFormat(translate(guild, "Syntax"), e.getCommand().translate(guild, "Syntax")).queue();
                 } catch(InsufficientPermissionException e){
                     event.getChannel().sendMessageFormat(translate(guild, "InsufficientPermission"), e.getMessage()).queue();
                 } catch(CommandPermissionException e){
-                    event.getChannel().sendMessageFormat(translate(guild, "NoPermission"), e.getMessage()).queue();
+                    event.getChannel().sendMessage(translate(guild, "NoPermission")).queue();
                 } catch (Exception e) {
                     event.getChannel().sendMessageFormat(translate(guild, "Error"), e.getMessage()).queue();
                     e.printStackTrace();

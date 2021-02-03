@@ -1,4 +1,4 @@
-package com.github.codedoctorde.linwood.main.commands;
+package com.github.codedoctorde.linwood.main.commands.settings;
 
 import com.github.codedoctorde.linwood.core.commands.Command;
 import com.github.codedoctorde.linwood.core.commands.CommandEvent;

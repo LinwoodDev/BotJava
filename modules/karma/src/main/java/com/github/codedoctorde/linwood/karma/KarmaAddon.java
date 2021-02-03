@@ -15,7 +15,7 @@ public class KarmaAddon extends LinwoodModule {
     }
 
     public KarmaAddon() {
-        super("main");
+        super("karma");
         instance = this;
     }
 

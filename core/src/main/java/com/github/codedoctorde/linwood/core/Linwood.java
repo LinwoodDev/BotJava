@@ -5,8 +5,8 @@ import com.github.codedoctorde.linwood.core.config.MainConfig;
 import com.github.codedoctorde.linwood.core.listener.CommandListener;
 import com.github.codedoctorde.linwood.core.listener.ConnectionListener;
 import com.github.codedoctorde.linwood.core.module.LinwoodModule;
-import com.github.codedoctorde.linwood.core.utils.ActivityChanger;
 import com.github.codedoctorde.linwood.core.utils.DatabaseUtil;
+import com.github.codedoctorde.linwood.core.utils.LinwoodActivity;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sun.istack.Nullable;
@@ -32,15 +32,15 @@ import java.util.List;
 public class Linwood {
     private final CommandListener commandListener;
     private ShardManager jda;
-    private final ActivityChanger activityChanger;
+    private final LinwoodActivity activity;
+    private final File configFile = new File("./config.json");
+    private MainConfig config;
+    private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private static Linwood instance;
     private final DatabaseUtil database;
     private final SingleApplicationManager gameManager;
     private final SingleApplicationManager audioManager;
     private final List<LinwoodModule> modules = new ArrayList<>();
-    private MainConfig config;
-    private final File configFile = new File("./config.json");
-    private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private static final Logger logger = LogManager.getLogger(Linwood.class);
 
 
@@ -53,9 +53,20 @@ public class Linwood {
                 .setEventManagerProvider((id) -> new AnnotatedEventManager())
                 .addEventListeners(commandListener)
                 .addEventListeners(new ConnectionListener());
-        activityChanger = new ActivityChanger();
+        activity = new LinwoodActivity();
         gameManager = new SingleApplicationManager();
         audioManager = new SingleApplicationManager();
+        database = new DatabaseUtil();
+        try {
+            jda = builder.build();
+        } catch (LoginException e) {
+            e.printStackTrace();
+        }
+
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            getGameManager().clearGames();
+            logger.info("Shutting down...");
+        }));
 
         // Read config file
         if(!configFile.exists()){
@@ -76,17 +87,6 @@ public class Linwood {
         if(config == null)
             config = new MainConfig();
         saveConfig();
-        database = new DatabaseUtil();
-        try {
-            jda = builder.build();
-        } catch (LoginException e) {
-            e.printStackTrace();
-        }
-
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            getGameManager().clearGames();
-            logger.info("Shutting down...");
-        }));
         System.out.println(" _     _  _      _      ____  ____  ____ \n" +
                 "/ \\   / \\/ \\  /|/ \\  /|/  _ \\/  _ \\/  _ \\\n" +
                 "| |   | || |\\ ||| |  ||| / \\|| / \\|| | \\|\n" +
@@ -95,16 +95,29 @@ public class Linwood {
                 "                                         \n" +
                 "Version " + getVersion() + "\n");
         configure();
-        activityChanger.start();
         logger.info("Successfully started the bot!");
+    }
+
+    public void saveConfig(){
+        try {
+            var writer = new FileWriter(configFile);
+            gson.toJson(config, writer);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public MainConfig getConfig() {
+        return config;
     }
 
     public ShardManager getJda() {
         return jda;
     }
 
-    public ActivityChanger getActivityChanger() {
-        return activityChanger;
+    public LinwoodActivity getActivity() {
+        return activity;
     }
 
     public boolean registerModules(LinwoodModule... registeredModules){
@@ -152,10 +165,6 @@ public class Linwood {
         return database;
     }
 
-    public MainConfig getConfig() {
-        return config;
-    }
-
     public SingleApplicationManager getGameManager() {
         return gameManager;
     }
@@ -164,20 +173,9 @@ public class Linwood {
         return audioManager;
     }
 
-    public void saveConfig(){
-        try {
-            var writer = new FileWriter(configFile);
-            gson.toJson(config, writer);
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     public void configure(){
-        activityChanger.getActivities().clear();
-        config.getActivities().forEach(activityChanger.getActivities()::add);
         modules.forEach(LinwoodModule::onRegister);
+        activity.updateStatus();
     }
 
     public CommandListener getCommandListener() {

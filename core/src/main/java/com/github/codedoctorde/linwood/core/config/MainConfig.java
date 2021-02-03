@@ -1,8 +1,6 @@
 package com.github.codedoctorde.linwood.core.config;
 
 
-import net.dv8tion.jda.api.entities.Activity;
-
 import java.util.*;
 
 /**
@@ -16,14 +14,7 @@ public class MainConfig {
     private final Set<Long> owners = new HashSet<>(new ArrayList<>());
 
 
-    private final List<ActivityConfig> activities = new ArrayList<>(){{
-        add(new ActivityConfig(Activity.ActivityType.LISTENING, "CodeDoctor"));
-        add(new ActivityConfig(Activity.ActivityType.WATCHING, "github/CodeDoctorDE"));
-        add(new ActivityConfig(Activity.ActivityType.DEFAULT, "games with players :D"));
-        add(new ActivityConfig(Activity.ActivityType.DEFAULT, "%s"));
-        add(new ActivityConfig(Activity.ActivityType.WATCHING, "on %2$s servers"));
-        add(new ActivityConfig(Activity.ActivityType.DEFAULT, "with %2$s players"));
-    }};
+    private final List<String> activities = Arrays.asList("by CodeDoctor", "%2$s servers", "%2$s players");
     private String supportURL = "https://discord.gg/97zFtYN";
 
     public MainConfig(){
@@ -34,7 +25,7 @@ public class MainConfig {
         return prefixes;
     }
 
-    public List<ActivityConfig> getActivities() {
+    public List<String> getActivities() {
         return activities;
     }
 
