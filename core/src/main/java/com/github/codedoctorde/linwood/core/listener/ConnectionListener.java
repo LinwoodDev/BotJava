@@ -2,6 +2,7 @@ package com.github.codedoctorde.linwood.core.listener;
 
 import com.github.codedoctorde.linwood.core.Linwood;
 import io.sentry.Sentry;
+import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.ShutdownEvent;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.hooks.SubscribeEvent;
@@ -25,6 +26,10 @@ public class ConnectionListener {
             e.printStackTrace();
             Sentry.captureException(e);
         }
+    }
+    @SubscribeEvent
+    public void onBotStart(ReadyEvent event){
+        Linwood.getInstance().getActivity().updateStatus();
     }
     @SubscribeEvent
     public void onBotShutdown(ShutdownEvent event){

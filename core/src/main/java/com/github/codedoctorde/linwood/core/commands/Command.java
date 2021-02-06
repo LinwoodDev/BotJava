@@ -1,6 +1,8 @@
 package com.github.codedoctorde.linwood.core.commands;
 
 import com.github.codedoctorde.linwood.core.entity.GeneralGuildEntity;
+import com.github.codedoctorde.linwood.core.exceptions.CommandPermissionException;
+import com.github.codedoctorde.linwood.core.exceptions.CommandSyntaxException;
 import com.github.codedoctorde.linwood.core.module.GuildOperation;
 import org.jetbrains.annotations.NotNull;
 
@@ -16,7 +18,7 @@ public abstract class Command implements GuildOperation {
         Collections.addAll(this.aliases, aliases);
     }
 
-    abstract public void onCommand(final CommandEvent event);
+    abstract public void onCommand(final CommandEvent event) throws CommandSyntaxException, CommandPermissionException;
     protected ResourceBundle getBaseBundle(GeneralGuildEntity entity){
         return ResourceBundle.getBundle("locale.Command", entity.getLocalization());
     }

@@ -141,6 +141,12 @@ public abstract class LinwoodModule {
         clearCommands();
         logger.info(name + " module was unregistered!");
     }
+    public void onStart() {
+        logger.info(name + " module was started!");
+    }
+    public void onStop() {
+        logger.info(name + " module was stopped!");
+    }
     public void log(GeneralGuildEntity entity, GuildLogLevel level, String message){
         entity.log(level, this, message);
     }

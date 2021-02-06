@@ -3,6 +3,7 @@ package com.github.codedoctorde.linwood.core.utils;
 import com.github.codedoctorde.linwood.core.Linwood;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.entities.Guild;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -19,7 +20,11 @@ public class LinwoodActivity {
 
     public void updateStatus(){
         Linwood.getInstance().getJda().setPresence(status, Activity.of(type, String.format(String.join(" | ", getActivities()), Linwood.getInstance().getVersion(), Linwood.getInstance().getJda().getGuilds().size(),
-                                Linwood.getInstance().getJda().getUsers().size())));
+                                getMemberCount())));
+    }
+
+    public int getMemberCount(){
+        return Linwood.getInstance().getJda().getGuilds().stream().mapToInt(Guild::getMemberCount).sum();
     }
 
     public List<String> getActivities() {

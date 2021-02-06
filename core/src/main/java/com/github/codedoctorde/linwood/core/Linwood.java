@@ -38,6 +38,7 @@ public class Linwood {
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private static Linwood instance;
     private final DatabaseUtil database;
+    private final String token;
     private final SingleApplicationManager gameManager;
     private final SingleApplicationManager audioManager;
     private final List<LinwoodModule> modules = new ArrayList<>();
@@ -46,27 +47,13 @@ public class Linwood {
 
     public Linwood(String token){
         instance = this;
+        this.token = token;
         //Sentry.init();
         commandListener = new CommandListener();
-        var builder = DefaultShardManagerBuilder.createDefault(token)
-                .enableIntents(GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_PRESENCES)
-                .setEventManagerProvider((id) -> new AnnotatedEventManager())
-                .addEventListeners(commandListener)
-                .addEventListeners(new ConnectionListener());
         activity = new LinwoodActivity();
         gameManager = new SingleApplicationManager();
         audioManager = new SingleApplicationManager();
         database = new DatabaseUtil();
-        try {
-            jda = builder.build();
-        } catch (LoginException e) {
-            e.printStackTrace();
-        }
-
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            getGameManager().clearGames();
-            logger.info("Shutting down...");
-        }));
 
         // Read config file
         if(!configFile.exists()){
@@ -87,6 +74,25 @@ public class Linwood {
         if(config == null)
             config = new MainConfig();
         saveConfig();
+    }
+
+    public void run(){
+        database.rebuildSessionFactory();
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            getGameManager().clearGames();
+            modules.forEach(LinwoodModule::onStop);
+            logger.info("Shutting down...");
+        }));
+        var builder = DefaultShardManagerBuilder.createDefault(token)
+                .enableIntents(GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_PRESENCES)
+                .setEventManagerProvider((id) -> new AnnotatedEventManager())
+                .addEventListeners(commandListener)
+                .addEventListeners(new ConnectionListener());
+        try {
+            jda = builder.build();
+        } catch (LoginException e) {
+            e.printStackTrace();
+        }
         System.out.println(" _     _  _      _      ____  ____  ____ \n" +
                 "/ \\   / \\/ \\  /|/ \\  /|/  _ \\/  _ \\/  _ \\\n" +
                 "| |   | || |\\ ||| |  ||| / \\|| / \\|| | \\|\n" +
@@ -94,7 +100,7 @@ public class Linwood {
                 "\\____/\\_/\\_/  \\|\\_/  \\|\\____/\\____/\\____/\n" +
                 "                                         \n" +
                 "Version " + getVersion() + "\n");
-        configure();
+        modules.forEach(LinwoodModule::onStart);
         logger.info("Successfully started the bot!");
     }
 
@@ -131,7 +137,7 @@ public class Linwood {
         return modules.removeAll(array);
     }
     public LinwoodModule[] getModules(){
-        return modules.toArray(new LinwoodModule[0]);
+        return modules.toArray(LinwoodModule[]::new);
     }
     public String[] getModulesStrings(){
         return modules.stream().map(LinwoodModule::getName).toArray(String[]::new);
@@ -171,11 +177,6 @@ public class Linwood {
 
     public SingleApplicationManager getAudioManager() {
         return audioManager;
-    }
-
-    public void configure(){
-        modules.forEach(LinwoodModule::onRegister);
-        activity.updateStatus();
     }
 
     public CommandListener getCommandListener() {

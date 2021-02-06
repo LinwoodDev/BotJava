@@ -33,9 +33,8 @@ public class DatabaseUtil {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        rebuildSessionFactory();
     }
-    protected void rebuildSessionFactory(){
+    public void rebuildSessionFactory(){
 
         var configuration = new Configuration();
         configuration.configure();
