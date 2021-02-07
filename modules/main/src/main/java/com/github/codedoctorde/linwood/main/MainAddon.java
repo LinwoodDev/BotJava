@@ -33,7 +33,7 @@ public class MainAddon extends LinwoodModule {
 
     @Override
     public void onRegister() {
-        registerCommands(new ClearCommand(), new CommandHelpCommand(), new InfoCommand(), new ModuleCommand(), new ServerInfoCommand());
+        registerCommands(new ClearCommand(), new CommandHelpCommand(), new InfoCommand(), new ModuleCommand(), new ServerInfoCommand(), new MemberInfoCommand());
         registerSettingsCommands(new AddPrefixCommand(), new ClearMaintainerCommand(), new LanguageCommand(), new MaintainerCommand(), new PlanCommand(), new PrefixesCommand(), new RemovePrefixCommand());
         registerActivities(Linwood.getInstance().getConfig().getActivities().toArray(String[]::new));
         super.onRegister();

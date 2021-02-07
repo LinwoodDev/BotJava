@@ -19,7 +19,7 @@ public class KarmaInfoCommand extends Command {
         var args = event.getArguments();
         var entity = event.getEntity();
         if(args.length > 1)
-        throw new CommandSyntaxException(this);
+            throw new CommandSyntaxException(this);
         if(args.length == 0)
             karmaCommand(event, Objects.requireNonNull(event.getMember()));
         else{
@@ -29,16 +29,20 @@ public class KarmaInfoCommand extends Command {
                 event.reply(translate(entity, "SetMultiple")).queue();
                 return;
             }
-            action.queue(member -> {
-                if(member == null) {
-                    member = TagUtil.convertNameToMember(event.getMessage().getGuild(), args[0]);
-                    if (member == null) {
-                        event.reply(translate(entity, "SetMultiple")).queue();
-                        return;
+            try{
+                action.queue(member -> {
+                    if(member == null) {
+                        member = TagUtil.convertNameToMember(event.getMessage().getGuild(), args[0]);
+                        if (member == null) {
+                            event.reply(translate(entity, "SetMultiple")).queue();
+                            return;
+                        }
                     }
-                }
-                karmaCommand(event, member);
-            });
+                    karmaCommand(event, member);
+                });
+            }catch(Exception e){
+                event.reply(translate(entity, "Invalid"));
+            }
         }
     }
     public void karmaCommand(CommandEvent event, Member member){
@@ -71,10 +75,7 @@ public class KarmaInfoCommand extends Command {
                 "likes",
                 "level",
                 "levels",
-                "rank",
-                "info",
-                "information",
-                "i"
+                "rank"
         );
     }
 }
