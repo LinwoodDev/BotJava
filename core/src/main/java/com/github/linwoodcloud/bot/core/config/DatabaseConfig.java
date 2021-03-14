@@ -62,4 +62,8 @@ public class DatabaseConfig {
     public void setUsername(String username) {
         this.username = username;
     }
+
+    public String getUrl() {
+        return "jdbc:" + type.getIdentifier() + "://" + host + ":" + port + "/" + database;
+    }
 }

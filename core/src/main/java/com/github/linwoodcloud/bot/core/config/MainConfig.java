@@ -9,6 +9,7 @@ import java.util.*;
 public class MainConfig {
     private final Set<String> prefixes = new HashSet<>(Arrays.asList("+lw", "+linwood"));
     private String secret;
+    private DatabaseConfig database;
     private Integer port = 9000;
     private boolean userStats = false;
     private final Set<Long> owners = new HashSet<>(new ArrayList<>());
@@ -63,5 +64,9 @@ public class MainConfig {
 
     public Set<Long> getOwners() {
         return owners;
+    }
+
+    public DatabaseConfig getDatabase() {
+        return database;
     }
 }

@@ -18,8 +18,9 @@ Java bot with many features. Developed by @CodeDoctorDE (Discord: CodeDoctor#871
 
 * Custom prefixes (use @Linwood to use it as prefix)
 * Multi language: use german or english for your server
-* Category system for com.github.linwoodcloud.bot.linwood.karma.commands
+* Category system for commands
 * Configurable roles/categories
+* Configurable modules (enable/disable modules)
 
 ### Module system
 
