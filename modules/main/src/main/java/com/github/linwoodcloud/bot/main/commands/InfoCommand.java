@@ -21,7 +21,6 @@ public class InfoCommand extends Command {
     }
     @Override
     public void onCommand(final CommandEvent event) {
-        System.out.println(event.getArgumentsString());
         var entity = event.getEntity();
         if(event.getArguments().length != 0)
             throw new CommandSyntaxException(this);
