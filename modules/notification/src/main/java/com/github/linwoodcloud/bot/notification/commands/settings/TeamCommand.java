@@ -37,7 +37,7 @@ public class TeamCommand extends Command {
                 if(role == null)
                     return;
                 notificationEntity.setTeamRole(role);
-                entity.save(event.getSession());
+                entity.save();
                 event.replyFormat(translate(entity, "Set"), notificationEntity.getTeamRole().getName(), notificationEntity.getTeamRoleId()).queue();
             }catch(NullPointerException e){
                 event.reply(translate(entity, "NotValid")).queue();

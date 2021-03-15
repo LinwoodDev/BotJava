@@ -15,7 +15,7 @@ public class ClearTeamCommand extends Command {
         if(event.getArguments().length != 0)
             throw new CommandSyntaxException(this);
         event.getGuildEntity(NotificationEntity.class).setTeamRole(null);
-        entity.save(event.getSession());
+        entity.save();
         event.reply(translate(entity, "Clear")).queue();
     }
 

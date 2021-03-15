@@ -36,7 +36,7 @@ public class SupportChatCommand extends Command {
                 return;
             }
             notificationEntity.setSupportChat(channel);
-            entity.save(event.getSession());
+            entity.save();
             event.replyFormat(translate(entity, "Set"), notificationEntity.getSupportChat().getAsMention(), notificationEntity.getSupportChatId()).queue();
         }
     }
