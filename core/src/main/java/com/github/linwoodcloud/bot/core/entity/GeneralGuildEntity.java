@@ -3,39 +3,25 @@ package com.github.linwoodcloud.bot.core.entity;
 import com.github.linwoodcloud.bot.core.Linwood;
 import com.github.linwoodcloud.bot.core.module.LinwoodModule;
 import com.github.linwoodcloud.bot.core.utils.GuildLogLevel;
+import com.github.linwoodcloud.bot.core.utils.DatabaseUtil;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Role;
-import org.hibernate.Session;
 
-import javax.persistence.*;
+import java.sql.SQLException;
 import java.util.*;
 
 /**
  * @author CodeDoctorDE
  */
-@Entity
-@Table(name = "guild")
 public class GeneralGuildEntity extends GuildEntity {
-    @Id
-    @Column(name="id", unique = true, nullable = false)
     private long guildId;
-    @ElementCollection
-    @CollectionTable(name="Prefixes", joinColumns=@JoinColumn(name="guild_id"))
-    @Column(name="prefix")
     private final Set<String> prefixes = new HashSet<>(Linwood.getInstance().getConfig().getPrefixes());
     private String locale = Locale.ENGLISH.toLanguageTag();
-    @ElementCollection
-    @CollectionTable(name="Prefixes", joinColumns=@JoinColumn(name="guild_id"))
-    @Column(name="modules")
     private final Set<String> enabledModules = new HashSet<>(Arrays.asList(Linwood.getInstance().getModulesStrings()));
-    @Column()
     private Long maintainerId = null;
-    @Column()
     private Long logChannel;
-    @Column()
     private GuildPlan plan = GuildPlan.COMMUNITY;
 
-    public GeneralGuildEntity(){ }
     public GeneralGuildEntity(Long id) {
         this.guildId = id;
     }
@@ -57,10 +43,6 @@ public class GeneralGuildEntity extends GuildEntity {
     }
 
 
-    @Deprecated
-    public static GeneralGuildEntity get(Session session, long guildId){
-        return Linwood.getInstance().getDatabase().getGuildById(session, guildId);
-    }
 
     public Long getMaintainerId() {
         return maintainerId;
@@ -78,8 +60,8 @@ public class GeneralGuildEntity extends GuildEntity {
         try {
             if (logChannel != null) {
                 if (Arrays.asList(Linwood.getInstance().getModules()).contains(module))
-                Objects.requireNonNull(Objects.requireNonNull(Linwood.getInstance().getJda().getGuildById(guildId)).getTextChannelById(logChannel))
-                        .sendMessage(new EmbedBuilder().setTitle(module.getName()).setColor(level.getColor()).setDescription(message).build()).queue();
+                    Objects.requireNonNull(Objects.requireNonNull(Linwood.getInstance().getJda().getGuildById(guildId)).getTextChannelById(logChannel))
+                            .sendMessage(new EmbedBuilder().setTitle(module.getName()).setColor(level.getColor()).setDescription(message).build()).queue();
             }
         }catch(Exception ignored){}
     }
@@ -120,5 +102,39 @@ public class GeneralGuildEntity extends GuildEntity {
         if(plan.getPrefixLimit() < 0 || plan.getPrefixLimit() > getPrefixes().size())
             return getPrefixes().add(prefix);
         return false;
+    }
+
+    public void create(){
+        var config = DatabaseUtil.getConfig();
+        DatabaseUtil.getInstance().update("CREATE TABLE `"+ config.getPrefix() + "guild` ( `guild` BIGINT NOT NULL PRIMARY KEY , `locale` VARCHAR NULL DEFAULT NULL , `maintainer` BIGINT NOT NULL , `log_channel` BIGINT NOT NULL , `plan` VARCHAR NOT NULL );");
+        DatabaseUtil.getInstance().update("CREATE TABLE `"+ config.getPrefix() + "guild_prefixes` ( `guild` BIGINT NOT NULL PREFERENCES "+ config.getPrefix() + "guild(guild) , `prefix` VARCHAR NOT NULL PRIMARY KEY) ;");
+    }
+    public static GeneralGuildEntity get(long guildId) {
+        var rs = DatabaseUtil.getInstance().query("SELECT * FROM `" + DatabaseUtil.getConfig().getPrefix() + "guild WHERE guildId=`" + guildId);
+        try {
+            rs.next();
+            GeneralGuildEntity entity = new GeneralGuildEntity(guildId);
+            entity.locale = rs.getString("locale");
+            entity.plan = GuildPlan.valueOf(rs.getString("plan"));
+            entity.logChannel = rs.getLong("log_channel");
+            entity.maintainerId = rs.getLong("maintainer");
+
+
+            return entity;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+
+    }
+
+    @Override
+    public void save() {
+
+    }
+
+    @Override
+    public void delete() {
+
     }
 }

@@ -77,7 +77,6 @@ public class Linwood {
     }
 
     public void run(){
-        database.rebuildSessionFactory();
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             getGameManager().clearGames();
             modules.forEach(LinwoodModule::onStop);
@@ -100,6 +99,7 @@ public class Linwood {
                 "\\____/\\_/\\_/  \\|\\_/  \\|\\____/\\____/\\____/\n" +
                 "                                         \n" +
                 "Version " + getVersion() + "\n");
+        database.connect();
         modules.forEach(LinwoodModule::onStart);
         logger.info("Successfully started the bot!");
     }

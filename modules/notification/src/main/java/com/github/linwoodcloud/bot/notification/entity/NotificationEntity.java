@@ -2,29 +2,15 @@ package com.github.linwoodcloud.bot.notification.entity;
 
 import com.github.linwoodcloud.bot.core.Linwood;
 import com.github.linwoodcloud.bot.core.entity.GuildEntity;
-import com.sun.istack.Nullable;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.TextChannel;
 
-import javax.persistence.*;
-
-@Entity
-@Table(name = "notification")
 public class NotificationEntity extends GuildEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
     private Long id;
-    @Column
     private Long teamRoleId = null;
-    @Column
     private Long supportChatId = null;
-    @Column
     private Long statusChatId = null;
-    @Column
     private Long logChatId = null;
-    @Column(name="guildID", unique = true, nullable = false)
-    @Id
     private long guildId;
 
     public Long getId() {
@@ -56,7 +42,6 @@ public class NotificationEntity extends GuildEntity {
         this.teamRoleId = teamRoleId;
     }
 
-    @Nullable
     public Long getSupportChatId() {
         return supportChatId;
     }
@@ -115,5 +100,15 @@ public class NotificationEntity extends GuildEntity {
             logChatId = null;
         else
             logChatId = chat.getIdLong();
+    }
+
+    @Override
+    public void save() {
+
+    }
+
+    @Override
+    public void delete() {
+
     }
 }

@@ -2,21 +2,12 @@ package com.github.linwoodcloud.bot.karma.entity;
 
 import com.github.linwoodcloud.bot.core.entity.GuildEntity;
 
-import javax.persistence.*;
-
-@Entity
-@Table(name = "karma")
 public class KarmaEntity extends GuildEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
     private Long id;
     private int maxGiving = 3;
     private String likeEmote = null;
     private String dislikeEmote = null;
     private int constant = 1;
-    @Column(name="guildID", unique = true, nullable = false)
-    @Id
     private long guildId;
 
     public KarmaEntity(int guildId){
@@ -63,4 +54,13 @@ public class KarmaEntity extends GuildEntity {
         this.maxGiving = maxGiving;
     }
 
+    @Override
+    public void save() {
+
+    }
+
+    @Override
+    public void delete() {
+
+    }
 }

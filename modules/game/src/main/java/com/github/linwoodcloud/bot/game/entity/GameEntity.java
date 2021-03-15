@@ -8,21 +8,11 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 
 import javax.annotation.Nullable;
-import javax.persistence.*;
 
-@Entity
-@Table(name = "game")
 public class GameEntity extends GuildEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
     private Long id;
-    @Column
     private Long gameMasterRoleId;
-    @Column
     private Long gameCategoryId;
-    @Column(name="guildID", unique = true, nullable = false)
-    @Id
     private long guildId;
 
     public Long getId() {

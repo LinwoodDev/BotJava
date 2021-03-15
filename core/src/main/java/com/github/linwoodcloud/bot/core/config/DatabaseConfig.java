@@ -10,6 +10,7 @@ public class DatabaseConfig {
     private String host;
     private String port;
     private String database;
+    private String prefix;
 
     public DatabaseConfig(){
 
@@ -39,6 +40,10 @@ public class DatabaseConfig {
         return username;
     }
 
+    public String getPrefix() {
+        return prefix;
+    }
+
     public void setDatabase(String database) {
         this.database = database;
     }
@@ -61,6 +66,10 @@ public class DatabaseConfig {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
     }
 
     public String getUrl() {
