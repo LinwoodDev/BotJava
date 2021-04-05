@@ -11,7 +11,7 @@ import java.util.Arrays;
  */
 public abstract class ConsoleCommandManager implements ConsoleCommand {
     public abstract ConsoleCommand[] commands();
-    private static final Logger logger = LogManager.getLogger(Linwood.class);
+    private static final Logger LOGGER = LogManager.getLogger(Linwood.class);
 
     @Override
     public void onCommand(String label, String[] args) {

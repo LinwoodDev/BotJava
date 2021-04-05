@@ -5,5 +5,5 @@ public abstract class GuildEntity extends DatabaseEntity {
         return GeneralGuildEntity.get(getGuildId());
     }
 
-    public abstract long getGuildId();
+    public abstract String getGuildId();
 }

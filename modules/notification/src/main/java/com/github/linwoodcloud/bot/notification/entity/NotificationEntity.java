@@ -6,18 +6,13 @@ import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.TextChannel;
 
 public class NotificationEntity extends GuildEntity {
-    private Long id;
     private Long teamRoleId = null;
     private Long supportChatId = null;
     private Long statusChatId = null;
     private Long logChatId = null;
-    private long guildId;
+    private String guildId;
 
-    public Long getId() {
-        return id;
-    }
-
-    public long getGuildId() {
+    public String getGuildId() {
         return guildId;
     }
 

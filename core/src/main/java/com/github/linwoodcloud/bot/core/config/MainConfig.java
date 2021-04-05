@@ -1,6 +1,8 @@
 package com.github.linwoodcloud.bot.core.config;
 
 
+import com.zaxxer.hikari.HikariConfig;
+
 import java.util.*;
 
 /**
@@ -10,7 +12,6 @@ public class MainConfig {
     private final Set<String> prefixes = new HashSet<>(Arrays.asList("+lw", "+linwood"));
     private String secret;
     private DatabaseConfig database;
-    private Integer port = 9000;
     private boolean userStats = false;
     private final Set<Long> owners = new HashSet<>(new ArrayList<>());
 
@@ -52,14 +53,6 @@ public class MainConfig {
 
     public void setSecret(String secret) {
         this.secret = secret;
-    }
-
-    public Integer getPort() {
-        return port;
-    }
-
-    public void setPort(int port) {
-        this.port = port;
     }
 
     public Set<Long> getOwners() {

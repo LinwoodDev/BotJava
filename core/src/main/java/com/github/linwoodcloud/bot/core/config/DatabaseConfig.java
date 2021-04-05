@@ -1,5 +1,7 @@
 package com.github.linwoodcloud.bot.core.config;
 
+import com.zaxxer.hikari.HikariConfig;
+
 /**
  * @author CodeDoctorDE
  */
@@ -74,5 +76,13 @@ public class DatabaseConfig {
 
     public String getUrl() {
         return "jdbc:" + type.getIdentifier() + "://" + host + ":" + port + "/" + database;
+    }
+
+    public HikariConfig build(){
+        var config = new HikariConfig();
+        config.setJdbcUrl(getUrl());
+        config.setUsername(username);
+        config.setPassword(password);
+        return config;
     }
 }

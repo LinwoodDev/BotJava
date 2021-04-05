@@ -2,11 +2,11 @@ package com.github.linwoodcloud.bot.core.utils;
 
 import com.github.linwoodcloud.bot.core.Linwood;
 import com.github.linwoodcloud.bot.core.config.DatabaseConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -14,8 +14,8 @@ import java.sql.SQLException;
  * @author CodeDoctorDE
  */
 public class DatabaseUtil {
-    private static final Logger logger = LogManager.getLogger(DatabaseUtil.class);
-    private Connection connection;
+    private static final Logger LOGGER = LogManager.getLogger(DatabaseUtil.class);
+    private HikariDataSource dataSource;
     private static DatabaseUtil instance;
 
     public static DatabaseUtil getInstance() {
@@ -32,31 +32,23 @@ public class DatabaseUtil {
     }
 
     public void connect() {
-        var config = Linwood.getInstance().getConfig().getDatabase();
-        try {
-            connection = DriverManager.getConnection(config.getUrl(), config.getUsername(), config.getPassword());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        var config = Linwood.getInstance().getConfig().getDatabase().build();
+        dataSource = new HikariDataSource(config);
     }
 
     public boolean isConnected(){
-        return connection != null;
+        return dataSource != null && !dataSource.isClosed();
     }
 
-    public Connection getConnection() {
-        return connection;
+    public Connection getConnection() throws SQLException {
+        return dataSource.getConnection();
     }
 
     public void close() {
         if(!isConnected())
             return;
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        connection = null;
+        dataSource.close();
+        dataSource = null;
     }
     public void update(String query) {
         update(query, new Object[0]);
@@ -64,6 +56,7 @@ public class DatabaseUtil {
 
     public void update(String query, Object[] params) {
         try{
+            var connection = getConnection();
             var statement = connection.prepareStatement(query);
             for (int i = 0; i < params.length; i++)
                 statement.setObject(i+1, params[i]);
@@ -79,6 +72,7 @@ public class DatabaseUtil {
 
     public ResultSet query(String query, Object[] params) {
         try{
+            var connection = getConnection();
             var statement = connection.prepareStatement(query);
             for (int i = 0; i < params.length; i++)
                 statement.setObject(i+1, params[i]);

@@ -29,18 +29,18 @@ public class KarmaAddon extends LinwoodModule {
         super.onUnregister();
     }
 
-    public KarmaMemberEntity[] getKarmaLeaderboard(Session session){
-        return getKarmaLeaderboard(session, null);
+    public KarmaMemberEntity[] getKarmaLeaderboard(){
+        return getKarmaLeaderboard(null);
     }
-    public KarmaMemberEntity[] getKarmaLeaderboard(Session session, Long guildId){
-        return getKarmaLeaderboard(session, guildId, 20);
-    }
-
-    public KarmaMemberEntity[] getKarmaLeaderboard(Session session, int maxResults){
-        return getKarmaLeaderboard(session, null, maxResults);
+    public KarmaMemberEntity[] getKarmaLeaderboard(String guildId){
+        return getKarmaLeaderboard(guildId, 20);
     }
 
-    public KarmaMemberEntity[] getKarmaLeaderboard(Session session, Long guildId, int maxResults){
+    public KarmaMemberEntity[] getKarmaLeaderboard(int maxResults){
+        return getKarmaLeaderboard(null, maxResults);
+    }
+
+    public KarmaMemberEntity[] getKarmaLeaderboard(String guildId, int maxResults){
 // Create CriteriaBuilder
         var builder = session.getCriteriaBuilder();
 

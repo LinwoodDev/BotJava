@@ -6,6 +6,8 @@ import com.github.linwoodcloud.bot.core.utils.GuildLogLevel;
 import com.github.linwoodcloud.bot.core.utils.DatabaseUtil;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Role;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.SQLException;
 import java.util.*;
@@ -14,19 +16,20 @@ import java.util.*;
  * @author CodeDoctorDE
  */
 public class GeneralGuildEntity extends GuildEntity {
-    private long guildId;
+    private String guildId;
     private final Set<String> prefixes = new HashSet<>(Linwood.getInstance().getConfig().getPrefixes());
     private String locale = Locale.ENGLISH.toLanguageTag();
     private final Set<String> enabledModules = new HashSet<>(Arrays.asList(Linwood.getInstance().getModulesStrings()));
     private Long maintainerId = null;
     private Long logChannel;
+    private static final Logger LOGGER = LogManager.getLogger(GeneralGuildEntity.class);
     private GuildPlan plan = GuildPlan.COMMUNITY;
 
-    public GeneralGuildEntity(Long id) {
+    public GeneralGuildEntity(String id) {
         this.guildId = id;
     }
 
-    public long getGuildId() {
+    public String getGuildId() {
         return guildId;
     }
 
@@ -104,12 +107,13 @@ public class GeneralGuildEntity extends GuildEntity {
         return false;
     }
 
-    public void create(){
+    public static void create(){
         var config = DatabaseUtil.getConfig();
-        DatabaseUtil.getInstance().update("CREATE TABLE `"+ config.getPrefix() + "guild` ( `guild` BIGINT NOT NULL PRIMARY KEY , `locale` VARCHAR NULL DEFAULT NULL , `maintainer` BIGINT NOT NULL , `log_channel` BIGINT NOT NULL , `plan` VARCHAR NOT NULL );");
-        DatabaseUtil.getInstance().update("CREATE TABLE `"+ config.getPrefix() + "guild_prefixes` ( `guild` BIGINT NOT NULL PREFERENCES "+ config.getPrefix() + "guild(guild) , `prefix` VARCHAR NOT NULL PRIMARY KEY) ;");
+        DatabaseUtil.getInstance().update("CREATE TABLE IF NOT EXISTS `"+ config.getPrefix() + "guild` ( `guild` BIGINT NOT NULL PRIMARY KEY , `locale` VARCHAR NULL DEFAULT NULL , `maintainer` BIGINT NOT NULL , `log_channel` BIGINT NOT NULL , `plan` VARCHAR NOT NULL );");
+        DatabaseUtil.getInstance().update("CREATE TABLE IF NOT EXISTS `"+ config.getPrefix() + "guild_prefixes` ( `guild` BIGINT NOT NULL PREFERENCES "+ config.getPrefix() + "guild(guild) , `prefix` VARCHAR NOT NULL PRIMARY KEY) ;");
+        LOGGER.info("Tables initialized!");
     }
-    public static GeneralGuildEntity get(long guildId) {
+    public static GeneralGuildEntity get(String guildId) {
         var rs = DatabaseUtil.getInstance().query("SELECT * FROM `" + DatabaseUtil.getConfig().getPrefix() + "guild WHERE guildId=`" + guildId);
         try {
             rs.next();
@@ -118,7 +122,6 @@ public class GeneralGuildEntity extends GuildEntity {
             entity.plan = GuildPlan.valueOf(rs.getString("plan"));
             entity.logChannel = rs.getLong("log_channel");
             entity.maintainerId = rs.getLong("maintainer");
-
 
             return entity;
         } catch (SQLException e) {

@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
  * @author CodeDoctorDE
  */
 public class CommandListener {
-    public static final Pattern pattern = Pattern.compile("(?:^(?<module>[A-z]+):)?(?<command>[A-z]+)?(?<args> [A-z]+$)?");
+    public static final Pattern PATTERN = Pattern.compile("(?:^(?<module>[A-z]+):)?(?<command>[A-z]+)?(?<args> [A-z]+$)?");
 
 
     @SubscribeEvent
@@ -67,7 +67,7 @@ public class CommandListener {
         return entity.translate("Command", key);
     }
     public Command findCommand(String command){
-        var matcher = pattern.matcher(command);
+        var matcher = PATTERN.matcher(command);
         if (!matcher.find())
             return null;
         var commandString = matcher.group("command");

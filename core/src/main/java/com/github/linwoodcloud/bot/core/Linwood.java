@@ -9,7 +9,6 @@ import com.github.linwoodcloud.bot.core.utils.DatabaseUtil;
 import com.github.linwoodcloud.bot.core.utils.LinwoodActivity;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.sun.istack.Nullable;
 import net.dv8tion.jda.api.hooks.AnnotatedEventManager;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
@@ -17,6 +16,7 @@ import net.dv8tion.jda.api.sharding.ShardManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.annotation.Nullable;
 import javax.security.auth.login.LoginException;
 import java.io.File;
 import java.io.FileReader;
@@ -35,14 +35,14 @@ public class Linwood {
     private final LinwoodActivity activity;
     private final File configFile = new File("./config.json");
     private MainConfig config;
-    private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private static Linwood instance;
     private final DatabaseUtil database;
     private final String token;
     private final SingleApplicationManager gameManager;
     private final SingleApplicationManager audioManager;
     private final List<LinwoodModule> modules = new ArrayList<>();
-    private static final Logger logger = LogManager.getLogger(Linwood.class);
+    private static final Logger LOGGER = LogManager.getLogger(Linwood.class);
 
 
     public Linwood(String token){
@@ -59,13 +59,13 @@ public class Linwood {
         if(!configFile.exists()){
             try {
                 if(!configFile.createNewFile())
-                    logger.warn("Can't create a config file!");
+                    LOGGER.warn("Can't create a config file!");
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }else{
             try{
-                config = gson.fromJson(new FileReader(configFile), MainConfig.class);
+                config = GSON.fromJson(new FileReader(configFile), MainConfig.class);
             } catch (IOException e) {
                 config = new MainConfig();
                 e.printStackTrace();
@@ -80,7 +80,7 @@ public class Linwood {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             getGameManager().clearGames();
             modules.forEach(LinwoodModule::onStop);
-            logger.info("Shutting down...");
+            LOGGER.info("Shutting down...");
         }));
         var builder = DefaultShardManagerBuilder.createDefault(token)
                 .enableIntents(GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_PRESENCES)
@@ -101,13 +101,13 @@ public class Linwood {
                 "Version " + getVersion() + "\n");
         database.connect();
         modules.forEach(LinwoodModule::onStart);
-        logger.info("Successfully started the bot!");
+        LOGGER.info("Successfully started the bot!");
     }
 
     public void saveConfig(){
         try {
             var writer = new FileWriter(configFile);
-            gson.toJson(config, writer);
+            GSON.toJson(config, writer);
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -126,15 +126,15 @@ public class Linwood {
         return activity;
     }
 
-    public boolean registerModules(LinwoodModule... registeredModules){
+    public void registerModules(LinwoodModule... registeredModules){
         var array = Arrays.asList(registeredModules);
         array.forEach(LinwoodModule::onRegister);
-        return modules.addAll(array);
+        modules.addAll(array);
     }
-    public boolean unregisterModules(LinwoodModule... registeredModules){
+    public void unregisterModules(LinwoodModule... registeredModules){
         var array = Arrays.asList(registeredModules);
         array.forEach(LinwoodModule::onUnregister);
-        return modules.removeAll(array);
+        modules.removeAll(array);
     }
     public LinwoodModule[] getModules(){
         return modules.toArray(LinwoodModule[]::new);

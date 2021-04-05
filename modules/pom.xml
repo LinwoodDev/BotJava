@@ -18,7 +18,9 @@
         <module>game</module>
         <module>karma</module>
         <module>notification</module>
+        <module>main</module>
         <module>template</module>
+        <module>team</module>
         <module>moderation</module>
     </modules>
     <dependencies>

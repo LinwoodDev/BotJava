@@ -5,11 +5,11 @@ import com.github.linwoodcloud.bot.core.commands.CommandEvent;
 import com.github.linwoodcloud.bot.core.entity.DatabaseEntity;
 import com.github.linwoodcloud.bot.core.entity.GeneralGuildEntity;
 import com.github.linwoodcloud.bot.core.utils.GuildLogLevel;
-import com.sun.istack.Nullable;
 import net.dv8tion.jda.api.entities.Guild;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.annotation.Nullable;
 import java.util.*;
 import java.util.stream.Stream;
 

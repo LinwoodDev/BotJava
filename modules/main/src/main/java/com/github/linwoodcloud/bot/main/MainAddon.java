@@ -14,7 +14,7 @@ import org.apache.logging.log4j.Logger;
  */
 public class MainAddon extends LinwoodModule {
     private static MainAddon instance;
-    private static final Logger logger = LogManager.getLogger(MainAddon.class);
+    private static final Logger LOGGER = LogManager.getLogger(MainAddon.class);
 
     public MainAddon() {
         super("main", "https://linwood.tk/docs/bot/modules/main/overview");

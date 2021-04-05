@@ -17,14 +17,12 @@ import java.util.ResourceBundle;
  */
 public class CommandEvent {
     private final Message message;
-    private final Session session;
     private final GeneralGuildEntity entity;
     private final String label;
     private final String[] arguments;
 
-    public CommandEvent(Message message, Session session, GeneralGuildEntity entity, String label, String[] arguments) {
+    public CommandEvent(Message message, GeneralGuildEntity entity, String label, String[] arguments) {
         this.message = message;
-        this.session = session;
         this.entity = entity;
         this.label = label;
         this.arguments = arguments;
@@ -34,20 +32,8 @@ public class CommandEvent {
         return entity;
     }
 
-    public <T extends GuildEntity> T getGuildEntity(Class<T> aClass) {
-        return Linwood.getInstance().getDatabase().getGuildEntityById(aClass, session, message.getGuild().getIdLong());
-    }
-
-    public <T extends MemberEntity> T getMemberEntity(Class<T> aClass) {
-        return Linwood.getInstance().getDatabase().getMemberById(aClass, session, message.getGuild().getIdLong(), message.getAuthor().getIdLong());
-    }
-
     public Message getMessage() {
         return message;
-    }
-
-    public Session getSession() {
-        return session;
     }
 
     public String getLabel() {
@@ -108,7 +94,7 @@ public class CommandEvent {
     }
 
     public CommandEvent upper() {
-        return new CommandEvent(message, session, entity, (arguments.length > 0) ? arguments[0] : "",
+        return new CommandEvent(message, entity, (arguments.length > 0) ? arguments[0] : "",
                 (arguments.length > 0) ? Arrays.copyOfRange(arguments, 1, arguments.length) : new String[0]);
     }
 

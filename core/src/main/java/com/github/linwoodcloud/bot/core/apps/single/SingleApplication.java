@@ -3,14 +3,13 @@ package com.github.linwoodcloud.bot.core.apps.single;
 import com.github.linwoodcloud.bot.core.Linwood;
 import com.github.linwoodcloud.bot.core.entity.GeneralGuildEntity;
 import net.dv8tion.jda.api.entities.Guild;
-import org.hibernate.Session;
 
 public class SingleApplication {
-    private final long guildId;
+    private final String guildId;
     private SingleApplicationMode mode;
     private final int id;
 
-    public SingleApplication(int id, long guildId, SingleApplicationMode mode){
+    public SingleApplication(int id, String guildId, SingleApplicationMode mode){
         this.id = id;
         this.guildId = guildId;
         this.mode = mode;
@@ -24,7 +23,7 @@ public class SingleApplication {
         this.mode = mode;
     }
 
-    public long getGuildId() {
+    public String getGuildId() {
         return guildId;
     }
 
@@ -32,8 +31,8 @@ public class SingleApplication {
         return Linwood.getInstance().getJda().getGuildById(guildId);
     }
 
-    public GeneralGuildEntity getGuildEntity(Session session){
-        return Linwood.getInstance().getDatabase().getGuildById(session, guildId);
+    public GeneralGuildEntity getGuildEntity(){
+        return GeneralGuildEntity.get(guildId);
     }
     public void stop(){
         Linwood.getInstance().getJda().removeEventListener(this);

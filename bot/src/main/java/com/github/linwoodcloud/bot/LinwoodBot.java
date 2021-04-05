@@ -12,7 +12,7 @@ import com.github.linwoodcloud.bot.main.MainAddon;
 public class LinwoodBot {
     public static void main(String[] args) {
         var bot = new Linwood(System.getenv("DISCORD_TOKEN"));
-        bot.registerModules(new MainAddon(), new GameAddon(), new KarmaAddon());
+        bot.registerModules(new MainAddon());
         bot.run();
     }
 }
