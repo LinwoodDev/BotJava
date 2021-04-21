@@ -22,7 +22,6 @@ public abstract class CommandManager extends Command {
         var entity = event.getEntity();
         var message = event.getMessage();
         var args = event.getArguments();
-        var session = event.getSession();
         var baseBundle = getBaseBundle(entity);
         for (Command command : commands)
             if (command.hasAlias(

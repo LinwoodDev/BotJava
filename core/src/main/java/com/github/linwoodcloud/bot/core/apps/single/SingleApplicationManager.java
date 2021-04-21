@@ -13,15 +13,15 @@ public class SingleApplicationManager {
     public SingleApplicationManager(){
     }
 
-    public SingleApplication startGame(long guildId, SingleApplicationMode appMode){
+    public SingleApplication startGame(String guildId, SingleApplicationMode appMode){
         stopGame(guildId);
         var app = new SingleApplication(apps.size(), guildId, appMode);
         apps.add(app);
         app.start();
         return app;
     }
-    public void stopGame(long guildId){
-        apps.stream().filter(app -> app.getGuildId() == guildId).forEach(app -> stopGame(app, false));
+    public void stopGame(String guildId){
+        apps.stream().filter(app -> app.getGuildId().equals(guildId)).forEach(app -> stopGame(app, false));
         apps.clear();
     }
     public void stopGame(SingleApplication app){
@@ -35,11 +35,11 @@ public class SingleApplicationManager {
             apps.remove(app);
     }
     @Nullable
-    public SingleApplication getGame(long guildId){
+    public SingleApplication getGame(String guildId){
         SingleApplication current = null;
         for (var app:
                 apps)
-            if (app.getGuildId() == guildId)
+            if (app.getGuildId().equals(guildId))
                 current = app;
         return current;
     }

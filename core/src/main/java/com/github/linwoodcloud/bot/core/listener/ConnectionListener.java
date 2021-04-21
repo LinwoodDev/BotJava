@@ -17,10 +17,10 @@ public class ConnectionListener {
     @SubscribeEvent
     public void onGuildJoin(GuildJoinEvent event){
         try {
-            var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
+            /*var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
             var guild = Linwood.getInstance().getDatabase().getGuildById(session, event.getGuild().getIdLong());
             guild.save(session);
-            session.close();
+            session.close();*/
         }
         catch(Exception e){
             e.printStackTrace();

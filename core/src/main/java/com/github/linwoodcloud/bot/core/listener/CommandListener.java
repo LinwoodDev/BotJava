@@ -8,6 +8,7 @@ import com.github.linwoodcloud.bot.core.exceptions.CommandPermissionException;
 import com.github.linwoodcloud.bot.core.exceptions.CommandSyntaxException;
 import io.sentry.Sentry;
 import net.dv8tion.jda.api.entities.ChannelType;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
 import net.dv8tion.jda.api.hooks.SubscribeEvent;
@@ -25,10 +26,10 @@ public class CommandListener {
 
     @SubscribeEvent
     public void onCommand(@Nonnull MessageReceivedEvent event) {
-        var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
-        var guild = Linwood.getInstance().getDatabase().getGuildById(session, event.getGuild().getIdLong());
+        var guild = GeneralGuildEntity.get(event.getGuild().getId());
         if (event.getChannelType() == ChannelType.TEXT && !event.getAuthor().isBot()) {
             var content = event.getMessage().getContentRaw();
+            assert guild != null;
             var prefixes = guild.getPrefixes();
             var id = event.getJDA().getSelfUser().getId();
             var nicknameMention = "<@!" + id + ">";
@@ -47,7 +48,7 @@ public class CommandListener {
             if (split != null) {
                 var command = Commandline.translateCommandline(content.substring(split.length()));
                 try {
-                    execute(new CommandEvent(event.getMessage(), session, guild, prefix, command));
+                    execute(new CommandEvent(event.getMessage(), guild, prefix, command));
                 } catch(CommandSyntaxException e){
                     event.getChannel().sendMessageFormat(translate(guild, "Syntax"), e.getCommand().translate(guild, "Syntax")).queue();
                 } catch(InsufficientPermissionException e){
@@ -61,7 +62,6 @@ public class CommandListener {
                 }
             }
         }
-        session.close();
     }
     public String translate(GeneralGuildEntity entity, String key){
         return entity.translate("Command", key);

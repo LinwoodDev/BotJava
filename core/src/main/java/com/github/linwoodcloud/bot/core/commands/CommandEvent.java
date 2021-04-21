@@ -1,13 +1,9 @@
 package com.github.linwoodcloud.bot.core.commands;
 
-import com.github.linwoodcloud.bot.core.Linwood;
 import com.github.linwoodcloud.bot.core.entity.GeneralGuildEntity;
-import com.github.linwoodcloud.bot.core.entity.GuildEntity;
-import com.github.linwoodcloud.bot.core.entity.MemberEntity;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.requests.restaction.MessageAction;
-import org.hibernate.Session;
 
 import java.util.Arrays;
 import java.util.ResourceBundle;

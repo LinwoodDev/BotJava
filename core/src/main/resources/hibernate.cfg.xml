@@ -13,7 +13,7 @@
         <!-- Entity mapping -->
         <mapping class="com.github.linwoodcloud.bot.core.entity.GeneralGuildEntity"/>
         <mapping class="com.github.linwoodcloud.bot.core.entity.GeneralMemberEntity"/>
-        <mapping class="com.github.linwoodcloud.bot.core.entity.TeamEntity"/>
-        <mapping class="com.github.linwoodcloud.bot.core.entity.TeamMemberEntity"/>
+        <mapping class="com.github.linwooodcloud.bot.team.entity.TeamEntity"/>
+        <mapping class="com.github.linwooodcloud.bot.team.entity.TeamMemberEntity"/>
     </session-factory>
 </hibernate-configuration>

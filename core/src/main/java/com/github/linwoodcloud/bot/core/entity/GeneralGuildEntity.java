@@ -4,6 +4,7 @@ import com.github.linwoodcloud.bot.core.Linwood;
 import com.github.linwoodcloud.bot.core.module.LinwoodModule;
 import com.github.linwoodcloud.bot.core.utils.GuildLogLevel;
 import com.github.linwoodcloud.bot.core.utils.DatabaseUtil;
+import io.sentry.Sentry;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Role;
 import org.apache.logging.log4j.LogManager;
@@ -94,6 +95,19 @@ public class GeneralGuildEntity extends GuildEntity {
     public void setPlan(GuildPlan plan) {
         this.plan = plan;
     }
+
+    public Set<String> getPrefixes(){
+        Set<String> prefixes = new HashSet<>();
+        var rs = query("SELECT * FROM " + getPrefix() + "guild_prefixes WHERE guild=" + guildId);
+        try {
+            while (rs.next()) {
+                prefixes.add(rs.getString("prefix"));
+            }
+        }catch(SQLException exception){
+            Sentry.captureException(exception);
+        }
+        return prefixes;
+    }
     public boolean addPrefix(String prefix){
         //if(plan.getPrefixLimit() < 0 || plan.getPrefixLimit() > getPrefixes().size())
         //    return getPrefixes().add(prefix);
@@ -116,7 +130,7 @@ public class GeneralGuildEntity extends GuildEntity {
         LOGGER.info("Tables initialized!");
     }
     public static GeneralGuildEntity get(String guildId) {
-        var rs = query("SELECT * FROM `" + getPrefix() + "guild WHERE guildId=`" + guildId);
+        var rs = query("SELECT * FROM " + getPrefix() + "guild WHERE guild=`" + guildId);
         try {
             rs.next();
             GeneralGuildEntity entity = new GeneralGuildEntity(guildId);
@@ -136,6 +150,7 @@ public class GeneralGuildEntity extends GuildEntity {
     @Override
     public void insert() {
         update("INSERT INTO " + getPrefix() + "guild (guild, locale, maintainer, log_channel, plan) VALUES (?,?,?,?)", guildId, locale, maintainerId, logChannel, plan.name());
+        Linwood.getInstance().getConfig().getPrefixes().forEach(s -> update("INSERT INTO " + getPrefix() + "guild_prefixes (guild, prefix) VALUES (?,?)", guildId, s, plan.name()));
     }
 
     @Override
