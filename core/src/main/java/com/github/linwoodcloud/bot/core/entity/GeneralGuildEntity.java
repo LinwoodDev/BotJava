@@ -142,9 +142,4 @@ public class GeneralGuildEntity extends GuildEntity {
     public void save() {
         update("UPDATE " + getPrefix() + "guild SET locale=?, maintainer=?, log_channel=?, plan=? WHERE guild=?", locale, maintainerId, logChannel, plan.name(), guildId);
     }
-
-    @Override
-    public void delete() {
-        update("DELETE FROM " + getPrefix() + "guild WHERE guild=?", guildId);
-    }
 }

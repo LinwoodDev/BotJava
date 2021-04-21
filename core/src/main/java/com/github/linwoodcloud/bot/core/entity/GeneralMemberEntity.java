@@ -66,12 +66,17 @@ public class GeneralMemberEntity extends MemberEntity {
 
     @Override
     public void insert() {
-        update("INSERT INTO " + getPrefix() + "member (locale, maintainer, log_channel, plan) VALUES (?,?,?,?)", locale, maintainerId, logChannel, plan.name());
+        update("INSERT INTO " + getPrefix() + "member (id, member, guild, locale) VALUES (?,?,?,?)", id, memberId, guildId, locale);
+    }
+
+    @Override
+    public void save() {
+        update("UPDATE " + getPrefix() + "member SET locale=? WHERE guild=?", locale);
     }
 
     @Override
     public void delete() {
-        update("DELETE FROM " + getPrefix() + "guild WHERE guild=?", guildId);
+        update("DELETE FROM " + getPrefix() + "member WHERE id=?", id);
     }
 
     @Override

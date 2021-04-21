@@ -6,4 +6,9 @@ public abstract class GuildEntity extends DatabaseEntity {
     }
 
     public abstract String getGuildId();
+
+    @Override
+    public void delete() {
+        update("DELETE FROM " + getPrefix() + "guild WHERE guild=?", getGuildId());
+    }
 }
