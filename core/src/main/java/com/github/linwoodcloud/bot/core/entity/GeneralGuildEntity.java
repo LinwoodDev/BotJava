@@ -16,12 +16,11 @@ import java.util.*;
  * @author CodeDoctorDE
  */
 public class GeneralGuildEntity extends GuildEntity {
-    private String guildId;
-    private final Set<String> prefixes = new HashSet<>(Linwood.getInstance().getConfig().getPrefixes());
+    private final String guildId;
     private String locale = Locale.ENGLISH.toLanguageTag();
     private final Set<String> enabledModules = new HashSet<>(Arrays.asList(Linwood.getInstance().getModulesStrings()));
-    private Long maintainerId = null;
-    private Long logChannel;
+    private String maintainerId = null;
+    private String logChannel;
     private static final Logger LOGGER = LogManager.getLogger(GeneralGuildEntity.class);
     private GuildPlan plan = GuildPlan.COMMUNITY;
 
@@ -45,9 +44,7 @@ public class GeneralGuildEntity extends GuildEntity {
         this.locale = locale;
     }
 
-
-
-    public Long getMaintainerId() {
+    public String getMaintainerId() {
         return maintainerId;
     }
     public Role getMaintainer(){
@@ -79,7 +76,7 @@ public class GeneralGuildEntity extends GuildEntity {
         return Set.copyOf(enabledModules);
     }
 
-    public void setMaintainerId(Long maintainer) {
+    public void setMaintainerId(String maintainer) {
         this.maintainerId = maintainer;
     }
 
@@ -87,11 +84,7 @@ public class GeneralGuildEntity extends GuildEntity {
         if(role == null)
             maintainerId = null;
         else
-            maintainerId = role.getIdLong();
-    }
-
-    public Set<String> getPrefixes() {
-        return prefixes;
+            maintainerId = role.getId();
     }
 
     public GuildPlan getPlan() {
@@ -102,26 +95,35 @@ public class GeneralGuildEntity extends GuildEntity {
         this.plan = plan;
     }
     public boolean addPrefix(String prefix){
-        if(plan.getPrefixLimit() < 0 || plan.getPrefixLimit() > getPrefixes().size())
-            return getPrefixes().add(prefix);
+        //if(plan.getPrefixLimit() < 0 || plan.getPrefixLimit() > getPrefixes().size())
+        //    return getPrefixes().add(prefix);
         return false;
     }
 
     public static void create(){
         var config = DatabaseUtil.getConfig();
-        DatabaseUtil.getInstance().update("CREATE TABLE IF NOT EXISTS `"+ config.getPrefix() + "guild` ( `guild` BIGINT NOT NULL PRIMARY KEY , `locale` VARCHAR NULL DEFAULT NULL , `maintainer` BIGINT NOT NULL , `log_channel` BIGINT NOT NULL , `plan` VARCHAR NOT NULL );");
-        DatabaseUtil.getInstance().update("CREATE TABLE IF NOT EXISTS `"+ config.getPrefix() + "guild_prefixes` ( `guild` BIGINT NOT NULL PREFERENCES "+ config.getPrefix() + "guild(guild) , `prefix` VARCHAR NOT NULL PRIMARY KEY) ;");
+        update("CREATE TABLE IF NOT EXISTS `"+ config.getPrefix() + "guild` ( " +
+                "`guild` VARCHAR(255) NOT NULL PRIMARY KEY , " +
+                "`locale` VARCHAR(20) NULL DEFAULT NULL , " +
+                "`maintainer` VARCHAR(255) NOT NULL , " +
+                "`log_channel` VARCHAR(255) NOT NULL , " +
+                "`plan` VARCHAR(50) NOT NULL" +
+                ")");
+        update("CREATE TABLE IF NOT EXISTS `"+ config.getPrefix() + "guild_prefixes` ( " +
+                "`guild` VARCHAR(255) NOT NULL PREFERENCES "+ config.getPrefix() + "guild(guild) , " +
+                "`prefix` VARCHAR NOT NULL PRIMARY KEY" +
+                ")");
         LOGGER.info("Tables initialized!");
     }
     public static GeneralGuildEntity get(String guildId) {
-        var rs = DatabaseUtil.getInstance().query("SELECT * FROM `" + DatabaseUtil.getConfig().getPrefix() + "guild WHERE guildId=`" + guildId);
+        var rs = query("SELECT * FROM `" + getPrefix() + "guild WHERE guildId=`" + guildId);
         try {
             rs.next();
             GeneralGuildEntity entity = new GeneralGuildEntity(guildId);
             entity.locale = rs.getString("locale");
             entity.plan = GuildPlan.valueOf(rs.getString("plan"));
-            entity.logChannel = rs.getLong("log_channel");
-            entity.maintainerId = rs.getLong("maintainer");
+            entity.logChannel = rs.getString("log_channel");
+            entity.maintainerId = rs.getString("maintainer");
 
             return entity;
         } catch (SQLException e) {
@@ -132,12 +134,17 @@ public class GeneralGuildEntity extends GuildEntity {
     }
 
     @Override
-    public void save() {
+    public void insert() {
+        update("INSERT INTO " + getPrefix() + "guild (guild, locale, maintainer, log_channel, plan) VALUES (?,?,?,?)", guildId, locale, maintainerId, logChannel, plan.name());
+    }
 
+    @Override
+    public void save() {
+        update("UPDATE " + getPrefix() + "guild SET locale=?, maintainer=?, log_channel=?, plan=? WHERE guild=?", locale, maintainerId, logChannel, plan.name(), guildId);
     }
 
     @Override
     public void delete() {
-
+        update("DELETE FROM " + getPrefix() + "guild WHERE guild=?", guildId);
     }
 }

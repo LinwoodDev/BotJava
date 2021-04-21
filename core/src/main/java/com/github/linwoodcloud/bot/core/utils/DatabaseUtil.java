@@ -50,11 +50,8 @@ public class DatabaseUtil {
         dataSource.close();
         dataSource = null;
     }
-    public void update(String query) {
-        update(query, new Object[0]);
-    }
 
-    public void update(String query, Object[] params) {
+    public void update(String query, Object... params) {
         try{
             var connection = getConnection();
             var statement = connection.prepareStatement(query);
@@ -66,11 +63,8 @@ public class DatabaseUtil {
             e.printStackTrace();
         }
     }
-    public ResultSet query(String query) {
-        return query(query, new Object[0]);
-    }
 
-    public ResultSet query(String query, Object[] params) {
+    public ResultSet query(String query, Object... params) {
         try{
             var connection = getConnection();
             var statement = connection.prepareStatement(query);

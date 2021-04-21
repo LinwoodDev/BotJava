@@ -11,17 +11,17 @@ import java.sql.SQLException;
  * @author CodeDoctorDE
  */
 public class GeneralMemberEntity extends MemberEntity {
-    private Long id;
-    private long memberId;
-    private long guildId;
+    private final long id;
+    private final String memberId;
+    private final String guildId;
     private String locale = null;
     private static final Logger LOGGER = LogManager.getLogger(GeneralMemberEntity.class);
 
-    public GeneralMemberEntity(long guildId, long memberId) {
+    public GeneralMemberEntity(long id, String guildId, String memberId) {
+        this.id = id;
         this.guildId = guildId;
         this.memberId = memberId;
     }
-    public GeneralMemberEntity(){}
 
     public String getLocale() {
         return locale;
@@ -31,25 +31,26 @@ public class GeneralMemberEntity extends MemberEntity {
         this.locale = locale;
     }
 
-    public long getMemberId() {
+    public String getMemberId() {
         return memberId;
     }
 
     public static void create(){
         var config = DatabaseUtil.getConfig();
-        DatabaseUtil.getInstance().update("CREATE TABLE IF NOT EXISTS `"+ config.getPrefix() + "guild` ( `guild` BIGINT NOT NULL PRIMARY KEY , `locale` VARCHAR NULL DEFAULT NULL , `maintainer` BIGINT NOT NULL , `log_channel` BIGINT NOT NULL , `plan` VARCHAR NOT NULL );");
-        DatabaseUtil.getInstance().update("CREATE TABLE IF NOT EXISTS `"+ config.getPrefix() + "guild_prefixes` ( `guild` BIGINT NOT NULL PREFERENCES "+ config.getPrefix() + "guild(guild) , `prefix` VARCHAR NOT NULL PRIMARY KEY) ;");
+        update("CREATE TABLE IF NOT EXISTS `"+ config.getPrefix() + "member` ( " +
+                "`id` BIGINT NOT NULL PRIMARY KEY , " +
+                "`member` VARCHAR(255) NOT NULL , " +
+                "`guild` VARCHAR(255) NOT NULL , " +
+                "`locale` VARCHAR(20) NULL DEFAULT NULL" +
+                ")");
         LOGGER.info("Tables initialized!");
     }
-    public static GeneralMemberEntity get(String guildId) {
-        var rs = DatabaseUtil.getInstance().query("SELECT * FROM `" + DatabaseUtil.getConfig().getPrefix() + "guild WHERE guildId=`" + guildId);
+    public static GeneralMemberEntity get(String guildId, String memberId) {
+        var rs = query("SELECT * FROM `" + getPrefix() + "guild WHERE guild=? AND member=?");
         try {
             rs.next();
-            GeneralGuildEntity entity = new GeneralGuildEntity(guildId);
+            GeneralMemberEntity entity = new GeneralMemberEntity(rs.getLong("id"), guildId, memberId);
             entity.locale = rs.getString("locale");
-            entity.plan = GuildPlan.valueOf(rs.getString("plan"));
-            entity.logChannel = rs.getLong("log_channel");
-            entity.maintainerId = rs.getLong("maintainer");
 
             return entity;
         } catch (SQLException e) {
@@ -59,24 +60,22 @@ public class GeneralMemberEntity extends MemberEntity {
 
     }
 
-    public String getGuildId() {
-        return guildId;
-    }
-
-    public Long getId() {
+    public long getId() {
         return id;
-    }
-    public GeneralGuildEntity getGuild(Session session) {
-        return Linwood.getInstance().getDatabase().getGuildById(session, guildId);
     }
 
     @Override
-    public void save() {
-
+    public void insert() {
+        update("INSERT INTO " + getPrefix() + "member (locale, maintainer, log_channel, plan) VALUES (?,?,?,?)", locale, maintainerId, logChannel, plan.name());
     }
 
     @Override
     public void delete() {
+        update("DELETE FROM " + getPrefix() + "guild WHERE guild=?", guildId);
+    }
 
+    @Override
+    public String getGuildId() {
+        return guildId;
     }
 }
