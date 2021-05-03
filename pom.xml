@@ -123,7 +123,7 @@
         <dependency>
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
-            <version>4.2.1_261</version>
+            <version>4.2.1_262</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
