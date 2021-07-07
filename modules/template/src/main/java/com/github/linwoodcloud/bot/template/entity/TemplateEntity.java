@@ -5,11 +5,12 @@ package com.github.linwoodcloud.bot.template.entity;
  * @author CodeDoctorDE
  */
 public class TemplateEntity {
-    private int id;
-    private int guildId;
     String name;
     String content;
-    public TemplateEntity(){
+    private int id;
+    private int guildId;
+
+    public TemplateEntity() {
 
     }
 

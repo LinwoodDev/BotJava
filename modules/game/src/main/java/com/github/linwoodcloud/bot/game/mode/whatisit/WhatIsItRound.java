@@ -1,42 +1,36 @@
 package com.github.linwoodcloud.bot.game.mode.whatisit;
 
-import com.github.linwoodcloud.bot.core.Linwood;
 import net.dv8tion.jda.api.entities.Member;
-import org.hibernate.Session;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * @author CodeDoctorDE
  */
 public class WhatIsItRound {
-    private final long writerId;
-    private String word;
+    private final String writerId;
     private final WhatIsIt whatIsIt;
+    private final HashSet<String> guesser = new HashSet<>();
+    private String word;
     private Timer timer = new Timer();
-    private final HashSet<Long> guesser = new HashSet<>();
     private int time = 120;
 
-    public WhatIsItRound(long writerId, WhatIsIt whatIsIt) {
+    public WhatIsItRound(String writerId, WhatIsIt whatIsIt) {
         this.writerId = writerId;
         this.whatIsIt = whatIsIt;
     }
 
-    public void inputWriter(){
+    public void inputWriter() {
         whatIsIt.getGame().getGuild().retrieveMemberById(writerId).queue(member ->
-                member.getUser().openPrivateChannel().queue(privateChannel -> {
-                    var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
-                    privateChannel.sendMessage(whatIsIt.getBundle(session).getString("Input")).queue();
-                    session.close();
-                })
+                member.getUser().openPrivateChannel().queue(privateChannel -> privateChannel.sendMessage(whatIsIt.getBundle().getString("Input")).queue())
         );
         stopTimer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
-                whatIsIt.cancelRound(session);
-                session.close();
+                whatIsIt.cancelRound();
             }
         }, 60 * 1000);
     }
@@ -45,7 +39,7 @@ public class WhatIsItRound {
         return word;
     }
 
-    public long getWriterId() {
+    public String getWriterId() {
         return writerId;
     }
 
@@ -62,8 +56,7 @@ public class WhatIsItRound {
 
             @Override
             public void run() {
-                var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
-                var bundle = whatIsIt.getBundle(session);
+                var bundle = whatIsIt.getBundle();
                 if (time <= 0 || whatIsIt.getTextChannel() == null) {
                     timer.cancel();
                     whatIsIt.finishRound();
@@ -88,21 +81,19 @@ public class WhatIsItRound {
                         case 1:
                             message = bundle.getString("CountdownSecond");
                     }
-                    if(message != null)
+                    if (message != null)
                         whatIsIt.getTextChannel().sendMessage(message).queue();
                     time--;
                 }
-                session.close();
             }
         }, 1000, 1000);
     }
-    public void stopRound(){
-        var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
-        var bundle = whatIsIt.getBundle(session);
-        if(word != null)
-        whatIsIt.getTextChannel().sendMessageFormat(bundle.getString("Word"), word).queue();
+
+    public void stopRound() {
+        var bundle = whatIsIt.getBundle();
+        if (word != null)
+            whatIsIt.getTextChannel().sendMessageFormat(bundle.getString("Word"), word).queue();
         stopTimer();
-        session.close();
     }
 
     /**
@@ -116,37 +107,37 @@ public class WhatIsItRound {
      * @param member Current guesser
      */
     public int guessCorrectly(Member member) {
-        guesser.add(member.getIdLong());
+        guesser.add(member.getId());
         int points = (guesser.size() < 5) ? 6 - guesser.size() : 1;
         whatIsIt.givePoints(member, points);
         return points;
     }
 
     public boolean isGuesser(Member member) {
-        return guesser.stream().mapToLong(memberId -> memberId).anyMatch(memberId -> memberId == member.getIdLong());
+        return guesser.stream().anyMatch(memberId -> memberId.equals(member.getId()));
     }
 
-    public HashSet<Long> getGuesser() {
+    public HashSet<String> getGuesser() {
         return guesser;
     }
 
     public void stopTimer() {
-        try{
+        try {
             timer.cancel();
             timer = new Timer();
-        }catch(Exception ignored){
+        } catch (Exception ignored) {
 
         }
     }
 
-    public void checkEverybody(Session session) {
+    public void checkEverybody() {
         var last = new HashSet<>(whatIsIt.getWantWriter());
         guesser.forEach(last::remove);
         last.remove(writerId);
-        if(whatIsIt.getWantWriter().size() <= 1)
+        if (whatIsIt.getWantWriter().size() <= 1)
             return;
-        if(last.size() <= 0){
-            whatIsIt.getTextChannel().sendMessage(whatIsIt.getBundle(session).getString("Everybody")).queue();
+        if (last.size() <= 0) {
+            whatIsIt.getTextChannel().sendMessage(whatIsIt.getBundle().getString("Everybody")).queue();
             earlyStop();
         }
     }

@@ -8,11 +8,13 @@ import java.util.Arrays;
 import java.util.List;
 
 public class TeamEntity extends DatabaseEntity {
-    private Long id;
     private final List<TeamMemberEntity> guilds = new ArrayList<>();
+    private Long id;
 
-    public TeamEntity(){}
-    public TeamEntity(String ownerGuildId, String... memberGuildIds){
+    public TeamEntity() {
+    }
+
+    public TeamEntity(String ownerGuildId, String... memberGuildIds) {
         guilds.add(new TeamMemberEntity(ownerGuildId, PermissionLevel.OWNER));
         Arrays.stream(memberGuildIds).forEach(guild -> guilds.add(new TeamMemberEntity(guild, PermissionLevel.MEMBER)));
     }

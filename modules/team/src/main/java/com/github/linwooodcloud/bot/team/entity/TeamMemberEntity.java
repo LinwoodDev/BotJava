@@ -9,7 +9,7 @@ public class TeamMemberEntity extends DatabaseEntity {
     private String guildId;
     private PermissionLevel permissionLevel;
 
-    public TeamMemberEntity(String guildId, PermissionLevel level){
+    public TeamMemberEntity(String guildId, PermissionLevel level) {
         permissionLevel = level;
         this.guildId = guildId;
     }
@@ -33,6 +33,7 @@ public class TeamMemberEntity extends DatabaseEntity {
     public String getGuildId() {
         return guildId;
     }
+
     public GeneralGuildEntity getGuild() {
         return GeneralGuildEntity.get(guildId);
     }

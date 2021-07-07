@@ -15,16 +15,16 @@ import java.sql.SQLException;
  */
 public class DatabaseUtil {
     private static final Logger LOGGER = LogManager.getLogger(DatabaseUtil.class);
-    private HikariDataSource dataSource;
     private static DatabaseUtil instance;
+    private HikariDataSource dataSource;
+
+    public DatabaseUtil() {
+        if (instance == null)
+            instance = this;
+    }
 
     public static DatabaseUtil getInstance() {
         return instance;
-    }
-
-    public DatabaseUtil() {
-        if(instance == null)
-            instance = this;
     }
 
     public static DatabaseConfig getConfig() {
@@ -36,7 +36,7 @@ public class DatabaseUtil {
         dataSource = new HikariDataSource(config);
     }
 
-    public boolean isConnected(){
+    public boolean isConnected() {
         return dataSource != null && !dataSource.isClosed();
     }
 
@@ -45,33 +45,33 @@ public class DatabaseUtil {
     }
 
     public void close() {
-        if(!isConnected())
+        if (!isConnected())
             return;
         dataSource.close();
         dataSource = null;
     }
 
     public void update(String query, Object... params) {
-        try{
+        try {
             var connection = getConnection();
             var statement = connection.prepareStatement(query);
             for (int i = 0; i < params.length; i++)
-                statement.setObject(i+1, params[i]);
+                statement.setObject(i + 1, params[i]);
             statement.executeUpdate();
-        }catch(SQLException e){
+        } catch (SQLException e) {
             connect();
             e.printStackTrace();
         }
     }
 
     public ResultSet query(String query, Object... params) {
-        try{
+        try {
             var connection = getConnection();
             var statement = connection.prepareStatement(query);
             for (int i = 0; i < params.length; i++)
-                statement.setObject(i+1, params[i]);
+                statement.setObject(i + 1, params[i]);
             return statement.executeQuery();
-        }catch(SQLException e){
+        } catch (SQLException e) {
             connect();
             e.printStackTrace();
         }

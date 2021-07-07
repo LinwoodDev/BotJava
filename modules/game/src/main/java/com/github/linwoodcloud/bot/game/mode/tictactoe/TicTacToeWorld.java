@@ -22,48 +22,69 @@ public class TicTacToeWorld extends World {
 
     @Override
     public void act() {
-        getActors().add(new CrossTicTacToeActor(){{getTransform().setLocation(0, 0);}});
-        getActors().add(new TriangleTicTacToeActor(){{getTransform().setLocation(2, 0);}});
-        getActors().add(new CrossTicTacToeActor(){{getTransform().setLocation(0, 1);}});
-        getActors().add(new CrossTicTacToeActor(){{getTransform().setLocation(1, 2);}});
-        getActors().add(new CrossTicTacToeActor(){{getTransform().setLocation(2, 2);}});
-        getActors().add(new CircleTicTacToeActor(){{getTransform().setLocation(1, 0);}});
-        getActors().add(new TriangleTicTacToeActor(){{getTransform().setLocation(2, 1);}});
-        getActors().add(new CircleTicTacToeActor(){{getTransform().setLocation(0, 2);}});
-        getActors().add(new CircleTicTacToeActor(){{getTransform().setLocation(1, 1);}});
+        getActors().add(new CrossTicTacToeActor() {{
+            getTransform().setLocation(0, 0);
+        }});
+        getActors().add(new TriangleTicTacToeActor() {{
+            getTransform().setLocation(2, 0);
+        }});
+        getActors().add(new CrossTicTacToeActor() {{
+            getTransform().setLocation(0, 1);
+        }});
+        getActors().add(new CrossTicTacToeActor() {{
+            getTransform().setLocation(1, 2);
+        }});
+        getActors().add(new CrossTicTacToeActor() {{
+            getTransform().setLocation(2, 2);
+        }});
+        getActors().add(new CircleTicTacToeActor() {{
+            getTransform().setLocation(1, 0);
+        }});
+        getActors().add(new TriangleTicTacToeActor() {{
+            getTransform().setLocation(2, 1);
+        }});
+        getActors().add(new CircleTicTacToeActor() {{
+            getTransform().setLocation(0, 2);
+        }});
+        getActors().add(new CircleTicTacToeActor() {{
+            getTransform().setLocation(1, 1);
+        }});
     }
-    public boolean addCircle(int x, int y){
+
+    public boolean addCircle(int x, int y) {
         return addCircle(new Vector2(x, y));
     }
 
     private boolean addCircle(Vector2 vector2) {
-        if(getActors(vector2).length > 0)
+        if (getActors(vector2).length > 0)
             return false;
         addActor(new CircleTicTacToeActor(), vector2);
         return true;
     }
-    public boolean addCross(int x, int y){
+
+    public boolean addCross(int x, int y) {
         return addCross(new Vector2(x, y));
     }
 
     private boolean addCross(Vector2 vector2) {
-        if(getActors(vector2).length > 0)
+        if (getActors(vector2).length > 0)
             return false;
         addActor(new CrossTicTacToeActor(), vector2);
         return true;
     }
-    public boolean addTriangle(int x, int y){
+
+    public boolean addTriangle(int x, int y) {
         return addTriangle(new Vector2(x, y));
     }
 
     private boolean addTriangle(Vector2 vector2) {
-        if(getActors(vector2).length > 0)
+        if (getActors(vector2).length > 0)
             return false;
         addActor(new TriangleTicTacToeActor(), vector2);
         return true;
     }
 
-    public void checkWin(){
+    public void checkWin() {
 
     }
 }

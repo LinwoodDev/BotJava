@@ -8,7 +8,6 @@ import com.github.linwoodcloud.bot.core.exceptions.CommandPermissionException;
 import com.github.linwoodcloud.bot.core.exceptions.CommandSyntaxException;
 import io.sentry.Sentry;
 import net.dv8tion.jda.api.entities.ChannelType;
-import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
 import net.dv8tion.jda.api.hooks.SubscribeEvent;
@@ -49,11 +48,11 @@ public class CommandListener {
                 var command = Commandline.translateCommandline(content.substring(split.length()));
                 try {
                     execute(new CommandEvent(event.getMessage(), guild, prefix, command));
-                } catch(CommandSyntaxException e){
+                } catch (CommandSyntaxException e) {
                     event.getChannel().sendMessageFormat(translate(guild, "Syntax"), e.getCommand().translate(guild, "Syntax")).queue();
-                } catch(InsufficientPermissionException e){
+                } catch (InsufficientPermissionException e) {
                     event.getChannel().sendMessageFormat(translate(guild, "InsufficientPermission"), e.getMessage()).queue();
-                } catch(CommandPermissionException e){
+                } catch (CommandPermissionException e) {
                     event.getChannel().sendMessage(translate(guild, "NoPermission")).queue();
                 } catch (Exception e) {
                     event.getChannel().sendMessageFormat(translate(guild, "Error"), e.getMessage()).queue();
@@ -63,10 +62,12 @@ public class CommandListener {
             }
         }
     }
-    public String translate(GeneralGuildEntity entity, String key){
+
+    public String translate(GeneralGuildEntity entity, String key) {
         return entity.translate("Command", key);
     }
-    public Command findCommand(String command){
+
+    public Command findCommand(String command) {
         var matcher = PATTERN.matcher(command);
         if (!matcher.find())
             return null;
@@ -74,7 +75,8 @@ public class CommandListener {
         var moduleString = matcher.group("module");
         return findCommand(commandString, moduleString);
     }
-    public Command findCommand(String commandString, String moduleString){
+
+    public Command findCommand(String commandString, String moduleString) {
         commandString = commandString == null ? "" : commandString;
         if (moduleString != null) {
             var module = Linwood.getInstance().getModule(moduleString);
@@ -89,11 +91,12 @@ public class CommandListener {
         }
         return null;
     }
-    public void execute(CommandEvent commandEvent){
+
+    public void execute(CommandEvent commandEvent) {
         var command =
                 findCommand(commandEvent.getArgumentsString());
 
-        if(command != null)
+        if (command != null)
             command.onCommand(commandEvent.upper());
         else
             commandEvent.reply(translate(commandEvent.getEntity(), "CommandNotFound")).queue();

@@ -25,7 +25,7 @@ public abstract class Actor {
         this.image = image;
     }
 
-    public BufferedImage render(){
+    public BufferedImage render() {
         return ImageUtil.rotateImageByDegrees(image, transform.getRotation());
     }
 }

@@ -4,7 +4,7 @@ public enum GuildLogLevel {
     INFO, VERBOSE, WARNING, ERROR;
 
     public int getColor() {
-        switch(this){
+        switch (this) {
             case INFO:
                 return 0x63c0df;
             case VERBOSE:

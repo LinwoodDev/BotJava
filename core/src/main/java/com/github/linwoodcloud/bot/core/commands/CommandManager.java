@@ -4,7 +4,9 @@ import com.github.linwoodcloud.bot.core.Linwood;
 import com.github.linwoodcloud.bot.core.entity.GeneralGuildEntity;
 import com.github.linwoodcloud.bot.core.exceptions.CommandSyntaxException;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author CodeDoctorDE
@@ -13,7 +15,7 @@ public abstract class CommandManager extends Command {
     protected Set<Command> commands = new HashSet<>();
     protected Set<Command> settingsCommands = new HashSet<>();
 
-    protected CommandManager(String... aliases){
+    protected CommandManager(String... aliases) {
         super(aliases);
     }
 
@@ -26,15 +28,15 @@ public abstract class CommandManager extends Command {
         for (Command command : commands)
             if (command.hasAlias(
                     (event.getArguments().length != 0) ? args[0].toLowerCase() : "")) {
-                if(Linwood.getInstance().getConfig().getOwners().contains(message.getAuthor().getIdLong()))
+                if (Linwood.getInstance().getConfig().getOwners().contains(message.getAuthor().getId()))
                     command.onCommand(event.upper());
-            }else
+            } else
                 throw new CommandSyntaxException(this);
     }
 
-    public Command getCommand(GeneralGuildEntity entity, String... args){
+    public Command getCommand(GeneralGuildEntity entity, String... args) {
         Command command = this;
-        for (String arg:
+        for (String arg :
                 args)
             if (command instanceof CommandManager)
                 for (Command current :
@@ -42,7 +44,8 @@ public abstract class CommandManager extends Command {
                     if (current.hasAlias(arg.toLowerCase())) command = current;
         return command;
     }
-    public Command getCommand(Class<? extends Command> commandClass){
+
+    public Command getCommand(Class<? extends Command> commandClass) {
         return commands.stream().filter(command -> command.getClass().equals(commandClass)).findFirst().orElse(null);
     }
 
@@ -50,17 +53,19 @@ public abstract class CommandManager extends Command {
         return Set.copyOf(commands);
     }
 
-    public void registerCommands(Command... current){
+    public void registerCommands(Command... current) {
         Arrays.stream(current).forEach(this::registerCommand);
     }
-    public void unregisterCommands(Command... current){
+
+    public void unregisterCommands(Command... current) {
         Arrays.stream(current).forEach(this::unregisterCommand);
     }
 
-    public void registerCommand(Command command){
+    public void registerCommand(Command command) {
         commands.add(command);
     }
-    public void unregisterCommand(Command command){
+
+    public void unregisterCommand(Command command) {
         commands.remove(command);
     }
 
@@ -68,17 +73,19 @@ public abstract class CommandManager extends Command {
         return Set.copyOf(settingsCommands);
     }
 
-    public void registerSettingsCommands(Command... current){
+    public void registerSettingsCommands(Command... current) {
         Arrays.stream(current).forEach(this::registerSettingsCommand);
     }
-    public void unregisterSettingsCommands(Command... current){
+
+    public void unregisterSettingsCommands(Command... current) {
         Arrays.stream(current).forEach(this::unregisterSettingsCommand);
     }
 
-    public void registerSettingsCommand(Command command){
+    public void registerSettingsCommand(Command command) {
         settingsCommands.add(command);
     }
-    public void unregisterSettingsCommand(Command command){
+
+    public void unregisterSettingsCommand(Command command) {
         settingsCommands.remove(command);
     }
 

@@ -1,8 +1,6 @@
 package com.github.linwoodcloud.bot.core.config;
 
 
-import com.zaxxer.hikari.HikariConfig;
-
 import java.util.*;
 
 /**
@@ -10,16 +8,14 @@ import java.util.*;
  */
 public class MainConfig {
     private final Set<String> prefixes = new HashSet<>(Arrays.asList("+lw", "+linwood"));
+    private final Set<Long> owners = new HashSet<>(new ArrayList<>());
+    private final List<String> activities = Arrays.asList("by CodeDoctor", "%2$s servers", "%2$s players");
     private String secret;
     private DatabaseConfig database;
     private boolean userStats = false;
-    private final Set<Long> owners = new HashSet<>(new ArrayList<>());
-
-
-    private final List<String> activities = Arrays.asList("by CodeDoctor", "%2$s servers", "%2$s players");
     private String supportURL = "https://discord.gg/97zFtYN";
 
-    public MainConfig(){
+    public MainConfig() {
 
     }
 

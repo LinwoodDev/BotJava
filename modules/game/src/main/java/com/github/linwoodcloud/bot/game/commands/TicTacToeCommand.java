@@ -15,30 +15,38 @@ import java.io.IOException;
  * @author CodeDoctorDE
  */
 public class TicTacToeCommand extends Command {
+    public TicTacToeCommand() {
+        super(
+                "tictactoe",
+                "tic-tac-toe",
+                "ttt"
+        );
+    }
+
     @Override
     public void onCommand(final CommandEvent event) {
         var args = event.getArguments();
-        if(args.length > 2)
+        if (args.length > 2)
             throw new CommandSyntaxException(this);
         int rounds = 5;
         var entity = event.getEntity();
         var member = event.getMember();
         assert member != null;
-        if(!event.getGuildEntity(GameEntity.class).isGameMaster(member)){
+        if (!GameEntity.get(event.getGuildId()).isGameMaster(member)) {
             throw new CommandPermissionException(this);
         }
-        if(event.getArguments().length != 0)
+        if (event.getArguments().length != 0)
             try {
                 rounds = Integer.parseInt(args[0]);
-            }catch(Exception e){
+            } catch (Exception e) {
                 event.reply(translate(entity, "NoNumber")).queue();
-                return ;
+                return;
             }
-        if(rounds > 50 || rounds < 1){
+        if (rounds > 50 || rounds < 1) {
             event.reply(translate(entity, "Invalid")).queue();
             return;
         }
-        // Main.getInstance().getGameManager().startGame(entity.getGuildId(), new WhatIsIt(rounds, event.getMessage().getChannel().getIdLong()));
+        // Main.getInstance().getGameManager().startGame(entity.getGuildId(), new WhatIsIt(rounds, event.getMessage().getChannel().getId()));
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         try {
             ImageIO.write(new TicTacToeWorld().render(), "png", stream);
@@ -46,12 +54,5 @@ public class TicTacToeCommand extends Command {
             e.printStackTrace();
         }
         event.reply(translate(entity, "Success")).addFile(stream.toByteArray(), "TicTacToe.png").queue();
-    }
-    public TicTacToeCommand() {
-        super(
-                "tictactoe",
-                "tic-tac-toe",
-                "ttt"
-        );
     }
 }

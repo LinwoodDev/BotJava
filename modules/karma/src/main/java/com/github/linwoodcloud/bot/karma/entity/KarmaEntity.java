@@ -8,9 +8,9 @@ public class KarmaEntity extends GuildEntity {
     private String likeEmote = null;
     private String dislikeEmote = null;
     private int constant = 1;
-    private long guildId;
+    private String guildId;
 
-    public KarmaEntity(int guildId){
+    public KarmaEntity(String guildId) {
         this.guildId = guildId;
     }
 
@@ -18,7 +18,11 @@ public class KarmaEntity extends GuildEntity {
 
     }
 
-    public long getGuildId() {
+    public static KarmaEntity get(String guildId) {
+        return new KarmaEntity(guildId);
+    }
+
+    public String getGuildId() {
         return guildId;
     }
 
@@ -52,6 +56,11 @@ public class KarmaEntity extends GuildEntity {
 
     public void setMaxGiving(int maxGiving) {
         this.maxGiving = maxGiving;
+    }
+
+    @Override
+    public void insert() {
+
     }
 
     @Override

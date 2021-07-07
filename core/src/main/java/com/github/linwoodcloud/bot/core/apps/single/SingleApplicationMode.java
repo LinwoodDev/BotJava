@@ -5,5 +5,6 @@ package com.github.linwoodcloud.bot.core.apps.single;
  */
 public interface SingleApplicationMode {
     void start(SingleApplication app);
+
     void stop();
 }

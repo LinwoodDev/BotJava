@@ -9,22 +9,21 @@ import com.github.linwoodcloud.bot.karma.entity.KarmaEntity;
  * @author CodeDoctorDE
  */
 public class ClearDislikeCommand extends Command {
-    @Override
-    public void onCommand(final CommandEvent event) {
-        var entity = event.getEntity();
-        if (event.getArguments().length != 0)
-            throw new CommandSyntaxException(this);
-        event.getGuildEntity(KarmaEntity.class).setLikeEmote(null);
-        entity.save(event.getSession());
-        event.reply(translate(entity, "Clear")).queue();
-    }
-
-
     public ClearDislikeCommand() {
         super(
                 "cleardislike",
                 "clear-dislike",
                 "clear-dis-like"
         );
+    }
+
+    @Override
+    public void onCommand(final CommandEvent event) {
+        var entity = event.getEntity();
+        if (event.getArguments().length != 0)
+            throw new CommandSyntaxException(this);
+        KarmaEntity.get(event.getGuildId()).setLikeEmote(null);
+        entity.save();
+        event.reply(translate(entity, "Clear")).queue();
     }
 }

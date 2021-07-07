@@ -6,11 +6,13 @@ package com.github.linwoodcloud.bot.game.engine;
 public class Vector2 {
     private final int x;
     private final int y;
-    public Vector2(int x, int y){
+
+    public Vector2(int x, int y) {
         this.x = x;
         this.y = y;
     }
-    public Vector2(){
+
+    public Vector2() {
         x = 0;
         y = 0;
     }

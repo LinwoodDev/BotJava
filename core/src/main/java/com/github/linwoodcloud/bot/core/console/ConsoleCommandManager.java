@@ -10,8 +10,9 @@ import java.util.Arrays;
  * @author CodeDoctorDE
  */
 public abstract class ConsoleCommandManager implements ConsoleCommand {
-    public abstract ConsoleCommand[] commands();
     private static final Logger LOGGER = LogManager.getLogger(Linwood.class);
+
+    public abstract ConsoleCommand[] commands();
 
     @Override
     public void onCommand(String label, String[] args) {
@@ -25,18 +26,18 @@ public abstract class ConsoleCommandManager implements ConsoleCommand {
             }
     }
 
-    public ConsoleCommand getCommand(String... args){
+    public ConsoleCommand getCommand(String... args) {
         ConsoleCommand command = this;
-        for (String arg:
-             args) {
-            for (ConsoleCommand current:
-                 commands())
+        for (String arg :
+                args) {
+            for (ConsoleCommand current :
+                    commands())
                 if (Arrays.asList(current.aliases()).contains(arg)) {
                     if (current instanceof ConsoleCommandManager)
                         command = ((ConsoleCommandManager) current).getCommand(Arrays.copyOfRange(args, 1, args.length));
                     else command = current;
                     break;
-                }else
+                } else
                     return null;
         }
         return command;

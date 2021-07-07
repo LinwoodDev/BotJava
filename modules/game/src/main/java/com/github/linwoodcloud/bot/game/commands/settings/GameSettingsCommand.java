@@ -3,7 +3,7 @@ package com.github.linwoodcloud.bot.game.commands.settings;
 import com.github.linwoodcloud.bot.core.commands.CommandManager;
 
 public class GameSettingsCommand extends CommandManager {
-    public GameSettingsCommand(){
+    public GameSettingsCommand() {
         super(
                 "game",
                 "games",

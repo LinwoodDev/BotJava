@@ -14,21 +14,22 @@ import java.lang.management.ManagementFactory;
  * @author CodeDoctorDE
  */
 public class InfoCommand extends Command {
-    public InfoCommand(){
+    public InfoCommand() {
         super(
                 "", "info", "i", "information"
         );
     }
+
     @Override
     public void onCommand(final CommandEvent event) {
         var entity = event.getEntity();
-        if(event.getArguments().length != 0)
+        if (event.getArguments().length != 0)
             throw new CommandSyntaxException(this);
-        event.getTextChannel().sendMessage(new EmbedBuilder().setTitle(infoFormat(event.getMessage(), event.getEntity(), translate(entity, "title")))
+        event.getTextChannel().sendMessageEmbeds(new EmbedBuilder().setTitle(infoFormat(event.getMessage(), event.getEntity(), translate(entity, "title")))
                 .setDescription(infoFormat(event.getMessage(), event.getEntity(), translate(entity, "Body.regexp"))).build()).queue();
     }
 
-    public String infoFormat(Message message, GeneralGuildEntity entity, String text){
+    public String infoFormat(Message message, GeneralGuildEntity entity, String text) {
         var uptime = ManagementFactory.getRuntimeMXBean().getUptime();
         long millis = uptime % 1000;
         long second = (uptime / 1000) % 60;
@@ -36,7 +37,7 @@ public class InfoCommand extends Command {
         long hour = (uptime / (1000 * 60 * 60)) % 24;
         long days = uptime / (1000 * 60 * 60 * 24);
         var prefixes = String.join(", ", entity.getPrefixes());
-        return String.format(text, Linwood.getInstance().getVersion(), message.getAuthor().getAsMention(), prefixes.isBlank()? " ": prefixes,
+        return String.format(text, Linwood.getInstance().getVersion(), message.getAuthor().getAsMention(), prefixes.isBlank() ? " " : prefixes,
                 days, hour, minute, second, millis, Linwood.getInstance().getConfig().getSupportURL());
     }
 }

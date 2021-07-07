@@ -3,12 +3,12 @@ package com.github.linwoodcloud.bot.game.mode.tictactoe;
 import com.github.linwoodcloud.bot.core.Linwood;
 import com.github.linwoodcloud.bot.core.apps.single.SingleApplication;
 import com.github.linwoodcloud.bot.core.apps.single.SingleApplicationMode;
+import com.github.linwoodcloud.bot.core.entity.GeneralGuildEntity;
 import com.github.linwoodcloud.bot.game.engine.Board;
 import com.github.linwoodcloud.bot.game.entity.GameEntity;
 import net.dv8tion.jda.api.entities.Category;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.requests.restaction.ChannelAction;
-import org.hibernate.Session;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,12 +19,12 @@ import java.util.ResourceBundle;
  */
 public class TicTacToe extends Board implements SingleApplicationMode {
     private final int maxRounds;
-    private final long rootChannel;
+    private final String rootChannel;
+    private final List<Long> players = new ArrayList<>();
     private SingleApplication game;
     private TicTacToeEvents events;
-    private long textChannelId;
+    private String textChannelId;
     private long ownerId;
-    private final List<Long> players = new ArrayList<>();
     /*
     0\uFE0F\u20E3
     1\uFE0F\u20E3
@@ -38,7 +38,7 @@ public class TicTacToe extends Board implements SingleApplicationMode {
     9\uFE0F\u20E3
      */
 
-    public TicTacToe(int maxRounds, long rootChannel){
+    public TicTacToe(int maxRounds, String rootChannel) {
         this.maxRounds = maxRounds;
         this.rootChannel = rootChannel;
     }
@@ -48,21 +48,19 @@ public class TicTacToe extends Board implements SingleApplicationMode {
         game = app;
         events = new TicTacToeEvents(this);
         Linwood.getInstance().getJda().addEventListener(events);
-        var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
-        var guild = Linwood.getInstance().getDatabase().getGuildById(session, game.getGuildId());
-        var entity = Linwood.getInstance().getDatabase().getGuildEntityById(GameEntity.class, session, game.getGuildId());
+        var guild = GeneralGuildEntity.get(game.getGuildId());
+        var entity = GameEntity.get(game.getGuildId());
         Category category = null;
-        if(entity.getGameCategoryId() != null)
+        if (entity.getGameCategoryId() != null)
             category = entity.getGameCategory();
-        var bundle = getBundle(session);
+        var bundle = getBundle();
         Category finalCategory = category;
         ChannelAction<TextChannel> action;
-        action = finalCategory == null ?game.getGuild().createTextChannel(String.format(bundle.getString("TextChannel"),game.getId())):
-                finalCategory.createTextChannel(String.format(bundle.getString("TextChannel"),game.getId()));
-        session.close();
+        action = finalCategory == null ? game.getGuild().createTextChannel(String.format(bundle.getString("TextChannel"), game.getId())) :
+                finalCategory.createTextChannel(String.format(bundle.getString("TextChannel"), game.getId()));
         action.queue((textChannel -> {
-            this.textChannelId = textChannel.getIdLong();
-            if(finalCategory != null)
+            this.textChannelId = textChannel.getId();
+            if (finalCategory != null)
                 textChannel.getManager().setParent(finalCategory).queue();
             chooseNextPlayer();
         }));
@@ -72,8 +70,8 @@ public class TicTacToe extends Board implements SingleApplicationMode {
 
     }
 
-    private ResourceBundle getBundle(Session session) {
-        return ResourceBundle.getBundle("locale.game.TicTacToe", Linwood.getInstance().getDatabase().getGuildById(session, game.getGuildId()).getLocalization());
+    private ResourceBundle getBundle() {
+        return ResourceBundle.getBundle("locale.game.TicTacToe", GeneralGuildEntity.get(game.getGuildId()).getLocalization());
     }
 
 

@@ -10,13 +10,14 @@ import java.util.Objects;
  * @author CodeDoctorDE
  */
 public class CrossTicTacToeActor extends Actor {
-    public CrossTicTacToeActor(){
+    public CrossTicTacToeActor() {
         try {
             setImage(ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("assets/tictactoe/cross.png"))));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
     @Override
     protected void act() {
 

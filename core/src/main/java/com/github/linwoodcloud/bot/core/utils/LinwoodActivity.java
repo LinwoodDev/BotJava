@@ -5,7 +5,8 @@ import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Guild;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -15,15 +16,15 @@ public class LinwoodActivity {
     private OnlineStatus status = OnlineStatus.ONLINE;
     private Activity.ActivityType type = Activity.ActivityType.WATCHING;
 
-    public LinwoodActivity(){
+    public LinwoodActivity() {
     }
 
-    public void updateStatus(){
+    public void updateStatus() {
         Linwood.getInstance().getJda().setPresence(status, Activity.of(type, String.format(String.join(" | ", getActivities()), Linwood.getInstance().getVersion(), Linwood.getInstance().getJda().getGuilds().size(),
-                                getMemberCount())));
+                getMemberCount())));
     }
 
-    public int getMemberCount(){
+    public int getMemberCount() {
         return Linwood.getInstance().getJda().getGuilds().stream().mapToInt(Guild::getMemberCount).sum();
     }
 

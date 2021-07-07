@@ -7,7 +7,8 @@ import java.awt.image.BufferedImage;
  */
 public abstract class Board {
     private World currentWorld = null;
-    public Board(){
+
+    public Board() {
 
     }
 
@@ -19,13 +20,16 @@ public abstract class Board {
         this.currentWorld = currentWorld;
         onChangeWorld();
     }
-    public BufferedImage render(){
-        if(currentWorld != null)
+
+    public BufferedImage render() {
+        if (currentWorld != null)
             return currentWorld.render();
         return null;
     }
-    protected void onChangeWorld(){
+
+    protected void onChangeWorld() {
 
     }
+
     public abstract void act();
 }

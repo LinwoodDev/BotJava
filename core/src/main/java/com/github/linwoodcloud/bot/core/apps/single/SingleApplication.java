@@ -6,10 +6,10 @@ import net.dv8tion.jda.api.entities.Guild;
 
 public class SingleApplication {
     private final String guildId;
-    private SingleApplicationMode mode;
     private final int id;
+    private SingleApplicationMode mode;
 
-    public SingleApplication(int id, String guildId, SingleApplicationMode mode){
+    public SingleApplication(int id, String guildId, SingleApplicationMode mode) {
         this.id = id;
         this.guildId = guildId;
         this.mode = mode;
@@ -27,18 +27,20 @@ public class SingleApplication {
         return guildId;
     }
 
-    public Guild getGuild(){
+    public Guild getGuild() {
         return Linwood.getInstance().getJda().getGuildById(guildId);
     }
 
-    public GeneralGuildEntity getGuildEntity(){
+    public GeneralGuildEntity getGuildEntity() {
         return GeneralGuildEntity.get(guildId);
     }
-    public void stop(){
+
+    public void stop() {
         Linwood.getInstance().getJda().removeEventListener(this);
         mode.stop();
     }
-    public void start(){
+
+    public void start() {
         Linwood.getInstance().getJda().removeEventListener(this);
         mode.start(this);
     }

@@ -12,17 +12,24 @@ import java.util.Arrays;
  * @author CodeDoctorDE
  */
 public class ModuleCommand extends Command {
+    public ModuleCommand() {
+        super(
+                "module",
+                "modules"
+        );
+    }
+
     @Override
     public void onCommand(final CommandEvent event) {
-        if(event.getArguments().length == 0)
+        if (event.getArguments().length == 0)
             sendModuleList(event);
-        else if(event.getArguments().length == 1)
+        else if (event.getArguments().length == 1)
             sendModuleHelp(event);
         else
             throw new CommandSyntaxException(this);
     }
 
-    public void sendModuleList(CommandEvent event){
+    public void sendModuleList(CommandEvent event) {
         var builder = new EmbedBuilder()
                 .setTitle(translate(event, "ModuleListTitle"), "https://linwood.tk/bot/modules/overview")
                 .setDescription(translate(event, "ModuleListDescription"));
@@ -33,27 +40,19 @@ public class ModuleCommand extends Command {
         event.reply(builder.build()).queue();
     }
 
-    public void sendModuleHelp(CommandEvent event){
+    public void sendModuleHelp(CommandEvent event) {
         var entity = event.getEntity();
         var module = Linwood.getInstance().getModule(event.getArgumentsString());
-        if(module != null) {
+        if (module != null) {
             var builder = new EmbedBuilder().setTitle(module.getName(), module.getSupportURL()).setDescription(module.translate(event, "Description")).addBlankField(false);
-            if(!module.getCommands().isEmpty())
+            if (!module.getCommands().isEmpty())
                 builder.addField(translate(entity, "Commands"), translate(entity, "CommandsNote"), false).setDescription(module.translate(entity, "Description"));
             module.getCommands().forEach(command -> builder.addField(command.translate(entity, "Syntax"), command.translate(entity, "Description"), true));
-            if(!module.getSettingsCommands().isEmpty())
+            if (!module.getSettingsCommands().isEmpty())
                 builder.addBlankField(false).addField(translate(entity, "SettingsCommands"), translate(entity, "SettingsCommandsNote"), false);
             module.getSettingsCommands().forEach(command -> builder.addField(command.translate(entity, "Syntax"), command.translate(entity, "Description"), true));
             event.reply(builder.build()).queue();
-        }
-        else
+        } else
             event.reply(translate(entity, "HelpNotFound")).queue();
-    }
-
-    public ModuleCommand() {
-        super(
-                "module",
-                "modules"
-        );
     }
 }

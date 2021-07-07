@@ -1,6 +1,5 @@
 package com.github.linwoodcloud.bot.core.entity;
 
-import com.github.linwoodcloud.bot.core.Linwood;
 import com.github.linwoodcloud.bot.core.utils.DatabaseUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,11 +10,11 @@ import java.sql.SQLException;
  * @author CodeDoctorDE
  */
 public class GeneralMemberEntity extends MemberEntity {
+    private static final Logger LOGGER = LogManager.getLogger(GeneralMemberEntity.class);
     private final long id;
     private final String memberId;
     private final String guildId;
     private String locale = null;
-    private static final Logger LOGGER = LogManager.getLogger(GeneralMemberEntity.class);
 
     public GeneralMemberEntity(long id, String guildId, String memberId) {
         this.id = id;
@@ -23,21 +22,9 @@ public class GeneralMemberEntity extends MemberEntity {
         this.memberId = memberId;
     }
 
-    public String getLocale() {
-        return locale;
-    }
-
-    public void setLocale(String locale) {
-        this.locale = locale;
-    }
-
-    public String getMemberId() {
-        return memberId;
-    }
-
-    public static void create(){
+    public static void create() {
         var config = DatabaseUtil.getConfig();
-        update("CREATE TABLE IF NOT EXISTS `"+ config.getPrefix() + "member` ( " +
+        update("CREATE TABLE IF NOT EXISTS `" + config.getPrefix() + "member` ( " +
                 "`id` BIGINT NOT NULL PRIMARY KEY , " +
                 "`member` VARCHAR(255) NOT NULL , " +
                 "`guild` VARCHAR(255) NOT NULL , " +
@@ -45,6 +32,7 @@ public class GeneralMemberEntity extends MemberEntity {
                 ")");
         LOGGER.info("Tables initialized!");
     }
+
     public static GeneralMemberEntity get(String guildId, String memberId) {
         var rs = query("SELECT * FROM `" + getPrefix() + "guild WHERE guild=? AND member=?");
         try {
@@ -58,6 +46,18 @@ public class GeneralMemberEntity extends MemberEntity {
         }
         return null;
 
+    }
+
+    public String getLocale() {
+        return locale;
+    }
+
+    public void setLocale(String locale) {
+        this.locale = locale;
+    }
+
+    public String getMemberId() {
+        return memberId;
     }
 
     public long getId() {

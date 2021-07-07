@@ -6,10 +6,6 @@ import com.github.linwoodcloud.bot.core.utils.DatabaseUtil;
 import java.sql.ResultSet;
 
 public abstract class DatabaseEntity {
-    public abstract void insert();
-    public abstract void save();
-    public abstract void delete();
-
     public static String getPrefix() {
         return DatabaseUtil.getConfig().getPrefix();
     }
@@ -21,4 +17,10 @@ public abstract class DatabaseEntity {
     public static ResultSet query(String query, Object... params) {
         return DatabaseUtil.getInstance().query(query, params);
     }
+
+    public abstract void insert();
+
+    public abstract void save();
+
+    public abstract void delete();
 }

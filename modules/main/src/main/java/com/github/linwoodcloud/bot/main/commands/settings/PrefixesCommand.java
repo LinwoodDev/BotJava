@@ -5,14 +5,6 @@ import com.github.linwoodcloud.bot.core.commands.CommandEvent;
 import com.github.linwoodcloud.bot.core.exceptions.CommandSyntaxException;
 
 public class PrefixesCommand extends Command {
-    @Override
-    public void onCommand(final CommandEvent event) {
-        if(event.getArguments().length != 0)
-            throw new CommandSyntaxException(this);
-        var entity = event.getEntity();
-        event.replyFormat(translate(entity, "Get"), String.join("," , entity.getPrefixes())).queue();
-    }
-
     public PrefixesCommand() {
         super(
                 "prefixes",
@@ -22,6 +14,14 @@ public class PrefixesCommand extends Command {
                 "listprefixes",
                 "listpre-fixes"
         );
+    }
+
+    @Override
+    public void onCommand(final CommandEvent event) {
+        if (event.getArguments().length != 0)
+            throw new CommandSyntaxException(this);
+        var entity = event.getEntity();
+        event.replyFormat(translate(entity, "Get"), String.join(",", entity.getPrefixes())).queue();
     }
 
 }

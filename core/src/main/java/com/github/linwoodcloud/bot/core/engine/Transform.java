@@ -12,30 +12,31 @@ public class Transform {
         return location;
     }
 
-    public double getRotation() {
-        return rotation;
-    }
-
-    public Vector2 getScale() {
-        return scale;
-    }
-
     public void setLocation(Vector2 location) {
         this.location = location;
     }
 
-    public void setLocation(int x, int y){
-        this.location = new Vector2(x, y);
+    public double getRotation() {
+        return rotation;
     }
 
     public void setRotation(double rotation) {
         this.rotation = rotation;
     }
 
+    public Vector2 getScale() {
+        return scale;
+    }
+
     public void setScale(Vector2 scale) {
         this.scale = scale;
     }
-    public void setScale(int x, int y){
+
+    public void setLocation(int x, int y) {
+        this.location = new Vector2(x, y);
+    }
+
+    public void setScale(int x, int y) {
         this.scale = new Vector2(x, y);
     }
 }

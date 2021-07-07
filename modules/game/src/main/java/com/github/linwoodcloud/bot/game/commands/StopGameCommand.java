@@ -11,25 +11,7 @@ import com.github.linwoodcloud.bot.game.entity.GameEntity;
  * @author CodeDoctorDE
  */
 public class StopGameCommand extends Command {
-    @Override
-    public void onCommand(final CommandEvent event) {
-        var entity = event.getEntity();
-        if(event.getArguments().length != 0)
-            throw new CommandSyntaxException(this);
-        if(event.getMember() == null)
-            throw new CommandSyntaxException(this);
-        if(!event.getGuildEntity(GameEntity.class).isGameMaster(event.getMember())){
-            throw new CommandPermissionException(this);
-        }
-        if(Linwood.getInstance().getGameManager().getGame(entity.getGuildId()) == null)
-            event.reply(translate(entity, "NoGameRunning")).queue();
-        else {
-            Linwood.getInstance().getGameManager().stopGame(entity.getGuildId());
-            event.reply(translate(entity, "Success")).queue();
-        }
-    }
-
-    public StopGameCommand(){
+    public StopGameCommand() {
         super(
                 "stop",
                 "stopgame",
@@ -38,5 +20,23 @@ public class StopGameCommand extends Command {
                 "s",
                 "c"
         );
+    }
+
+    @Override
+    public void onCommand(final CommandEvent event) {
+        var entity = event.getEntity();
+        if (event.getArguments().length != 0)
+            throw new CommandSyntaxException(this);
+        if (event.getMember() == null)
+            throw new CommandSyntaxException(this);
+        if (!GameEntity.get(event.getGuildId()).isGameMaster(event.getMember())) {
+            throw new CommandPermissionException(this);
+        }
+        if (Linwood.getInstance().getGameManager().getGame(entity.getGuildId()) == null)
+            event.reply(translate(entity, "NoGameRunning")).queue();
+        else {
+            Linwood.getInstance().getGameManager().stopGame(entity.getGuildId());
+            event.reply(translate(entity, "Success")).queue();
+        }
     }
 }

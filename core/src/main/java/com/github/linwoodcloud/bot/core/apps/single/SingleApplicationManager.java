@@ -10,40 +10,45 @@ import java.util.List;
 public class SingleApplicationManager {
     private final List<SingleApplication> apps = new ArrayList<>();
 
-    public SingleApplicationManager(){
+    public SingleApplicationManager() {
     }
 
-    public SingleApplication startGame(String guildId, SingleApplicationMode appMode){
+    public SingleApplication startGame(String guildId, SingleApplicationMode appMode) {
         stopGame(guildId);
         var app = new SingleApplication(apps.size(), guildId, appMode);
         apps.add(app);
         app.start();
         return app;
     }
-    public void stopGame(String guildId){
+
+    public void stopGame(String guildId) {
         apps.stream().filter(app -> app.getGuildId().equals(guildId)).forEach(app -> stopGame(app, false));
         apps.clear();
     }
-    public void stopGame(SingleApplication app){
+
+    public void stopGame(SingleApplication app) {
         stopGame(app, true);
     }
-    private void stopGame(SingleApplication app, boolean remove){
-        if(!apps.contains(app))
+
+    private void stopGame(SingleApplication app, boolean remove) {
+        if (!apps.contains(app))
             return;
         app.stop();
-        if(remove)
+        if (remove)
             apps.remove(app);
     }
+
     @Nullable
-    public SingleApplication getGame(String guildId){
+    public SingleApplication getGame(String guildId) {
         SingleApplication current = null;
-        for (var app:
+        for (var app :
                 apps)
             if (app.getGuildId().equals(guildId))
                 current = app;
         return current;
     }
-    public void clearGames(){
+
+    public void clearGames() {
         apps.forEach(app -> stopGame(app, false));
         apps.clear();
     }

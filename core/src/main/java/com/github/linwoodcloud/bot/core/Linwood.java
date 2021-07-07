@@ -30,22 +30,22 @@ import java.util.List;
  * @author CodeDoctorDE
  */
 public class Linwood {
+    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+    private static final Logger LOGGER = LogManager.getLogger(Linwood.class);
+    private static Linwood instance;
     private final CommandListener commandListener;
-    private ShardManager jda;
     private final LinwoodActivity activity;
     private final File configFile = new File("./config.json");
-    private MainConfig config;
-    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-    private static Linwood instance;
     private final DatabaseUtil database;
     private final String token;
     private final SingleApplicationManager gameManager;
     private final SingleApplicationManager audioManager;
     private final List<LinwoodModule> modules = new ArrayList<>();
-    private static final Logger LOGGER = LogManager.getLogger(Linwood.class);
+    private ShardManager jda;
+    private MainConfig config;
 
 
-    public Linwood(String token){
+    public Linwood(String token) {
         instance = this;
         this.token = token;
         //Sentry.init();
@@ -56,27 +56,31 @@ public class Linwood {
         database = new DatabaseUtil();
 
         // Read config file
-        if(!configFile.exists()){
+        if (!configFile.exists()) {
             try {
-                if(!configFile.createNewFile())
+                if (!configFile.createNewFile())
                     LOGGER.warn("Can't create a config file!");
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }else{
-            try{
+        } else {
+            try {
                 config = GSON.fromJson(new FileReader(configFile), MainConfig.class);
             } catch (IOException e) {
                 config = new MainConfig();
                 e.printStackTrace();
             }
         }
-        if(config == null)
+        if (config == null)
             config = new MainConfig();
         saveConfig();
     }
 
-    public void run(){
+    public static Linwood getInstance() {
+        return instance;
+    }
+
+    public void run() {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             getGameManager().clearGames();
             modules.forEach(LinwoodModule::onStop);
@@ -104,7 +108,7 @@ public class Linwood {
         LOGGER.info("Successfully started the bot!");
     }
 
-    public void saveConfig(){
+    public void saveConfig() {
         try {
             var writer = new FileWriter(configFile);
             GSON.toJson(config, writer);
@@ -126,43 +130,45 @@ public class Linwood {
         return activity;
     }
 
-    public void registerModules(LinwoodModule... registeredModules){
+    public void registerModules(LinwoodModule... registeredModules) {
         var array = Arrays.asList(registeredModules);
         array.forEach(LinwoodModule::onRegister);
         modules.addAll(array);
     }
-    public void unregisterModules(LinwoodModule... registeredModules){
+
+    public void unregisterModules(LinwoodModule... registeredModules) {
         var array = Arrays.asList(registeredModules);
         array.forEach(LinwoodModule::onUnregister);
         modules.removeAll(array);
     }
-    public LinwoodModule[] getModules(){
+
+    public LinwoodModule[] getModules() {
         return modules.toArray(LinwoodModule[]::new);
     }
-    public String[] getModulesStrings(){
+
+    public String[] getModulesStrings() {
         return modules.stream().map(LinwoodModule::getName).toArray(String[]::new);
     }
-    public String getModulesString(){
+
+    public String getModulesString() {
         return String.join(" ", getModulesStrings());
     }
+
     @Nullable
-    public <T extends LinwoodModule> T getModule(Class<T> moduleClass){
+    public <T extends LinwoodModule> T getModule(Class<T> moduleClass) {
         return modules.stream().filter(moduleClass::isInstance).findFirst().map(moduleClass::cast).orElse(null);
     }
-    public LinwoodModule getModule(String module){
+
+    public LinwoodModule getModule(String module) {
         return getModule(module, LinwoodModule.class);
     }
 
     @Nullable
-    public <T extends LinwoodModule> T getModule(String module, Class<T> moduleClass){
+    public <T extends LinwoodModule> T getModule(String module, Class<T> moduleClass) {
         return modules.stream().filter(current -> current.getName().equalsIgnoreCase(module)).findFirst().map(moduleClass::cast).orElse(null);
     }
 
-    public static Linwood getInstance() {
-        return instance;
-    }
-
-    public String getVersion(){
+    public String getVersion() {
         var implementation = getClass().getPackage().getImplementationVersion();
         return implementation == null ? "Snapshot" : implementation;
     }

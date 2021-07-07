@@ -11,28 +11,30 @@ import net.dv8tion.jda.api.hooks.SubscribeEvent;
  * @author CodeDoctorDE
  */
 public class ConnectionListener {
-    public ConnectionListener(){
+    public ConnectionListener() {
 
     }
+
     @SubscribeEvent
-    public void onGuildJoin(GuildJoinEvent event){
+    public void onGuildJoin(GuildJoinEvent event) {
         try {
             /*var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
-            var guild = Linwood.getInstance().getDatabase().getGuildById(session, event.getGuild().getIdLong());
+            var guild = GeneralGuildEntity.get(event.getGuildId());
             guild.save(session);
             session.close();*/
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             Sentry.captureException(e);
         }
     }
+
     @SubscribeEvent
-    public void onBotStart(ReadyEvent event){
+    public void onBotStart(ReadyEvent event) {
         Linwood.getInstance().getActivity().updateStatus();
     }
+
     @SubscribeEvent
-    public void onBotShutdown(ShutdownEvent event){
+    public void onBotShutdown(ShutdownEvent event) {
         Linwood.getInstance().getGameManager().clearGames();
     }
 }

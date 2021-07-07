@@ -70,7 +70,7 @@ public class CommandEvent {
     }
 
     public MessageAction reply(MessageEmbed embed) {
-        return getTextChannel().sendMessage(embed);
+        return getTextChannel().sendMessageEmbeds(embed);
     }
 
     public MessageAction reply(String text) {
@@ -87,6 +87,10 @@ public class CommandEvent {
 
     public Guild getGuild() {
         return getMessage().getGuild();
+    }
+
+    public String getGuildId() {
+        return getGuild().getId();
     }
 
     public CommandEvent upper() {

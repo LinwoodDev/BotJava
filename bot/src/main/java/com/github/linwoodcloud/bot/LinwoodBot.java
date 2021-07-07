@@ -2,8 +2,6 @@ package com.github.linwoodcloud.bot;
 
 
 import com.github.linwoodcloud.bot.core.Linwood;
-import com.github.linwoodcloud.bot.game.GameAddon;
-import com.github.linwoodcloud.bot.karma.KarmaAddon;
 import com.github.linwoodcloud.bot.main.MainAddon;
 
 /**

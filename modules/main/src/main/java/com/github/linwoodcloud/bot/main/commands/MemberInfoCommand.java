@@ -1,6 +1,5 @@
 package com.github.linwoodcloud.bot.main.commands;
 
-import com.github.linwoodcloud.bot.core.Linwood;
 import com.github.linwoodcloud.bot.core.commands.Command;
 import com.github.linwoodcloud.bot.core.commands.CommandEvent;
 import com.github.linwoodcloud.bot.core.exceptions.CommandSyntaxException;
@@ -17,18 +16,22 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class MemberInfoCommand extends Command {
+    public MemberInfoCommand() {
+        super("memberinfo", "member-info", "member", "memberinformation", "member-information", "user", "userinfo", "user-info", "user-information", "userinformation");
+    }
+
     @Override
     public void onCommand(final CommandEvent event) {
         var args = event.getArguments();
         var entity = event.getEntity();
-        if(args.length > 1)
+        if (args.length > 1)
             throw new CommandSyntaxException(this);
-        if(args.length == 0)
+        if (args.length == 0)
             sendInfo(event, Objects.requireNonNull(event.getMember()));
-        else{
+        else {
             var action =
                     TagUtil.convertIdToMember(event.getMessage().getGuild(), args[0]);
-            if(action == null){
+            if (action == null) {
                 event.reply(translate(entity, "SetMultiple")).queue();
                 return;
             }
@@ -43,15 +46,15 @@ public class MemberInfoCommand extends Command {
                     }
                     sendInfo(event, member);
                 });
-            }catch(Exception e){
+            } catch (Exception e) {
                 event.reply(translate(entity, "Invalid"));
             }
         }
     }
-    public void sendInfo(CommandEvent event, Member member){
+
+    public void sendInfo(CommandEvent event, Member member) {
         var entity = event.getEntity();
         var dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM).withLocale(event.getEntity().getLocalization());
-        var session = Linwood.getInstance().getDatabase().getSessionFactory().openSession();
         var user = member.getUser();
         event.reply(new EmbedBuilder()
                 .setTitle(translate(entity, "Title"))
@@ -66,10 +69,5 @@ public class MemberInfoCommand extends Command {
                 .addField(translate(entity, "Boost"), member.getTimeBoosted() != null ? member.getTimeBoosted().format(dateFormatter) : translate(entity, "NoBoost"), true)
                 .addField(translate(entity, "Bot"), translate(entity, user.isBot() ? "IsBot" : "NoBot"), true)
                 .build()).queue();
-        session.close();
-    }
-
-    public MemberInfoCommand(){
-        super("memberinfo", "member-info", "member", "memberinformation", "member-information", "user", "userinfo", "user-info", "user-information", "userinformation");
     }
 }

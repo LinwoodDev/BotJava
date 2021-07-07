@@ -1,33 +1,28 @@
 package com.github.linwoodcloud.bot.karma.entity;
 
-import com.github.linwoodcloud.bot.core.Linwood;
 import com.github.linwoodcloud.bot.core.entity.MemberEntity;
-import org.hibernate.Session;
-
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import net.dv8tion.jda.api.entities.Member;
 
 public class KarmaMemberEntity extends MemberEntity {
-    @Id
-    @GeneratedValue
-    @Column
+    private final String guildId;
+    private final String memberId;
     private long id;
-    @Column
-    private final long guildId;
-    @Column
-    private final long memberId;
-    @Column
     private int points;
-    @Column
     private long likes = 0;
-    @Column
     private long dislikes = 0;
 
 
-    public KarmaMemberEntity(long guildId, long memberId) {
+    public KarmaMemberEntity(String guildId, String memberId) {
         this.guildId = guildId;
         this.memberId = memberId;
+    }
+
+    public static KarmaMemberEntity get(Member member) {
+        return get(member.getGuild().getId(), member.getId());
+    }
+
+    public static KarmaMemberEntity get(String guildId, String memberId) {
+        return new KarmaMemberEntity(guildId, memberId);
     }
 
     public long getLikes() {
@@ -54,16 +49,16 @@ public class KarmaMemberEntity extends MemberEntity {
         this.points = points;
     }
 
-    public KarmaEntity getKarmaEntity(Session session){
-        return Linwood.getInstance().getDatabase().getGuildEntityById(KarmaEntity.class, session, guildId);
+    public KarmaEntity getKarmaEntity() {
+        return KarmaEntity.get(guildId);
     }
 
-    public int getLevel(Session session) {
-        return (int) (getKarmaEntity(session).getConstant() * Math.sqrt(getKarma()));
+    public int getLevel() {
+        return (int) (getKarmaEntity().getConstant() * Math.sqrt(getKarma()));
     }
 
-    public double getRemainingKarma(Session session) {
-        return getKarmaEntity(session).getConstant() * Math.sqrt(getKarma()) - getLevel(session);
+    public double getRemainingKarma() {
+        return getKarmaEntity().getConstant() * Math.sqrt(getKarma()) - getLevel();
     }
 
     public long getKarma() {
@@ -71,16 +66,26 @@ public class KarmaMemberEntity extends MemberEntity {
     }
 
     @Override
-    public long getGuildId() {
+    public String getGuildId() {
         return guildId;
     }
 
     @Override
-    public long getMemberId() {
+    public String getMemberId() {
         return memberId;
     }
 
     public long getId() {
         return id;
+    }
+
+    @Override
+    public void insert() {
+
+    }
+
+    @Override
+    public void save() {
+
     }
 }
