@@ -11,7 +11,7 @@ public class MainConfig {
     private final Set<Long> owners = new HashSet<>(new ArrayList<>());
     private final List<String> activities = Arrays.asList("by CodeDoctor", "%2$s servers", "%2$s players");
     private String secret;
-    private DatabaseConfig database;
+    private DatabaseConfig database = new DatabaseConfig();
     private boolean userStats = false;
     private String supportURL = "https://discord.gg/97zFtYN";
 
